@@ -1,0 +1,33 @@
+{% macro navBar(selected) %}
+
+    <nav class="app-navigation govuk-clearfix">
+        <div class="govuk-width-container">
+            <ul class="app-navigation__list">
+                <li class="app-navigation__list-item {{ "app-navigation__list-item--current" if selected === "home" }}">
+                    <a class="govuk-link govuk-link--no-visited-state app-navigation__link" href="/"
+                       data-qa="home-nav">Home</a>
+                </li>
+
+                {% if 'ROLE_PCMS_ANALYST' in user.userRoles %}
+                    <li class="app-navigation__list-item {{ "app-navigation__list-item--current" if selected === "requests" }}">
+                        <a class="govuk-link govuk-link--no-visited-state app-navigation__link" href="/analyst/access/requests"
+                           data-qa="access-request-nav">Access requests</a>
+                    </li>
+                    <li class="app-navigation__list-item {{ "app-navigation__list-item--current" if selected === "search" }}">
+                        <a class="govuk-link govuk-link--no-visited-state app-navigation__link" href="/analyst/search/prisoner"
+                           data-qa="prisoner-search-nav">Prisoner search</a>
+                    </li>
+                {% endif %}
+
+                {% if 'ROLE_PCMS_AUTHORISING_OFFICER' in user.userRoles %}
+                    <li class="app-navigation__list-item {{ "app-navigation__list-item--current" if selected === "ao-requests" }}">
+                        <a class="govuk-link govuk-link--no-visited-state app-navigation__link" href="/ao/access/requests"
+                           data-qa="access-request-nav">Access request authorisation</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+{% endmacro %}

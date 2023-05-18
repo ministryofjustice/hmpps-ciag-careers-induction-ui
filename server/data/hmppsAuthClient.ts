@@ -58,6 +58,11 @@ export default class HmppsAuthClient {
       .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
   }
 
+  getUserByUsername(token: string, username: string): Promise<User> {
+    logger.info(`Getting user details: calling HMPPS Auth`)
+    return HmppsAuthClient.restClient(token).get({ path: `/api/user/${username}` }) as Promise<User>
+  }
+
   async getSystemClientToken(username?: string): Promise<string> {
     const key = username || '%ANONYMOUS%'
 
