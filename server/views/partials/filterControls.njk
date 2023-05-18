@@ -1,0 +1,19 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+<div id="filter-controls">
+  <span class="govuk-!-padding-right-2 govuk-!-margin-bottom-2" >
+      {{ govukButton({
+          text: "Show filters",
+          classes: "show-hide-filters govuk-button--tertiary govuk-!-margin-bottom-0",
+          attributes: {'data-qa': 'show-hide-filters'}
+      }) }}
+  </span>
+
+    <span class="govuk-!-margin-left-2  govuk-!-margin-bottom-2">
+      {{ govukButton({
+          text: "Clear all filters",
+          classes: "clear-filters govuk-button--secondary govuk-!-margin-bottom-0"
+      }) }}
+  </span>
+</div>

@@ -33,6 +33,10 @@ export default {
   production,
   https: production,
   staticResourceCacheDuration: '1h',
+  displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
+  paginationPageSize: 20,
+  recordingLifetimeDays: 90,
+  maximumNumberOfRecordsToReturn: 2000,
   redis: {
     host: get('REDIS_HOST', 'localhost', requiredInProduction),
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
@@ -66,6 +70,83 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    hmppsPrisonApi: {
+      url: get('HMPPS_PRISON_API_URL', 'http://localhost:8080', requiredInProduction),
+      externalUrl: get('HMPPS_PRISON_API_EXTERNAL_URL', get('HMPPS_PRISON_API_URL', 'http://localhost:8080')),
+      timeout: {
+        response: Number(get('HMPPS_PRISON_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('HMPPS_PRISON_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('HMPPS_PRISON_API_TIMEOUT_RESPONSE', 10000))),
+    },
+    prisonerSearch: {
+      url: get('PRISONER_SEARCH_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000))),
+    },
+    prisonerEducationProfile: {
+      url: get('ESWE_PROFILE_API_URL', 'http://localhost:8084', requiredInProduction),
+      timeout: {
+        response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000))),
+    },
+    nomisUserRolesApi: {
+      url: get('NOMIS_USER_ROLES_API_URL', 'http://localhost:8082', requiredInProduction),
+      timeout: {
+        response: Number(get('NOMIS_USER_ROLES_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('NOMIS_USER_ROLES_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
+    curiousApi: {
+      url: get('CURIOUS_API_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
+    keyworkerApi: {
+      url: get('KEYWORKER_API_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
+    whereaboutsApi: {
+      url: get('WHEREABOUTS_API_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
+    allocationManagerApi: {
+      url: get('ALLOCATION_MANAGER_ENDPOINT_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
+    communityApi: {
+      url: get('ALLOCATION_MANAGER_ENDPOINT_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
+  weeksBeforeRelease: Number(get('WEEKS_BEFORE_RELEASE', 12)),
+  phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
+  googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
 }

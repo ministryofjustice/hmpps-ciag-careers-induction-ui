@@ -27,4 +27,22 @@ describe('User service', () => {
       await expect(userService.getUser(token)).rejects.toEqual(new Error('some error'))
     })
   })
+  describe('getUserByUsername', () => {
+    beforeEach(() => {
+      hmppsAuthClient = new HmppsAuthClient(null) as jest.Mocked<HmppsAuthClient>
+      userService = new UserService(hmppsAuthClient)
+    })
+    it('Retrieves and formats user name', async () => {
+      hmppsAuthClient.getUserByUsername.mockResolvedValue({ name: 'john smith' } as User)
+
+      const result = await userService.getUserByUsername(token, 'JOHNSMITH')
+
+      expect(result.displayName).toEqual('John Smith')
+    })
+    it('Propagates error', async () => {
+      hmppsAuthClient.getUserByUsername.mockRejectedValue(new Error('some error'))
+
+      await expect(userService.getUserByUsername(token, 'JOHNSMITH')).rejects.toEqual(new Error('some error'))
+    })
+  })
 })
