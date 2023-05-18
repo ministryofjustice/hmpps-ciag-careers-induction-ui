@@ -5,7 +5,7 @@
     "jest": true
   },
 
-  "plugins": ["import", "no-only-tests"],
+  "plugins": ["import"],
 
   "settings": {
     "import/parsers": {
@@ -33,6 +33,7 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "no-shadow": "off",
         "@typescript-eslint/no-use-before-define": 0,
         "class-methods-use-this": 0,
         "no-useless-constructor": 0,
@@ -87,7 +88,6 @@
       "error",
       { "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/testutils/**", "cypress.config.ts"] }
     ],
-    "no-only-tests/no-only-tests": "error",
     "prettier/prettier": [
       "error",
       {

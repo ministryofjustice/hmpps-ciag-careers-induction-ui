@@ -8,6 +8,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserActiveCaseLoad')
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -22,20 +23,20 @@ context('SignIn', () => {
 
   it('User name visible in header', () => {
     cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
+    const indexPage = new IndexPage()
     indexPage.headerUserName().should('contain.text', 'J. Smith')
   })
 
   it('User can log out', () => {
     cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
+    const indexPage = new IndexPage()
     indexPage.signOut().click()
     Page.verifyOnPage(AuthSignInPage)
   })
 
   it('User can manage their details', () => {
     cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
+    const indexPage = new IndexPage()
 
     indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
     indexPage.manageDetails().click()
@@ -53,7 +54,7 @@ context('SignIn', () => {
 
   it('Token verification failure clears user session', () => {
     cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
+    const indexPage = new IndexPage()
     cy.task('stubVerifyToken', false)
 
     // can't do a visit here as cypress requires only one domain

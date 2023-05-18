@@ -1,0 +1,22 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{# 
+  Errors section for top of page that parsed validation errors
+    errors - validation errors object { fieldName: { text: 'error', href: 'fieldlink'}}
+#}
+{% macro errorSummary(errors) %}
+  {% if errors %}
+    {% 
+      set errorList = []
+    %}
+
+    {% for err in (errors | dictsort) %}
+      {% set errorList = ( errorList.push(err[1]), errorList) %}
+    {% endfor %}
+
+    {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorList
+      }) }}
+  {% endif %}
+{% endmacro %}
