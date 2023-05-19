@@ -1,7 +1,6 @@
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
-import { getAge } from '../../utils/utils'
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
 import { deleteSessionData } from '../../utils/session'
 
@@ -17,7 +16,6 @@ export default class WorkPlanController {
         id,
         prisoner: {
           ...plainToClass(PrisonerViewModel, prisoner),
-          age: getAge(prisoner.dateOfBirth),
         },
         tab,
       }
