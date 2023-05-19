@@ -1,0 +1,72 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+
+{% set title = prisoner.firstName + " " + prisoner.lastName %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - prisoner object
+    * plan - Work plan, may be null
+#}
+
+{% block beforeContent %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services",
+                href: dpsUrl
+            },
+            {
+                text: "Create an education and work plan",
+                href: "/"
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Prison number: <span class="govuk-body" data-qa="prison-number">{{ prisoner.prisonerNumber }}</span></p>
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Release date: <span class="govuk-body" data-qa="release-date">{{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}</span></p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+    </div>
+  </div>
+
+  {% include './partials/_navigation.njk' %}
+
+  {% if tab === 'overview' %}
+    {% include './partials/_overviewTabContents.njk' %}
+  {% endif %}
+
+  {% if tab === 'details' %}
+    {% include './partials/_detailsTabContents.njk' %}
+  {% endif %}
+
+  {% if tab === 'training' %}
+    {% include './partials/_trainingTabContents.njk' %}
+  {% endif %}
+
+  {% if tab === 'experience' %}
+    {% include './partials/_experienceTabContents.njk' %}
+  {% endif %}
+
+  {% if tab === 'contacts' %}
+    {% include './partials/_contactsTabContents.njk' %}
+  {% endif %}
+{% endblock %}
