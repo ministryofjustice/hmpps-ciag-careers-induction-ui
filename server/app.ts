@@ -19,6 +19,8 @@ import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import type { Services } from './services'
+import expressContext from './middleware/expressContext'
+import setUpLocals from './middleware/setUpLocals'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -36,8 +38,10 @@ export default function createApp(services: Services): express.Application {
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
+  app.use(setUpLocals())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(expressContext())
 
   app.use(routes(services))
 
