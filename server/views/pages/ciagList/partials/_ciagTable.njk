@@ -1,0 +1,65 @@
+{% from "../../../macros/tableMacro.njk" %}
+{% from "../../../macros/pagination/macro.njk" import pagination %}
+
+<div id="offender-container">
+    {% if prisonerSearchResults.content.length >= 1 %}
+        <table id="view-offender" class="govuk-table view-offender">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "lastName",
+                    headerText: "Prisoner"
+                }) }}
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "releaseDate",
+                    headerText: "Release type and date"
+                }) }}
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "enteredPrisonOn",
+                    headerText: "Entered prison on"
+                }) }}
+            </tr>
+            </thead>
+
+            <tbody class="govuk-table__body">
+            {% set rowClass = cycler("odd", "even") %}
+
+            {% for offender in offendersToBeReleased %}
+
+                <tr class="govuk-table__row {{ rowClass.next() }}">
+                    <td class="govuk-table__cell">
+                        <a href="{{ addressLookup.ciagProfile(offender.prisonerNumber) }}"
+                           rel="noopener noreferrer"
+                           data-qa="quick-look-link"
+                           aria-label="Profile link for {{ offender.displayName }}"
+                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
+                        </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
+                    </td>
+                    <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
+                        <p>{{ offender.releaseDate or 'N/A' }}</p>
+                    </td>
+                    <td class="govuk-table__cell">{{ offender.enteredPrisonOn or 'N/A' }}</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
+        {{ pagination( paginationData ) }}
+    {% else %}
+        {% include './_notFoundMessages.njk' %}
+    {% endif %}
+</div>

@@ -1,4 +1,5 @@
 export default {
+  ciagProfile: () => '/',
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
   createPlan: {

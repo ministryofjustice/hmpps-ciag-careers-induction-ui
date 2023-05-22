@@ -1,0 +1,31 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4" style="padding-left: 0px">
+
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="moj-search">
+            <div class="govuk-form-group">
+                <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
+                    Search by prisoner's name
+                </label>
+                <input class="govuk-input moj-search__input"
+                       id="searchTerm"
+                       name="searchTerm"
+                       type="search"
+                       value="{{ searchTerm }}"
+                       maxlength="20"
+                />
+            </div>
+            <button class="govuk-button moj-search__button" data-module="govuk-button" id="searchButton">
+                Search
+            </button>
+        </div>
+    </div>
+    {% if searchTerm %}
+        <div class="govuk-grid-column-one-third" style="padding-left: 0px">
+            <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-7">
+                <a class="govuk-link" href="{{ addressLookup.prisonerSearch() }}" aria-label="Clear prisoner name filter option">Clear</a>
+            </p>
+        </div>
+    {% endif %}
+</div>
