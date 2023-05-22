@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import type { Services } from '../services'
 import workPlanRoutes from './workPlan'
+import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -13,6 +14,7 @@ export default function routes(services: Services): Router {
   })
 
   workPlanRoutes(router, services)
+  hopingToGetWorkRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
