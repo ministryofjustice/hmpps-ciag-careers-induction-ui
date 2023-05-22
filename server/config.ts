@@ -87,14 +87,6 @@ export default {
       },
       agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000))),
     },
-    prisonerEducationProfile: {
-      url: get('ESWE_PROFILE_API_URL', 'http://localhost:8084', requiredInProduction),
-      timeout: {
-        response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000))),
-    },
     nomisUserRolesApi: {
       url: get('NOMIS_USER_ROLES_API_URL', 'http://localhost:8082', requiredInProduction),
       timeout: {
