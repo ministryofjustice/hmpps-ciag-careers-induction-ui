@@ -1,0 +1,73 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Hoping to get work" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * hopingToGetWork - YES/NO/NOT_SURE existing value for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        {{ errorSummary(errors) }}
+
+        <form class="form" method="post" novalidate="">
+          <div class="govuk-form-group">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          
+            {{ govukRadios({
+              name: "hopingToGetWork",
+              fieldset: {
+                legend: {
+                  text: "Is " + prisoner.firstName + " " + prisoner.lastName + " hoping to get work when they're released?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--m"
+                }
+              },
+              items: [
+                {
+                  value: "YES",
+                  text: contentLookup.fields.hopingToGetWork["YES"],
+                  checked: hopingToGetWork === "YES"
+                },
+                {
+                  value: "NO",
+                  text: contentLookup.fields.hopingToGetWork["NO"],
+                  checked: hopingToGetWork === "NO"
+                },
+                {
+                  value: "NOT_SURE",
+                  text: contentLookup.fields.hopingToGetWork["NOT_SURE"],
+                  checked: hopingToGetWork === "NOT_SURE"
+                }
+              ],
+              errorMessage: errors.hopingToGetWork
+            }) }}
+          </div>
+
+          {{ govukButton({
+              text: "Continue",
+              type: "submit",
+              attributes: {"data-qa": "submit-button"}
+            }) }}
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
