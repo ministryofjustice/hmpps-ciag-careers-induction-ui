@@ -1,0 +1,65 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = prisoner.firstName + " " + prisoner.lastName + "'s qualifications" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * skills - Existing skills
+    * qualifications - added qualifications
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+       <h1 class="govuk-heading-l">{{ title }}</h1>
+
+       <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-table__caption--m">Functional skills assessment levels</caption>
+          <caption class="govuk-table__caption govuk-!-font-weight-regular govuk-body">Functional skills assessment levels inform in-prison work and education allocations.</caption>
+
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Assessment</th>
+              <th scope="col" class="govuk-table__header">Level</th>
+              <th scope="col" class="govuk-table__header">Assessment date</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in learnerLatestAssessment.qualifications %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.qualification.qualificationType }}</td>
+                <td class="govuk-table__cell"> {{ item.qualification.qualificationGrade }}</td>
+                <td class="govuk-table__cell">{{ item.qualification.assessmentDate }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+            {{ govukButton({
+              text: "Continue",
+              type: "submit",
+              attributes: {"data-qa": "submit-button"}
+            }) }}
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

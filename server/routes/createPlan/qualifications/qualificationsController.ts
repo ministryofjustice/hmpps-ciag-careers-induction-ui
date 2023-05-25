@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -6,11 +7,12 @@ import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
 
 export default class QualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, learnerLatestAssessment } = req.context
 
     try {
       // If no record or incorrect value return to rightToWork
@@ -30,6 +32,7 @@ export default class QualificationsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
+        learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }
 
       res.render('pages/createPlan/qualifications/index', { ...data })
