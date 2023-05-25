@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import Controller from './qualificationsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./qualificationsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../../middleware/resolvers/getLatestAssessmentResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
 describe('Ineligable to work routes', () => {
@@ -17,6 +19,7 @@ describe('Ineligable to work routes', () => {
     router = { get: jest.fn(), post: jest.fn() } as unknown as Router
     services = {
       prisonerSearchService: {},
+      curiousEsweService: {},
       userService: {},
     } as unknown as Services
     ;(Controller as jest.Mock).mockImplementation(() => ({
@@ -24,6 +27,7 @@ describe('Ineligable to work routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getLatestAssessmentResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -34,6 +38,7 @@ describe('Ineligable to work routes', () => {
       '/plan/create/:id/qualifications/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getLatestAssessmentResolver
       ],
       expect.any(Function), // controller.get
     )
