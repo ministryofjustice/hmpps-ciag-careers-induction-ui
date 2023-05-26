@@ -1,0 +1,32 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% set ciagOffenders = prisonerSearchResults %}
+
+{% block beforeContent %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services",
+                href: dpsUrl
+            },
+            {
+                text: "Create an education and work plan",
+                href: "/"
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+{% endblock %}
+
+{% block content %}
+
+    {% include './partials/_searchBox.njk' %}
+    {% include './partials/_ciagTable.njk' %}
+
+{% endblock %}

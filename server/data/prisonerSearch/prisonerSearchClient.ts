@@ -2,6 +2,7 @@
 import config from '../../config'
 import RestClient from '../restClient'
 import GetPrisonerByIdResult from './getPrisonerByIdResult'
+import GetCiagListResult from './getCiagListResult'
 
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
@@ -18,6 +19,7 @@ const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
+const PRISONER_SEARCH_BY_CASELOAD_ID = '/prisoner-search/prison'
 
 export default class PrisonerSearchClient {
   restClient: RestClient
@@ -42,6 +44,15 @@ export default class PrisonerSearchClient {
   async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
     return this.restClient.get<GetPrisonerByIdResult>({
       path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
+    })
+  }
+
+  async getPrisonersByCaseloadId(caseloadId: string): Promise<GetCiagListResult[]> {
+    return this.restClient.get<GetCiagListResult[]>({
+      path: `${PRISONER_SEARCH_BY_CASELOAD_ID}/${caseloadId}`,
+      headers: {
+        'content-type': 'application/json',
+      },
     })
   }
 }
