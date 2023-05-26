@@ -9,3 +9,16 @@ $govuk-page-width: $moj-page-width;
 
 @import './components/header-bar';
 @import 'assets/scss/local';
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+
+.govuk-button-link {
+  background-color: transparent;
+  border: none;
+  color: #1d70b8;
+  text-decoration: underline;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+}

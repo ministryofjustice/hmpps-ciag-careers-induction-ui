@@ -1,0 +1,40 @@
+{% if educationLevel %}
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Educational qualifications</caption>
+
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Level</th>
+        <th scope="col" class="govuk-table__header">Subject</th>
+        <th scope="col" class="govuk-table__header">Grade</th>
+        <th scope="col" class="govuk-table__header"></th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% if qualifications.length %}
+        {% for item in qualifications %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">{{ item.level }}</td>
+            <td class="govuk-table__cell">{{ item.subject }}</td>
+            <td class="govuk-table__cell">{{ item.grade }}</td>
+            <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.id }}" name="removeQualification">Remove</button></td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell">&nbsp;</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+  <div class="govuk-form-group">
+    {{ govukButton({
+        text: "Add another qualification",
+        name: "addQualification",
+        classes: "govuk-button--secondary"
+    }) }}
+  </div>
+{% endif %}

@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import addressLookup from '../../addressLookup'
-import { deleteSessionData, getSessionData } from '../../../utils/session'
+import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
@@ -31,6 +31,8 @@ export default class QualificationsController {
       const data = {
         backLocation,
         backLocationAriaText,
+        educationLevel: record.educationLevel,
+        qualifications: record.qualifications || [],
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }
@@ -42,14 +44,39 @@ export default class QualificationsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
-    const { mode } = req.context
+    const { id, mode } = req.params
+    const { addQualification, removeQualification } = req.body
 
     try {
-      // Tidy up record in session
-      deleteSessionData(req, ['createPlan', id])
+      const record = getSessionData(req, ['createPlan', id])
 
-      res.redirect(addressLookup.createPlan.educationLevel(mode))
+      // Handle delete
+      if (removeQualification) {
+        setSessionData(req, ['createPlan', id], {
+          ...record,
+          qualifications: record.qualifications.filter((p: { id: number }) => p.id !== Number(removeQualification)),
+        })
+        res.redirect(addressLookup.createPlan.qualifications(id, mode))
+        return
+      }
+
+      // Handle add qualifications
+      if (addQualification) {
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, mode))
+        return
+      }
+
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkAnswers(id))
+        return
+      }
+
+      // Default flow
+      const nextPage = record.educationLevel
+        ? addressLookup.createPlan.otherQualifications(id, mode)
+        : addressLookup.createPlan.educationLevel(id, mode)
+      res.redirect(nextPage)
     } catch (err) {
       next(err)
     }

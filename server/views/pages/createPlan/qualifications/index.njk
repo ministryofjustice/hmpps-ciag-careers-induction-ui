@@ -11,8 +11,9 @@
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * skills - Existing skills
-    * qualifications - added qualifications
+    * educationLevel - Highest level of education
+    * learnerLatestAssessment - Existing assessment details
+    * qualifications - Added qualifications
     * errors? - validation errors
 #}
 
@@ -24,39 +25,21 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-       <h1 class="govuk-heading-l">{{ title }}</h1>
-
-       <table class="govuk-table">
-          <caption class="govuk-table__caption govuk-table__caption--m">Functional skills assessment levels</caption>
-          <caption class="govuk-table__caption govuk-!-font-weight-regular govuk-body">Functional skills assessment levels inform in-prison work and education allocations.</caption>
-
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Assessment</th>
-              <th scope="col" class="govuk-table__header">Level</th>
-              <th scope="col" class="govuk-table__header">Assessment date</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            {% for item in learnerLatestAssessment.qualifications %}
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">{{ item.qualification.qualificationType }}</td>
-                <td class="govuk-table__cell"> {{ item.qualification.qualificationGrade }}</td>
-                <td class="govuk-table__cell">{{ item.qualification.assessmentDate }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <h1 class="govuk-heading-l">{{ title }}</h1>
 
       <form class="form" method="post" novalidate="">
-        <div class="govuk-form-group">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-            {{ govukButton({
-              text: "Continue",
-              type: "submit",
-              attributes: {"data-qa": "submit-button"}
-            }) }}
+        {% include './partials/_assessments.njk' %}
+
+        {% include './partials/_qualifications.njk' %}
+
+        <div class="govuk-form-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
         </div>
       </form>
     </div>
