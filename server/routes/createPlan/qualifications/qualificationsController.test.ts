@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './qualificationsController'
 import addressLookup from '../../addressLookup'
@@ -85,8 +86,6 @@ describe('QualificationsController', () => {
   })
 
   describe('#post(req, res)', () => {
-    const errors = { details: 'mock_error' }
-
     beforeEach(() => {
       res.render.mockReset()
       res.redirect.mockReset()
