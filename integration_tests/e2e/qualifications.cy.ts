@@ -23,7 +23,7 @@ context('SignIn', () => {
     hopingToGetWorkPage.submitButton().click()
 
     const qualificationsPage = new QualificationsPage("Daniel Craig's qualifications")
-    hopingToGetWorkPage.submitButton().click()
+    qualificationsPage.submitButton().click()
 
     cy.url().should('include', 'education-level/new')
   })

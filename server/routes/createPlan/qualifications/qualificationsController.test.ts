@@ -1,11 +1,8 @@
-import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './qualificationsController'
-import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
-import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 describe('QualificationsController', () => {
   const { req, res, next } = expressMocks()
