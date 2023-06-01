@@ -16,7 +16,7 @@ describe('Job of particular interest routes', () => {
   beforeEach(() => {
     router = { get: jest.fn(), post: jest.fn() } as unknown as Router
     services = {
-      prisonerProfileService: {},
+      prisonerplanService: {},
       prisonerSearchService: {},
       userService: {},
     } as unknown as Services
@@ -32,7 +32,7 @@ describe('Job of particular interest routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/job-of-particular-interest/:mode',
+      '/plan/create/:id/education-level/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -44,7 +44,7 @@ describe('Job of particular interest routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/job-of-particular-interest/:mode',
+      '/plan/create/:id/education-level/:mode',
       expect.any(Function), // controller.post
     )
   })

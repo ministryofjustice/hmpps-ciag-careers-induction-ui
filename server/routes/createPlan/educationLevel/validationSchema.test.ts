@@ -17,7 +17,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select if mock_firstName mock_lastName is interested in a particular job or not',
+      message: "Select mock_firstName mock_lastName's highest level of education",
       path: ['educationLevel'],
       type: 'any.required',
       context: {
@@ -36,25 +36,25 @@ describe('validationSchema', () => {
       context: {
         key: 'educationLevel',
         label: 'educationLevel',
-        valids: ['YES', 'NO'],
+        valids: [
+          'PRIMARY_SCHOOL',
+          'SECONDARY_SCHOOL_NO_EXAMS',
+          'SECONDARY_SCHOOL_EXAMS',
+          'FURTHER_EDUCATION_COLLEGE',
+          'UNDERGRADUATE_DEGREE',
+          'POSTGRADUATE_DEGREE',
+          'NOT_SURE',
+        ],
         value: 'SOME_VALUE',
       },
-      message: 'Select if mock_firstName mock_lastName is interested in a particular job or not',
+      message: "Select mock_firstName mock_lastName's highest level of education",
       path: ['educationLevel'],
       type: 'any.only',
     })
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.educationLevel = 'NO'
-
-    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
-
-    expect(error).toBeFalsy()
-  })
-
-  it('On validation success - YES - Returns no errors', () => {
-    req.body.educationLevel = 'YES'
+    req.body.educationLevel = 'PRIMARY_SCHOOL'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

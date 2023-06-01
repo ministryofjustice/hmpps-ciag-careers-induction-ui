@@ -8,9 +8,9 @@ export default (router: Router, services: Services) => {
   const controller = new EducationLevelController()
 
   router.get(
-    '/profile/create/:id/job-of-particular-interest/:mode',
+    '/plan/create/:id/education-level/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
-  router.post('/profile/create/:id/job-of-particular-interest/:mode', controller.post)
+  router.post('/plan/create/:id/education-level/:mode', controller.post)
 }

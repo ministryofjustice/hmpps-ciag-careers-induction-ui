@@ -3,17 +3,16 @@
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "Is " + prisoner.firstName + " " + prisoner.lastName + " interested in a particular job?" %}
+{% set title = "What's the highest level of education " + prisoner.firstName + " " + prisoner.lastName + " has completed?" %}
 
 {#
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * jobOfParticularInterest - existing value for field
+    * educationLevel - existing value for field
     * errors? - validation errors
 #}
 
@@ -31,25 +30,9 @@
       <form class="form" method="post" novalidate="">
         <div class="govuk-form-group">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-
-          {% set otherHtml %}
-            {{ govukTextarea({
-              id: "jobOfParticularInterestDetails",
-              name: "jobOfParticularInterestDetails",
-              rows: "3",
-              value: jobOfParticularInterestDetails,
-              type: "text",
-              label: {
-                text: "Give details",
-                attributes: { "aria-live": "polite" }
-              },
-              attributes: { "aria-label" : "Give details of any job you are interested in" },
-              errorMessage: errors.jobOfParticularInterestDetails
-            }) }}
-          {% endset -%}
         
           {{ govukRadios({
-            name: "jobOfParticularInterest",
+            name: "educationLevel",
             fieldset: {
               legend: {
                 text: title,
@@ -59,20 +42,42 @@
             },
             items: [
               {
-                value: "YES",
-                text: contentLookup.fields.yesNo["YES"] + " (Opens a dialogue box)",
-                checked: jobOfParticularInterest === "YES",
-                conditional: {
-                  html: otherHtml
-                }
+                value: "PRIMARY_SCHOOL",
+                text: contentLookup.fields.educationLevel["PRIMARY_SCHOOL"],
+                checked: educationLevel === "PRIMARY_SCHOOL"
               },
               {
-                value: "NO",
-                text: contentLookup.fields.yesNo["NO"],
-                checked: jobOfParticularInterest === "NO"
+                value: "SECONDARY_SCHOOL_NO_EXAMS",
+                text: contentLookup.fields.educationLevel["SECONDARY_SCHOOL_NO_EXAMS"],
+                checked: educationLevel === "SECONDARY_SCHOOL_NO_EXAMS"
+              },
+              {
+                value: "SECONDARY_SCHOOL_EXAMS",
+                text: contentLookup.fields.educationLevel["SECONDARY_SCHOOL_EXAMS"],
+                checked: educationLevel === "SECONDARY_SCHOOL_EXAMS"
+              },
+              {
+                value: "FURTHER_EDUCATION_COLLEGE",
+                text: contentLookup.fields.educationLevel["FURTHER_EDUCATION_COLLEGE"],
+                checked: educationLevel === "FURTHER_EDUCATION_COLLEGE"
+              },
+              {
+                value: "UNDERGRADUATE_DEGREE",
+                text: contentLookup.fields.educationLevel["UNDERGRADUATE_DEGREE"],
+                checked: educationLevel === "UNDERGRADUATE_DEGREE"
+              },
+              {
+                value: "POSTGRADUATE_DEGREE",
+                text: contentLookup.fields.educationLevel["POSTGRADUATE_DEGREE"],
+                checked: educationLevel === "POSTGRADUATE_DEGREE"
+              },
+              {
+                value: "NOT_SURE",
+                text: contentLookup.fields.educationLevel["NOT_SURE"],
+                checked: educationLevel === "NOT_SURE"
               }
             ],
-            errorMessage: errors.jobOfParticularInterest
+            errorMessage: errors.educationLevel
           }) }}
         </div>
 

@@ -49,7 +49,6 @@ export default class EducationLevelController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { educationLevel } = req.body
-    const { profile } = req.context
 
     try {
       // If validation errors render errors
