@@ -10,6 +10,9 @@ export function encryptUrlParameter(plaintext: string): string {
 
 export function decryptUrlParameter(ciphertext: string): string {
   try {
+    if (typeof ciphertext !== 'string') {
+      return ''
+    }
     const decoded = decodeURIComponent(ciphertext)
     const decrypted = AES.decrypt(decoded, PASSPHRASE).toString(enc.Utf8)
     return decrypted
