@@ -5,10 +5,8 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './educationLevelController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/yesNoValue'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({

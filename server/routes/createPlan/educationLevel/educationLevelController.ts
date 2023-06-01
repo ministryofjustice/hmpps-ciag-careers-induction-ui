@@ -5,11 +5,11 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/yesNoValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import EducationLevelValue from '../../../enums/educationLevelValue'
 
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -66,18 +66,46 @@ export default class EducationLevelController {
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
+      deleteSessionData(req, ['educationLevel', id, 'data'])
+
+      // Handle higher qualifications
+      if (
+        [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
+      ) {
+        // Handle qualifications collection
+        setSessionData(req, ['createPlan', id], {
+          ...record,
+          educationLevel,
+          qualifications: [
+            {
+              level: educationLevel,
+            },
+          ],
+        })
+
+        res.redirect(addressLookup.createPlan.qualificationDetails(id, 1, mode))
+        return
+      }
+
+      // Handle  qualifications collection
       setSessionData(req, ['createPlan', id], {
         ...record,
         educationLevel,
+        qualifications: [],
       })
-      deleteSessionData(req, ['educationLevel', id, 'data'])
 
-      // Redirect to the correct page based on mode
-      res.redirect(
-        mode === 'new'
-          ? addressLookup.createPlan.qualificationLevel(id, mode)
-          : addressLookup.createPlan.checkAnswers(id),
-      )
+      // Handle secondary qualifications
+      if (
+        [EducationLevelValue.SECONDARY_SCHOOL_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
+          educationLevel,
+        )
+      ) {
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, 1, mode))
+        return
+      }
+
+      // Default no qualifications
+      res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
     } catch (err) {
       next(err)
     }
