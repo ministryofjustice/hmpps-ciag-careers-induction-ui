@@ -4,6 +4,7 @@ import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
+import curiousApi from './integration_tests/mockApis/curiousApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -26,6 +27,7 @@ export default defineConfig({
         ...tokenVerification,
         ...nomisUserRolesApi,
         ...prisonerSearchApi,
+        ...curiousApi,
       })
     },
     baseUrl: 'http://localhost:3007',
