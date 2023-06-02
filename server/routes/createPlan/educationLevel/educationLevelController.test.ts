@@ -122,6 +122,19 @@ describe('EducationLevelController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
+    it('On success - educationLevel = NOT_SURE - Sets session record then redirects to otherQualifications', async () => {
+      req.body.educationLevel = EducationLevelValue.NOT_SURE
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.NOT_SURE,
+        qualifications: [],
+      })
+    })
+
     it('On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to otherQualifications', async () => {
       req.body.educationLevel = EducationLevelValue.PRIMARY_SCHOOL
 
