@@ -5,15 +5,10 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './educationLevelController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import { setSessionData } from '../../../utils/session'
+import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-
-jest.mock('../../../utils/pageTitleLookup', () => ({
-  ...jest.requireActual('../../../utils/pageTitleLookup'),
-  __esModule: true,
-  default: jest.fn(),
-}))
+import EducationLevelValue from '../../../enums/educationLevelValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -37,10 +32,11 @@ describe('EducationLevelController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
-  const { id } = req.params
+  const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workPlan(id),
+    backLocation: addressLookup.createPlan.qualifications(id),
+    backLocationAriaText: "Back to mock_firstName mock_lastName's qualifications",
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
@@ -53,6 +49,7 @@ describe('EducationLevelController', () => {
       setSessionData(req, ['educationLevel', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
+        educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
       })
     })
 
@@ -65,25 +62,27 @@ describe('EducationLevelController', () => {
       expect(next).toHaveBeenCalledTimes(1)
     })
 
-    // it('On success - No record found - Calls render with the correct data', async () => {
-    //   controller.get(req, res, next)
+    it('On success - No record found - Calls render with the correct data', async () => {
+      setSessionData(req, ['createPlan', id], undefined)
 
-    //   expect(res.render).toHaveBeenCalledWith('pages/createPlan/educationLevel/index', { ...mockData })
-    //   expect(next).toHaveBeenCalledTimes(0)
-    // })
+      controller.get(req, res, next)
 
-    // it('On success - Record found - Calls render with the correct data', async () => {
-    //   setSessionData(req, ['createPlan', id], { educationLevel: YesNoValue.YES })
-    //   req.params.mode = 'new'
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
+      expect(res.render).toHaveBeenCalledTimes(0)
+      expect(next).toHaveBeenCalledTimes(0)
+    })
 
-    //   controller.get(req, res, next)
+    it('On success - Record found - Calls render with the correct data', async () => {
+      req.params.mode = 'new'
 
-    //   expect(res.render).toHaveBeenCalledWith('pages/createPlan/educationLevel/index', {
-    //     ...mockData,
-    //     educationLevel: YesNoValue.YES,
-    //   })
-    //   expect(next).toHaveBeenCalledTimes(0)
-    // })
+      controller.get(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/educationLevel/index', {
+        ...mockData,
+        educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
+      })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
   })
 
   describe('#post(req, res)', () => {
@@ -121,6 +120,84 @@ describe('EducationLevelController', () => {
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to otherQualifications', async () => {
+      req.body.educationLevel = EducationLevelValue.PRIMARY_SCHOOL
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.PRIMARY_SCHOOL,
+        qualifications: [],
+      })
+    })
+
+    it('On success - educationLevel = SECONDARY_SCHOOL_NO_EXAMS - Sets session record then redirects to otherQualifications', async () => {
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS,
+        qualifications: [],
+      })
+    })
+
+    it('On success - educationLevel = SECONDARY_SCHOOL_EXAMS - Sets session record then redirects to qualificationLevel', async () => {
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_EXAMS
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 1, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.SECONDARY_SCHOOL_EXAMS,
+        qualifications: [],
+      })
+    })
+
+    it('On success - educationLevel = FURTHER_EDUCATION_COLLEGE - Sets session record then redirects to qualificationLevel', async () => {
+      req.body.educationLevel = EducationLevelValue.FURTHER_EDUCATION_COLLEGE
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 1, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
+        qualifications: [],
+      })
+    })
+
+    it('On success - educationLevel = UNDERGRADUATE_DEGREE - Sets session record then redirects to qualificationDetails', async () => {
+      req.body.educationLevel = EducationLevelValue.UNDERGRADUATE_DEGREE
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 1, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
+        qualifications: [{ level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
+      })
+    })
+
+    it('On success - educationLevel = POSTGRADUATE_DEGREE - Sets session record then redirects to qualificationDetails', async () => {
+      req.body.educationLevel = EducationLevelValue.POSTGRADUATE_DEGREE
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 1, mode))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
+        qualifications: [{ level: EducationLevelValue.POSTGRADUATE_DEGREE }],
+      })
     })
   })
 })
