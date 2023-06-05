@@ -12,7 +12,7 @@ context('SignIn', () => {
     cy.task('getLearnerEducation')
   })
 
-  it('New record - Select YES - navigates to qualifications page', () => {
+  it('New record - Continue navigates to education level page', () => {
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
