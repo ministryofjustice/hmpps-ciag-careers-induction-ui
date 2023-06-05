@@ -15,6 +15,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'hoping-to-get-work': `Is ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
       prisoner.lastName,
     )} hoping to get work when they're released?`,
+    qualifications: `${prisoner.firstName} ${prisoner.lastName}'s qualifications`,
   }
 
   return findValue(url, lookup)
