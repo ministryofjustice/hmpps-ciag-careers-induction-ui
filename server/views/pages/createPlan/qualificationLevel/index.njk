@@ -1,0 +1,89 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What level of secondary school qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * educationLevel - existing value for field
+    * qualificationLevel - existing value for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        
+          {{ govukRadios({
+            name: "qualificationLevel",
+            fieldset: {
+              legend: {
+                text: title,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: [
+              {
+                value: "ENTRY_LEVEL",
+                text: contentLookup.fields.qualificationLevel.text["ENTRY_LEVEL"],
+                hint: contentLookup.fields.qualificationLevel.hint["ENTRY_LEVEL"],
+                checked: qualificationLevel === "ENTRY_LEVEL"
+              },
+              {
+                value: "LEVEL_1",
+                text: contentLookup.fields.qualificationLevel.text["LEVEL_1"],
+                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_1"],
+                checked: qualificationLevel === "LEVEL_1"
+              },
+              {
+                value: "LEVEL_2",
+                text: contentLookup.fields.qualificationLevel.text["LEVEL_2"],
+                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_2"],
+                checked: qualificationLevel === "LEVEL_2"
+              },
+              {
+                value: "LEVEL_3",
+                text: contentLookup.fields.qualificationLevel.text["LEVEL_3"],
+                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_3"],
+                checked: qualificationLevel === "LEVEL_3"
+              },
+              {
+                value: "LEVEL_4",
+                text: contentLookup.fields.qualificationLevel.text["LEVEL_4"],
+                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_4"],
+                checked: qualificationLevel === "LEVEL_4"
+              },
+            ],
+            errorMessage: errors.qualificationLevel
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

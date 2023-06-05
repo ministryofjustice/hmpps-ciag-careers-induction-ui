@@ -83,7 +83,7 @@ export default class EducationLevelController {
           ],
         })
 
-        res.redirect(addressLookup.createPlan.qualificationDetails(id, 1, mode))
+        res.redirect(addressLookup.createPlan.qualificationDetails(id, '1', mode))
         return
       }
 
@@ -100,7 +100,7 @@ export default class EducationLevelController {
           educationLevel,
         )
       ) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, 1, mode))
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, '1', mode))
         return
       }
 
