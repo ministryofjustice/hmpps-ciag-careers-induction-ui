@@ -62,7 +62,7 @@ export default class QualificationsController {
 
       // Handle add qualifications
       if (addQualification) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, mode))
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, record.qualifications.length + 1, mode))
         return
       }
 
