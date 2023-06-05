@@ -196,7 +196,7 @@ describe('EducationLevelController', () => {
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
-        qualifications: [{ level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
+        qualifications: [{ id: '1', level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
       })
     })
 
@@ -209,7 +209,7 @@ describe('EducationLevelController', () => {
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
-        qualifications: [{ level: EducationLevelValue.POSTGRADUATE_DEGREE }],
+        qualifications: [{ id: '1', level: EducationLevelValue.POSTGRADUATE_DEGREE }],
       })
     })
   })

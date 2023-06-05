@@ -17,7 +17,7 @@ export default class EducationLevelController {
     const { prisoner } = req.context
 
     try {
-      // If no record return to rightToWork
+      // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
       if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
@@ -78,6 +78,7 @@ export default class EducationLevelController {
           educationLevel,
           qualifications: [
             {
+              id: '1',
               level: educationLevel,
             },
           ],

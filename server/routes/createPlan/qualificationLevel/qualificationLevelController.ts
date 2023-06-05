@@ -12,15 +12,20 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
 export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id, mode, qualificationId } = req.params
     const { prisoner } = req.context
 
     try {
-      // If no record return to rightToWork
+      // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
       if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
+      }
+
+      // Get or setup qualification
+      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+        id: qualificationId,
       }
 
       // Setup back location
@@ -34,7 +39,7 @@ export default class QualificationLevelController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         educationLevel: record.educationLevel,
-        qualificationLevel: record.qualificationLevel,
+        qualificationLevel: qualification.level,
       }
 
       // Store page data for use if validation fails
@@ -63,9 +68,24 @@ export default class QualificationLevelController {
         return
       }
 
+      // Update record in session
+      const record = getSessionData(req, ['createPlan', id])
+      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+        id: qualificationId,
+      }
+      setSessionData(req, ['createPlan', id], {
+        ...record,
+        qualifications: [
+          ...record.qualifications.filter((q: { id: string }) => q.id !== qualificationId),
+          {
+            ...qualification,
+            level: qualificationLevel,
+          },
+        ],
+      })
+
       deleteSessionData(req, ['qualificationLevel', id, 'data'])
 
-      // Default
       res.redirect(addressLookup.createPlan.qualificationDetails(id, qualificationId, mode))
     } catch (err) {
       next(err)

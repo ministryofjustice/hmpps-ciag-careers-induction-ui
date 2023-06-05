@@ -44,34 +44,44 @@
             items: [
               {
                 value: "ENTRY_LEVEL",
-                text: contentLookup.fields.qualificationLevel.text["ENTRY_LEVEL"],
-                hint: contentLookup.fields.qualificationLevel.hint["ENTRY_LEVEL"],
+                text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
+                hint: {
+                  text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
+                },
                 checked: qualificationLevel === "ENTRY_LEVEL"
               },
               {
                 value: "LEVEL_1",
-                text: contentLookup.fields.qualificationLevel.text["LEVEL_1"],
-                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_1"],
+                text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
+                hint: {
+                  text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
+                },
                 checked: qualificationLevel === "LEVEL_1"
               },
               {
                 value: "LEVEL_2",
-                text: contentLookup.fields.qualificationLevel.text["LEVEL_2"],
-                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_2"],
+                text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
+                hint: {
+                  text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
+                },
                 checked: qualificationLevel === "LEVEL_2"
               },
               {
                 value: "LEVEL_3",
-                text: contentLookup.fields.qualificationLevel.text["LEVEL_3"],
-                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_3"],
+                text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
+                hint: {
+                  text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
+                },
                 checked: qualificationLevel === "LEVEL_3"
               },
               {
                 value: "LEVEL_4",
-                text: contentLookup.fields.qualificationLevel.text["LEVEL_4"],
-                hint: contentLookup.fields.qualificationLevel.hint["LEVEL_4"],
+                text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
+                hint: {
+                  text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
+                },
                 checked: qualificationLevel === "LEVEL_4"
-              },
+              }
             ],
             errorMessage: errors.qualificationLevel
           }) }}

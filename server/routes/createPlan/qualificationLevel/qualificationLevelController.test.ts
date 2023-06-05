@@ -53,7 +53,12 @@ describe('QualificationLevelController', () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
-        qualificationLevel: QualificationLevelValue.ENTRY_LEVEL,
+        qualifications: [
+          {
+            id: '1',
+            level: QualificationLevelValue.ENTRY_LEVEL,
+          },
+        ],
       })
     })
 
@@ -100,7 +105,16 @@ describe('QualificationLevelController', () => {
       next.mockReset()
       validationMock.mockReset()
       setSessionData(req, ['qualificationLevel', id, 'data'], mockData)
-      setSessionData(req, ['createPlan', id], {})
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
+        qualifications: [
+          {
+            id: '1',
+            level: QualificationLevelValue.ENTRY_LEVEL,
+          },
+        ],
+      })
     })
 
     it('On error - Calls next with error', async () => {
