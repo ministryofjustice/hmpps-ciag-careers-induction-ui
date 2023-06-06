@@ -8,9 +8,9 @@ export default {
     whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
     otherQualifications: (id: string, mode = 'new') => `/plan/create/${id}/other-qualifications/${mode}`,
-    qualificationLevel: (id: string, index: number, mode = 'new') =>
-      `/plan/create/${id}/qualification-level/${index}/${mode}`,
-    qualificationDetails: (id: string, index: number, mode = 'new') =>
-      `/plan/create/${id}/qualification-details/${index}/${mode}`,
+    qualificationLevel: (id: string, qualificationId: string, mode = 'new') =>
+      `/plan/create/${id}/qualification-level/${qualificationId}/${mode}`,
+    qualificationDetails: (id: string, qualificationId: string, mode = 'new') =>
+      `/plan/create/${id}/qualification-details/${qualificationId}/${mode}`,
   },
 }

@@ -2,7 +2,7 @@ import EducationLevelPage from '../pages/educationLevel'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import QualificationsPage from '../pages/qualifications'
 
-context('SignIn', () => {
+context('Education level page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')

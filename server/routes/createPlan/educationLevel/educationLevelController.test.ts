@@ -36,7 +36,7 @@ describe('EducationLevelController', () => {
 
   const mockData = {
     backLocation: addressLookup.createPlan.qualifications(id),
-    backLocationAriaText: "Back to mock_firstName mock_lastName's qualifications",
+    backLocationAriaText: "Back to Mock_firstname Mock_lastname's qualifications",
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
@@ -128,7 +128,7 @@ describe('EducationLevelController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.NOT_SURE,
         qualifications: [],
@@ -141,7 +141,7 @@ describe('EducationLevelController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.PRIMARY_SCHOOL,
         qualifications: [],
@@ -154,7 +154,7 @@ describe('EducationLevelController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS,
         qualifications: [],
@@ -166,8 +166,8 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 1, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '1', mode))
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_EXAMS,
         qualifications: [],
@@ -179,8 +179,8 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 1, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '1', mode))
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
         qualifications: [],
@@ -192,11 +192,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 1, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, '1', mode))
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
-        qualifications: [{ level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
+        qualifications: [{ id: '1', level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
       })
     })
 
@@ -205,11 +205,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 1, mode))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, '1', mode))
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
-        qualifications: [{ level: EducationLevelValue.POSTGRADUATE_DEGREE }],
+        qualifications: [{ id: '1', level: EducationLevelValue.POSTGRADUATE_DEGREE }],
       })
     })
   })

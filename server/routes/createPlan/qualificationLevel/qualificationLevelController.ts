@@ -9,11 +9,10 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import EducationLevelValue from '../../../enums/educationLevelValue'
 
-export default class EducationLevelController {
+export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id, mode, qualificationId } = req.params
     const { prisoner } = req.context
 
     try {
@@ -24,9 +23,14 @@ export default class EducationLevelController {
         return
       }
 
+      // Get or setup qualification
+      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+        id: qualificationId,
+      }
+
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.educationLevel(id) : addressLookup.createPlan.qualifications(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -35,78 +39,54 @@ export default class EducationLevelController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         educationLevel: record.educationLevel,
+        qualificationLevel: qualification.level,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['educationLevel', id, 'data'], data)
+      setSessionData(req, ['qualificationLevel', id, 'data'], data)
 
-      res.render('pages/createPlan/educationLevel/index', { ...data })
+      res.render('pages/createPlan/qualificationLevel/index', { ...data })
     } catch (err) {
       next(err)
     }
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
-    const { educationLevel } = req.body
+    const { id, mode, qualificationId } = req.params
+    const { qualificationLevel } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['educationLevel', id, 'data'])
+      const data = getSessionData(req, ['qualificationLevel', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/educationLevel/index', {
+        res.render('pages/createPlan/qualificationLevel/index', {
           ...data,
           errors,
-          educationLevel,
+          qualificationLevel,
         })
         return
       }
 
-      // Handle edit and new
-      // Update record in sessionData and tidy
+      // Update record in session
       const record = getSessionData(req, ['createPlan', id])
-      deleteSessionData(req, ['educationLevel', id, 'data'])
-
-      // Handle higher qualifications
-      if (
-        [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
-      ) {
-        // Handle qualifications collection
-        setSessionData(req, ['createPlan', id], {
-          ...record,
-          educationLevel,
-          qualifications: [
-            {
-              id: '1',
-              level: educationLevel,
-            },
-          ],
-        })
-
-        res.redirect(addressLookup.createPlan.qualificationDetails(id, '1', mode))
-        return
+      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+        id: qualificationId,
       }
-
-      // Handle  qualifications collection
       setSessionData(req, ['createPlan', id], {
         ...record,
-        educationLevel,
-        qualifications: [],
+        qualifications: [
+          ...record.qualifications.filter((q: { id: string }) => q.id !== qualificationId),
+          {
+            ...qualification,
+            level: qualificationLevel,
+          },
+        ],
       })
 
-      // Handle secondary qualifications
-      if (
-        [EducationLevelValue.SECONDARY_SCHOOL_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
-          educationLevel,
-        )
-      ) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, '1', mode))
-        return
-      }
+      deleteSessionData(req, ['qualificationLevel', id, 'data'])
 
-      // Default no qualifications
-      res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
+      res.redirect(addressLookup.createPlan.qualificationDetails(id, qualificationId, mode))
     } catch (err) {
       next(err)
     }
