@@ -114,7 +114,7 @@ describe('QualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 3, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '3', mode))
     })
 
     it('On success - removeQualification - Redirects to educationLevel', async () => {

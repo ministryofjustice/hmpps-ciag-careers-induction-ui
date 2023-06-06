@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import WorkPlanPage from '../pages/workPlan'
 
-context('SignIn', () => {
+context('Work plan page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')

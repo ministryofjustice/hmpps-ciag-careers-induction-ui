@@ -15,7 +15,7 @@ export default class QualificationsController {
     const { prisoner, learnerLatestAssessment } = req.context
 
     try {
-      // If no record or incorrect value return to rightToWork
+      // If no record or incorrect value return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
       if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
