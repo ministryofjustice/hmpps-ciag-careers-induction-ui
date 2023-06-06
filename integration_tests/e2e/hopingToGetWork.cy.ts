@@ -1,6 +1,6 @@
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 
-context('SignIn', () => {
+context('Hoping to get work page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
