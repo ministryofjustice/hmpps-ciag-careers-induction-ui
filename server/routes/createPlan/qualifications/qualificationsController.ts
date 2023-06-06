@@ -8,6 +8,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
+import uuidv4 from '../../../utils/guid'
 
 export default class QualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -45,7 +46,7 @@ export default class QualificationsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { addQualification, removeQualification } = req.body
+    const { removeQualification } = req.body
 
     try {
       const record = getSessionData(req, ['createPlan', id])
@@ -54,15 +55,15 @@ export default class QualificationsController {
       if (removeQualification) {
         setSessionData(req, ['createPlan', id], {
           ...record,
-          qualifications: record.qualifications.filter((p: { id: number }) => p.id !== Number(removeQualification)),
+          qualifications: record.qualifications.filter((p: { id: string }) => p.id !== removeQualification),
         })
         res.redirect(addressLookup.createPlan.qualifications(id, mode))
         return
       }
 
       // Handle add qualifications
-      if (addQualification) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, record.qualifications.length + 1, mode))
+      if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
         return
       }
 

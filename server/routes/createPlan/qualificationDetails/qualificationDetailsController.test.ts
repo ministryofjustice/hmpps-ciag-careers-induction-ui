@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import uuidv4 from '../../../utils/guid'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -23,8 +24,17 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('../../../utils/guid', () => ({
+  ...jest.requireActual('../../../utils/guid'),
+  __esModule: true,
+  default: jest.fn(),
+}))
+
 describe('QualificationDetailsController', () => {
   const { req, res, next } = expressMocks()
+  const uuidv4Mock = uuidv4 as jest.Mock
+
+  uuidv4Mock.mockReturnValue('guid')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -33,13 +43,14 @@ describe('QualificationDetailsController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
-  req.params.qualificationId = '1'
+  req.params.qualificationId = 'guid'
   const { id, mode, qualificationId } = req.params
 
   const mockData = {
     backLocation: addressLookup.createPlan.educationLevel(id),
     backLocationAriaText: "Back to What's the highest level of education Mock_firstname Mock_lastname has completed?",
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
+    educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
     qualificationLevel: QualificationLevelValue.LEVEL_3,
   }
 

@@ -40,6 +40,7 @@ export default class QualificationDetailsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
+        educationLevel: record.educationLevel,
         qualificationLevel: qualification.level,
         qualificationSubject: qualification.subject,
         qualificationGrade: qualification.grade,
@@ -61,7 +62,7 @@ export default class QualificationDetailsController {
     try {
       // If validation errors render errors
       const data = getSessionData(req, ['qualificationDetails', id, 'data'])
-      const errors = validateFormSchema(req, validationSchema())
+      const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createPlan/qualificationDetails/index', {
           ...data,

@@ -4,9 +4,19 @@ import Controller from './qualificationsController'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import uuidv4 from '../../../utils/guid'
+
+jest.mock('../../../utils/guid', () => ({
+  ...jest.requireActual('../../../utils/guid'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('QualificationsController', () => {
   const { req, res, next } = expressMocks()
+  const uuidv4Mock = uuidv4 as jest.Mock
+
+  uuidv4Mock.mockReturnValue('guid')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -92,10 +102,9 @@ describe('QualificationsController', () => {
       next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 1 }, { id: 2 }],
+        qualifications: [{ id: 'A' }, { id: 'B' }],
       })
-      req.body.removeQualification = undefined
-      req.body.addQualification = undefined
+      req.body = {}
     })
 
     it('On error - Calls next with error', async () => {
@@ -114,18 +123,18 @@ describe('QualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '3', mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
     })
 
     it('On success - removeQualification - Redirects to educationLevel', async () => {
-      req.body.removeQualification = '1'
+      req.body.removeQualification = 'A'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         qualifications: [
           {
-            id: 2,
+            id: 'B',
           },
         ],
       })
@@ -141,7 +150,7 @@ describe('QualificationsController', () => {
 
     it('On success - Continue - educationLevel - Redirects to educationLevel', async () => {
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 1 }, { id: 2 }],
+        qualifications: [{ id: 'A' }, { id: 'B' }],
         educationLevel: 'mock_value',
       })
 
@@ -154,7 +163,7 @@ describe('QualificationsController', () => {
       req.params.mode = 'edit'
 
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 1 }, { id: 2 }],
+        qualifications: [{ id: 'A' }, { id: 'B' }],
         educationLevel: 'mock_value',
       })
 

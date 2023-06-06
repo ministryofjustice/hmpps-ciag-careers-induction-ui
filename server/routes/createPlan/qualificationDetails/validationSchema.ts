@@ -1,17 +1,36 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
+import contentLookup from '../../../constants/contentLookup'
 
-export default function validationSchema(): ObjectSchema {
+interface QualificationDetailsData {
+  prisoner: { firstName: string; lastName: string }
+  qualificationLevel: string
+}
+
+export default function validationSchema(data: QualificationDetailsData): ObjectSchema {
+  const {
+    prisoner: { firstName, lastName },
+    qualificationLevel,
+  } = data
+
   return joi.object({
-    qualificationSubject: joi.string().required().max(4000).messages({
-      'any.required': 'Qualification subject is required',
-      'string.empty': 'Qualification subject is required',
-      'string.max': 'Qualification subject must be 200 characters or less',
-    }),
-    qualificationGrade: joi.string().required().max(4000).messages({
-      'any.required': 'Qualification grade is required',
-      'string.empty': 'Qualification grade is required',
-      'string.max': 'Qualification grade must be 200 characters or less',
-    }),
+    qualificationSubject: joi
+      .string()
+      .required()
+      .max(4000)
+      .messages({
+        'any.required': `Enter the subject of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.empty': `Enter the subject of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.max': 'Subject must be 200 characters or less',
+      }),
+    qualificationGrade: joi
+      .string()
+      .required()
+      .max(4000)
+      .messages({
+        'any.required': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.empty': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.max': 'Grade must be 200 characters or less',
+      }),
   })
 }

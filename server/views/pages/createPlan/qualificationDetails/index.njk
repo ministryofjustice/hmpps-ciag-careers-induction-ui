@@ -6,12 +6,18 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "Add a " + contentLookup.fields.qualificationLevel[qualificationLevel].text + " qualification" %}
+{% if ['UNDERGRADUATE_DEGREE','POSTGRADUATE_DEGREE'].includes(educationLevel) %}
+  {% set title = "Add a degree qualification" %}
+{% else %}
+  {% set title = "Add a " + contentLookup.fields.qualificationLevel[qualificationLevel].text.toLowerCase() + " qualification" %}
+{% endif %}
+
 
 {#
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
+    * educationLevel - existing value for field
     * qualificationLevel - existing value for field
     * qualificationSubject - existing value for field
     * qualificationGrade - existing value for field
