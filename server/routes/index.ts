@@ -6,6 +6,7 @@ import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
 import qualificationsRoutes from './createPlan/qualifications'
 import educationLevelRoutes from './createPlan/educationLevel'
 import qualificationLevel from './createPlan/qualificationLevel'
+import qualificationDetails from './createPlan/qualificationDetails'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -21,6 +22,7 @@ export default function routes(services: Services): Router {
   qualificationsRoutes(router, services)
   educationLevelRoutes(router, services)
   qualificationLevel(router, services)
+  qualificationDetails(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
