@@ -19,6 +19,10 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'education-level': `What's the highest level of education ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
       prisoner.lastName,
     )} has completed?`,
+    'qualification-level': `What level of qualification does ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
+      prisoner.lastName,
+    )} want to add`,
+    'qualification-details': 'Add a degree qualification',
   }
 
   return findValue(url, lookup)

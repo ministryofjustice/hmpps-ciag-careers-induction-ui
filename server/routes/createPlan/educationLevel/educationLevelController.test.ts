@@ -9,6 +9,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
+import uuidv4 from '../../../utils/guid'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -22,8 +23,17 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('../../../utils/guid', () => ({
+  ...jest.requireActual('../../../utils/guid'),
+  __esModule: true,
+  default: jest.fn(),
+}))
+
 describe('EducationLevelController', () => {
   const { req, res, next } = expressMocks()
+  const uuidv4Mock = uuidv4 as jest.Mock
+
+  uuidv4Mock.mockReturnValue('guid')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -166,7 +176,7 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '1', mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_EXAMS,
@@ -179,7 +189,7 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, '1', mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
@@ -192,11 +202,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, '1', mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 'guid', mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
-        qualifications: [{ id: '1', level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
+        qualifications: [{ id: 'guid', level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
       })
     })
 
@@ -205,11 +215,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, '1', mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 'guid', mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
-        qualifications: [{ id: '1', level: EducationLevelValue.POSTGRADUATE_DEGREE }],
+        qualifications: [{ id: 'guid', level: EducationLevelValue.POSTGRADUATE_DEGREE }],
       })
     })
   })

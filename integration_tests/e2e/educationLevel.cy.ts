@@ -79,7 +79,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', '/qualification-level/1/new')
+    cy.url().should('include', '/qualification-level')
   })
 
   it('New record - Select FURTHER_EDUCATION_COLLEGE - Continue navigates to qualification level page', () => {
@@ -91,7 +91,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', '/qualification-level/1/new')
+    cy.url().should('include', '/qualification-level')
   })
 
   it('New record - Select UNDERGRADUATE_DEGREE - Continue navigates to qualification details page', () => {
@@ -103,7 +103,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', '/qualification-details/1/new')
+    cy.url().should('include', '/qualification-details')
   })
 
   it('New record - Select POSTGRADUATE_DEGREE - Continue navigates to qualification details page', () => {
@@ -115,6 +115,6 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', '/qualification-details/1/new')
+    cy.url().should('include', '/qualification-details')
   })
 })
