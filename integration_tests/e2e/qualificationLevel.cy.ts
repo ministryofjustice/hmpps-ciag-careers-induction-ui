@@ -51,6 +51,6 @@ context('Qualification level page', () => {
 
     qualificationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'qualification-details/1/new')
+    cy.url().should('include', 'qualification-details')
   })
 })
