@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
+import uuidv4 from '../../../utils/guid'
 
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -72,19 +73,20 @@ export default class EducationLevelController {
       if (
         [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
       ) {
+        const newid = uuidv4()
         // Handle qualifications collection
         setSessionData(req, ['createPlan', id], {
           ...record,
           educationLevel,
           qualifications: [
             {
-              id: '1',
+              id: newid,
               level: educationLevel,
             },
           ],
         })
 
-        res.redirect(addressLookup.createPlan.qualificationDetails(id, '1', mode))
+        res.redirect(addressLookup.createPlan.qualificationDetails(id, newid, mode))
         return
       }
 
@@ -101,7 +103,7 @@ export default class EducationLevelController {
           educationLevel,
         )
       ) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, '1', mode))
+        res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
         return
       }
 
