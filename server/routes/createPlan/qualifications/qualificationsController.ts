@@ -23,6 +23,12 @@ export default class QualificationsController {
         return
       }
 
+      // Clear blank qualifications, from back functionality
+      record.qualifications = (record.qualifications || []).filter(
+        (q: { level: string; subject: string; grade: string }) => q.level && q.subject && q.grade,
+      )
+      setSessionData(req, ['createPlan', id], record)
+
       // Setup back location
       const backLocation =
         mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkAnswers(id)
