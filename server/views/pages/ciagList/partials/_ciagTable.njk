@@ -46,7 +46,7 @@
                         </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                     </td>
                     <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
-                        <p>{{ offender.releaseDate or 'N/A' }}</p>
+                        <p>{{ offender.releaseDate | date("dd MMM yyyy") | default('N/A') }}</p>
                     </td>
                     <td class="govuk-table__cell">{{ offender.receptionDate or 'N/A' }}</td>
                 </tr>
@@ -57,7 +57,7 @@
         </table>
     {% endif %}
 
-    {% if paginationData.results.count >= 1 and ciagOffenders %}
+    {% if paginationData.results.count > 0 and ciagOffenders %}
         {{ pagination( paginationData ) }}
     {% else %}
         {% include './_notFoundMessages.njk' %}

@@ -1,4 +1,6 @@
 {
+  "root": true,
+
   "env": {
     "browser": true,
     "node": true,
@@ -47,7 +49,7 @@
         "@typescript-eslint/semi": 0,
         "import/no-unresolved": "error",
         "prettier/prettier": [
-          "error",
+          "warn",
           {
             "trailingComma": "all",
             "singleQuote": true,
@@ -70,6 +72,8 @@
       }
     ],
     "no-use-before-define": 0,
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "semi": 0,
     "import/no-unresolved": "error",
     "import/extensions": [
@@ -89,7 +93,7 @@
       { "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/testutils/**", "cypress.config.ts"] }
     ],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "trailingComma": "all",
         "singleQuote": true,
@@ -97,5 +101,7 @@
         "semi": false
       }
     ]
-  }
+  },
+
+  "reportUnusedDisableDirectives": true
 }

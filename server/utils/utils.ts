@@ -102,6 +102,13 @@ export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
   return format(date, 'dd MMM yyyy')
 }
 
+export function formatDateString(date: string, formatString: string) {
+  if (!date) return 'N/A'
+  const newDate = new Date(date)
+
+  return format(newDate, formatString)
+}
+
 export function formatDateStringToddMMMyyyyHHmm(params: TransformFnParams) {
   if (!params.value) return 'N/A'
   const date = new Date(params.value)

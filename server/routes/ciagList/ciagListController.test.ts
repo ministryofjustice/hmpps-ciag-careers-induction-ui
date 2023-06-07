@@ -42,7 +42,12 @@ describe('CiagListController', () => {
     getPrisonerByCaseloadID: jest.fn(),
   }
 
-  const controller = new Controller()
+  const mockPaginationService: any = {
+    paginationData: {},
+    getPagination: jest.fn(),
+  }
+
+  const controller = new Controller(mockPaginationService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

@@ -7,7 +7,7 @@ import { getSessionData, setSessionData } from '../../utils/session'
 const getCiagListResolver =
   (prisonerSearchService: PrisonerSearchService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { username, token } = res.locals.user
+    const { username } = res.locals.user
     const { userActiveCaseLoad } = res.locals
 
     try {
@@ -23,6 +23,7 @@ const getCiagListResolver =
         username,
         userActiveCaseLoad.caseLoadId,
       )
+
       setSessionData(req, ['ciagList'], req.context.ciagList)
 
       next()
