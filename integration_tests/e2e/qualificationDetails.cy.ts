@@ -1,9 +1,10 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
+import QualificationDetailsPage from '../pages/qualificationDetails'
 import QualificationLevelPage from '../pages/qualificationLevel'
 import QualificationsPage from '../pages/qualifications'
 
-context('Qualification level page', () => {
+context('Qualification details page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -26,31 +27,41 @@ context('Qualification level page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
-
     educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
     educationLevelPage.submitButton().click()
+
+    const qualificationLevelPage = new QualificationLevelPage(
+      'What level of secondary school qualification does Daniel Craig want to add?',
+    )
+    qualificationLevelPage.radioFieldValue('LEVEL_1').click()
+    qualificationLevelPage.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const qualificationLevelPage = new QualificationLevelPage(
-      'What level of secondary school qualification does Daniel Craig want to add?',
-    )
+    const qualificationDetailsPage = new QualificationDetailsPage('Add a level 1 qualification')
 
-    qualificationLevelPage.submitButton().click()
+    qualificationDetailsPage.submitButton().click()
 
-    qualificationLevelPage.pageErrorMessage().contains('Select the level of qualification Daniel Craig wants to add')
-    qualificationLevelPage.fieldErrorMessage().contains('Select the level of qualification Daniel Craig wants to add')
+    qualificationDetailsPage
+      .subjectPageErrorMessage()
+      .contains("Enter the subject of Daniel Craig's level 1 qualification")
+    qualificationDetailsPage
+      .subjectFieldErrorMessage()
+      .contains("Enter the subject of Daniel Craig's level 1 qualification")
+    qualificationDetailsPage.gradePageErrorMessage().contains("Enter the grade of Daniel Craig's level 1 qualification")
+    qualificationDetailsPage
+      .gradeFieldErrorMessage()
+      .contains("Enter the grade of Daniel Craig's level 1 qualification")
   })
 
-  it('New record - Select a value - Continue navigates to qualification details page', () => {
-    const qualificationLevelPage = new QualificationLevelPage(
-      'What level of secondary school qualification does Daniel Craig want to add?',
-    )
+  it('New record - Select NOT_SURE - Continue navigates to qualification details page', () => {
+    const qualificationDetailsPage = new QualificationDetailsPage('Add a level 1 qualification')
 
-    qualificationLevelPage.radioFieldValue('LEVEL_1').click()
+    qualificationDetailsPage.subjectField().type('Mathematics')
+    qualificationDetailsPage.gradeField().type('A')
 
-    qualificationLevelPage.submitButton().click()
+    qualificationDetailsPage.submitButton().click()
 
-    cy.url().should('include', 'qualification-details/1/new')
+    cy.url().should('include', 'qualifications/new')
   })
 })
