@@ -6,8 +6,6 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "What level of secondary school qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
-
 {#
   Data supplied to this template:
     * backLocation - url of the back link
@@ -16,6 +14,68 @@
     * qualificationLevel - existing value for field
     * errors? - validation errors
 #}
+
+{# Setup page based on education level #}
+{% set title = "What level of secondary school qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+{% set options = [
+    {
+      value: "ENTRY_LEVEL",
+      text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
+      hint: {
+        text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
+      },
+      checked: qualificationLevel === "ENTRY_LEVEL"
+    },
+    {
+      value: "LEVEL_1",
+      text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
+      hint: {
+        text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
+      },
+      checked: qualificationLevel === "LEVEL_1"
+    },
+    {
+      value: "LEVEL_2",
+      text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
+      hint: {
+        text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
+      },
+      checked: qualificationLevel === "LEVEL_2"
+    },
+    {
+      value: "LEVEL_3",
+      text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
+      hint: {
+        text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
+      },
+      checked: qualificationLevel === "LEVEL_3"
+    },
+    {
+      value: "LEVEL_4",
+      text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
+      hint: {
+        text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
+      },
+      checked: qualificationLevel === "LEVEL_4"
+    }
+    ]
+  %}
+
+
+{% if educationLevel ===  'FURTHER_EDUCATION_COLLEGE' %}
+  {% set title = "What level of further education college qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level5 = {
+        value: "LEVEL_5",
+        text: contentLookup.fields.qualificationLevel["LEVEL_5"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_5"].hint
+        },
+        checked: qualificationLevel === "LEVEL_5"
+      }
+  %}
+  {% set options = options.concat(level5) %}
+{% endif %}
+
 
 {% block beforeContent %}
   {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
@@ -41,48 +101,7 @@
                 classes: "govuk-fieldset__legend--l"
               }
             },
-            items: [
-              {
-                value: "ENTRY_LEVEL",
-                text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
-                hint: {
-                  text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
-                },
-                checked: qualificationLevel === "ENTRY_LEVEL"
-              },
-              {
-                value: "LEVEL_1",
-                text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
-                hint: {
-                  text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
-                },
-                checked: qualificationLevel === "LEVEL_1"
-              },
-              {
-                value: "LEVEL_2",
-                text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
-                hint: {
-                  text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
-                },
-                checked: qualificationLevel === "LEVEL_2"
-              },
-              {
-                value: "LEVEL_3",
-                text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
-                hint: {
-                  text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
-                },
-                checked: qualificationLevel === "LEVEL_3"
-              },
-              {
-                value: "LEVEL_4",
-                text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
-                hint: {
-                  text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
-                },
-                checked: qualificationLevel === "LEVEL_4"
-              }
-            ],
+            items: options,
             errorMessage: errors.qualificationLevel
           }) }}
         </div>
