@@ -25,7 +25,6 @@ export default function validationSchema(data: OtherQualificationsData): ObjectS
           joi
             .any()
             .valid(
-              OtherQualificationsValue.ADVANCED_EDUCATION,
               OtherQualificationsValue.CSCS,
               OtherQualificationsValue.DRIVING_LICENSE,
               OtherQualificationsValue.FIRST_AID,

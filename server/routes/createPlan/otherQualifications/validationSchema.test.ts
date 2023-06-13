@@ -40,7 +40,6 @@ describe('validationSchema', () => {
         key: 0,
         label: 'otherQualifications[0]',
         valids: [
-          OtherQualificationsValue.ADVANCED_EDUCATION,
           OtherQualificationsValue.CSCS,
           OtherQualificationsValue.DRIVING_LICENSE,
           OtherQualificationsValue.FIRST_AID,

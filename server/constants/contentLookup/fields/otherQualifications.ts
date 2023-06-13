@@ -1,5 +1,4 @@
 export default {
-  ADVANCED_EDUCATION: 'Advanced school level qualification',
   CSCS: 'CSCS card',
   DRIVING_LICENSE: 'Full UK driving licence',
   FIRST_AID: 'First aid certificate',
