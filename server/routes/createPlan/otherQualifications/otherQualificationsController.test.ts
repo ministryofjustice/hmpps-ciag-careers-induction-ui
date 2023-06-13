@@ -139,7 +139,7 @@ describe('OtherQualificationsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = new - Sets session record then redirects to hasWorkedBefore', async () => {
       req.body.otherQualifications = OtherQualificationsValue.OTHER
       req.body.otherQualificationsDetails = 'mock_details'
       req.params.mode = 'new'
@@ -152,23 +152,7 @@ describe('OtherQualificationsController', () => {
         otherQualificationsDetails: 'mock_details',
       })
       expect(getSessionData(req, ['otherQualifications', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
-    })
-
-    it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
-      req.body.otherQualifications = OtherQualificationsValue.OTHER
-      req.body.otherQualificationsDetails = 'mock_details'
-      req.params.mode = 'edit'
-
-      controller.post(req, res, next)
-
-      expect(getSessionData(req, ['createPlan', id])).toEqual({
-        hopingToGetWork: 'YES',
-        otherQualifications: OtherQualificationsValue.OTHER,
-        otherQualificationsDetails: 'mock_details',
-      })
-      expect(getSessionData(req, ['otherQualifications', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hasWorkedBefore(id))
     })
   })
 })

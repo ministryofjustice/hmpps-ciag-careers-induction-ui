@@ -19,7 +19,7 @@ export default class OtherQualificationsController {
     try {
       // If no record or incorrect value return to hopeToGetWorkz
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -92,8 +92,12 @@ export default class OtherQualificationsController {
           : '',
       })
 
-      // Redirect to the correct page based on mode
-      res.redirect(addressLookup.createPlan.checkAnswers(id))
+      // Redirect to the correct page based on hopingToGetWork
+      res.redirect(
+        record.hopingToGetWork === HopingToGetWorkValue.YES
+          ? addressLookup.createPlan.hasWorkedBefore(id, mode)
+          : addressLookup.createPlan.inPrisonWork(id, mode),
+      )
     } catch (err) {
       next(err)
     }
