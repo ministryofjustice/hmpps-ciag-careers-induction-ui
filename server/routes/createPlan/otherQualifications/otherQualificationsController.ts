@@ -63,7 +63,6 @@ export default class OtherQualificationsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
     const { otherQualifications = [], otherQualificationsDetails } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors

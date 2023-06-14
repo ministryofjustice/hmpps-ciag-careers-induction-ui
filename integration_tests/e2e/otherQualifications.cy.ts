@@ -1,7 +1,6 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
-import QualificationLevelPage from '../pages/qualificationLevel'
 import QualificationsPage from '../pages/qualifications'
 
 context('Other qualifications level page', () => {

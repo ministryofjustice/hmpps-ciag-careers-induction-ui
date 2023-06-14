@@ -8,7 +8,6 @@ import addressLookup from '../../addressLookup'
 import OtherQualificationsValue from '../../../enums/otherQualificationsValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import workPlanTabs from '../../../enums/workPlanTabs'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
