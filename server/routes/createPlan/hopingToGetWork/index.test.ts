@@ -9,7 +9,7 @@ jest.mock('./hopingToGetWorkController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Right to work routes', () => {
+describe('Hope to get work routes', () => {
   let router: Router
   let services: Services
 
