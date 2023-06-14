@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
-import PageableResponse from '../domain/types/pagedResponse'
 import CiagViewModel from '../../viewModels/ciagViewModel'
 import PrisonerViewModel from '../../viewModels/ciagListViewModel'
 import config from '../../config'

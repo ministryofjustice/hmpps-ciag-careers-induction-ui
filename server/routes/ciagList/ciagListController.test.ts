@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import Controller from './ciagListController'
-import { deleteSessionData } from '../../utils/session'
 
 describe('CiagListController', () => {
   const { res, req, next } = expressMocks()
@@ -36,11 +36,11 @@ describe('CiagListController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.ciagList
+  // const mockData = req.context.ciagList
 
-  const mockSearchService: any = {
-    getPrisonerByCaseloadID: jest.fn(),
-  }
+  // const mockSearchService: any = {
+  //   getPrisonerByCaseloadID: jest.fn(),
+  // }
 
   const mockPaginationService: any = {
     paginationData: {},
