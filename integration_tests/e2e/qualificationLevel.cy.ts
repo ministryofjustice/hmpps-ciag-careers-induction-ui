@@ -22,16 +22,16 @@ context('Qualification level page', () => {
 
     const qualificationsPage = new QualificationsPage("Daniel Craig's qualifications")
     qualificationsPage.submitButton().click()
+  })
 
+  it('New record - Validation messages display when no value selected', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
     educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
     educationLevelPage.submitButton().click()
-  })
 
-  it('Validation messages display when no value selected', () => {
     const qualificationLevelPage = new QualificationLevelPage(
       'What level of secondary school qualification does Daniel Craig want to add?',
     )
@@ -42,7 +42,14 @@ context('Qualification level page', () => {
     qualificationLevelPage.fieldErrorMessage().contains('Select the level of qualification Daniel Craig wants to add')
   })
 
-  it('New record - Select NOT_SURE - Continue navigates to qualification details page', () => {
+  it('New record - SECONDARY_SCHOOL_EXAMS - Select a value - Continue navigates to qualification details page', () => {
+    const educationLevelPage = new EducationLevelPage(
+      "What's the highest level of education Daniel Craig has completed?",
+    )
+
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.submitButton().click()
+
     const qualificationLevelPage = new QualificationLevelPage(
       'What level of secondary school qualification does Daniel Craig want to add?',
     )
@@ -51,6 +58,25 @@ context('Qualification level page', () => {
 
     qualificationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'qualification-details/1/new')
+    cy.url().should('include', 'qualification-details')
+  })
+
+  it('New record - FURTHER_EDUCATION_COLLEGE - Select a value - Continue navigates to qualification details page', () => {
+    const educationLevelPage = new EducationLevelPage(
+      "What's the highest level of education Daniel Craig has completed?",
+    )
+
+    educationLevelPage.radioFieldValue('FURTHER_EDUCATION_COLLEGE').click()
+    educationLevelPage.submitButton().click()
+
+    const qualificationLevelPage = new QualificationLevelPage(
+      'What level of further education college qualification does Daniel Craig want to add?',
+    )
+
+    qualificationLevelPage.radioFieldValue('LEVEL_5').click()
+
+    qualificationLevelPage.submitButton().click()
+
+    cy.url().should('include', 'qualification-details')
   })
 })

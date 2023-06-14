@@ -1,0 +1,148 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Does " + prisoner.firstName + " " + prisoner.lastName + " have any other training or vocational qualifications?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * otherQualifications - Array existing values for field
+    * otherQualificationsDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "otherQualificationsDetails",
+              name: "otherQualificationsDetails",
+              rows: "2",
+              value: otherQualificationsDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any qualifications or training" },
+              errorMessage: errors.otherQualificationsDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "otherQualifications",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "CSCS",
+                checked: otherQualifications.indexOf("CSCS") > -1,
+                text: contentLookup.fields.otherQualifications["CSCS"]
+              },
+              {
+                value: "FIRST_AID",
+                checked: otherQualifications.indexOf("FIRST_AID") > -1,
+                text: contentLookup.fields.otherQualifications["FIRST_AID"]
+              },
+              {
+                value: "FOOD_HYGIENE",
+                checked: otherQualifications.indexOf("FOOD_HYGIENE") > -1,
+                text: contentLookup.fields.otherQualifications["FOOD_HYGIENE"]
+              },
+               {
+                value: "DRIVING_LICENSE",
+                checked: otherQualifications.indexOf("DRIVING_LICENSE") > -1,
+                text: contentLookup.fields.otherQualifications["DRIVING_LICENSE"]
+              },
+              {
+                value: "HEALTH_AND_SAFETY",
+                checked: otherQualifications.indexOf("HEALTH_AND_SAFETY") > -1,
+                text: contentLookup.fields.otherQualifications["HEALTH_AND_SAFETY"]
+              },
+              {
+                value: "HGV_LICENSE",
+                checked: otherQualifications.indexOf("HGV_LICENSE") > -1,
+                text:contentLookup.fields.otherQualifications["HGV_LICENSE"]
+              },
+              {
+                value: "MACHINERY",
+                checked: otherQualifications.indexOf("MACHINERY") > -1,
+                text: contentLookup.fields.otherQualifications["MACHINERY"],
+                hint: {
+                  text: "including things like forklift, digger and dumper"
+                }
+              },
+              {
+                value: "MANUAL",
+                checked: otherQualifications.indexOf("MANUAL") > -1,
+                text: contentLookup.fields.otherQualifications["MANUAL"]
+              },
+              {
+                value: "TRADE",
+                checked: otherQualifications.indexOf("TRADE") > -1,
+                text: contentLookup.fields.otherQualifications["TRADE"],
+                hint: {
+                  text: "including things like bricklaying, painting and decorating and carpentry"
+                }
+              },
+              {
+                value: "OTHER",
+                checked: otherQualifications.indexOf("OTHER") > -1,
+                text: contentLookup.fields.otherQualifications["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.otherQualifications["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text:contentLookup.fields.otherQualifications["NONE"],
+                checked: otherQualifications.indexOf("NONE") > -1,
+                behaviour: "exclusive"
+              }
+            ],
+            errorMessage: errors.otherQualifications
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -14,7 +14,7 @@
       {% if qualifications.length %}
         {% for item in qualifications %}
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell">{{ item.level }}</td>
+            <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
             <td class="govuk-table__cell">{{ item.subject }}</td>
             <td class="govuk-table__cell">{{ item.grade }}</td>
             <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.id }}" name="removeQualification">Remove</button></td>

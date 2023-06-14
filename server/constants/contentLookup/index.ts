@@ -1,7 +1,11 @@
-import yesNo from './yesNo'
-import hopingToGetWork from './hopingToGetWork'
-import educationLevel from './educationLevel'
-import qualificationLevel from './qualificationLevel'
+import yesNo from './fields/yesNo'
+import hopingToGetWork from './fields/hopingToGetWork'
+import educationLevel from './fields/educationLevel'
+import qualificationLevel from './fields/qualificationLevel'
+import otherQualifications from './fields/otherQualifications'
+
+import qualifications from './pages/qualifications'
+import qualificationDetails from './pages/qualificationDetails'
 
 export default {
   fields: {
@@ -9,5 +13,10 @@ export default {
     hopingToGetWork,
     educationLevel,
     qualificationLevel,
+    otherQualifications,
+  },
+  pages: {
+    qualifications,
+    qualificationDetails,
   },
 }
