@@ -9,12 +9,12 @@ export default (router: Router, services: Services) => {
   const controller = new QualificationsController()
 
   router.get(
-    '/plan/create/:id/qualifications/:mode',
+    '/plan/create/:id/qualifications-list/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService), getLatestAssessmentResolver(services.curiousEsweService)],
     controller.get,
   )
   router.post(
-    '/plan/create/:id/qualifications/:mode',
+    '/plan/create/:id/qualifications-list/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )

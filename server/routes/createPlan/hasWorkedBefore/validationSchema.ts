@@ -12,7 +12,7 @@ export default function validationSchema(data: HasWorkedBeforeData): ObjectSchem
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select ${firstName} ${lastName}'s highest level of education`
+  const msg = `Select whether ${firstName} ${lastName} has worked before or not`
 
   return joi.object({
     hasWorkedBefore: joi.string().required().valid(YesNoValue.YES, YesNoValue.NO).messages({

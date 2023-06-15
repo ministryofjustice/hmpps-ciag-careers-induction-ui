@@ -4,7 +4,7 @@ export default {
   createPlan: {
     checkAnswers: (id: string) => `/plan/create/${id}/check-answers`,
     hopingToGetWork: (id: string) => `/plan/create/${id}/hoping-to-get-work`,
-    qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications/${mode}`,
+    qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
     whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
     otherQualifications: (id: string, mode = 'new') => `/plan/create/${id}/other-qualifications/${mode}`,
@@ -14,5 +14,7 @@ export default {
       `/plan/create/${id}/qualification-details/${qualificationId}/${mode}`,
     hasWorkedBefore: (id: string, mode = 'new') => `/plan/create/${id}/has-worked-before/${mode}`,
     inPrisonWork: (id: string, mode = 'new') => `/plan/create/${id}/in-prison-work/${mode}`,
+    typeOfWork: (id: string, mode = 'new') => `/plan/create/${id}/type-of-work/${mode}`,
+    workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
   },
 }

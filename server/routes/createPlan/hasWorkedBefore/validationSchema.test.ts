@@ -17,7 +17,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: "Select mock_firstName mock_lastName's highest level of education",
+      message: 'Select whether mock_firstName mock_lastName has worked before or not',
       path: ['hasWorkedBefore'],
       type: 'any.required',
       context: {
@@ -39,7 +39,7 @@ describe('validationSchema', () => {
         valids: ['YES', 'NO'],
         value: 'SOME_VALUE',
       },
-      message: "Select mock_firstName mock_lastName's highest level of education",
+      message: 'Select whether mock_firstName mock_lastName has worked before or not',
       path: ['hasWorkedBefore'],
       type: 'any.only',
     })

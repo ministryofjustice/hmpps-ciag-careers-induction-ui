@@ -10,7 +10,6 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import YesNoValue from '../../../enums/yesNoValue'
-import uuidv4 from '../../../utils/guid'
 
 export default class HasWorkedBeforeController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -27,7 +26,9 @@ export default class HasWorkedBeforeController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit'
+          ? addressLookup.createPlan.otherQualifications(id, mode)
+          : addressLookup.createPlan.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -64,19 +65,21 @@ export default class HasWorkedBeforeController {
         return
       }
 
-      // Handle edit and new
-      // Update record in sessionData and tidy
+      // Update record in session
       const record = getSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['hasWorkedBefore', id, 'data'])
 
-      // Handle  qualifications collection
       setSessionData(req, ['createPlan', id], {
         ...record,
         hasWorkedBefore,
       })
 
-      // Default no qualifications
-      res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
+      // Default flow
+      res.redirect(
+        hasWorkedBefore === YesNoValue.YES
+          ? addressLookup.createPlan.typeOfWork(id, mode)
+          : addressLookup.createPlan.workInterests(id, mode),
+      )
     } catch (err) {
       next(err)
     }

@@ -47,8 +47,8 @@ describe('QualificationDetailsController', () => {
   const { id, mode, qualificationId } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.educationLevel(id),
-    backLocationAriaText: "Back to What's the highest level of education Mock_firstname Mock_lastname has completed?",
+    backLocation: addressLookup.createPlan.qualificationLevel(id, qualificationId),
+    backLocationAriaText: 'Back to What level of qualification does Mock_firstname Mock_lastname want to add',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
     qualificationLevel: QualificationLevelValue.LEVEL_3,

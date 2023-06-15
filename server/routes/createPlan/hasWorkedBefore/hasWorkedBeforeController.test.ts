@@ -45,8 +45,9 @@ describe('HasWorkedBeforeController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.qualifications(id),
-    backLocationAriaText: "Back to Mock_firstname Mock_lastname's qualifications",
+    backLocation: addressLookup.createPlan.otherQualifications(id, mode),
+    backLocationAriaText:
+      'Back to Does Mock_firstname Mock_lastname have any other training or vocational qualifications?',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
@@ -132,15 +133,27 @@ describe('HasWorkedBeforeController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - hasWorkedBefore = NOT_SURE - Sets session record then redirects to otherQualifications', async () => {
+    it('On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWork', async () => {
       req.body.hasWorkedBefore = YesNoValue.YES
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.typeOfWork(id, mode))
       expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hasWorkedBefore: YesNoValue.YES,
+      })
+    })
+
+    it('On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests', async () => {
+      req.body.hasWorkedBefore = YesNoValue.NO
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workInterests(id, mode))
+      expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hasWorkedBefore: YesNoValue.NO,
       })
     })
   })

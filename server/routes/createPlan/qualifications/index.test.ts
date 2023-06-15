@@ -35,7 +35,7 @@ describe('Qualifications routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/qualifications/:mode',
+      '/plan/create/:id/qualifications-list/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getLatestAssessmentResolver
@@ -48,7 +48,7 @@ describe('Qualifications routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/qualifications/:mode',
+      '/plan/create/:id/qualifications-list/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
