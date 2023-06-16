@@ -33,7 +33,7 @@ context('Hoping to get work page', () => {
     hopingToGetWorkPage.radioFieldValue('YES').click()
     hopingToGetWorkPage.submitButton().click()
 
-    cy.url().should('include', 'qualifications/new')
+    cy.url().should('include', 'qualifications-list/new')
   })
 
   it('New record - Select NO - navigates to why-no-work page', () => {
