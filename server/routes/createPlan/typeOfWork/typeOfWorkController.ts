@@ -4,14 +4,14 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import OtherQualificationsValue from '../../../enums/otherQualificationsValue'
+import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
-export default class OtherQualificationsController {
+export default class TypeOfWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -25,15 +25,10 @@ export default class OtherQualificationsController {
       }
 
       // Setup back location
-      const backLocation = getBackLocation({
-        req,
-        defaultRoute:
-          mode === 'new'
-            ? addressLookup.createPlan.qualifications(id, mode)
-            : addressLookup.createPlan.checkAnswers(id),
-        page: 'otherQualifications',
-        uid: id,
-      })
+      const backLocation =
+        mode === 'new'
+          ? addressLookup.createPlan.otherQualifications(id, mode)
+          : addressLookup.createPlan.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -41,14 +36,20 @@ export default class OtherQualificationsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        otherQualifications: record.otherQualifications || [],
-        otherQualificationsDetails: record.otherQualificationsDetails,
+        typeOfWork:
+          mode === 'update'
+            ? plan.planData.supportAccepted.workExperience.qualificationsAndTraining
+            : record.typeOfWork || [],
+        typeOfWorkDetails:
+          mode === 'update'
+            ? plan.planData.supportAccepted.workExperience.qualificationsAndTrainingOther
+            : record.typeOfWorkDetails,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['otherQualifications', id, 'data'], data)
+      setSessionData(req, ['typeOfWork', id, 'data'], data)
 
-      res.render('pages/createPlan/otherQualifications/index', { ...data })
+      res.render('pages/createPlan/typeOfWork/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -56,41 +57,35 @@ export default class OtherQualificationsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { otherQualifications = [], otherQualificationsDetails } = req.body
+    const { typeOfWork = [], typeOfWorkDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['otherQualifications', id, 'data'])
+      const data = getSessionData(req, ['typeOfWork', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/otherQualifications/index', {
+        res.render('pages/createPlan/typeOfWork/index', {
           ...data,
           errors,
-          otherQualifications,
-          otherQualificationsDetails,
+          typeOfWork,
+          typeOfWorkDetails,
         })
         return
       }
 
-      deleteSessionData(req, ['otherQualifications', id, 'data'])
+      deleteSessionData(req, ['typeOfWork', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        otherQualifications,
-        otherQualificationsDetails: otherQualifications.includes(OtherQualificationsValue.OTHER)
-          ? otherQualificationsDetails
-          : '',
+        typeOfWork,
+        typeOfWorkDetails: typeOfWork.includes(TypeOfWorkValue.OTHER) ? typeOfWorkDetails : '',
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(
-        record.hopingToGetWork === HopingToGetWorkValue.YES
-          ? addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.inPrisonWork(id, mode),
-      )
+      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWork[0], mode))
     } catch (err) {
       next(err)
     }
