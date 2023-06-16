@@ -4,7 +4,7 @@ import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import QualificationsPage from '../pages/qualifications'
 
-context('Has worked befofe page', () => {
+context('Has worked before page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
