@@ -11,6 +11,10 @@ $govuk-page-width: $moj-page-width;
 @import 'assets/scss/local';
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+.filter-box {
+  background-color: govuk-colour("light-grey");
+  padding: 30px 10px 30px 10px;
+}
 
 .govuk-button-link {
   background-color: transparent;

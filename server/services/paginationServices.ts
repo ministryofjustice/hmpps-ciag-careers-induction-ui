@@ -54,7 +54,7 @@ export default class PaginationService {
       return url.href
     }
 
-    const previousPage = pageData.pageable.pageNumber <= 0 ? null : pageData.pageable.pageNumber
+    const previousPage = pageData.pageable.pageNumber <= 0 ? null : pageData.pageable.pageNumber - 1
     const zeroBasedPage = pageData.pageable.pageNumber
     const resultsBeforeNow = zeroBasedPage * this.paginationPageSize
 
@@ -63,11 +63,21 @@ export default class PaginationService {
       resultsBeforeNow + this.paginationPageSize >= pageData.totalElements ? null : pageData.pageable.pageNumber + 2
 
     // calculate the range of 10 items to display in pagination
+    // const maxPageNumber =
+    //   pageData.pageable.pageNumber < 6 ? 10 : Math.min(pageData.totalPages, pageData.pageable.pageNumber + 5)
+    // const minPageNumber =
+    //   pageData.pageable.pageNumber < 6 ? 0 : Math.min(maxPageNumber - 10, pageData.pageable.pageNumber - 5)
+
+    // calculate the range of 20 items to display in pagination
     const maxPageNumber =
-      pageData.pageable.pageNumber < 6 ? 10 : Math.min(pageData.totalPages, pageData.pageable.pageNumber + 5)
+      pageData.pageable.pageNumber < 11
+        ? this.paginationPageSize
+        : Math.min(pageData.totalPages, pageData.pageable.pageNumber + 10)
 
     const minPageNumber =
-      pageData.pageable.pageNumber < 6 ? 0 : Math.min(maxPageNumber - 10, pageData.pageable.pageNumber - 5)
+      pageData.pageable.pageNumber < 11
+        ? 0
+        : Math.min(maxPageNumber - this.paginationPageSize, pageData.pageable.pageNumber - 10)
 
     const items = [...Array(pageData.totalPages).keys()]
       .filter(n => n >= minPageNumber)
