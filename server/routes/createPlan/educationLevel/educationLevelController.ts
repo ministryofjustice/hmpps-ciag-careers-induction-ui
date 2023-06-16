@@ -11,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -86,7 +87,11 @@ export default class EducationLevelController {
           ],
         })
 
-        res.redirect(addressLookup.createPlan.qualificationDetails(id, newid, mode))
+        res.redirect(
+          `${addressLookup.createPlan.qualificationDetails(id, newid, mode)}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`,
+        )
         return
       }
 

@@ -2,14 +2,13 @@
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './qualificationDetailsController'
+import Controller from './hasWorkedBeforeController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import EducationLevelValue from '../../../enums/educationLevelValue'
-import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import YesNoValue from '../../../enums/yesNoValue'
 import uuidv4 from '../../../utils/guid'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
@@ -30,7 +29,7 @@ jest.mock('../../../utils/guid', () => ({
   default: jest.fn(),
 }))
 
-describe('QualificationDetailsController', () => {
+describe('HasWorkedBeforeController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
 
@@ -43,15 +42,13 @@ describe('QualificationDetailsController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
-  req.params.qualificationId = 'guid'
-  const { id, mode, qualificationId } = req.params
+  const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.qualificationLevel(id, qualificationId),
-    backLocationAriaText: 'Back to What level of qualification does Mock_firstname Mock_lastname want to add',
+    backLocation: addressLookup.createPlan.otherQualifications(id, mode),
+    backLocationAriaText:
+      'Back to Does Mock_firstname Mock_lastname have any other training or vocational qualifications?',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
-    qualificationLevel: QualificationLevelValue.LEVEL_3,
   }
 
   const controller = new Controller()
@@ -60,18 +57,10 @@ describe('QualificationDetailsController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['qualificationDetails', id, 'data'], mockData)
+      setSessionData(req, ['hasWorkedBefore', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
-        qualifications: [
-          {
-            id: qualificationId,
-            level: QualificationLevelValue.LEVEL_3,
-            grade: 'A',
-            subject: 'Mathematics',
-          },
-        ],
+        hasWorkedBefore: YesNoValue.YES,
       })
     })
 
@@ -99,10 +88,9 @@ describe('QualificationDetailsController', () => {
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/qualificationDetails/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hasWorkedBefore/index', {
         ...mockData,
-        qualificationSubject: 'Mathematics',
-        qualificationGrade: 'A',
+        hasWorkedBefore: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -118,17 +106,8 @@ describe('QualificationDetailsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['qualificationDetails', id, 'data'], mockData)
-      setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: HopingToGetWorkValue.YES,
-        educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
-        qualifications: [
-          {
-            id: qualificationId,
-            level: QualificationLevelValue.LEVEL_3,
-          },
-        ],
-      })
+      setSessionData(req, ['hasWorkedBefore', id, 'data'], mockData)
+      setSessionData(req, ['createPlan', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -147,32 +126,34 @@ describe('QualificationDetailsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/qualificationDetails/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hasWorkedBefore/index', {
         ...mockData,
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Sets session record then redirects to qualificationDetails', async () => {
-      req.body.qualificationSubject = 'Mathematics'
-      req.body.qualificationGrade = 'A'
+    it('On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWork', async () => {
+      req.body.hasWorkedBefore = YesNoValue.YES
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, mode))
-      expect(getSessionData(req, ['qualificationDetails', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.typeOfWork(id, mode))
+      expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
-        educationLevel: 'FURTHER_EDUCATION_COLLEGE',
-        hopingToGetWork: 'YES',
-        qualifications: [
-          {
-            id: qualificationId,
-            level: 'LEVEL_3',
-            subject: 'Mathematics',
-            grade: 'A',
-          },
-        ],
+        hasWorkedBefore: YesNoValue.YES,
+      })
+    })
+
+    it('On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests', async () => {
+      req.body.hasWorkedBefore = YesNoValue.NO
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workInterests(id, mode))
+      expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hasWorkedBefore: YesNoValue.NO,
       })
     })
   })

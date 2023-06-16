@@ -7,22 +7,17 @@ const toSentenceCase = (str: string) => {
 }
 
 const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
+  const prisonerName = `${toSentenceCase(prisoner.firstName)} ${toSentenceCase(prisoner.lastName)}`
   const lookup = {
-    view: `${toSentenceCase(prisoner.firstName)} ${toSentenceCase(prisoner.lastName)}`,
-    'check-answers': `Check your answers before saving them to ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
-      prisoner.lastName,
-    )}'s plan`,
-    'hoping-to-get-work': `Is ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
-      prisoner.lastName,
-    )} hoping to get work when they're released?`,
-    qualifications: `${toSentenceCase(prisoner.firstName)} ${toSentenceCase(prisoner.lastName)}'s qualifications`,
-    'education-level': `What's the highest level of education ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
-      prisoner.lastName,
-    )} has completed?`,
-    'qualification-level': `What level of qualification does ${toSentenceCase(prisoner.firstName)} ${toSentenceCase(
-      prisoner.lastName,
-    )} want to add`,
+    view: `${prisonerName}`,
+    'check-answers': `Check your answers before saving them to ${prisonerName}'s plan`,
+    'hoping-to-get-work': `Is ${prisonerName} hoping to get work when they're released?`,
+    'education-level': `What's the highest level of education ${prisonerName} has completed?`,
+    'qualification-level': `What level of qualification does ${prisonerName} want to add`,
     'qualification-details': 'Add a degree qualification',
+    'other-qualifications': `Does ${prisonerName} have any other training or vocational qualifications?`,
+    'qualifications-list': `${prisonerName}'s qualifications`,
+    'has-worked-before': `Has ${prisonerName} worked before?`,
   }
 
   return findValue(url, lookup)
