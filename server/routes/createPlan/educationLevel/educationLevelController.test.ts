@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -29,6 +30,8 @@ jest.mock('../../../utils/guid', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('../../../utils/urlParameterEncryption')
+
 describe('EducationLevelController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
@@ -42,6 +45,7 @@ describe('EducationLevelController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
+  req.originalUrl = 'mock_url'
   const { id, mode } = req.params
 
   const mockData = {
@@ -202,7 +206,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationDetails(id, 'guid', mode)}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
@@ -215,7 +223,11 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationDetails(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationDetails(id, 'guid', mode)}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,

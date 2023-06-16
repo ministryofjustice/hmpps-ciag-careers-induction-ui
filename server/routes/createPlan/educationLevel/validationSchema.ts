@@ -15,7 +15,6 @@ export default function validationSchema(data: EducationLevelData): ObjectSchema
   const msg = `Select ${firstName} ${lastName}'s highest level of education`
 
   return joi.object({
-    educationLevelDetails: joi.string().allow(''),
     educationLevel: joi
       .string()
       .required()
