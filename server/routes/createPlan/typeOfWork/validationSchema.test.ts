@@ -20,7 +20,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: 'Select the type of work mock_firstName mock_lastName has done before',
       path: ['typeOfWork'],
       type: 'any.required',
       context: {
@@ -57,7 +57,7 @@ describe('validationSchema', () => {
         ],
         value: 'SOME_VALUE',
       },
-      message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: 'Select the type of work mock_firstName mock_lastName has done before',
       path: ['typeOfWork', 0],
       type: 'any.only',
     })
@@ -76,7 +76,7 @@ describe('validationSchema', () => {
           typeOfWork: ['OTHER'],
         },
       },
-      message: 'Enter the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: 'Enter the type of work mock_firstName mock_lastName has done before',
       path: [],
       type: 'any.custom',
     })
@@ -97,7 +97,7 @@ describe('validationSchema', () => {
           typeOfWork: ['OTHER'],
         },
       },
-      message: 'Other qualification must be 200 characters or less',
+      message: 'Type of work experience must be 200 characters or less',
       path: [],
       type: 'any.length',
     })

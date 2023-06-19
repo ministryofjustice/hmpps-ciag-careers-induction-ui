@@ -14,7 +14,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 export default class OtherQualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner, plan } = req.context
+    const { prisoner } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz

@@ -45,7 +45,7 @@ describe('TypeOfWorkController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.otherQualifications(id, mode),
+    backLocation: addressLookup.createPlan.hasWorkedBefore(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     typeOfWork: [] as any,

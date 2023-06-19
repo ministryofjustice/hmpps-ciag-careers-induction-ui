@@ -12,8 +12,8 @@ export default function validationSchema(data: TypeOfWorkData): ObjectSchema {
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select the type of training or vocational qualification ${firstName} ${lastName} has`
-  const msgOther = `Enter the type of training or vocational qualification ${firstName} ${lastName} has`
+  const msg = `Select the type of work ${firstName} ${lastName} has done before`
+  const msgOther = `Enter the type of work ${firstName} ${lastName} has done before`
 
   return joi
     .object({
@@ -71,6 +71,6 @@ export default function validationSchema(data: TypeOfWorkData): ObjectSchema {
     })
     .messages({
       'any.custom': msgOther,
-      'any.length': 'Other qualification must be 200 characters or less',
+      'any.length': 'Type of work experience must be 200 characters or less',
     })
 }

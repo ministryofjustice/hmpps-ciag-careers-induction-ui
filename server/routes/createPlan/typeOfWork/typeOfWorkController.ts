@@ -7,14 +7,12 @@ import addressLookup from '../../addressLookup'
 import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
 export default class TypeOfWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner, plan } = req.context
+    const { prisoner } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -26,9 +24,7 @@ export default class TypeOfWorkController {
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : addressLookup.createPlan.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -36,14 +32,8 @@ export default class TypeOfWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWork:
-          mode === 'update'
-            ? plan.planData.supportAccepted.workExperience.qualificationsAndTraining
-            : record.typeOfWork || [],
-        typeOfWorkDetails:
-          mode === 'update'
-            ? plan.planData.supportAccepted.workExperience.qualificationsAndTrainingOther
-            : record.typeOfWorkDetails,
+        typeOfWork: record.typeOfWork || [],
+        typeOfWorkDetails: record.typeOfWorkDetails,
       }
 
       // Store page data for use if validation fails
