@@ -19,7 +19,7 @@ const getCiagListResolver =
       }
 
       // Get prisoners list
-      req.context.ciagList = await prisonerSearchService.getPrisonerByCaseloadID(
+      req.context.ciagList = await prisonerSearchService.getPrisonersByCaseloadID(
         username,
         userActiveCaseLoad.caseLoadId,
       )
