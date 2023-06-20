@@ -1,0 +1,193 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What type of work has " + prisoner.firstName + " " + prisoner.lastName + " done before?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * typeOfWork - Array existing values for field
+    * typeOfWorkDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "typeOfWorkDetails",
+              name: "typeOfWorkDetails",
+              rows: "2",
+              value: typeOfWorkDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " has done before" },
+              errorMessage: errors.typeOfWorkDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "typeOfWork",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "OUTDOOR",
+                checked: typeOfWork.indexOf("OUTDOOR") > -1,
+                text: contentLookup.fields.typeOfWork["OUTDOOR"],
+                hint: {
+                  text: "things like kennel worker, groundskeeper and farm work"
+                }
+              },
+              { 
+                value: "CONSTRUCTION",
+                checked: typeOfWork.indexOf("CONSTRUCTION") > -1,
+                text: contentLookup.fields.typeOfWork["CONSTRUCTION"],
+                hint: {
+                  text: "things like bricklayer, plumber and site management"
+                }
+              },
+              { 
+                value: "DRIVING",
+                checked: typeOfWork.indexOf("DRIVING") > -1,
+                text: contentLookup.fields.typeOfWork["DRIVING"],
+                hint: {
+                  text: "things like bus driver and rail or road maintenance"
+                }
+              },
+              { 
+                value: "BEAUTY",
+                checked: typeOfWork.indexOf("BEAUTY") > -1,
+                text: contentLookup.fields.typeOfWork["BEAUTY"],
+                hint: {
+                  text: "things like nail technician and barber"
+                }
+              },
+              { 
+                value: "HOSPITALITY",
+                checked: typeOfWork.indexOf("HOSPITALITY") > -1,
+                text: contentLookup.fields.typeOfWork["HOSPITALITY"],
+                hint: {
+                  text: "things like chef, mobile catering, hotel porter"
+                }
+              },
+              { 
+                value: "TECHNICAL",
+                checked: typeOfWork.indexOf("TECHNICAL") > -1,
+                text: contentLookup.fields.typeOfWork["TECHNICAL"],
+                hint: {
+                  text: "things like coding, web developer and IT support"
+                }
+              },
+              { 
+                value: "MANUFACTURING",
+                checked: typeOfWork.indexOf("MANUFACTURING") > -1,
+                text: contentLookup.fields.typeOfWork["MANUFACTURING"],
+                hint: {
+                  text: "things like assembly line work, welding and maintenance"
+                }
+              },
+              { 
+                value: "OFFICE",
+                checked: typeOfWork.indexOf("OFFICE") > -1,
+                text: contentLookup.fields.typeOfWork["OFFICE"],
+                hint: {
+                  text: "things like administration, marketing assistant and office manager"
+                }
+              },
+              { 
+                value: "RETAIL",
+                checked: typeOfWork.indexOf("RETAIL") > -1,
+                text: contentLookup.fields.typeOfWork["RETAIL"],
+                hint: {
+                  text: "things like sales assistant, customer service and store manager"
+                }
+              },
+              { 
+                value: "SPORTS",
+                checked: typeOfWork.indexOf("SPORTS") > -1,
+                text: contentLookup.fields.typeOfWork["SPORTS"],
+                hint: {
+                  text: "things like personal trainer and gym attendant"
+                }
+              },
+              { 
+                value: "EDUCATION_TRAINING",
+                checked: typeOfWork.indexOf("EDUCATION_TRAINING") > -1,
+                text: contentLookup.fields.typeOfWork["EDUCATION_TRAINING"],
+                hint: {
+                  text: "things like welding trainer and welfare rights support"
+                }
+              },
+              { 
+                value: "WAREHOUSING",
+                checked: typeOfWork.indexOf("WAREHOUSING") > -1,
+                text: contentLookup.fields.typeOfWork["WAREHOUSING"],
+                hint: {
+                  text: "things like removals and fork-lift driver"
+                }
+              },
+              { 
+                value: "WASTE_MANAGEMENT",
+                checked: typeOfWork.indexOf("WASTE_MANAGEMENT") > -1,
+                text: contentLookup.fields.typeOfWork["WASTE_MANAGEMENT"],
+                hint: {
+                  text: "things like waste collection and recycling management"
+                }
+              },
+              {
+                value: "OTHER",
+                checked: typeOfWork.indexOf("OTHER") > -1,
+                text: contentLookup.fields.typeOfWork["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.typeOfWork["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.typeOfWork
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
