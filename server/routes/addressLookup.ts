@@ -1,3 +1,5 @@
+import TypeOfWorkValue from '../enums/typeOfWorkValue'
+
 export default {
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
@@ -16,7 +18,7 @@ export default {
     inPrisonWork: (id: string, mode = 'new') => `/plan/create/${id}/in-prison-work/${mode}`,
     typeOfWork: (id: string, mode = 'new') => `/plan/create/${id}/type-of-work/${mode}`,
     workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
-    workDetails: (id: string, typeOfWork: string, mode = 'new') =>
+    workDetails: (id: string, typeOfWork: TypeOfWorkValue, mode = 'new') =>
       `/plan/create/${id}/work-details/${typeOfWork.toLowerCase()}/${mode}`,
   },
 }
