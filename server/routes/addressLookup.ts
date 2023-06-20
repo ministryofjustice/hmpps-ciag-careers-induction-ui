@@ -17,6 +17,6 @@ export default {
     typeOfWork: (id: string, mode = 'new') => `/plan/create/${id}/type-of-work/${mode}`,
     workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
     workDetails: (id: string, typeOfWork: string, mode = 'new') =>
-      `/plan/create/${id}/work-details/${typeOfWork.toLocaleUpperCase()}/${mode}`,
+      `/plan/create/${id}/work-details/${typeOfWork.toLowerCase()}/${mode}`,
   },
 }
