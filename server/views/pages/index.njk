@@ -10,7 +10,6 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% set ciagOffenders = prisonerSearchResults.content %}
 {% set title = 'Create an education and work plan' %}
 
 {% block beforeContent %}
@@ -39,15 +38,5 @@
     }) }}
   {% endif %}
 
-  <div class="govuk-grid-row govuk-!-display-none-print">
-    {#                     This whole section has a grey background colour #}
-    <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
-      <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
-
-
-      </form>
-    </div>
-  </div>
 {% endblock %}
 

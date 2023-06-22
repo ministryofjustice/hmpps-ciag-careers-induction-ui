@@ -17,10 +17,6 @@ export default function routes(services: Services): Router {
 
   const router = Router()
 
-  router.get('/', (req, res, next) => {
-    res.render('pages/index')
-  })
-
   ciagListRoutes(router, services)
   workPlanRoutes(router, services)
   hopingToGetWorkRoutes(router, services)

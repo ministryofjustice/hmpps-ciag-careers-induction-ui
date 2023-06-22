@@ -1,5 +1,6 @@
-{% if prisonerSearchResults.totalElements === 0 %}
-    {% if searchTerm === '' %}
+{% if ciagOffenders %}
+
+    {% if searchTerm !== '' %}
         <span class="govuk-heading-m">0 results for "{{ searchTerm }}"</span><br>
         <span class="govuk-body govuk-!-font-size-19">Check your spelling and search again, or clear the search and browse for the prisoner.</span>
     {% endif %}

@@ -2,7 +2,7 @@ import Page from './page'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
-export default class CohortListPage extends Page {
+export default class CiagListPage extends Page {
   searchText = (): PageElement => cy.get('#searchTerm')
 
   searchButton = (): PageElement => cy.get('#searchButton')
@@ -10,6 +10,8 @@ export default class CohortListPage extends Page {
   paginationResult = (): PageElement => cy.get('.moj-pagination__results')
 
   // spanMessage = (): PageElement => cy.get('.govuk-heading-m')
+
+  headerRow = (): PageElement => cy.get('#view-offender thead tr.govuk-table__row')
 
   columnLabels = () =>
     cy

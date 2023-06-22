@@ -1,8 +1,13 @@
 {% from "../../../macros/tableMacro.njk" import sortableTableHeader %}
 {% from "../../../macros/pagination/macro.njk" import pagination %}
 
+{% set hasData = false %}
+{% for key, value in ciagOffenders %}
+    {% set hasData = true %}
+{% endfor %}
+
 <div id="offender-container">
-    {% if ciagOffenders %}
+    {% if hasData %}
         <table id="view-offender" class="govuk-table view-offender">
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -55,10 +60,9 @@
 
             </tbody>
         </table>
-    {% endif %}
 
-    {% if paginationData.results.count > 0 and ciagOffenders %}
         {{ pagination( paginationData ) }}
+
     {% else %}
         {% include './_notFoundMessages.njk' %}
     {% endif %}

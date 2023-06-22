@@ -5,6 +5,7 @@ const ciagPrisoners = {
       firstName: 'Chesley',
       lastName: 'Bernhard',
       releaseDate: 'N/A',
+      nonDtoReleaseDateType: 'PRRD',
       receptionDate: '13 Dec 2022',
     },
     {
@@ -12,6 +13,7 @@ const ciagPrisoners = {
       firstName: 'Calvin',
       lastName: 'Nicolas',
       releaseDate: 'N/A',
+      nonDtoReleaseDateType: 'PRRD',
       receptionDate: '27 Jan 2023',
     },
     {
@@ -19,6 +21,7 @@ const ciagPrisoners = {
       firstName: 'David',
       lastName: 'Winchurch',
       releaseDate: 'N/A',
+      nonDtoReleaseDateType: 'PRRD',
       receptionDate: '16 Feb 2023',
     },
   ],
