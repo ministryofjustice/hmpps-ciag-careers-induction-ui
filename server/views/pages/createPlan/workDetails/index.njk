@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWork[typeOfWorkKey].toLowerCase() + " job?" %}
+{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWork[typeOfWorkKey] + " job?" %}
 
 {#
   Data supplied to this template:
@@ -41,6 +41,7 @@
               name: "jobRole",
               value: jobRole,
               type: "text",
+              classes: "govuk-!-width-one-half",
               label: {
                 text: "Job role",
                 attributes: { "aria-live": "polite" }
@@ -52,7 +53,7 @@
           {{ govukTextarea({
               id: "jobDetails",
               name: "jobDetails",
-               rows: "2",
+              rows: "4",
               value: jobDetails,
               type: "text",
               label: {
@@ -60,7 +61,6 @@
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give the main tasks and responsibilities with rough dates if known" },
-              classes: "govuk-input--width-10",
               errorMessage: errors.jobDetails
             }) }}        
         </div>

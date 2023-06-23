@@ -9,6 +9,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import uuidv4 from '../../../utils/guid'
+import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -62,6 +63,7 @@ describe('WorkDetailsController', () => {
       setSessionData(req, ['workDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
+        typeOfWork: [typeOfWorkKey],
         workExperience: [
           {
             typeOfWork: typeOfWorkKey,
@@ -118,13 +120,8 @@ describe('WorkDetailsController', () => {
       setSessionData(req, ['workDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        workExperience: [
-          {
-            typeOfWork: typeOfWorkKey,
-            details: 'mock_details',
-            role: 'mock_role',
-          },
-        ],
+        typeOfWork: [typeOfWorkKey],
+        workExperience: [],
       })
     })
 
@@ -156,7 +153,7 @@ describe('WorkDetailsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Sets session record then redirects to inPrisonWork', async () => {
+    it('On success - Last typeOfWork - Sets session record then redirects to inPrisonWork', async () => {
       req.body.jobRole = 'mock_role'
       req.body.jobDetails = 'mock_details'
 
@@ -166,6 +163,36 @@ describe('WorkDetailsController', () => {
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
+        typeOfWork: [typeOfWorkKey],
+        workExperience: [
+          {
+            typeOfWork: typeOfWorkKey,
+            role: 'mock_role',
+            details: 'mock_details',
+          },
+        ],
+      })
+    })
+
+    it('On success - Not last typeOfWork - Sets session record then redirects to workDetails', async () => {
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        typeOfWork: [typeOfWorkKey, TypeOfWorkValue.CONSTRUCTION],
+        workExperience: [],
+      })
+
+      req.body.jobRole = 'mock_role'
+      req.body.jobDetails = 'mock_details'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.createPlan.workDetails(id, TypeOfWorkValue.CONSTRUCTION, mode),
+      )
+      expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        typeOfWork: [typeOfWorkKey, TypeOfWorkValue.CONSTRUCTION],
         workExperience: [
           {
             typeOfWork: typeOfWorkKey,

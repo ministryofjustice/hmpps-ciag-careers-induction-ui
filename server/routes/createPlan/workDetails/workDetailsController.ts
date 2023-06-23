@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getBackLocation from '../../../utils/getBackLocation'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -26,13 +27,27 @@ export default class WorkDetailsController {
 
       // Get job details
       const job =
-        record.workExperience?.find((q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase()) || {}
+        (record.workExperience || []).find(
+          (q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase(),
+        ) || {}
 
       // Setup back location
+
+      // Calculate last page
+      const position = record.typeOfWork.indexOf(typeOfWorkKey.toUpperCase())
+      const lastKey = position > 0 ? record.typeOfWork[position - 1] : ''
+
+      console.log(record.typeOfWork)
+      console.log(position, lastKey)
+
       const backLocation = getBackLocation({
         req,
         defaultRoute:
-          mode === 'new' ? addressLookup.createPlan.typeOfWork(id, mode) : addressLookup.createPlan.checkAnswers(id),
+          mode === 'new'
+            ? lastKey
+              ? addressLookup.createPlan.workDetails(id, lastKey, mode)
+              : addressLookup.createPlan.typeOfWork(id, mode)
+            : addressLookup.createPlan.checkAnswers(id),
         page: 'workDetails',
         uid: id,
       })
@@ -77,15 +92,18 @@ export default class WorkDetailsController {
 
       // Update record in session
       const record = getSessionData(req, ['createPlan', id])
-      const job = record.workExperience.find(
-        (q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase(),
-      )
+      const job =
+        (record.workExperience || []).find(
+          (q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase(),
+        ) || {}
       setSessionData(req, ['createPlan', id], {
         ...record,
         workExperience: [
-          ...record.workExperience.filter((q: { typeOfWork: string }) => q.typeOfWork !== typeOfWorkKey.toUpperCase()),
+          ...(record.workExperience || []).filter(
+            (q: { typeOfWork: string }) => q.typeOfWork !== typeOfWorkKey.toUpperCase(),
+          ),
           {
-            ...job,
+            typeOfWork: typeOfWorkKey.toUpperCase(),
             role: jobRole,
             details: jobDetails,
           },
@@ -94,8 +112,17 @@ export default class WorkDetailsController {
 
       deleteSessionData(req, ['workDetails', id, 'data'])
 
-      res.redirect(addressLookup.createPlan.inPrisonWork(id, mode))
+      // Calculate next page
+      const position = record.typeOfWork.indexOf(typeOfWorkKey.toUpperCase())
+      const nextKey = position < record.typeOfWork.length ? record.typeOfWork[position + 1] : ''
+
+      res.redirect(
+        nextKey
+          ? addressLookup.createPlan.workDetails(id, nextKey, mode)
+          : addressLookup.createPlan.inPrisonWork(id, mode),
+      )
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }

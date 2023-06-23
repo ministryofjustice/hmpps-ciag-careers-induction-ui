@@ -72,6 +72,9 @@ export default class TypeOfWorkController {
         ...record,
         typeOfWork,
         typeOfWorkDetails: typeOfWork.includes(TypeOfWorkValue.OTHER) ? typeOfWorkDetails : '',
+        workExperience: (record.workExperience || []).filter((j: { typeOfWork: any }) =>
+          typeOfWork.includes(j.typeOfWork),
+        ),
       })
 
       // Redirect to the correct page based on hopingToGetWork

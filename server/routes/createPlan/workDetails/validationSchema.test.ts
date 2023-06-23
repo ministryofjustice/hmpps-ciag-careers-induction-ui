@@ -14,6 +14,7 @@ describe('validationSchema', () => {
   }
 
   const longStr = 'x'.repeat(201)
+  const veryLongStr = 'x'.repeat(4001)
 
   const schema = validationSchema(mockData)
 
@@ -97,7 +98,7 @@ describe('validationSchema', () => {
 
   it('On validation error - Max job details - Returns the correct error message', () => {
     req.body.jobRole = 'mock_role'
-    req.body.jobDetails = longStr
+    req.body.jobDetails = veryLongStr
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
@@ -105,8 +106,8 @@ describe('validationSchema', () => {
         encoding: undefined,
         key: 'jobDetails',
         label: 'jobDetails',
-        limit: 200,
-        value: longStr,
+        limit: 4000,
+        value: veryLongStr,
       },
       message: 'Main tasks and responsibilities must be 4000 characters or less',
       path: ['jobDetails'],

@@ -23,7 +23,7 @@ export default function validationSchema(data: WorkDetailsData): ObjectSchema {
     jobDetails: joi
       .string()
       .required()
-      .max(200)
+      .max(4000)
       .messages({
         'any.required': `Enter details of what ${firstName} ${lastName} did in their job`,
         'string.empty': `Enter details of what ${firstName} ${lastName} did in their job`,
