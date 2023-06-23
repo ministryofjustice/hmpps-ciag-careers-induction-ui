@@ -9,7 +9,7 @@ export default class CiagListPage extends Page {
 
   paginationResult = (): PageElement => cy.get('.moj-pagination__results')
 
-  // spanMessage = (): PageElement => cy.get('.govuk-heading-m')
+  spanMessage = (): PageElement => cy.get('.govuk-heading-m')
 
   headerRow = (): PageElement => cy.get('#view-offender thead tr.govuk-table__row')
 
