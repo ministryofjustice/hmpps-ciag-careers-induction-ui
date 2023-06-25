@@ -1,6 +1,7 @@
 import CiagListPage from '../pages/ciagList'
 
 const ciagListUrl = '/'
+const ciagHomePageTitle = 'Create an education and work plan'
 
 context('Ciag list page', () => {
   beforeEach(() => {
@@ -9,14 +10,14 @@ context('Ciag list page', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
-    cy.task('getPrisonersByCaseloadId', 'MDI')
+    cy.task('stubCiagListByCaseloadId', 'MDI')
     cy.signIn()
   })
 
   it('Should display correct number of records on page', () => {
     cy.visit('/')
 
-    const ciagListPage = new CiagListPage('Create an education and work plan')
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
     ciagListPage.tableData().then(offenders => {
       expect(offenders.length).equal(20)
     })
@@ -31,7 +32,7 @@ context('Ciag list page', () => {
 
   it('Should have correct number of columns to display', () => {
     cy.visit(ciagListUrl)
-    const ciagListPage = new CiagListPage('Create an education and work plan')
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
 
     ciagListPage.columnLabels().then(labels => {
       expect(labels[0]).to.deep.equal({
@@ -45,12 +46,38 @@ context('Ciag list page', () => {
 
   it('Should display the correct pagination when result set has more than 20 records ', () => {
     cy.visit(ciagListUrl)
-    const ciagListPage = new CiagListPage('Create an education and work plan')
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
 
     ciagListPage.paginationResult().should('contain', 'Showing')
     ciagListPage.paginationResult().then(page => {
       expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 results')
     })
+  })
+
+  it('Should filter result to return 1 row corresponding to the name typed', () => {
+    cy.visit(ciagListUrl)
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
+
+    ciagListPage.searchText().clear().type('davies')
+    ciagListPage.searchButton().click()
+    cy.visit(`${ciagListUrl}?searchTerm=davies`)
+
+    cy.url().should('include', '?searchTerm=davies')
+    ciagListPage.tableData().then(offenders => {
+      expect(offenders.length).equal(1)
+    })
+  })
+
+  it('Should return empty table when offender name does not exist', () => {
+    cy.visit(ciagListUrl)
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
+
+    ciagListPage.searchText().clear().type('unknown')
+    ciagListPage.searchButton().click()
+    cy.visit(`${ciagListUrl}?searchTerm=unknown`)
+
+    cy.url().should('include', '?searchTerm=unknown')
+    ciagListPage.spanMessage().should('contain', '0 results')
   })
 
   // it('Should sort the result table in ascending order by lastname', () => {
@@ -75,30 +102,4 @@ context('Ciag list page', () => {
   //   })
   //   cy.url().should('include', '?sort=lastName&order=ascending')
   // })
-
-  it('Should filter result to return 1 row corresponding to the name typed', () => {
-    cy.visit(ciagListUrl)
-    const ciagListPage = new CiagListPage('Create an education and work plan')
-
-    ciagListPage.searchText().clear().type('davies')
-    ciagListPage.searchButton().click()
-    cy.visit(`${ciagListUrl}?searchTerm=davies`)
-
-    cy.url().should('include', '?searchTerm=davies')
-    ciagListPage.tableData().then(offenders => {
-      expect(offenders.length).equal(1)
-    })
-  })
-
-  it('Should return empty table when offender name does not exist', () => {
-    cy.visit(ciagListUrl)
-    const ciagListPage = new CiagListPage('Create an education and work plan')
-
-    ciagListPage.searchText().clear().type('unknown')
-    ciagListPage.searchButton().click()
-    cy.visit(`${ciagListUrl}?searchTerm=unknown`)
-
-    cy.url().should('include', '?searchTerm=unknown')
-    ciagListPage.spanMessage().should('contain', '0 results')
-  })
 })
