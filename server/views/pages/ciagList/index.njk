@@ -38,12 +38,10 @@
         <div class="govuk-grid-column-full">
             <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
             <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
-
+                {% include './partials/_searchBox.njk' %}
+                {% include './partials/_ciagTable.njk' %}
             </form>
         </div>
     </div>
-
-    {% include './partials/_searchBox.njk' %}
-    {% include './partials/_ciagTable.njk' %}
 
 {% endblock %}
