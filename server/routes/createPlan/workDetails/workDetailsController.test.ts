@@ -47,7 +47,7 @@ describe('WorkDetailsController', () => {
 
   const mockData = {
     backLocation: addressLookup.createPlan.typeOfWork(id, mode),
-    backLocationAriaText: 'Back to undefined',
+    backLocationAriaText: 'Back to What type of work has Mock_firstname Mock_lastname done before?',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     typeOfWorkKey: 'OTHER',
     jobDetails: 'mock_details',

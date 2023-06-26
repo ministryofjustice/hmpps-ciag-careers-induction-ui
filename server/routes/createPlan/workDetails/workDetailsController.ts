@@ -10,7 +10,6 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getBackLocation from '../../../utils/getBackLocation'
-import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -36,9 +35,6 @@ export default class WorkDetailsController {
       // Calculate last page
       const position = record.typeOfWork.indexOf(typeOfWorkKey.toUpperCase())
       const lastKey = position > 0 ? record.typeOfWork[position - 1] : ''
-
-      console.log(record.typeOfWork)
-      console.log(position, lastKey)
 
       const backLocation = getBackLocation({
         req,
@@ -92,10 +88,6 @@ export default class WorkDetailsController {
 
       // Update record in session
       const record = getSessionData(req, ['createPlan', id])
-      const job =
-        (record.workExperience || []).find(
-          (q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase(),
-        ) || {}
       setSessionData(req, ['createPlan', id], {
         ...record,
         workExperience: [
@@ -122,7 +114,6 @@ export default class WorkDetailsController {
           : addressLookup.createPlan.inPrisonWork(id, mode),
       )
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
