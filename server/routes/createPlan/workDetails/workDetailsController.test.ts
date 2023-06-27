@@ -153,13 +153,13 @@ describe('WorkDetailsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Last typeOfWork - Sets session record then redirects to inPrisonWork', async () => {
+    it('On success - Last typeOfWork - Sets session record then redirects to workInterests', async () => {
       req.body.jobRole = 'mock_role'
       req.body.jobDetails = 'mock_details'
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonWork(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workInterests(id, mode))
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',

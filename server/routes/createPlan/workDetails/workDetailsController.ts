@@ -111,7 +111,7 @@ export default class WorkDetailsController {
       res.redirect(
         nextKey
           ? addressLookup.createPlan.workDetails(id, nextKey, mode)
-          : addressLookup.createPlan.inPrisonWork(id, mode),
+          : addressLookup.createPlan.workInterests(id, mode),
       )
     } catch (err) {
       next(err)

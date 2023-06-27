@@ -63,7 +63,7 @@ context('Job details page', () => {
     jobDetailsPage.detailsFieldErrorMessage().contains('Enter details of what Daniel Craig did in their job')
   })
 
-  it('New record - Navigates through each job - navigates to in-prison-work page', () => {
+  it('New record - Navigates through each job - navigates to work-interests page', () => {
     let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
     jobDetailsPage.roleField().type('Mock Role')
     jobDetailsPage.detailsField().type('Mock Details')
@@ -77,6 +77,6 @@ context('Job details page', () => {
 
     jobDetailsPage.submitButton().click()
 
-    cy.url().should('include', 'in-prison-work')
+    cy.url().should('include', 'work-interests')
   })
 })
