@@ -80,26 +80,23 @@ context('Ciag list page', () => {
     ciagListPage.spanMessage().should('contain', '0 results')
   })
 
-  // it('Should sort the result table in ascending order by lastname', () => {
-  //   cy.task('stubCohortListSortedByLastName')
-  //   cy.visit(cohortListUrl)
-  //   const cohortListPage = new CohortListPage()
-  //   cohortListPage.tableData().then(offenders => {
-  //     expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
-  //     expect(offenders[0].displayName).to.contain('Prough, Conroy')
-  //   })
-  //
-  //   cy.get('#lastName-sort-action').click()
-  //   cy.visit(`${cohortListUrl}?sort=lastName&order=ascending`)
-  //
-  //   cohortListPage.tableData().then(offenders => {
-  //     expect(offenders[0].viewLink).to.contain('/profile/G6190UD/view/overview')
-  //     expect(offenders[0].displayName).to.contain('Dool, Curt')
-  //     expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
-  //     expect(offenders[0].status).to.contain('NEEDS SUPPORT')
-  //     expect(offenders[0].workSummary).to.contain('Disclosure letter')
-  //     expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
-  //   })
-  //   cy.url().should('include', '?sort=lastName&order=ascending')
-  // })
+  it('Should sort the result table in ascending order by lastname', () => {
+    cy.visit(ciagListUrl)
+    const ciagListPage = new CiagListPage(ciagHomePageTitle)
+    ciagListPage.tableData().then(offenders => {
+      expect(offenders[0].viewLink).to.contain('/plan/A0670DZ/view/overview')
+      expect(offenders[0].lastName).to.contain('Cattus')
+    })
+
+    cy.get('#lastName-sort-action').click()
+    cy.visit(`${ciagListUrl}?sort=lastName&order=ascending`)
+
+    ciagListPage.tableData().then(offenders => {
+      expect(offenders[0].viewLink).to.contain('/plan/A0670DZ/view/overview')
+      expect(offenders[0].lastName).to.contain('Cattus')
+      expect(offenders[0].releaseDate).to.contain('28 May 2023')
+      expect(offenders[0].receptionDate).to.contain('24 Jan 2023')
+    })
+    cy.url().should('include', '?sort=lastName&order=ascending')
+  })
 })
