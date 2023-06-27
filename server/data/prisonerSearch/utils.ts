@@ -17,7 +17,7 @@ export default function getActionsRequired(offenderProfile: any) {
       }
     case WorkReadinessProfileStatus.SUPPORT_NEEDED: {
       const supportNeeded = offenderProfile.profileData.supportAccepted.actionsRequired.actions.filter(
-        (x: any) => x.status !== 'COMPLETED',
+        (x: any) => x.status !== 'COMPLETED'
       )
       return { supportNeeded: supportNeeded.map((x: { todoItem: any }) => x.todoItem) }
     }
@@ -73,7 +73,7 @@ export function getPaginatedCiagList(ciagList: PrisonerViewModel[], page: number
   return {
     ...pageMetaData,
     content: contents[page]?.map((result: any) =>
-      plainToClass(CiagViewModel, result, { excludeExtraneousValues: true }),
+      plainToClass(CiagViewModel, result, { excludeExtraneousValues: true })
     ),
   }
 }
@@ -82,7 +82,7 @@ export function getPaginatedCiagList(ciagList: PrisonerViewModel[], page: number
 export function sortOffenderProfile(
   profiles: PrisonerViewModel[],
   sortBy: string,
-  orderBy: string,
+  orderBy: string
 ): PrisonerViewModel[] {
   const sortedProfiles = [...profiles]
 
@@ -91,10 +91,12 @@ export function sortOffenderProfile(
       if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
       if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
     }
+
     if (sortBy === 'releaseDate') {
-      if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
-      if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
+      if (new Date(a.releaseDate) > new Date(b.releaseDate)) return orderBy === 'ascending' ? 1 : -1
+      if (new Date(b.releaseDate) > new Date(a.releaseDate)) return orderBy === 'ascending' ? -1 : 1
     }
+
     if (sortBy === 'receptionDate') {
       if (new Date(a.receptionDate) > new Date(b.receptionDate)) return orderBy === 'ascending' ? 1 : -1
       if (new Date(b.receptionDate) > new Date(a.receptionDate)) return orderBy === 'ascending' ? -1 : 1
@@ -125,7 +127,7 @@ export function filterCiagList(profiles: PrisonerViewModel[], searchTerm: string
   const filteredSearch: () => PrisonerViewModel[] = () => {
     if (searchTerm) {
       const filteredByName: PrisonerViewModel[] = filteredCiagList.filter(x =>
-        x.searchTerms.split('|').some(term => term.includes(searchTerm.toLowerCase())),
+        x.searchTerms.split('|').some(term => term.includes(searchTerm.toLowerCase()))
       )
       return filteredByName
     }
