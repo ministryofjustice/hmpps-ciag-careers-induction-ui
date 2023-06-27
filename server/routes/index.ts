@@ -10,6 +10,7 @@ import qualificationDetailsRoutes from './createPlan/qualificationDetails'
 import otherQualificationsRoutes from './createPlan/otherQualifications'
 import hasWorkedBeforeRoutes from './createPlan/hasWorkedBefore'
 import typeOfWorkRoutes from './createPlan/typeOfWork'
+import workDetailsRoutes from './createPlan/workDetails'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -29,6 +30,7 @@ export default function routes(services: Services): Router {
   otherQualificationsRoutes(router, services)
   hasWorkedBeforeRoutes(router, services)
   typeOfWorkRoutes(router, services)
+  workDetailsRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

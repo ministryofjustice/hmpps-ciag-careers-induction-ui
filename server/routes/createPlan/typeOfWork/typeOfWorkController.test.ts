@@ -149,6 +149,7 @@ describe('TypeOfWorkController', () => {
         hopingToGetWork: 'YES',
         typeOfWork: [TypeOfWorkValue.OTHER],
         typeOfWorkDetails: 'mock_details',
+        workExperience: [],
       })
       expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workDetails(id, TypeOfWorkValue.OTHER))
