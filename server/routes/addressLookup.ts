@@ -20,5 +20,6 @@ export default {
     workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
     workDetails: (id: string, typeOfWork: TypeOfWorkValue, mode = 'new') =>
       `/plan/create/${id}/work-details/${typeOfWork.toLowerCase()}/${mode}`,
+    jobOfParticularInterest: (id: string, mode = 'new') => `/plan/create/${id}/job-of-particular-interest/${mode}`,
   },
 }

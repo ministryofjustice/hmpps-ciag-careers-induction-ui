@@ -9,7 +9,7 @@ jest.mock('./workDetailsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Qualification details routes', () => {
+describe('Work details routes', () => {
   let router: Router
   let services: Services
 
