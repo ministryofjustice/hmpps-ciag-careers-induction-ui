@@ -4,13 +4,13 @@
 generic-service:
 
   ingress:
-    host: hmpps-ciag-careers-induction.hmpps.service.justice.gov.uk
+    host: ciag-induction.hmpps.service.justice.gov.uk
     contextColour: green
 
   env:
     ENVIRONMENT: prod
     S3_REGION: eu-west-2
-    INGRESS_URL: "hmpps-ciag-careers-induction.hmpps.service.justice.gov.uk"
+    INGRESS_URL: "https://ciag-induction.hmpps.service.justice.gov.uk"
     DPS_URL: "https://digital.prison.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
