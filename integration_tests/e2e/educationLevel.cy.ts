@@ -11,7 +11,7 @@ context('Education level page', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
-    cy.task('stubCiagListByCaseloadId', 'MDI')
+    cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work')

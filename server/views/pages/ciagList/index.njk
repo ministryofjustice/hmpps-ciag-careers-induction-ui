@@ -9,7 +9,11 @@
 
 {#
   Data supplied to this template:
-    * prisoner - prisoner object
+    * ciagOffenders  - list of prisoners, comprising prisonerNumber,
+                       first and last names, releaseDate and receptionDate
+    * paginationData - mojPagination object
+    * searchTerm     - text for searching
+    * sort, order
 #}
 
 {% set ciagOffenders = prisonerSearchResults %}

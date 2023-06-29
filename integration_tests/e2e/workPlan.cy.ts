@@ -8,7 +8,7 @@ context('Work plan page', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
-    cy.task('stubCiagListByCaseloadId', 'MDI')
+    cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
   })
 

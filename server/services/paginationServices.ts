@@ -62,12 +62,6 @@ export default class PaginationService {
     const nextPage =
       resultsBeforeNow + this.paginationPageSize >= pageData.totalElements ? null : pageData.pageable.pageNumber + 2
 
-    // calculate the range of 10 items to display in pagination
-    // const maxPageNumber =
-    //   pageData.pageable.pageNumber < 6 ? 10 : Math.min(pageData.totalPages, pageData.pageable.pageNumber + 5)
-    // const minPageNumber =
-    //   pageData.pageable.pageNumber < 6 ? 0 : Math.min(maxPageNumber - 10, pageData.pageable.pageNumber - 5)
-
     // calculate the range of 20 items to display in pagination
     const maxPageNumber =
       pageData.pageable.pageNumber < 11

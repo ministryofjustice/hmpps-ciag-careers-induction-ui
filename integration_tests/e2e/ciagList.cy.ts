@@ -10,7 +10,7 @@ context('Ciag list page', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
-    cy.task('stubCiagListByCaseloadId', 'MDI')
+    cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
   })
 
@@ -58,11 +58,11 @@ context('Ciag list page', () => {
     cy.visit(ciagListUrl)
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
 
-    ciagListPage.searchText().clear().type('davies')
+    ciagListPage.searchText().clear().type('ward')
     ciagListPage.searchButton().click()
-    cy.visit(`${ciagListUrl}?searchTerm=davies`)
+    cy.visit(`${ciagListUrl}?searchTerm=ward`)
 
-    cy.url().should('include', '?searchTerm=davies')
+    cy.url().should('include', '?searchTerm=ward')
     ciagListPage.tableData().then(offenders => {
       expect(offenders.length).equal(1)
     })
@@ -92,10 +92,10 @@ context('Ciag list page', () => {
     cy.visit(`${ciagListUrl}?sort=lastName&order=ascending`)
 
     ciagListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/plan/A0670DZ/view/overview')
-      expect(offenders[0].lastName).to.contain('Cattus')
+      expect(offenders[0].viewLink).to.contain('/plan/A1752DZ/view/overview')
+      expect(offenders[0].lastName).to.contain('Bell')
       expect(offenders[0].releaseDate).to.contain('28 May 2023')
-      expect(offenders[0].receptionDate).to.contain('24 Jan 2023')
+      expect(offenders[0].receptionDate).to.contain('19 Mar 2023')
     })
     cy.url().should('include', '?sort=lastName&order=ascending')
   })

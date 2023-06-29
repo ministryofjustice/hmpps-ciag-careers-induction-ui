@@ -8,7 +8,7 @@ context('Hoping to get work page', () => {
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
-    cy.task('stubCiagListByCaseloadId', 'MDI')
+    cy.task('getPrisonersByCaseloadId', 'MDI')
   })
 
   it('Validation messages display when no value selected', () => {
