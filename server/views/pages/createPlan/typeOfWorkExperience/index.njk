@@ -13,8 +13,8 @@
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * typeOfWork - Array existing values for field
-    * typeOfWorkDetails - Existing value
+    * typeOfWorkExperience - Array existing values for field
+    * typeOfWorkExperienceDetails - Existing value
     * errors? - validation errors
 #}
 
@@ -35,22 +35,22 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "typeOfWorkDetails",
-              name: "typeOfWorkDetails",
+              id: "typeOfWorkExperienceDetails",
+              name: "typeOfWorkExperienceDetails",
               rows: "2",
-              value: typeOfWorkDetails,
+              value: typeOfWorkExperienceDetails,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " has done before" },
-              errorMessage: errors.typeOfWorkDetails
+              errorMessage: errors.typeOfWorkExperienceDetails
             }) }}
           {% endset -%}
 
           {{ govukCheckboxes({
-            name: "typeOfWork",
+            name: "typeOfWorkExperience",
             fieldset: {
               legend: {
                   text: title,
@@ -64,119 +64,119 @@
             items: [
               {
                 value: "OUTDOOR",
-                checked: typeOfWork.indexOf("OUTDOOR") > -1,
-                text: contentLookup.fields.typeOfWork["OUTDOOR"],
+                checked: typeOfWorkExperience.indexOf("OUTDOOR") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["OUTDOOR"],
                 hint: {
                   text: "things like kennel worker, groundskeeper and farm work"
                 }
               },
               { 
                 value: "CONSTRUCTION",
-                checked: typeOfWork.indexOf("CONSTRUCTION") > -1,
-                text: contentLookup.fields.typeOfWork["CONSTRUCTION"],
+                checked: typeOfWorkExperience.indexOf("CONSTRUCTION") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["CONSTRUCTION"],
                 hint: {
                   text: "things like bricklayer, plumber and site management"
                 }
               },
               { 
                 value: "DRIVING",
-                checked: typeOfWork.indexOf("DRIVING") > -1,
-                text: contentLookup.fields.typeOfWork["DRIVING"],
+                checked: typeOfWorkExperience.indexOf("DRIVING") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["DRIVING"],
                 hint: {
                   text: "things like bus driver and rail or road maintenance"
                 }
               },
               { 
                 value: "BEAUTY",
-                checked: typeOfWork.indexOf("BEAUTY") > -1,
-                text: contentLookup.fields.typeOfWork["BEAUTY"],
+                checked: typeOfWorkExperience.indexOf("BEAUTY") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["BEAUTY"],
                 hint: {
                   text: "things like nail technician and barber"
                 }
               },
               { 
                 value: "HOSPITALITY",
-                checked: typeOfWork.indexOf("HOSPITALITY") > -1,
-                text: contentLookup.fields.typeOfWork["HOSPITALITY"],
+                checked: typeOfWorkExperience.indexOf("HOSPITALITY") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["HOSPITALITY"],
                 hint: {
                   text: "things like chef, mobile catering, hotel porter"
                 }
               },
               { 
                 value: "TECHNICAL",
-                checked: typeOfWork.indexOf("TECHNICAL") > -1,
-                text: contentLookup.fields.typeOfWork["TECHNICAL"],
+                checked: typeOfWorkExperience.indexOf("TECHNICAL") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["TECHNICAL"],
                 hint: {
                   text: "things like coding, web developer and IT support"
                 }
               },
               { 
                 value: "MANUFACTURING",
-                checked: typeOfWork.indexOf("MANUFACTURING") > -1,
-                text: contentLookup.fields.typeOfWork["MANUFACTURING"],
+                checked: typeOfWorkExperience.indexOf("MANUFACTURING") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["MANUFACTURING"],
                 hint: {
                   text: "things like assembly line work, welding and maintenance"
                 }
               },
               { 
                 value: "OFFICE",
-                checked: typeOfWork.indexOf("OFFICE") > -1,
-                text: contentLookup.fields.typeOfWork["OFFICE"],
+                checked: typeOfWorkExperience.indexOf("OFFICE") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["OFFICE"],
                 hint: {
                   text: "things like administration, marketing assistant and office manager"
                 }
               },
               { 
                 value: "RETAIL",
-                checked: typeOfWork.indexOf("RETAIL") > -1,
-                text: contentLookup.fields.typeOfWork["RETAIL"],
+                checked: typeOfWorkExperience.indexOf("RETAIL") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["RETAIL"],
                 hint: {
                   text: "things like sales assistant, customer service and store manager"
                 }
               },
               { 
                 value: "SPORTS",
-                checked: typeOfWork.indexOf("SPORTS") > -1,
-                text: contentLookup.fields.typeOfWork["SPORTS"],
+                checked: typeOfWorkExperience.indexOf("SPORTS") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["SPORTS"],
                 hint: {
                   text: "things like personal trainer and gym attendant"
                 }
               },
               { 
                 value: "EDUCATION_TRAINING",
-                checked: typeOfWork.indexOf("EDUCATION_TRAINING") > -1,
-                text: contentLookup.fields.typeOfWork["EDUCATION_TRAINING"],
+                checked: typeOfWorkExperience.indexOf("EDUCATION_TRAINING") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["EDUCATION_TRAINING"],
                 hint: {
                   text: "things like welding trainer and welfare rights support"
                 }
               },
               { 
                 value: "WAREHOUSING",
-                checked: typeOfWork.indexOf("WAREHOUSING") > -1,
-                text: contentLookup.fields.typeOfWork["WAREHOUSING"],
+                checked: typeOfWorkExperience.indexOf("WAREHOUSING") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["WAREHOUSING"],
                 hint: {
                   text: "things like removals and fork-lift driver"
                 }
               },
               { 
                 value: "WASTE_MANAGEMENT",
-                checked: typeOfWork.indexOf("WASTE_MANAGEMENT") > -1,
-                text: contentLookup.fields.typeOfWork["WASTE_MANAGEMENT"],
+                checked: typeOfWorkExperience.indexOf("WASTE_MANAGEMENT") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["WASTE_MANAGEMENT"],
                 hint: {
                   text: "things like waste collection and recycling management"
                 }
               },
               {
                 value: "OTHER",
-                checked: typeOfWork.indexOf("OTHER") > -1,
-                text: contentLookup.fields.typeOfWork["OTHER"],
-                attributes: { "aria-label": contentLookup.fields.typeOfWork["OTHER"] + " (Opens a dialogue box)" },
+                checked: typeOfWorkExperience.indexOf("OTHER") > -1,
+                text: contentLookup.fields.typeOfWorkExperience["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.typeOfWorkExperience["OTHER"] + " (Opens a dialogue box)" },
                 conditional: {
                   html: otherHtml
                 }
               }
             ],
-             errorMessage: errors.typeOfWork
+             errorMessage: errors.typeOfWorkExperience
           }) }}
 
         </div>

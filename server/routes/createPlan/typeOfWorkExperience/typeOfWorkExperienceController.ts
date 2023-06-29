@@ -4,12 +4,12 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 
-export default class TypeOfWorkController {
+export default class TypeOfWorkExperienceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -32,14 +32,14 @@ export default class TypeOfWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWork: record.typeOfWork || [],
-        typeOfWorkDetails: record.typeOfWorkDetails,
+        typeOfWorkExperience: record.typeOfWorkExperience || [],
+        typeOfWorkExperienceDetails: record.typeOfWorkExperienceDetails,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['typeOfWork', id, 'data'], data)
+      setSessionData(req, ['typeOfWorkExperience', id, 'data'], data)
 
-      res.render('pages/createPlan/typeOfWork/index', { ...data })
+      res.render('pages/createPlan/typeOfWorkExperience/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -47,38 +47,40 @@ export default class TypeOfWorkController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { typeOfWork = [], typeOfWorkDetails } = req.body
+    const { typeOfWorkExperience = [], typeOfWorkExperienceDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['typeOfWork', id, 'data'])
+      const data = getSessionData(req, ['typeOfWorkExperience', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/typeOfWork/index', {
+        res.render('pages/createPlan/typeOfWorkExperience/index', {
           ...data,
           errors,
-          typeOfWork,
-          typeOfWorkDetails,
+          typeOfWorkExperience,
+          typeOfWorkExperienceDetails,
         })
         return
       }
 
-      deleteSessionData(req, ['typeOfWork', id, 'data'])
+      deleteSessionData(req, ['typeOfWorkExperience', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        typeOfWork,
-        typeOfWorkDetails: typeOfWork.includes(TypeOfWorkValue.OTHER) ? typeOfWorkDetails : '',
-        workExperience: (record.workExperience || []).filter((j: { typeOfWork: string }) =>
-          typeOfWork.includes(j.typeOfWork),
+        typeOfWorkExperience,
+        typeOfWorkExperienceDetails: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
+          ? typeOfWorkExperienceDetails
+          : '',
+        workExperience: (record.workExperience || []).filter((j: { typeOfWorkExperience: string }) =>
+          typeOfWorkExperience.includes(j.typeOfWorkExperience),
         ),
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWork[0], mode))
+      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience[0], mode))
     } catch (err) {
       next(err)
     }

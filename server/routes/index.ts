@@ -9,7 +9,7 @@ import qualificationLevelRoutes from './createPlan/qualificationLevel'
 import qualificationDetailsRoutes from './createPlan/qualificationDetails'
 import otherQualificationsRoutes from './createPlan/otherQualifications'
 import hasWorkedBeforeRoutes from './createPlan/hasWorkedBefore'
-import typeOfWorkRoutes from './createPlan/typeOfWork'
+import typeOfWorkExperienceRoutes from './createPlan/typeOfWorkExperience'
 import workDetailsRoutes from './createPlan/workDetails'
 
 export default function routes(services: Services): Router {
@@ -29,7 +29,7 @@ export default function routes(services: Services): Router {
   qualificationDetailsRoutes(router, services)
   otherQualificationsRoutes(router, services)
   hasWorkedBeforeRoutes(router, services)
-  typeOfWorkRoutes(router, services)
+  typeOfWorkExperienceRoutes(router, services)
   workDetailsRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))

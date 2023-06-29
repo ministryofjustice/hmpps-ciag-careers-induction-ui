@@ -18,7 +18,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'other-qualifications': `Does ${prisonerName} have any other training or vocational qualifications?`,
     'qualifications-list': `${prisonerName}'s qualifications`,
     'has-worked-before': `Has ${prisonerName} worked before?`,
-    'type-of-work': `What type of work has ${prisonerName} done before?`,
+    'type-of-work-experience': `What type of work has ${prisonerName} done before?`,
   }
 
   return findValue(url, lookup)

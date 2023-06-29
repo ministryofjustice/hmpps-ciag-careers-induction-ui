@@ -1,4 +1,4 @@
-import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -21,59 +21,59 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       message: 'Select the type of work mock_firstName mock_lastName has done before',
-      path: ['typeOfWork'],
+      path: ['typeOfWorkExperience'],
       type: 'any.required',
       context: {
-        key: 'typeOfWork',
-        label: 'typeOfWork',
+        key: 'typeOfWorkExperience',
+        label: 'typeOfWorkExperience',
       },
     })
   })
 
   it('On validation error - Valid - Returns the correct error message', () => {
-    req.body.typeOfWork = ['SOME_VALUE']
+    req.body.typeOfWorkExperience = ['SOME_VALUE']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
         key: 0,
-        label: 'typeOfWork[0]',
+        label: 'typeOfWorkExperience[0]',
         valids: [
-          TypeOfWorkValue.OUTDOOR,
-          TypeOfWorkValue.CONSTRUCTION,
-          TypeOfWorkValue.DRIVING,
-          TypeOfWorkValue.BEAUTY,
-          TypeOfWorkValue.HOSPITALITY,
-          TypeOfWorkValue.TECHNICAL,
-          TypeOfWorkValue.MANUFACTURING,
-          TypeOfWorkValue.OFFICE,
-          TypeOfWorkValue.RETAIL,
-          TypeOfWorkValue.SPORTS,
-          TypeOfWorkValue.WAREHOUSING,
-          TypeOfWorkValue.WASTE_MANAGEMENT,
-          TypeOfWorkValue.EDUCATION_TRAINING,
-          TypeOfWorkValue.OTHER,
+          TypeOfWorkExperienceValue.OUTDOOR,
+          TypeOfWorkExperienceValue.CONSTRUCTION,
+          TypeOfWorkExperienceValue.DRIVING,
+          TypeOfWorkExperienceValue.BEAUTY,
+          TypeOfWorkExperienceValue.HOSPITALITY,
+          TypeOfWorkExperienceValue.TECHNICAL,
+          TypeOfWorkExperienceValue.MANUFACTURING,
+          TypeOfWorkExperienceValue.OFFICE,
+          TypeOfWorkExperienceValue.RETAIL,
+          TypeOfWorkExperienceValue.SPORTS,
+          TypeOfWorkExperienceValue.WAREHOUSING,
+          TypeOfWorkExperienceValue.WASTE_MANAGEMENT,
+          TypeOfWorkExperienceValue.EDUCATION_TRAINING,
+          TypeOfWorkExperienceValue.OTHER,
         ],
         value: 'SOME_VALUE',
       },
       message: 'Select the type of work mock_firstName mock_lastName has done before',
-      path: ['typeOfWork', 0],
+      path: ['typeOfWorkExperience', 0],
       type: 'any.only',
     })
   })
 
   it('On validation error - OTHER with no value - Returns the correct error message', () => {
-    req.body.typeOfWork = ['OTHER']
+    req.body.typeOfWorkExperience = ['OTHER']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'typeOfWorkDetails',
+        key: 'typeOfWorkExperienceDetails',
         label: 'value',
         value: {
-          typeOfWork: ['OTHER'],
+          typeOfWorkExperience: ['OTHER'],
         },
       },
       message: 'Enter the type of work mock_firstName mock_lastName has done before',
@@ -83,18 +83,18 @@ describe('validationSchema', () => {
   })
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
-    req.body.typeOfWork = ['OTHER']
-    req.body.typeOfWorkDetails = longStr
+    req.body.typeOfWorkExperience = ['OTHER']
+    req.body.typeOfWorkExperienceDetails = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'typeOfWorkDetails',
+        key: 'typeOfWorkExperienceDetails',
         label: 'value',
         value: {
-          typeOfWorkDetails: longStr,
-          typeOfWork: ['OTHER'],
+          typeOfWorkExperienceDetails: longStr,
+          typeOfWorkExperience: ['OTHER'],
         },
       },
       message: 'Type of work experience must be 200 characters or less',
@@ -104,8 +104,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.typeOfWork = ['CONSTRUCTION']
-    req.body.typeOfWorkDetails = ''
+    req.body.typeOfWorkExperience = ['CONSTRUCTION']
+    req.body.typeOfWorkExperienceDetails = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -113,8 +113,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - OTHER with value - Returns no errors', () => {
-    req.body.typeOfWork = ['OTHER']
-    req.body.typeOfWorkDetails = 'Some value'
+    req.body.typeOfWorkExperience = ['OTHER']
+    req.body.typeOfWorkExperienceDetails = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

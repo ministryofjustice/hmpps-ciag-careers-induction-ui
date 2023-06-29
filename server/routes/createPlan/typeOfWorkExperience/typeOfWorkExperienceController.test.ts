@@ -2,10 +2,10 @@
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './typeOfWorkController'
+import Controller from './typeOfWorkExperienceController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
@@ -29,7 +29,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('TypeOfWorkController', () => {
+describe('TypeOfWorkExperienceController', () => {
   const { req, res, next } = expressMocks()
 
   const pageTitleLookupMock = pageTitleLookup as jest.Mock
@@ -48,7 +48,7 @@ describe('TypeOfWorkController', () => {
     backLocation: addressLookup.createPlan.hasWorkedBefore(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    typeOfWork: [] as any,
+    typeOfWorkExperience: [] as any,
   }
 
   res.locals.user = {}
@@ -59,7 +59,7 @@ describe('TypeOfWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['typeOfWork', id, 'data'], mockData)
+      setSessionData(req, ['typeOfWorkExperience', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -77,23 +77,23 @@ describe('TypeOfWorkController', () => {
     it('On success - No record found - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWork/index', { ...mockData })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWork: TypeOfWorkValue.OTHER,
+        typeOfWorkExperience: TypeOfWorkExperienceValue.OTHER,
       })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWork/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', {
         ...mockData,
         backLocation: addressLookup.createPlan.checkAnswers(id),
-        typeOfWork: TypeOfWorkValue.OTHER,
+        typeOfWorkExperience: TypeOfWorkExperienceValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -109,7 +109,7 @@ describe('TypeOfWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['typeOfWork', id, 'data'], mockData)
+      setSessionData(req, ['typeOfWorkExperience', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -131,7 +131,7 @@ describe('TypeOfWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWork/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', {
         ...mockData,
         errors,
       })
@@ -139,20 +139,22 @@ describe('TypeOfWorkController', () => {
     })
 
     it('On success - mode = new - Sets session record then redirects to workDetails', async () => {
-      req.body.typeOfWork = [TypeOfWorkValue.OTHER]
-      req.body.typeOfWorkDetails = 'mock_details'
+      req.body.typeOfWorkExperience = [TypeOfWorkExperienceValue.OTHER]
+      req.body.typeOfWorkExperienceDetails = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        typeOfWork: [TypeOfWorkValue.OTHER],
-        typeOfWorkDetails: 'mock_details',
+        typeOfWorkExperience: [TypeOfWorkExperienceValue.OTHER],
+        typeOfWorkExperienceDetails: 'mock_details',
         workExperience: [],
       })
-      expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workDetails(id, TypeOfWorkValue.OTHER))
+      expect(getSessionData(req, ['typeOfWorkExperience', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.OTHER),
+      )
     })
   })
 })

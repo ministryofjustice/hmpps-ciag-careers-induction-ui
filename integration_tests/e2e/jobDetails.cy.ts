@@ -4,7 +4,7 @@ import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import JobDetailsPage from '../pages/jobDetails'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import QualificationsPage from '../pages/qualifications'
-import TypeOfWorkPage from '../pages/typeOfWork'
+import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
 context('Job details page', () => {
   beforeEach(() => {
@@ -43,13 +43,13 @@ context('Job details page', () => {
     hasWorkedBefore.radioFieldValue('YES').click()
     hasWorkedBefore.submitButton().click()
 
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
 
-    typeOfWorkPage.checkboxFieldValue('HOSPITALITY').click()
-    typeOfWorkPage.checkboxFieldValue('OTHER').click()
-    typeOfWorkPage.textareaField().type('Some other job')
+    typeOfWorkExperiencePage.checkboxFieldValue('HOSPITALITY').click()
+    typeOfWorkExperiencePage.checkboxFieldValue('OTHER').click()
+    typeOfWorkExperiencePage.textareaField().type('Some other job')
 
-    typeOfWorkPage.submitButton().click()
+    typeOfWorkExperiencePage.submitButton().click()
   })
 
   it('New record - Validation messages display when no value selected', () => {

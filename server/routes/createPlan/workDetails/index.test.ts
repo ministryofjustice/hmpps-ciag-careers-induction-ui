@@ -32,7 +32,7 @@ describe('Work details routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/work-details/:typeOfWorkKey/:mode',
+      '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -44,7 +44,7 @@ describe('Work details routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/work-details/:typeOfWorkKey/:mode',
+      '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
       expect.any(Function), // controller.post
     )
   })

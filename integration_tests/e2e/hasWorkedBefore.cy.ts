@@ -48,13 +48,13 @@ context('Has worked before page', () => {
     hasWorkedBefore.submitButton().click()
   })
 
-  it('New record - Select YES - navigates to type-of-work page', () => {
+  it('New record - Select YES - navigates to type-of-work-experience page', () => {
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')
 
     hasWorkedBefore.radioFieldValue('YES').click()
     hasWorkedBefore.submitButton().click()
 
-    cy.url().should('include', 'type-of-work')
+    cy.url().should('include', 'type-of-work-experience')
   })
 
   it('New record - Select NO - navigates to work-interests page', () => {

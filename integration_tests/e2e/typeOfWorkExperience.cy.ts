@@ -3,7 +3,7 @@ import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import QualificationsPage from '../pages/qualifications'
-import TypeOfWorkPage from '../pages/typeOfWork'
+import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
 context('Type of work page', () => {
   beforeEach(() => {
@@ -44,37 +44,39 @@ context('Type of work page', () => {
   })
 
   it('New record - Validation messages display when no value selected', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
 
-    typeOfWorkPage.submitButton().click()
+    typeOfWorkExperiencePage.submitButton().click()
 
-    typeOfWorkPage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig has done before')
-    typeOfWorkPage.checkboxFieldErrorMessage().contains('Select the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage
+      .checkboxFieldErrorMessage()
+      .contains('Select the type of work Daniel Craig has done before')
 
-    typeOfWorkPage.checkboxFieldValue('OTHER').click()
-    typeOfWorkPage.submitButton().click()
+    typeOfWorkExperiencePage.checkboxFieldValue('OTHER').click()
+    typeOfWorkExperiencePage.submitButton().click()
 
-    typeOfWorkPage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig has done before')
-    typeOfWorkPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig has done before')
   })
 
   it('New record - Select HOSPITALITY - navigates to work-details page', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
 
-    typeOfWorkPage.checkboxFieldValue('HOSPITALITY').click()
+    typeOfWorkExperiencePage.checkboxFieldValue('HOSPITALITY').click()
 
-    typeOfWorkPage.submitButton().click()
+    typeOfWorkExperiencePage.submitButton().click()
 
     cy.url().should('include', 'work-details/hospitality')
   })
 
   it('New record - Select OTHER - navigates to work-details page', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
 
-    typeOfWorkPage.checkboxFieldValue('OTHER').click()
-    typeOfWorkPage.textareaField().type('Some other job')
+    typeOfWorkExperiencePage.checkboxFieldValue('OTHER').click()
+    typeOfWorkExperiencePage.textareaField().type('Some other job')
 
-    typeOfWorkPage.submitButton().click()
+    typeOfWorkExperiencePage.submitButton().click()
 
     cy.url().should('include', 'work-details/other')
   })
