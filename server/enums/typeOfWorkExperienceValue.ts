@@ -1,4 +1,4 @@
-enum TypeOfWorkValue {
+enum TypeOfWorkExperienceValue {
   OUTDOOR = 'OUTDOOR',
   CONSTRUCTION = 'CONSTRUCTION',
   DRIVING = 'DRIVING',
@@ -15,4 +15,4 @@ enum TypeOfWorkValue {
   OTHER = 'OTHER',
 }
 
-export default TypeOfWorkValue
+export default TypeOfWorkExperienceValue

@@ -3,9 +3,9 @@ import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import QualificationsPage from '../pages/qualifications'
-import TypeOfWorkPage from '../pages/typeOfWork'
+import WorkInterestsPage from '../pages/workInterests'
 
-context('Type of work page', () => {
+context('Work interests page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -40,43 +40,43 @@ context('Type of work page', () => {
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')
 
-    hasWorkedBefore.radioFieldValue('YES').click()
+    hasWorkedBefore.radioFieldValue('NO').click()
     hasWorkedBefore.submitButton().click()
   })
 
   it('New record - Validation messages display when no value selected', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+    const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
-    typeOfWorkPage.submitButton().click()
+    workInterestsPage.submitButton().click()
 
-    typeOfWorkPage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig has done before')
-    typeOfWorkPage.checkboxFieldErrorMessage().contains('Select the type of work Daniel Craig has done before')
+    workInterestsPage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig is interested in')
+    workInterestsPage.checkboxFieldErrorMessage().contains('Select the type of work Daniel Craig is interested in')
 
-    typeOfWorkPage.checkboxFieldValue('OTHER').click()
-    typeOfWorkPage.submitButton().click()
+    workInterestsPage.checkboxFieldValue('OTHER').click()
+    workInterestsPage.submitButton().click()
 
-    typeOfWorkPage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig has done before')
-    typeOfWorkPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+    workInterestsPage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
+    workInterestsPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
   })
 
-  it('New record - Select HOSPITALITY - navigates to work-details page', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+  it('New record - Select HOSPITALITY - navigates to job-of-particular-interest page', () => {
+    const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
-    typeOfWorkPage.checkboxFieldValue('HOSPITALITY').click()
+    workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
 
-    typeOfWorkPage.submitButton().click()
+    workInterestsPage.submitButton().click()
 
-    cy.url().should('include', 'work-details/hospitality')
+    cy.url().should('include', 'job-of-particular-interest')
   })
 
-  it('New record - Select OTHER - navigates to work-details page', () => {
-    const typeOfWorkPage = new TypeOfWorkPage('What type of work has Daniel Craig done before?')
+  it('New record - Select OTHER - navigates to job-of-particular-interest page', () => {
+    const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
-    typeOfWorkPage.checkboxFieldValue('OTHER').click()
-    typeOfWorkPage.textareaField().type('Some other job')
+    workInterestsPage.checkboxFieldValue('OTHER').click()
+    workInterestsPage.textareaField().type('Some other job')
 
-    typeOfWorkPage.submitButton().click()
+    workInterestsPage.submitButton().click()
 
-    cy.url().should('include', 'work-details/other')
+    cy.url().should('include', 'job-of-particular-interest')
   })
 })

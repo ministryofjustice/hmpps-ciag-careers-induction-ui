@@ -8,9 +8,9 @@ export default (router: Router, services: Services) => {
   const controller = new WorkDetailsController()
 
   router.get(
-    '/plan/create/:id/work-details/:typeOfWorkKey/:mode',
+    '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
-  router.post('/plan/create/:id/work-details/:typeOfWorkKey/:mode', controller.post)
+  router.post('/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode', controller.post)
 }
