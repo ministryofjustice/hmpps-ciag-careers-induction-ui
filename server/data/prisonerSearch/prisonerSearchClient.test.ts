@@ -9,6 +9,7 @@ describe('PrisonerSearchClient', () => {
   let client: PrisonerSearchClient
   let restClientMock: jest.Mocked<RestClient>
   const offenderNo = 'A1234BC'
+  const caseloadId = 'MDI'
 
   beforeEach(() => {
     restClientMock = new RestClient('Prisoner Search', config.apis.prisonerSearch, 'token') as jest.Mocked<RestClient>
@@ -16,23 +17,23 @@ describe('PrisonerSearchClient', () => {
     client = new PrisonerSearchClient('token')
   })
 
-  describe('#getPrisonersByReleaseDate', () => {
-    it('should make a POST request to the correct endpoint with the correct parameters', async () => {
-      const expectedPath = `/prisoner-search/release-date-by-prison?page=0&size=${config.maximumNumberOfRecordsToReturn}`
+  describe('#getPrisonersByCaseloadId', () => {
+    it('should make a GET request to the correct endpoint with the correct parameters', async () => {
+      const expectedPath = `/prisoner-search/prison/${caseloadId}?page=0&size=${config.maximumNumberOfRecordsToReturn}`
       const expectedResult: any = [
         {
           prisonerNumber: offenderNo,
         },
       ]
 
-      restClientMock.post.mockResolvedValue(expectedResult)
+      restClientMock.get.mockResolvedValue(expectedResult)
 
-      const result = await client.getPrisonersByReleaseDate({ offenderNo } as any)
+      const result = await client.getPrisonersByCaseloadId(caseloadId)
 
-      expect(restClientMock.post).toHaveBeenCalledWith({
+      expect(restClientMock.get).toHaveBeenCalledWith({
         path: expectedPath,
-        data: {
-          offenderNo: 'A1234BC',
+        headers: {
+          'content-type': 'application/json',
         },
       })
       expect(result).toEqual(expectedResult)
