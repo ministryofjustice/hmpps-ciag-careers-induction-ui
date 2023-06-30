@@ -11,7 +11,7 @@ const getUserActiveCaseLoad = () =>
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         activeCaseload: {
-          id: 1,
+          id: 'MDI',
           name: 'Moorland (HMP & YOI)',
         },
       },

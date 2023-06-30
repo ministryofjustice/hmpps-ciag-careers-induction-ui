@@ -1,0 +1,28 @@
+{#  -------------------------------------------------------------
+    Sortable column header with button for posting sort value
+    Config values
+        sort - sort field value, fieldname to be sorted on
+        order - order field value, ( ascending, descending, none)
+        formName - html name property of form to be submitted
+        fieldName - field name of this column
+        headerText - Display text for table header
+    ------------------------------------------------------------- #}
+{% macro sortableTableHeader(config) %}
+    <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-qa="{ config.fieldName }}-column-header">
+        <button type="submit" class="sortable-table-header__button" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}" aria-label="Sort by {{ config.headerText }}">
+            <span class="govuk-visually-hidden">Sort by</span>
+            {{ config.headerText }}
+            <span class="govuk-visually-hidden">
+                {% if config.sort == config.fieldName %}
+                    {% if config.order == "asc" %}
+                        (ascending)
+                    {% else %}
+                        (descending)
+                    {% endif %}
+                {% else %}
+                    (not sorted)
+                {% endif %}
+            </span>
+        </button>
+    </th>
+{% endmacro %}

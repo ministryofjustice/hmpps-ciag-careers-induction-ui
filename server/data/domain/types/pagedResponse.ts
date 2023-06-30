@@ -9,7 +9,7 @@ export default interface PagedResponse<T> {
     offset: number
     pageNumber: number
     pageSize?: number
-    page?: boolean
+    paged?: boolean
     unpaged?: boolean
   }
   last?: boolean
