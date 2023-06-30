@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express'
 import type { Services } from '../services'
+import ciagListRoutes from './ciagList'
 import workPlanRoutes from './workPlan'
 import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
 import qualificationsRoutes from './createPlan/qualifications'
@@ -18,10 +19,7 @@ export default function routes(services: Services): Router {
 
   const router = Router()
 
-  router.get('/', (req, res, next) => {
-    res.render('pages/index')
-  })
-
+  ciagListRoutes(router, services)
   workPlanRoutes(router, services)
   hopingToGetWorkRoutes(router, services)
   qualificationsRoutes(router, services)

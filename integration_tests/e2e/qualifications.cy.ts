@@ -10,6 +10,7 @@ context('Qualifications page', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
+    cy.task('getPrisonersByCaseloadId', 'MDI')
   })
 
   it('New record - Continue navigates to education level page', () => {

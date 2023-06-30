@@ -71,35 +71,47 @@ export function formatShortDate(val: Date): string {
   })
 }
 export function formatDateToyyyyMMdd(params: string): string {
-  const d = new Date(params)
-  let month = `${d.getMonth() + 1}`
-  let day = `${d.getDate()}`
-  const year = d.getFullYear()
+  try {
+    const d = new Date(params)
+    let month = `${d.getMonth() + 1}`
+    let day = `${d.getDate()}`
+    const year = d.getFullYear()
 
-  if (month.length < 2) month = `0${month}`
-  if (day.length < 2) day = `0${day}`
+    if (month.length < 2) month = `0${month}`
+    if (day.length < 2) day = `0${day}`
 
-  return [year, month, day].join('-')
+    return [year, month, day].join('-')
+  } catch {
+    return 'N/A'
+  }
 }
 export function formatDateStringToyyyyMMdd(params: TransformFnParams) {
-  if (!params.value) return 'N/A'
+  try {
+    if (!params.value) return 'N/A'
 
-  const d = new Date(params.value)
-  let month = `${d.getMonth() + 1}`
-  let day = `${d.getDate()}`
-  const year = d.getFullYear()
+    const d = new Date(params.value)
+    let month = `${d.getMonth() + 1}`
+    let day = `${d.getDate()}`
+    const year = d.getFullYear()
 
-  if (month.length < 2) month = `0${month}`
-  if (day.length < 2) day = `0${day}`
+    if (month.length < 2) month = `0${month}`
+    if (day.length < 2) day = `0${day}`
 
-  return [day, month, year].join('-')
+    return [day, month, year].join('-')
+  } catch {
+    return 'N/A'
+  }
 }
 
 export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
-  if (!params.value) return 'N/A'
-  const date = new Date(params.value)
+  try {
+    if (!params.value) return 'N/A'
+    const date = new Date(params.value)
 
-  return format(date, 'dd MMM yyyy')
+    return format(date, 'dd MMM yyyy')
+  } catch {
+    return 'N/A'
+  }
 }
 
 export function formatDateStringToddMMMyyyyHHmm(params: TransformFnParams) {
@@ -117,10 +129,14 @@ export function formatDateStringToddMMMyyyyHHmmAsArray(params: TransformFnParams
 }
 
 export function formatDateStringTodMMMM(params: TransformFnParams) {
-  if (!params.value) return 'N/A'
-  const date = new Date(params.value)
+  try {
+    if (!params.value) return 'N/A'
+    const date = new Date(params.value)
 
-  return format(date, 'd MMMM')
+    return format(date, 'd MMMM')
+  } catch {
+    return 'N/A'
+  }
 }
 
 export function lookUpProfileStatus(status: any) {
