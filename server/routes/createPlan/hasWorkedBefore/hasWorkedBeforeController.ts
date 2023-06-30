@@ -77,7 +77,7 @@ export default class HasWorkedBeforeController {
       // Default flow
       res.redirect(
         hasWorkedBefore === YesNoValue.YES
-          ? addressLookup.createPlan.typeOfWork(id, mode)
+          ? addressLookup.createPlan.typeOfWorkExperience(id, mode)
           : addressLookup.createPlan.workInterests(id, mode),
       )
     } catch (err) {

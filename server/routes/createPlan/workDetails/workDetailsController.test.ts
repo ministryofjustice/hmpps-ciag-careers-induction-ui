@@ -9,7 +9,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import uuidv4 from '../../../utils/guid'
-import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -42,14 +42,14 @@ describe('WorkDetailsController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
-  req.params.typeOfWorkKey = 'OTHER'
-  const { id, mode, typeOfWorkKey } = req.params
+  req.params.typeOfWorkExperienceKey = 'OTHER'
+  const { id, mode, typeOfWorkExperienceKey } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.typeOfWork(id, mode),
+    backLocation: addressLookup.createPlan.typeOfWorkExperience(id, mode),
     backLocationAriaText: 'Back to What type of work has Mock_firstname Mock_lastname done before?',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    typeOfWorkKey: 'OTHER',
+    typeOfWorkExperienceKey: 'OTHER',
     jobDetails: 'mock_details',
     jobRole: 'mock_role',
   }
@@ -63,10 +63,10 @@ describe('WorkDetailsController', () => {
       setSessionData(req, ['workDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWork: [typeOfWorkKey],
+        typeOfWorkExperience: [typeOfWorkExperienceKey],
         workExperience: [
           {
-            typeOfWork: typeOfWorkKey,
+            typeOfWorkExperience: typeOfWorkExperienceKey,
             details: 'mock_details',
             role: 'mock_role',
           },
@@ -120,7 +120,7 @@ describe('WorkDetailsController', () => {
       setSessionData(req, ['workDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWork: [typeOfWorkKey],
+        typeOfWorkExperience: [typeOfWorkExperienceKey],
         workExperience: [],
       })
     })
@@ -153,20 +153,20 @@ describe('WorkDetailsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Last typeOfWork - Sets session record then redirects to inPrisonWork', async () => {
+    it('On success - Last typeOfWorkExperience - Sets session record then redirects to workInterests', async () => {
       req.body.jobRole = 'mock_role'
       req.body.jobDetails = 'mock_details'
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonWork(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workInterests(id, mode))
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        typeOfWork: [typeOfWorkKey],
+        typeOfWorkExperience: [typeOfWorkExperienceKey],
         workExperience: [
           {
-            typeOfWork: typeOfWorkKey,
+            typeOfWorkExperience: typeOfWorkExperienceKey,
             role: 'mock_role',
             details: 'mock_details',
           },
@@ -174,10 +174,10 @@ describe('WorkDetailsController', () => {
       })
     })
 
-    it('On success - Not last typeOfWork - Sets session record then redirects to workDetails', async () => {
+    it('On success - Not last typeOfWorkExperience - Sets session record then redirects to workDetails', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWork: [typeOfWorkKey, TypeOfWorkValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
         workExperience: [],
       })
 
@@ -187,15 +187,15 @@ describe('WorkDetailsController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        addressLookup.createPlan.workDetails(id, TypeOfWorkValue.CONSTRUCTION, mode),
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.CONSTRUCTION, mode),
       )
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        typeOfWork: [typeOfWorkKey, TypeOfWorkValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
         workExperience: [
           {
-            typeOfWork: typeOfWorkKey,
+            typeOfWorkExperience: typeOfWorkExperienceKey,
             role: 'mock_role',
             details: 'mock_details',
           },

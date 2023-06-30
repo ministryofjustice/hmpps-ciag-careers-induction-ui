@@ -2,14 +2,20 @@
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './hasWorkedBeforeController'
+import Controller from './workInterestsController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
+import WorkInterestsValue from '../../../enums/workInterestsValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import YesNoValue from '../../../enums/yesNoValue'
-import uuidv4 from '../../../utils/guid'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -23,17 +29,11 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../../utils/guid', () => ({
-  ...jest.requireActual('../../../utils/guid'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-describe('HasWorkedBeforeController', () => {
+describe('WorkInterestsController', () => {
   const { req, res, next } = expressMocks()
-  const uuidv4Mock = uuidv4 as jest.Mock
 
-  uuidv4Mock.mockReturnValue('guid')
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -45,11 +45,13 @@ describe('HasWorkedBeforeController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.otherQualifications(id, mode),
-    backLocationAriaText:
-      'Back to Does Mock_firstname Mock_lastname have any other training or vocational qualifications?',
+    backLocation: addressLookup.createPlan.hasWorkedBefore(id, mode),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
+    workInterests: [] as any,
   }
+
+  res.locals.user = {}
 
   const controller = new Controller()
 
@@ -57,10 +59,9 @@ describe('HasWorkedBeforeController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['hasWorkedBefore', id, 'data'], mockData)
+      setSessionData(req, ['workInterests', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        hasWorkedBefore: YesNoValue.YES,
       })
     })
 
@@ -74,23 +75,25 @@ describe('HasWorkedBeforeController', () => {
     })
 
     it('On success - No record found - Calls render with the correct data', async () => {
-      setSessionData(req, ['createPlan', id], undefined)
-
       controller.get(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
-      expect(res.render).toHaveBeenCalledTimes(0)
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/workInterests/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.params.mode = 'new'
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        workInterests: WorkInterestsValue.OTHER,
+      })
+      req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hasWorkedBefore/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/workInterests/index', {
         ...mockData,
-        hasWorkedBefore: YesNoValue.YES,
+        backLocation: addressLookup.createPlan.checkAnswers(id),
+        workInterests: WorkInterestsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -106,8 +109,10 @@ describe('HasWorkedBeforeController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['hasWorkedBefore', id, 'data'], mockData)
-      setSessionData(req, ['createPlan', id], {})
+      setSessionData(req, ['workInterests', id, 'data'], mockData)
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+      })
     })
 
     it('On error - Calls next with error', async () => {
@@ -126,35 +131,27 @@ describe('HasWorkedBeforeController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hasWorkedBefore/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/workInterests/index', {
         ...mockData,
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWorkExperience', async () => {
-      req.body.hasWorkedBefore = YesNoValue.YES
+    it('On success - mode = new - Sets session record then redirects to jobOfParticularInterest', async () => {
+      req.body.workInterests = [WorkInterestsValue.OTHER]
+      req.body.workInterestsDetails = 'mock_details'
+      req.params.mode = 'new'
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.typeOfWorkExperience(id, mode))
-      expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
-        hasWorkedBefore: YesNoValue.YES,
+        hopingToGetWork: 'YES',
+        workInterests: [WorkInterestsValue.OTHER],
+        workInterestsDetails: 'mock_details',
       })
-    })
-
-    it('On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests', async () => {
-      req.body.hasWorkedBefore = YesNoValue.NO
-
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.workInterests(id, mode))
-      expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({
-        hasWorkedBefore: YesNoValue.NO,
-      })
+      expect(getSessionData(req, ['workInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.jobOfParticularInterest(id))
     })
   })
 })
