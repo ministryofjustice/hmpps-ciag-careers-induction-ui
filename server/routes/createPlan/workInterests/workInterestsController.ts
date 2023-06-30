@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -22,9 +23,15 @@ export default class WorkInterestsController {
         return
       }
 
+      const lastKey = record.typeOfWorkExperience ? record.typeOfWorkExperience.at(-1) : ''
+
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new'
+          ? lastKey
+            ? addressLookup.createPlan.workDetails(id, lastKey, mode)
+            : addressLookup.createPlan.hasWorkedBefore(id, mode)
+          : addressLookup.createPlan.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

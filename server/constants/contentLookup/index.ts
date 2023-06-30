@@ -4,6 +4,7 @@ import educationLevel from './fields/educationLevel'
 import qualificationLevel from './fields/qualificationLevel'
 import otherQualifications from './fields/otherQualifications'
 import typeOfWorkExperience from './fields/typeOfWorkExperience'
+import workInterests from './fields/workInterests'
 
 import qualifications from './pages/qualifications'
 import qualificationDetails from './pages/qualificationDetails'
@@ -16,6 +17,7 @@ export default {
     qualificationLevel,
     otherQualifications,
     typeOfWorkExperience,
+    workInterests,
   },
   pages: {
     qualifications,
