@@ -7,13 +7,13 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWork[typeOfWorkKey] + " job?" %}
+{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWorkExperience[typeOfWorkExperienceKey] + " job?" %}
 
 {#
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * typeOfWorkKey - existing value for field
+    * typeOfWorkExperienceKey - existing value for field
     * jobRole - existing value for field
     * jobDetails - existing value for field
     * errors? - validation errors

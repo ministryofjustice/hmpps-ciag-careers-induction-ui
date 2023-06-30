@@ -3,19 +3,19 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
-import TypeOfWorkController from './typeOfWorkController'
+import TypeOfWorkExperienceController from './typeOfWorkExperienceController'
 
 export default (router: Router, services: Services) => {
-  const controller = new TypeOfWorkController()
+  const controller = new TypeOfWorkExperienceController()
 
   router.get(
-    '/plan/create/:id/type-of-work/:mode',
+    '/plan/create/:id/type-of-work-experience/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
-    '/plan/create/:id/type-of-work/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), parseCheckBoxValue('typeOfWork')],
+    '/plan/create/:id/type-of-work-experience/:mode',
+    [getPrisonerByIdResolver(services.prisonerSearchService), parseCheckBoxValue('typeOfWorkExperience')],
     controller.post,
   )
 }

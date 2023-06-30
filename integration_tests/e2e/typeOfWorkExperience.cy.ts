@@ -1,12 +1,11 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import JobDetailsPage from '../pages/jobDetails'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import QualificationsPage from '../pages/qualifications'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
-context('Job details page', () => {
+context('Type of work page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -43,41 +42,43 @@ context('Job details page', () => {
 
     hasWorkedBefore.radioFieldValue('YES').click()
     hasWorkedBefore.submitButton().click()
+  })
 
+  it('New record - Validation messages display when no value selected', () => {
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
+
+    typeOfWorkExperiencePage.submitButton().click()
+
+    typeOfWorkExperiencePage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage
+      .checkboxFieldErrorMessage()
+      .contains('Select the type of work Daniel Craig has done before')
+
+    typeOfWorkExperiencePage.checkboxFieldValue('OTHER').click()
+    typeOfWorkExperiencePage.submitButton().click()
+
+    typeOfWorkExperiencePage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+    typeOfWorkExperiencePage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+  })
+
+  it('New record - Select HOSPITALITY - navigates to work-details page', () => {
     const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
 
     typeOfWorkExperiencePage.checkboxFieldValue('HOSPITALITY').click()
+
+    typeOfWorkExperiencePage.submitButton().click()
+
+    cy.url().should('include', 'work-details/hospitality')
+  })
+
+  it('New record - Select OTHER - navigates to work-details page', () => {
+    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Daniel Craig done before?')
+
     typeOfWorkExperiencePage.checkboxFieldValue('OTHER').click()
     typeOfWorkExperiencePage.textareaField().type('Some other job')
 
     typeOfWorkExperiencePage.submitButton().click()
-  })
 
-  it('New record - Validation messages display when no value selected', () => {
-    const jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
-    jobDetailsPage.submitButton().click()
-
-    jobDetailsPage.roleFieldErrorMessage().contains('Enter the job role Daniel Craig wants to add')
-    jobDetailsPage.rolePageErrorMessage().contains('Enter the job role Daniel Craig wants to add')
-
-    jobDetailsPage.detailsPageErrorMessage().contains('Enter details of what Daniel Craig did in their job')
-    jobDetailsPage.detailsFieldErrorMessage().contains('Enter details of what Daniel Craig did in their job')
-  })
-
-  it('New record - Navigates through each job - navigates to work-interests page', () => {
-    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
-    jobDetailsPage.roleField().type('Mock Role')
-    jobDetailsPage.detailsField().type('Mock Details')
-
-    jobDetailsPage.submitButton().click()
-
-    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Other job?')
-
-    jobDetailsPage.roleField().type('Mock Role')
-    jobDetailsPage.detailsField().type('Mock Details')
-
-    jobDetailsPage.submitButton().click()
-
-    cy.url().should('include', 'work-interests')
+    cy.url().should('include', 'work-details/other')
   })
 })

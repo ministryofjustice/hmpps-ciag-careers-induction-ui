@@ -13,7 +13,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, typeOfWorkKey } = req.params
+    const { id, mode, typeOfWorkExperienceKey } = req.params
     const { prisoner } = req.context
 
     try {
@@ -27,14 +27,14 @@ export default class WorkDetailsController {
       // Get job details
       const job =
         (record.workExperience || []).find(
-          (q: { typeOfWork: string }) => q.typeOfWork === typeOfWorkKey.toUpperCase(),
+          (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
       // Setup back location
 
       // Calculate last page
-      const position = record.typeOfWork.indexOf(typeOfWorkKey.toUpperCase())
-      const lastKey = position > 0 ? record.typeOfWork[position - 1] : ''
+      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const lastKey = position > 0 ? record.typeOfWorkExperience[position - 1] : ''
 
       const backLocation = getBackLocation({
         req,
@@ -42,7 +42,7 @@ export default class WorkDetailsController {
           mode === 'new'
             ? lastKey
               ? addressLookup.createPlan.workDetails(id, lastKey, mode)
-              : addressLookup.createPlan.typeOfWork(id, mode)
+              : addressLookup.createPlan.typeOfWorkExperience(id, mode)
             : addressLookup.createPlan.checkAnswers(id),
         page: 'workDetails',
         uid: id,
@@ -54,7 +54,7 @@ export default class WorkDetailsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWorkKey: typeOfWorkKey.toUpperCase(),
+        typeOfWorkExperienceKey: typeOfWorkExperienceKey.toUpperCase(),
         jobRole: job.role,
         jobDetails: job.details,
       }
@@ -69,7 +69,7 @@ export default class WorkDetailsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, typeOfWorkKey } = req.params
+    const { id, mode, typeOfWorkExperienceKey } = req.params
     const { jobRole, jobDetails } = req.body
 
     try {
@@ -92,10 +92,10 @@ export default class WorkDetailsController {
         ...record,
         workExperience: [
           ...(record.workExperience || []).filter(
-            (q: { typeOfWork: string }) => q.typeOfWork !== typeOfWorkKey.toUpperCase(),
+            (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
           ),
           {
-            typeOfWork: typeOfWorkKey.toUpperCase(),
+            typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
             role: jobRole,
             details: jobDetails,
           },
@@ -105,13 +105,13 @@ export default class WorkDetailsController {
       deleteSessionData(req, ['workDetails', id, 'data'])
 
       // Calculate next page
-      const position = record.typeOfWork.indexOf(typeOfWorkKey.toUpperCase())
-      const nextKey = position < record.typeOfWork.length ? record.typeOfWork[position + 1] : ''
+      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
       res.redirect(
         nextKey
           ? addressLookup.createPlan.workDetails(id, nextKey, mode)
-          : addressLookup.createPlan.inPrisonWork(id, mode),
+          : addressLookup.createPlan.workInterests(id, mode),
       )
     } catch (err) {
       next(err)
