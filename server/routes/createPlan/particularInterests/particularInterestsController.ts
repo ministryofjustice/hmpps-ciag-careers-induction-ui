@@ -5,12 +5,11 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import WorkInterestsValue from '../../../enums/workInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 
-export default class WorkInterestsController {
+export default class ParticularInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -23,15 +22,9 @@ export default class WorkInterestsController {
         return
       }
 
-      const lastKey = record.typeOfWorkExperience ? record.typeOfWorkExperience.at(-1) : ''
-
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? lastKey
-            ? addressLookup.createPlan.workDetails(id, lastKey, mode)
-            : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.workInterests(id, mode) : addressLookup.createPlan.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,14 +32,15 @@ export default class WorkInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: record.workInterests || [],
+        workInterests: record.workInterests,
         workInterestsDetails: record.workInterestsDetails,
+        particularInterests: record.particularInterests || [],
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['workInterests', id, 'data'], data)
+      setSessionData(req, ['particularInterests', id, 'data'], data)
 
-      res.render('pages/createPlan/workInterests/index', { ...data })
+      res.render('pages/createPlan/particularInterests/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -54,35 +48,33 @@ export default class WorkInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { workInterests = [], workInterestsDetails } = req.body
+    const { particularInterests = [] } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['workInterests', id, 'data'])
+      const data = getSessionData(req, ['particularInterests', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/workInterests/index', {
+        res.render('pages/createPlan/particularInterests/index', {
           ...data,
           errors,
-          workInterests,
-          workInterestsDetails,
+          particularInterests,
         })
         return
       }
 
-      deleteSessionData(req, ['workInterests', id, 'data'])
+      deleteSessionData(req, ['particularInterests', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        workInterests,
-        workInterestsDetails: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsDetails : '',
+        particularInterests,
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.particularInterest(id, mode))
+      res.redirect(addressLookup.createPlan.skills(id, mode))
     } catch (err) {
       next(err)
     }
