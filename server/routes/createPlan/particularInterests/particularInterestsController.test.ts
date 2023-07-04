@@ -50,7 +50,7 @@ describe('ParticularInterestsController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     workInterests: [WorkInterestsValue.OTHER],
     workInterestsDetails: 'Other job',
-    particularInterests: [] as any,
+    particularInterests: {},
   }
 
   res.locals.user = {}

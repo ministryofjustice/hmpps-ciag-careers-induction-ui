@@ -34,7 +34,7 @@ export default class ParticularInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests: record.workInterests,
         workInterestsDetails: record.workInterestsDetails,
-        particularInterests: record.particularInterests || [],
+        particularInterests: record.particularInterests || {},
       }
 
       // Store page data for use if validation fails
@@ -48,7 +48,7 @@ export default class ParticularInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { particularInterests = [] } = req.body
+    const { particularInterests = {} } = req.body
 
     try {
       // If validation errors render errors
@@ -58,7 +58,7 @@ export default class ParticularInterestsController {
         res.render('pages/createPlan/particularInterests/index', {
           ...data,
           errors,
-          particularInterests,
+          particularInterests: { ...req.body },
         })
         return
       }

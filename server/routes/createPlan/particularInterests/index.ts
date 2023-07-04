@@ -1,6 +1,6 @@
 import type { Router } from 'express'
-import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
+import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
 import ParticularInterestsController from './particularInterestsController'
