@@ -1,24 +1,29 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
+import WorkInterestsValue from '../../../enums/workInterestsValue'
+import contentLookup from '../../../constants/contentLookup'
 
 interface WorkDetailsData {
-  prisoner: { firstName: string; lastName: string }
+  workInterests: WorkInterestsValue[]
+  workInterestsDetails: string
 }
 
 export default function validationSchema(data: WorkDetailsData): ObjectSchema {
-  const {
-    prisoner: { firstName, lastName },
-  } = data
+  const { workInterests, workInterestsDetails } = data
 
-  return joi.object({
-    jobDetails: joi
+  const schema = {}
+  workInterests.forEach(key => {
+    schema[key] = joi
       .string()
-      .required()
-      .max(4000)
+      .allow('')
+      .max(200)
       .messages({
-        'any.required': `Enter details of what ${firstName} ${lastName} did in their job`,
-        'string.empty': `Enter details of what ${firstName} ${lastName} did in their job`,
-        'string.max': 'Main tasks and responsibilities must be 4000 characters or less',
-      }),
+        'string.max':
+          key === WorkInterestsValue.OTHER
+            ? `${workInterestsDetails} job role must be 200 characters or less`
+            : `${contentLookup.fields.workInterests[key]} job role must be 200 characters or less`,
+      })
   })
+
+  return joi.object(schema)
 }
