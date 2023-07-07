@@ -93,7 +93,7 @@ describe('ParticularInterestsController', () => {
         hopingToGetWork: HopingToGetWorkValue.YES,
         workInterests: [WorkInterestsValue.OTHER],
         workInterestsDetails: 'Other job',
-        particularInterests: [WorkInterestsValue.OTHER],
+        particularInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
       })
       req.params.mode = 'edit'
 
@@ -104,7 +104,9 @@ describe('ParticularInterestsController', () => {
         backLocation: addressLookup.createPlan.checkAnswers(id),
         workInterests: [WorkInterestsValue.OTHER],
         workInterestsDetails: 'Other job',
-        particularInterests: [WorkInterestsValue.OTHER],
+        particularInterests: {
+          OTHER: 'Some job',
+        },
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -150,15 +152,14 @@ describe('ParticularInterestsController', () => {
     })
 
     it('On success - mode = new - Sets session record then redirects to skills', async () => {
-      req.body.particularInterests = [WorkInterestsValue.OTHER]
-      req.body.particularInterestsDetails = 'mock_details'
+      req.body.OTHER = 'Some job'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        particularInterests: [WorkInterestsValue.OTHER],
+        particularInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
       })
       expect(getSessionData(req, ['particularInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.skills(id))

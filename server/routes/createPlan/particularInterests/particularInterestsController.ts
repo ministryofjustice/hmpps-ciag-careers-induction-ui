@@ -34,7 +34,13 @@ export default class ParticularInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests: record.workInterests,
         workInterestsDetails: record.workInterestsDetails,
-        particularInterests: record.particularInterests || {},
+        particularInterests: (record.particularInterests || []).reduce(
+          (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
+            acc[curr.interestKey] = curr.jobDetails
+            return acc
+          },
+          {},
+        ),
       }
 
       // Store page data for use if validation fails
@@ -48,7 +54,6 @@ export default class ParticularInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { particularInterests = {} } = req.body
 
     try {
       // If validation errors render errors
@@ -68,9 +73,12 @@ export default class ParticularInterestsController {
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
+
+      // Get keys of entered job details
+      const values = Object.keys(req.body).filter(v => !!req.body[v])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        particularInterests,
+        particularInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
       })
 
       // Redirect to the correct page based on hopingToGetWork
