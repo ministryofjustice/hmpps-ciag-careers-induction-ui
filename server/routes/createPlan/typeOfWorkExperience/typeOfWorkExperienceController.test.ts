@@ -74,10 +74,13 @@ describe('TypeOfWorkExperienceController', () => {
       expect(next).toHaveBeenCalledTimes(1)
     })
 
-    it('On success - No record found - Calls render with the correct data', async () => {
+    it('On success - No record found - Redirects to hopingToGetWork', async () => {
+      setSessionData(req, ['createPlan', id], undefined)
+
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', { ...mockData })
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
+      expect(res.render).toHaveBeenCalledTimes(0)
       expect(next).toHaveBeenCalledTimes(0)
     })
 

@@ -8,7 +8,7 @@ describe('WorkExperienceViewModel', () => {
     modifiedDateTime: '2022-03-01T12:30:00Z',
     workTypesOfInterest: ['IT', 'Sales'],
     workTypesOfInterestOther: 'Marketing',
-    jobOfParticularInterest: 'Software Developer',
+    particularInterest: 'Software Developer',
   }
 
   it('transforms JSON to WorkExperienceViewModel instance', () => {
@@ -18,6 +18,6 @@ describe('WorkExperienceViewModel', () => {
     expect(workExperienceViewModel.modifiedDateTime).toBe('1 March')
     expect(workExperienceViewModel.workTypesOfInterest).toEqual(workExperienceJson.workTypesOfInterest)
     expect(workExperienceViewModel.workTypesOfInterestOther).toBe(workExperienceJson.workTypesOfInterestOther)
-    expect(workExperienceViewModel.jobOfParticularInterest).toBe(workExperienceJson.jobOfParticularInterest)
+    expect(workExperienceViewModel.particularInterest).toBe(workExperienceJson.particularInterest)
   })
 })
