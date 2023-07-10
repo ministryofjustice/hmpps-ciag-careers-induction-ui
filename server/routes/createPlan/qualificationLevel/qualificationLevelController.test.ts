@@ -71,7 +71,7 @@ describe('QualificationLevelController', () => {
       expect(next).toHaveBeenCalledTimes(1)
     })
 
-    it('On success - No record found - Calls render with the correct data', async () => {
+    it('On success - No record found - Redirects to hopingToGetWork', async () => {
       setSessionData(req, ['createPlan', id], undefined)
 
       controller.get(req, res, next)

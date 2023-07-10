@@ -10,12 +10,20 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    {% for item in learnerLatestAssessment.qualifications %}
+    {% if learnerLatestAssessment.qualifications.length %}
+      {% for item in learnerLatestAssessment.qualifications %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">{{ item.qualification.qualificationType }}</td>
+          <td class="govuk-table__cell"> {{ item.qualification.qualificationGrade }}</td>
+          <td class="govuk-table__cell">{{ item.qualification.assessmentDate }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell">{{ item.qualification.qualificationType }}</td>
-        <td class="govuk-table__cell"> {{ item.qualification.qualificationGrade }}</td>
-        <td class="govuk-table__cell">{{ item.qualification.assessmentDate }}</td>
+        <td class="govuk-table__cell"></td>
+        <td class="govuk-table__cell"></td>
+        <td class="govuk-table__cell">&nbsp;</td>
       </tr>
-    {% endfor %}
+    {% endif %}
   </tbody>
 </table>

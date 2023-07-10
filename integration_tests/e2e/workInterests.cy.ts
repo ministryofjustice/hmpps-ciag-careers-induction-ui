@@ -59,17 +59,17 @@ context('Work interests page', () => {
     workInterestsPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
   })
 
-  it('New record - Select HOSPITALITY - navigates to job-of-particular-interest page', () => {
+  it('New record - Select HOSPITALITY - navigates to particular-interests page', () => {
     const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
     workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
 
     workInterestsPage.submitButton().click()
 
-    cy.url().should('include', 'job-of-particular-interest')
+    cy.url().should('include', 'particular-interests')
   })
 
-  it('New record - Select OTHER - navigates to job-of-particular-interest page', () => {
+  it('New record - Select OTHER - navigates to particular-interests page', () => {
     const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
     workInterestsPage.checkboxFieldValue('OTHER').click()
@@ -77,6 +77,6 @@ context('Work interests page', () => {
 
     workInterestsPage.submitButton().click()
 
-    cy.url().should('include', 'job-of-particular-interest')
+    cy.url().should('include', 'particular-interests')
   })
 })
