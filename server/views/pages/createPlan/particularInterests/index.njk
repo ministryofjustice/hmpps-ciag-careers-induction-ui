@@ -13,9 +13,8 @@
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * typeOfWorkExperienceKey - existing value for field
-    * jobRole - existing value for field
-    * jobDetails - existing value for field
+    * workInterests - existing value for field
+    * particularInterests - existing value for field
     * errors? - validation errors
 #}
 
@@ -50,7 +49,7 @@
                 hint: {
                   text: "Enter a particular job role (optional)"
                 },
-                errorMessage: errors.jobRole
+                errorMessage: errors[item]
               }) }}
             {% endfor %}   
         </div>
