@@ -84,7 +84,7 @@ context('Ciag list page', () => {
     cy.visit(ciagListUrl)
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
     ciagListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/plan/A0670DZ/view/overview')
+      expect(offenders[0].viewLink).to.contain('/plan/G0000AB/view/overview')
       expect(offenders[0].lastName).to.contain('Cattus')
     })
 
@@ -92,7 +92,7 @@ context('Ciag list page', () => {
     cy.visit(`${ciagListUrl}?sort=lastName&order=ascending`)
 
     ciagListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/plan/A1752DZ/view/overview')
+      expect(offenders[0].viewLink).to.contain('/plan/G0000UV/view/overview')
       expect(offenders[0].lastName).to.contain('Bell')
       expect(offenders[0].releaseDate).to.contain('28 May 2023')
       expect(offenders[0].receptionDate).to.contain('19 Mar 2023')
