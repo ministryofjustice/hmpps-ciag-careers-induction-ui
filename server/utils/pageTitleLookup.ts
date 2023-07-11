@@ -20,7 +20,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'has-worked-before': `Has ${prisonerName} worked before?`,
     'type-of-work-experience': `What type of work has ${prisonerName} done before?`,
     'work-interests': `What type of work is ${prisonerName} interested in?`,
-    'particular-interests': `Is ${prisonerName} interested in any particular jobs?`,
+    'particular-job-interests': `Is ${prisonerName} interested in any particular jobs?`,
   }
 
   return findValue(url, lookup)

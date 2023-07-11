@@ -2,7 +2,7 @@ import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
-import ParticularInterestsPage from '../pages/particularInterests'
+import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import WorkInterestsPage from '../pages/workInterests'
 
@@ -67,151 +67,157 @@ context('Particular interests page', () => {
   })
 
   it('New record - Validation messages display when values are to long', () => {
-    const particularInterestsPage = new ParticularInterestsPage('Is Daniel Craig interested in any particular jobs?')
+    const particularJobInterestsPage = new ParticularJobInterestsPage(
+      'Is Daniel Craig interested in any particular jobs?',
+    )
 
-    particularInterestsPage.textField('HOSPITALITY').type(longStr)
-    particularInterestsPage.textField('OTHER').type(longStr)
-    particularInterestsPage.textField('OUTDOOR').type(longStr)
-    particularInterestsPage.textField('CONSTRUCTION').type(longStr)
-    particularInterestsPage.textField('DRIVING').type(longStr)
-    particularInterestsPage.textField('BEAUTY').type(longStr)
-    particularInterestsPage.textField('TECHNICAL').type(longStr)
-    particularInterestsPage.textField('MANUFACTURING').type(longStr)
-    particularInterestsPage.textField('OFFICE').type(longStr)
-    particularInterestsPage.textField('RETAIL').type(longStr)
-    particularInterestsPage.textField('SPORTS').type(longStr)
-    particularInterestsPage.textField('WAREHOUSING').type(longStr)
-    particularInterestsPage.textField('EDUCATION_TRAINING').type(longStr)
-    particularInterestsPage.textField('WASTE_MANAGEMENT').type(longStr)
+    particularJobInterestsPage.textField('HOSPITALITY').type(longStr)
+    particularJobInterestsPage.textField('OTHER').type(longStr)
+    particularJobInterestsPage.textField('OUTDOOR').type(longStr)
+    particularJobInterestsPage.textField('CONSTRUCTION').type(longStr)
+    particularJobInterestsPage.textField('DRIVING').type(longStr)
+    particularJobInterestsPage.textField('BEAUTY').type(longStr)
+    particularJobInterestsPage.textField('TECHNICAL').type(longStr)
+    particularJobInterestsPage.textField('MANUFACTURING').type(longStr)
+    particularJobInterestsPage.textField('OFFICE').type(longStr)
+    particularJobInterestsPage.textField('RETAIL').type(longStr)
+    particularJobInterestsPage.textField('SPORTS').type(longStr)
+    particularJobInterestsPage.textField('WAREHOUSING').type(longStr)
+    particularJobInterestsPage.textField('EDUCATION_TRAINING').type(longStr)
+    particularJobInterestsPage.textField('WASTE_MANAGEMENT').type(longStr)
 
-    particularInterestsPage.submitButton().click()
+    particularJobInterestsPage.submitButton().click()
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('OUTDOOR')
       .contains('Animal care and farming job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('OUTDOOR')
       .contains('Animal care and farming job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('CONSTRUCTION')
       .contains('Construction and trade job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('CONSTRUCTION')
       .contains('Construction and trade job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('DRIVING')
       .contains('Driving and transport job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('DRIVING')
       .contains('Driving and transport job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('BEAUTY')
       .contains('Hair, beauty and wellbeing job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('BEAUTY')
       .contains('Hair, beauty and wellbeing job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('TECHNICAL')
       .contains('IT and digital job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('TECHNICAL')
       .contains('IT and digital job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('MANUFACTURING')
       .contains('Manufacturing and technical job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('MANUFACTURING')
       .contains('Manufacturing and technical job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('OFFICE')
       .contains('Office or desk-based job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('OFFICE')
       .contains('Office or desk-based job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('RETAIL')
       .contains('Retail and sales job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('RETAIL')
       .contains('Retail and sales job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('SPORTS')
       .contains('Sport and fitness job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('SPORTS')
       .contains('Sport and fitness job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('WAREHOUSING')
       .contains('Warehousing and storage job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('WAREHOUSING')
       .contains('Warehousing and storage job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('EDUCATION_TRAINING')
       .contains('Training and support job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('EDUCATION_TRAINING')
       .contains('Training and support job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('WASTE_MANAGEMENT')
       .contains('Waste management job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('WASTE_MANAGEMENT')
       .contains('Waste management job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('HOSPITALITY')
       .contains('Hospitality and catering job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('HOSPITALITY')
       .contains('Hospitality and catering job role must be 200 characters or less')
 
-    particularInterestsPage
+    particularJobInterestsPage
       .textPageErrorMessage('OTHER')
       .contains('Some other role job role must be 200 characters or less')
-    particularInterestsPage
+    particularJobInterestsPage
       .textFieldErrorMessage('OTHER')
       .contains('Some other role job role must be 200 characters or less')
   })
 
   it('New record - No values (optional) - navigates to skills page', () => {
-    const particularInterestsPage = new ParticularInterestsPage('Is Daniel Craig interested in any particular jobs?')
+    const particularJobInterestsPage = new ParticularJobInterestsPage(
+      'Is Daniel Craig interested in any particular jobs?',
+    )
 
-    particularInterestsPage.submitButton().click()
+    particularJobInterestsPage.submitButton().click()
 
     cy.url().should('include', 'skills')
   })
 
   it('New record - All valid values - navigates to skills page', () => {
-    const particularInterestsPage = new ParticularInterestsPage('Is Daniel Craig interested in any particular jobs?')
+    const particularJobInterestsPage = new ParticularJobInterestsPage(
+      'Is Daniel Craig interested in any particular jobs?',
+    )
 
-    particularInterestsPage.textField('HOSPITALITY').type('A valid value')
-    particularInterestsPage.textField('OTHER').type('A valid value')
-    particularInterestsPage.textField('OUTDOOR').type('A valid value')
-    particularInterestsPage.textField('CONSTRUCTION').type('A valid value')
-    particularInterestsPage.textField('DRIVING').type('A valid value')
-    particularInterestsPage.textField('BEAUTY').type('A valid value')
-    particularInterestsPage.textField('TECHNICAL').type('A valid value')
-    particularInterestsPage.textField('MANUFACTURING').type('A valid value')
-    particularInterestsPage.textField('OFFICE').type('A valid value')
-    particularInterestsPage.textField('RETAIL').type('A valid value')
-    particularInterestsPage.textField('SPORTS').type('A valid value')
-    particularInterestsPage.textField('WAREHOUSING').type('A valid value')
-    particularInterestsPage.textField('EDUCATION_TRAINING').type('A valid value')
-    particularInterestsPage.textField('WASTE_MANAGEMENT').type('A valid value')
+    particularJobInterestsPage.textField('HOSPITALITY').type('A valid value')
+    particularJobInterestsPage.textField('OTHER').type('A valid value')
+    particularJobInterestsPage.textField('OUTDOOR').type('A valid value')
+    particularJobInterestsPage.textField('CONSTRUCTION').type('A valid value')
+    particularJobInterestsPage.textField('DRIVING').type('A valid value')
+    particularJobInterestsPage.textField('BEAUTY').type('A valid value')
+    particularJobInterestsPage.textField('TECHNICAL').type('A valid value')
+    particularJobInterestsPage.textField('MANUFACTURING').type('A valid value')
+    particularJobInterestsPage.textField('OFFICE').type('A valid value')
+    particularJobInterestsPage.textField('RETAIL').type('A valid value')
+    particularJobInterestsPage.textField('SPORTS').type('A valid value')
+    particularJobInterestsPage.textField('WAREHOUSING').type('A valid value')
+    particularJobInterestsPage.textField('EDUCATION_TRAINING').type('A valid value')
+    particularJobInterestsPage.textField('WASTE_MANAGEMENT').type('A valid value')
 
-    particularInterestsPage.submitButton().click()
+    particularJobInterestsPage.submitButton().click()
 
     cy.url().should('include', 'skills')
   })

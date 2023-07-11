@@ -13,7 +13,7 @@ import hasWorkedBeforeRoutes from './createPlan/hasWorkedBefore'
 import typeOfWorkExperienceRoutes from './createPlan/typeOfWorkExperience'
 import workDetailsRoutes from './createPlan/workDetails'
 import workInterestsRoutes from './createPlan/workInterests'
-import particularInterestsRoutes from './createPlan/particularInterests'
+import particularJobInterestsRoutes from './createPlan/particularJobInterests'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -32,7 +32,7 @@ export default function routes(services: Services): Router {
   typeOfWorkExperienceRoutes(router, services)
   workDetailsRoutes(router, services)
   workInterestsRoutes(router, services)
-  particularInterestsRoutes(router, services)
+  particularJobInterestsRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

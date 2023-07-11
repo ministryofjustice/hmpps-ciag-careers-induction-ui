@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * workInterests - existing value for field
-    * particularInterests - existing value for field
+    * particularJobInterests - existing value for field
     * errors? - validation errors
 #}
 
@@ -39,7 +39,7 @@
             {{ govukInput({
                 id: item,
                 name: item,
-                value: particularInterests[item],
+                value: particularJobInterests[item],
                 type: "text",
                 classes: "govuk-!-width-one-half",
                 label: {

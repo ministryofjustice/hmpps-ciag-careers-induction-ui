@@ -9,7 +9,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 
-export default class ParticularInterestsController {
+export default class ParticularJobInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -34,7 +34,7 @@ export default class ParticularInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests: record.workInterests,
         workInterestsDetails: record.workInterestsDetails,
-        particularInterests: (record.particularInterests || []).reduce(
+        particularJobInterests: (record.particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
             acc[curr.interestKey] = curr.jobDetails
             return acc
@@ -44,9 +44,9 @@ export default class ParticularInterestsController {
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['particularInterests', id, 'data'], data)
+      setSessionData(req, ['particularJobInterests', id, 'data'], data)
 
-      res.render('pages/createPlan/particularInterests/index', { ...data })
+      res.render('pages/createPlan/particularJobInterests/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -57,18 +57,18 @@ export default class ParticularInterestsController {
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['particularInterests', id, 'data'])
+      const data = getSessionData(req, ['particularJobInterests', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/particularInterests/index', {
+        res.render('pages/createPlan/particularJobInterests/index', {
           ...data,
           errors,
-          particularInterests: { ...req.body },
+          particularJobInterests: { ...req.body },
         })
         return
       }
 
-      deleteSessionData(req, ['particularInterests', id, 'data'])
+      deleteSessionData(req, ['particularJobInterests', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
@@ -78,7 +78,7 @@ export default class ParticularInterestsController {
       const values = Object.keys(req.body).filter(v => !!req.body[v])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        particularInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
+        particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
       })
 
       // Redirect to the correct page based on hopingToGetWork
