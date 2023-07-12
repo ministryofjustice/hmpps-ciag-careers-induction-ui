@@ -12,8 +12,8 @@ export default function validationSchema(data: SkillsData): ObjectSchema {
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select the type of training or vocational qualification ${firstName} ${lastName} has`
-  const msgOther = `Enter the type of training or vocational qualification ${firstName} ${lastName} has`
+  const msg = `Select the skill that ${firstName} ${lastName} feels they have or select 'None of these'`
+  const msgOther = `Enter the skill that ${firstName} ${lastName} feels they have`
 
   return joi
     .object({
@@ -25,15 +25,13 @@ export default function validationSchema(data: SkillsData): ObjectSchema {
           joi
             .any()
             .valid(
-              SkillsValue.CSCS,
-              SkillsValue.DRIVING_LICENSE,
-              SkillsValue.FIRST_AID,
-              SkillsValue.FOOD_HYGIENE,
-              SkillsValue.HEALTH_AND_SAFETY,
-              SkillsValue.HGV_LICENSE,
-              SkillsValue.MACHINERY,
-              SkillsValue.MANUAL,
-              SkillsValue.TRADE,
+              SkillsValue.COMMUNICATION,
+              SkillsValue.POSITIVE_ATTITUDE,
+              SkillsValue.RESILIENCE,
+              SkillsValue.SELF_MANAGEMENT,
+              SkillsValue.TEAMWORK,
+              SkillsValue.THINKING_PROBLEM_SOLVING,
+              SkillsValue.WILLINGNESS_TO_LEARN,
               SkillsValue.OTHER,
               SkillsValue.NONE,
             ),
@@ -68,6 +66,6 @@ export default function validationSchema(data: SkillsData): ObjectSchema {
     })
     .messages({
       'any.custom': msgOther,
-      'any.length': 'Other qualification must be 200 characters or less',
+      'any.length': 'Skill must be 200 characters or less',
     })
 }

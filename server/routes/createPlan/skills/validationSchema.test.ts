@@ -20,7 +20,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: "Select the skill that mock_firstName mock_lastName feels they have or select 'None of these'",
       path: ['skills'],
       type: 'any.required',
       context: {
@@ -40,21 +40,19 @@ describe('validationSchema', () => {
         key: 0,
         label: 'skills[0]',
         valids: [
-          SkillsValue.CSCS,
-          SkillsValue.DRIVING_LICENSE,
-          SkillsValue.FIRST_AID,
-          SkillsValue.FOOD_HYGIENE,
-          SkillsValue.HEALTH_AND_SAFETY,
-          SkillsValue.HGV_LICENSE,
-          SkillsValue.MACHINERY,
-          SkillsValue.MANUAL,
-          SkillsValue.TRADE,
+          SkillsValue.COMMUNICATION,
+          SkillsValue.POSITIVE_ATTITUDE,
+          SkillsValue.RESILIENCE,
+          SkillsValue.SELF_MANAGEMENT,
+          SkillsValue.TEAMWORK,
+          SkillsValue.THINKING_PROBLEM_SOLVING,
+          SkillsValue.WILLINGNESS_TO_LEARN,
           SkillsValue.OTHER,
           SkillsValue.NONE,
         ],
         value: 'SOME_VALUE',
       },
-      message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: "Select the skill that mock_firstName mock_lastName feels they have or select 'None of these'",
       path: ['skills', 0],
       type: 'any.only',
     })
@@ -73,7 +71,7 @@ describe('validationSchema', () => {
           skills: ['OTHER'],
         },
       },
-      message: 'Enter the type of training or vocational qualification mock_firstName mock_lastName has',
+      message: 'Enter the skill that mock_firstName mock_lastName feels they have',
       path: [],
       type: 'any.custom',
     })
@@ -94,14 +92,14 @@ describe('validationSchema', () => {
           skills: ['OTHER'],
         },
       },
-      message: 'Other qualification must be 200 characters or less',
+      message: 'Skill must be 200 characters or less',
       path: [],
       type: 'any.length',
     })
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.skills = ['MACHINERY']
+    req.body.skills = ['COMMUNICATION']
     req.body.skillsDetails = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
