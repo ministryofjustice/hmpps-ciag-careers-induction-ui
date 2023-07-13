@@ -20,7 +20,8 @@ export default {
     workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
     workDetails: (id: string, typeOfWorkExperience: TypeOfWorkExperienceValue, mode = 'new') =>
       `/plan/create/${id}/work-details/${typeOfWorkExperience.toLowerCase()}/${mode}`,
-    particularInterest: (id: string, mode = 'new') => `/plan/create/${id}/particular-interests/${mode}`,
+    particularJobInterests: (id: string, mode = 'new') => `/plan/create/${id}/particular-job-interests/${mode}`,
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
+    interests: (id: string, mode = 'new') => `/plan/create/${id}/interests/${mode}`,
   },
 }
