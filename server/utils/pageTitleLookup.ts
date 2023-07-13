@@ -10,6 +10,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
   const prisonerName = `${toSentenceCase(prisoner.firstName)} ${toSentenceCase(prisoner.lastName)}`
   const lookup = {
     view: `${prisonerName}`,
+    skills: `What skills does ${prisonerName} feel they have?`,
     'check-answers': `Check your answers before saving them to ${prisonerName}'s plan`,
     'hoping-to-get-work': `Is ${prisonerName} hoping to get work when they're released?`,
     'education-level': `What's the highest level of education ${prisonerName} has completed?`,
