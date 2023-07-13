@@ -12,5 +12,5 @@ export default class WorkExperienceViewModel {
 
   workTypesOfInterestOther: string
 
-  particularInterest: string
+  particularJobInterests: string
 }
