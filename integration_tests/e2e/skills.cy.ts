@@ -2,7 +2,9 @@ import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import OtherQualificationsPage from '../pages/otherQualifications'
+import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
+import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
 context('Work interests page', () => {
@@ -42,41 +44,56 @@ context('Work interests page', () => {
 
     hasWorkedBefore.radioFieldValue('NO').click()
     hasWorkedBefore.submitButton().click()
-  })
 
-  it('New record - Validation messages display when no value selected', () => {
-    const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
-
-    workInterestsPage.submitButton().click()
-
-    workInterestsPage.checkboxPageErrorMessage().contains('Select the type of work Daniel Craig is interested in')
-    workInterestsPage.checkboxFieldErrorMessage().contains('Select the type of work Daniel Craig is interested in')
-
-    workInterestsPage.checkboxFieldValue('OTHER').click()
-    workInterestsPage.submitButton().click()
-
-    workInterestsPage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
-    workInterestsPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
-  })
-
-  it('New record - Select HOSPITALITY - navigates to particular-job-interests page', () => {
     const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
 
     workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
-
     workInterestsPage.submitButton().click()
 
-    cy.url().should('include', 'particular-job-interests')
+    const particularJobInterestsPage = new ParticularJobInterestsPage(
+      'Is Daniel Craig interested in any particular jobs?',
+    )
+
+    particularJobInterestsPage.submitButton().click()
   })
 
-  it('New record - Select OTHER - navigates to particular-job-interests page', () => {
-    const workInterestsPage = new WorkInterestsPage('What type of work is Daniel Craig interested in?')
+  it('New record - Validation messages display when no value selected', () => {
+    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
 
-    workInterestsPage.checkboxFieldValue('OTHER').click()
-    workInterestsPage.textareaField().type('Some other job')
+    skillsPage.submitButton().click()
 
-    workInterestsPage.submitButton().click()
+    skillsPage
+      .checkboxPageErrorMessage()
+      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
+    skillsPage
+      .checkboxFieldErrorMessage()
+      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
 
-    cy.url().should('include', 'particular-job-interests')
+    skillsPage.checkboxFieldValue('OTHER').click()
+    skillsPage.submitButton().click()
+
+    skillsPage.detailsPageErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
+    skillsPage.detailsFieldErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
+  })
+
+  it('New record - Select HOSPITALITY - navigates to interests page', () => {
+    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
+
+    skillsPage.checkboxFieldValue('COMMUNICATION').click()
+
+    skillsPage.submitButton().click()
+
+    cy.url().should('include', 'interests')
+  })
+
+  it('New record - Select OTHER - navigates to interests page', () => {
+    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
+
+    skillsPage.checkboxFieldValue('OTHER').click()
+    skillsPage.textareaField().type('Some other skill')
+
+    skillsPage.submitButton().click()
+
+    cy.url().should('include', 'interests')
   })
 })
