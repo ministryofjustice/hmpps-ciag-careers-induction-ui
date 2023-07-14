@@ -23,5 +23,6 @@ export default {
     particularJobInterests: (id: string, mode = 'new') => `/plan/create/${id}/particular-job-interests/${mode}`,
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
     interests: (id: string, mode = 'new') => `/plan/create/${id}/interests/${mode}`,
+    abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
   },
 }
