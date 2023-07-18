@@ -15,6 +15,7 @@ import workDetailsRoutes from './createPlan/workDetails'
 import workInterestsRoutes from './createPlan/workInterests'
 import particularJobInterestsRoutes from './createPlan/particularJobInterests'
 import skillsRoutes from './createPlan/skills'
+import interestsRoutes from './createPlan/interests'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -35,6 +36,7 @@ export default function routes(services: Services): Router {
   workInterestsRoutes(router, services)
   particularJobInterestsRoutes(router, services)
   skillsRoutes(router, services)
+  interestsRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

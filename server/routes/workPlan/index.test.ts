@@ -24,7 +24,7 @@ describe('Work plan routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('should register GET route for new status page', () => {
+  it('should register GET route for the page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(

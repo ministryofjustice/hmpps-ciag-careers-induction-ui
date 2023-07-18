@@ -1,22 +1,21 @@
 import { Router } from 'express'
-import Controller from './qualificationLevelController'
+import Controller from './interestsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./qualificationLevelController')
+jest.mock('./interestsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Qualification level routes', () => {
+describe('Interests routes', () => {
   let router: Router
   let services: Services
 
   beforeEach(() => {
     router = { get: jest.fn(), post: jest.fn() } as unknown as Router
     services = {
-      prisonerplanService: {},
       prisonerSearchService: {},
       userService: {},
     } as unknown as Services
@@ -32,7 +31,7 @@ describe('Qualification level routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/qualification-level/:qualificationId/:mode',
+      '/plan/create/:id/interests/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -44,7 +43,11 @@ describe('Qualification level routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/qualification-level/:qualificationId/:mode',
+      '/plan/create/:id/interests/:mode',
+      [
+        expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // parseCheckBoxValue
+      ],
       expect.any(Function), // controller.post
     )
   })
