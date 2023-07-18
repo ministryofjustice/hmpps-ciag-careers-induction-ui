@@ -27,7 +27,7 @@ describe('Hope to get work routes', () => {
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('should register GET route for new status page', () => {
+  it('should register GET route for the page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
@@ -39,7 +39,7 @@ describe('Hope to get work routes', () => {
     )
   })
 
-  it('should register POST route for new status page', () => {
+  it('should register POST route for the page', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
