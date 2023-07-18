@@ -79,7 +79,7 @@ context('Work interests page', () => {
     interestsPage.detailsFieldErrorMessage().contains("Enter Daniel Craig's interests")
   })
 
-  it('New record - Select COMMUNITY - navigates to interests page', () => {
+  it('New record - Select COMMUNITY - navigates to ability-to-work page', () => {
     const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
 
     interestsPage.checkboxFieldValue('COMMUNITY').click()
@@ -89,7 +89,7 @@ context('Work interests page', () => {
     cy.url().should('include', 'ability-to-work')
   })
 
-  it('New record - Select OTHER - navigates to interests page', () => {
+  it('New record - Select OTHER - navigates to ability-to-work page', () => {
     const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
 
     interestsPage.checkboxFieldValue('OTHER').click()
