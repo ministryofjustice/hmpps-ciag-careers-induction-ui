@@ -3,6 +3,7 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
+
 import InterestsController from './interestsController'
 
 export default (router: Router, services: Services) => {

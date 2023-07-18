@@ -1,7 +1,7 @@
 const ciagPrisoners = {
   content: [
     {
-      prisonerNumber: 'A0670DZ',
+      prisonerNumber: 'G0000AB',
       firstName: 'MILOV',
       lastName: 'CATTUSA',
       releaseDate: '2023-05-28',
@@ -10,7 +10,7 @@ const ciagPrisoners = {
       receptionDate: '2023-01-24',
     },
     {
-      prisonerNumber: 'A0772DZ',
+      prisonerNumber: 'G0000CD',
       firstName: 'JOHN',
       lastName: 'DAVIES',
       releaseDate: '2023-05-28',
@@ -19,7 +19,7 @@ const ciagPrisoners = {
       receptionDate: '2023-01-27',
     },
     {
-      prisonerNumber: 'A1749DZ',
+      prisonerNumber: 'G0000EF',
       firstName: 'JOY',
       lastName: 'GLEASONE',
       releaseDate: '2023-05-28',
@@ -28,7 +28,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-10',
     },
     {
-      prisonerNumber: 'A2346DZ',
+      prisonerNumber: 'G0000GH',
       firstName: 'MARIE',
       lastName: 'THOMPSON',
       releaseDate: '2023-05-28',
@@ -37,7 +37,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-01',
     },
     {
-      prisonerNumber: 'A3365DZ',
+      prisonerNumber: 'G0000IJ',
       firstName: 'LUCIA',
       lastName: 'WILSON',
       releaseDate: '2023-05-28',
@@ -46,7 +46,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-05',
     },
     {
-      prisonerNumber: 'A4521DZ',
+      prisonerNumber: 'G0000KL',
       firstName: 'OLIVER',
       lastName: 'THOMAS',
       releaseDate: '2023-05-28',
@@ -55,7 +55,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-10',
     },
     {
-      prisonerNumber: 'A5779DZ',
+      prisonerNumber: 'G0000MN',
       firstName: 'EMMA',
       lastName: 'RODRIGUEZ',
       releaseDate: '2023-05-28',
@@ -64,7 +64,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-15',
     },
     {
-      prisonerNumber: 'A6103DZ',
+      prisonerNumber: 'G0000OP',
       firstName: 'WILLIAMSON',
       lastName: 'BROWNS',
       releaseDate: '2023-05-28',
@@ -73,7 +73,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-20',
     },
     {
-      prisonerNumber: 'A7052DZ',
+      prisonerNumber: 'G0000QR',
       firstName: 'SOPH',
       lastName: 'CLARKE',
       releaseDate: '2023-05-28',
@@ -82,7 +82,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-25',
     },
     {
-      prisonerNumber: 'A8493DZ',
+      prisonerNumber: 'G0000ST',
       firstName: 'JACKIE',
       lastName: 'WALKERS',
       releaseDate: '2023-05-28',
@@ -91,7 +91,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-01',
     },
     {
-      prisonerNumber: 'A0670DZ',
+      prisonerNumber: 'G0000AB',
       firstName: 'MILO11',
       lastName: 'CATTUS11',
       releaseDate: '2023-05-28',
@@ -100,7 +100,7 @@ const ciagPrisoners = {
       receptionDate: '2023-01-24',
     },
     {
-      prisonerNumber: 'A0772DZ',
+      prisonerNumber: 'G0000CD',
       firstName: 'JOHN1',
       lastName: 'DAVIES1',
       releaseDate: '2023-05-28',
@@ -109,7 +109,7 @@ const ciagPrisoners = {
       receptionDate: '2023-01-27',
     },
     {
-      prisonerNumber: 'A1749DZ',
+      prisonerNumber: 'G0000EF',
       firstName: 'JOYCE1',
       lastName: 'GLEASON1',
       releaseDate: '2023-05-28',
@@ -118,7 +118,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-10',
     },
     {
-      prisonerNumber: 'A2346DZ',
+      prisonerNumber: 'G0000GH',
       firstName: 'MARK1',
       lastName: 'THOMPSON1',
       releaseDate: '2023-05-28',
@@ -127,7 +127,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-01',
     },
     {
-      prisonerNumber: 'A3365DZ',
+      prisonerNumber: 'G0000IJ',
       firstName: 'LUCY1',
       lastName: 'WILSON1',
       releaseDate: '2023-05-28',
@@ -136,7 +136,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-05',
     },
     {
-      prisonerNumber: 'A4521DZ',
+      prisonerNumber: 'G0000KL',
       firstName: 'OLIVER1',
       lastName: 'THOMAS1',
       releaseDate: '2023-05-28',
@@ -145,7 +145,7 @@ const ciagPrisoners = {
       receptionDate: '2023-02-10',
     },
     {
-      prisonerNumber: 'A0670DZ',
+      prisonerNumber: 'G0000AB',
       firstName: 'MILOW',
       lastName: 'CATTUS1',
       releaseDate: '2023-05-28',
@@ -154,7 +154,7 @@ const ciagPrisoners = {
       receptionDate: '2023-01-24',
     },
     {
-      prisonerNumber: 'A1752DZ',
+      prisonerNumber: 'G0000UV',
       firstName: 'DAVID',
       lastName: 'BELL',
       releaseDate: '2023-05-28',
@@ -163,7 +163,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-19',
     },
     {
-      prisonerNumber: 'A1753DZ',
+      prisonerNumber: 'G0000WX',
       firstName: 'EMMA',
       lastName: 'WARD',
       releaseDate: '2023-05-28',
@@ -172,7 +172,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-22',
     },
     {
-      prisonerNumber: 'A0670DZ',
+      prisonerNumber: 'G0000AB',
       firstName: 'OLIVIER',
       lastName: 'DAVIES',
       releaseDate: '2023-05-28',
@@ -181,7 +181,7 @@ const ciagPrisoners = {
       receptionDate: '2023-03-25',
     },
     {
-      prisonerNumber: 'A1755DZ',
+      prisonerNumber: 'G0000YZ',
       firstName: 'AVA',
       lastName: 'HALL',
       releaseDate: '2023-05-28',
