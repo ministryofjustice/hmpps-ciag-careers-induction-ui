@@ -1,6 +1,7 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
+import InterestsPage from '../pages/interests'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
@@ -55,45 +56,47 @@ context('Work interests page', () => {
     )
 
     particularJobInterestsPage.submitButton().click()
-  })
 
-  it('New record - Validation messages display when no value selected', () => {
-    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
-
-    skillsPage.submitButton().click()
-
-    skillsPage
-      .checkboxPageErrorMessage()
-      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
-    skillsPage
-      .checkboxFieldErrorMessage()
-      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
-
-    skillsPage.checkboxFieldValue('OTHER').click()
-    skillsPage.submitButton().click()
-
-    skillsPage.detailsPageErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
-    skillsPage.detailsFieldErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
-  })
-
-  it('New record - Select COMMUNICATION - navigates to interests page', () => {
     const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
 
     skillsPage.checkboxFieldValue('COMMUNICATION').click()
 
     skillsPage.submitButton().click()
-
-    cy.url().should('include', 'interests')
   })
 
-  it('New record - Select OTHER - navigates to interests page', () => {
-    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
+  it('New record - Validation messages display when no value selected', () => {
+    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
 
-    skillsPage.checkboxFieldValue('OTHER').click()
-    skillsPage.textareaField().type('Some other skill')
+    interestsPage.submitButton().click()
 
-    skillsPage.submitButton().click()
+    interestsPage.checkboxPageErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
+    interestsPage.checkboxFieldErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
 
-    cy.url().should('include', 'interests')
+    interestsPage.checkboxFieldValue('OTHER').click()
+    interestsPage.submitButton().click()
+
+    interestsPage.detailsPageErrorMessage().contains("Enter Daniel Craig's interests")
+    interestsPage.detailsFieldErrorMessage().contains("Enter Daniel Craig's interests")
+  })
+
+  it('New record - Select COMMUNITY - navigates to ability-to-work page', () => {
+    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+
+    interestsPage.checkboxFieldValue('COMMUNITY').click()
+
+    interestsPage.submitButton().click()
+
+    cy.url().should('include', 'ability-to-work')
+  })
+
+  it('New record - Select OTHER - navigates to ability-to-work page', () => {
+    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+
+    interestsPage.checkboxFieldValue('OTHER').click()
+    interestsPage.textareaField().type('Some other interest')
+
+    interestsPage.submitButton().click()
+
+    cy.url().should('include', 'ability-to-work')
   })
 })
