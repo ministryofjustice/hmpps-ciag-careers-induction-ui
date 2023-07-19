@@ -3,6 +3,6 @@ export default {
   CARING_RESPONSIBILITIES: 'Has caring responsibilities',
   HEALTH_ISSUES: 'May need work adjustments due to a health condition',
   NO_RIGHT_TO_WORK: 'Right to work in the UK not confirmed',
-  OTHER: 'OTHER',
-  NONE: 'NONE',
+  OTHER: 'Other',
+  NONE: 'None of these',
 }
