@@ -23,4 +23,16 @@ export default {
     text: 'Level 5',
     hint: 'including higher national diploma (HND), foundation degree and level 5 NVQ',
   },
+  LEVEL_6: {
+    text: 'Level 6',
+    hint: 'including degree with honours, graduate apprenticeship and level diploma',
+  },
+  LEVEL_7: {
+    text: 'Level 7',
+    hint: "including master's degree, postgraduate certificate in education (PGCE) and level 7 NVQ",
+  },
+  LEVEL_8: {
+    text: 'Level 8',
+    hint: 'including doctorate, level 8 certificate or diploma',
+  },
 }

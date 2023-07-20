@@ -53,6 +53,7 @@ describe('QualificationsController', () => {
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
+        qualifications: [],
       })
     })
 
@@ -142,13 +143,17 @@ describe('QualificationsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, mode))
     })
 
-    it('On success - Continue - No educationLevel - Redirects to educationLevel', async () => {
+    it('On success - Continue - No qualifications - Redirects to educationLevel', async () => {
+      setSessionData(req, ['createPlan', id], {
+        qualifications: [],
+        educationLevel: 'mock_value',
+      })
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.educationLevel(id))
     })
 
-    it('On success - Continue - educationLevel - Redirects to educationLevel', async () => {
+    it('On success - Continue - qualifications - Redirects to educationLevel', async () => {
       setSessionData(req, ['createPlan', id], {
         qualifications: [{ id: 'A' }, { id: 'B' }],
         educationLevel: 'mock_value',

@@ -80,9 +80,10 @@ export default class QualificationsController {
       }
 
       // Default flow
-      const nextPage = record.educationLevel
-        ? addressLookup.createPlan.otherQualifications(id, mode)
-        : addressLookup.createPlan.educationLevel(id, mode)
+      const nextPage =
+        record.qualifications && record.qualifications.length
+          ? addressLookup.createPlan.otherQualifications(id, mode)
+          : addressLookup.createPlan.educationLevel(id, mode)
       res.redirect(nextPage)
     } catch (err) {
       next(err)
