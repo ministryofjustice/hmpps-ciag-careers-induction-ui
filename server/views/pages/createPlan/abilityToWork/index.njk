@@ -1,0 +1,117 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Is there anything that " + prisoner.firstName + " " + prisoner.lastName + " feels may affect their ability to work after they're released?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * abilityToWork - Array existing values for field
+    * abilityToWorkDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "abilityToWorkDetails",
+              name: "abilityToWorkDetails",
+              rows: "2",
+              value: abilityToWorkDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any abilityToWork" },
+              errorMessage: errors.abilityToWorkDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "abilityToWork",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "LIMITED_BY_OFFENSE",
+                checked: abilityToWork.indexOf("LIMITED_BY_OFFENSE") > -1,
+                text: contentLookup.fields.abilityToWork["LIMITED_BY_OFFENSE"]
+              },
+              {
+                value: "CARING_RESPONSIBILITIES",
+                checked: abilityToWork.indexOf("CARING_RESPONSIBILITIES") > -1,
+                text: contentLookup.fields.abilityToWork["CARING_RESPONSIBILITIES"]
+              },
+              {
+                value: "HEALTH_ISSUES",
+                checked: abilityToWork.indexOf("HEALTH_ISSUES") > -1,
+                text: contentLookup.fields.abilityToWork["HEALTH_ISSUES"]
+              },
+               {
+                value: "NO_RIGHT_TO_WORK",
+                checked: abilityToWork.indexOf("NO_RIGHT_TO_WORK") > -1,
+                text: contentLookup.fields.abilityToWork["NO_RIGHT_TO_WORK"]
+              },
+              {
+                value: "OTHER",
+                checked: abilityToWork.indexOf("OTHER") > -1,
+                text: contentLookup.fields.abilityToWork["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.abilityToWork["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text:contentLookup.fields.abilityToWork["NONE"],
+                checked: abilityToWork.indexOf("NONE") > -1,
+                behaviour: "exclusive"
+              }
+            ],
+            errorMessage: errors.abilityToWork
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

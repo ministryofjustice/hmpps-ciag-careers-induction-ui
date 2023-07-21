@@ -30,7 +30,9 @@ export default class QualificationLevelController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.educationLevel(id) : addressLookup.createPlan.qualifications(id)
+        mode !== 'edit' && record.qualifications.length === 1
+          ? addressLookup.createPlan.educationLevel(id)
+          : addressLookup.createPlan.qualifications(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -38,7 +40,7 @@ export default class QualificationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: record.educationLevel,
+        educationLevel: record.educationLevel || '',
         qualificationLevel: qualification.level,
       }
 

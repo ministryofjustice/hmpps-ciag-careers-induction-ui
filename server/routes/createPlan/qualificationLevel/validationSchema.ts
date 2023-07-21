@@ -26,6 +26,9 @@ export default function validationSchema(data: QualificationLevelData): ObjectSc
         QualificationLevelValue.LEVEL_3,
         QualificationLevelValue.LEVEL_4,
         QualificationLevelValue.LEVEL_5,
+        QualificationLevelValue.LEVEL_6,
+        QualificationLevelValue.LEVEL_7,
+        QualificationLevelValue.LEVEL_8,
       )
       .messages({
         'any.only': msg,

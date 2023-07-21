@@ -11,6 +11,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -214,7 +215,7 @@ describe('EducationLevelController', () => {
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.UNDERGRADUATE_DEGREE,
-        qualifications: [{ id: 'guid', level: EducationLevelValue.UNDERGRADUATE_DEGREE }],
+        qualifications: [{ id: 'guid', level: QualificationLevelValue.LEVEL_6 }],
       })
     })
 
@@ -231,7 +232,7 @@ describe('EducationLevelController', () => {
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.POSTGRADUATE_DEGREE,
-        qualifications: [{ id: 'guid', level: EducationLevelValue.POSTGRADUATE_DEGREE }],
+        qualifications: [{ id: 'guid', level: QualificationLevelValue.LEVEL_8 }],
       })
     })
   })
