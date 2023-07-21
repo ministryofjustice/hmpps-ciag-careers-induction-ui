@@ -1,4 +1,4 @@
-{% if educationLevel %}
+{% if qualifications.length %}
   <table class="govuk-table">
     <caption class="govuk-table__caption govuk-table__caption--m">Educational qualifications</caption>
 
@@ -11,23 +11,14 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      {% if qualifications.length %}
-        {% for item in qualifications %}
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
-            <td class="govuk-table__cell">{{ item.subject }}</td>
-            <td class="govuk-table__cell">{{ item.grade }}</td>
-            <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.id }}" name="removeQualification">Remove</button></td>
-          </tr>
-        {% endfor %}
-      {% else %}
+      {% for item in qualifications %}
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"></td>
-          <td class="govuk-table__cell"></td>
-          <td class="govuk-table__cell"></td>
-          <td class="govuk-table__cell">&nbsp;</td>
+          <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
+          <td class="govuk-table__cell">{{ item.subject }}</td>
+          <td class="govuk-table__cell">{{ item.grade }}</td>
+          <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.id }}" name="removeQualification">Remove</button></td>
         </tr>
-      {% endif %}
+      {% endfor %}
     </tbody>
   </table>
   <div class="govuk-form-group">
