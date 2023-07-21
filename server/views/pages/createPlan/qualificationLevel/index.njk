@@ -76,6 +76,44 @@
   {% set options = options.concat(level5) %}
 {% endif %}
 
+{% if educationLevel === 'UNDERGRADUATE_DEGREE' or educationLevel === 'POSTGRADUATE_DEGREE' or educationLevel === '' %}
+  {% set title = "What level of qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level6 = {
+        value: "LEVEL_6",
+        text: contentLookup.fields.qualificationLevel["LEVEL_6"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_6"].hint
+        },
+        checked: qualificationLevel === "LEVEL_6"
+      }
+  %}
+  {% set options = options.concat(level6) %}
+{% endif %}
+
+{% if educationLevel === 'POSTGRADUATE_DEGREE' or educationLevel === '' %}
+  {% set title = "What level of qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level7 = {
+        value: "LEVEL_7",
+        text: contentLookup.fields.qualificationLevel["LEVEL_7"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_7"].hint
+        },
+        checked: qualificationLevel === "LEVEL_7"
+      }
+  %}
+  {% set options = options.concat(level7) %}
+  {% set level8 = {
+        value: "LEVEL_8",
+        text: contentLookup.fields.qualificationLevel["LEVEL_8"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_8"].hint
+        },
+        checked: qualificationLevel === "LEVEL_8"
+      }
+  %}
+  {% set options = options.concat(level8) %}
+{% endif %}
+
 
 {% block beforeContent %}
   {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}

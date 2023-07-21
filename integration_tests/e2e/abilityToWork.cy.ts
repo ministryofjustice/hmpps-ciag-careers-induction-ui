@@ -1,13 +1,15 @@
+import AbilityToWorkPage from '../pages/abilityToWork'
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
+import InterestsPage from '../pages/interests'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
-context('Skills page', () => {
+context('Ability to work page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -55,45 +57,67 @@ context('Skills page', () => {
     )
 
     particularJobInterestsPage.submitButton().click()
-  })
 
-  it('New record - Validation messages display when no value selected', () => {
-    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
-
-    skillsPage.submitButton().click()
-
-    skillsPage
-      .checkboxPageErrorMessage()
-      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
-    skillsPage
-      .checkboxFieldErrorMessage()
-      .contains("Select the skill that Daniel Craig feels they have or select 'None of these'")
-
-    skillsPage.checkboxFieldValue('OTHER').click()
-    skillsPage.submitButton().click()
-
-    skillsPage.detailsPageErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
-    skillsPage.detailsFieldErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
-  })
-
-  it('New record - Select COMMUNICATION - navigates to interests page', () => {
     const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
 
     skillsPage.checkboxFieldValue('COMMUNICATION').click()
 
     skillsPage.submitButton().click()
 
-    cy.url().should('include', 'interests')
+    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+
+    interestsPage.checkboxFieldValue('COMMUNITY').click()
+
+    interestsPage.submitButton().click()
   })
 
-  it('New record - Select OTHER - navigates to interests page', () => {
-    const skillsPage = new SkillsPage('What skills does Daniel Craig feel they have?')
+  it('New record - Validation messages display when no value selected', () => {
+    const abilityToWorkPage = new AbilityToWorkPage(
+      "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
+    )
 
-    skillsPage.checkboxFieldValue('OTHER').click()
-    skillsPage.textareaField().type('Some other skill')
+    abilityToWorkPage.submitButton().click()
 
-    skillsPage.submitButton().click()
+    abilityToWorkPage
+      .checkboxPageErrorMessage()
+      .contains('Select whether Daniel Craig feels something may affect their ability to work')
+    abilityToWorkPage
+      .checkboxFieldErrorMessage()
+      .contains('Select whether Daniel Craig feels something may affect their ability to work')
 
-    cy.url().should('include', 'interests')
+    abilityToWorkPage.checkboxFieldValue('OTHER').click()
+    abilityToWorkPage.submitButton().click()
+
+    abilityToWorkPage
+      .detailsPageErrorMessage()
+      .contains('Enter what Daniel Craig feels may affect their ability to work')
+    abilityToWorkPage
+      .detailsFieldErrorMessage()
+      .contains('Enter what Daniel Craig feels may affect their ability to work')
+  })
+
+  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-answers page', () => {
+    const abilityToWorkPage = new AbilityToWorkPage(
+      "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
+    )
+
+    abilityToWorkPage.checkboxFieldValue('LIMITED_BY_OFFENSE').click()
+
+    abilityToWorkPage.submitButton().click()
+
+    cy.url().should('include', 'check-answers')
+  })
+
+  it('New record - Select OTHER - navigates to check-answers page', () => {
+    const abilityToWorkPage = new AbilityToWorkPage(
+      "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
+    )
+
+    abilityToWorkPage.checkboxFieldValue('OTHER').click()
+    abilityToWorkPage.textareaField().type('Some other interest')
+
+    abilityToWorkPage.submitButton().click()
+
+    cy.url().should('include', 'check-answers')
   })
 })

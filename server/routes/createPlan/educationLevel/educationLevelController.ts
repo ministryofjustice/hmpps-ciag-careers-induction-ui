@@ -12,6 +12,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -82,7 +83,10 @@ export default class EducationLevelController {
           qualifications: [
             {
               id: newid,
-              level: educationLevel,
+              level:
+                educationLevel === EducationLevelValue.POSTGRADUATE_DEGREE
+                  ? QualificationLevelValue.LEVEL_8
+                  : QualificationLevelValue.LEVEL_6,
             },
           ],
         })

@@ -8,7 +8,7 @@ import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
-context('Work interests page', () => {
+context('Interests page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
