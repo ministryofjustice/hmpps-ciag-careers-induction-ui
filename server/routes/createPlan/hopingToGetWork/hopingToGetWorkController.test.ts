@@ -112,7 +112,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.whyNoWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
@@ -122,7 +122,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.whyNoWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })
