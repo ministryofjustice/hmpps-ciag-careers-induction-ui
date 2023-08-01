@@ -48,7 +48,7 @@ export default class InPrisonEducationController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
     const { inPrisonEducation = [], inPrisonEducationDetails } = req.body
 
     try {
