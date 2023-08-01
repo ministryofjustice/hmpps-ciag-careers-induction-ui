@@ -76,7 +76,7 @@ export default class InPrisonWorkController {
         inPrisonWorkDetails: inPrisonWork.includes(InPrisonWorkValue.OTHER) ? inPrisonWorkDetails : '',
       })
 
-      // Redirect to the correct page based on hopingToGetWork
+      // Redirect to the correct page
       res.redirect(addressLookup.createPlan.inPrisonEducation(id, mode))
     } catch (err) {
       next(err)

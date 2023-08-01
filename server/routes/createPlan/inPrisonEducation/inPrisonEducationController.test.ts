@@ -141,7 +141,7 @@ describe('InPrisonEducationController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to workDetails', async () => {
+    it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
       req.body.inPrisonEducation = [InPrisonEducationValue.OTHER]
       req.body.inPrisonEducationDetails = 'mock_details'
       req.params.mode = 'new'
@@ -154,7 +154,7 @@ describe('InPrisonEducationController', () => {
         inPrisonEducationDetails: 'mock_details',
       })
       expect(getSessionData(req, ['inPrisonEducation', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonEducation(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
     })
   })
 })

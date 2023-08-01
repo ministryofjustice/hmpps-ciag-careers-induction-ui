@@ -78,8 +78,8 @@ export default class InPrisonEducationController {
           : '',
       })
 
-      // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.inPrisonEducation(id, mode))
+      // Redirect to the correct page
+      res.redirect(addressLookup.createPlan.checkAnswers(id))
     } catch (err) {
       next(err)
     }
