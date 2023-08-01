@@ -15,11 +15,12 @@ export default function validationSchema(data: NotHopingToGetWorkData): ObjectSc
   const msg = `Select why ${firstName} ${lastName} is not hoping to get work`
   const msgOther = `Enter why ${firstName} ${lastName} is not hoping to get work when they’re released`
 
-  return joi
+  const schema = joi
     .object({
       notHopingToGetWorkDetails: joi.string().allow(''),
       notHopingToGetWork: joi
         .array()
+        .required()
         .items(
           joi
             .any()
@@ -35,7 +36,6 @@ export default function validationSchema(data: NotHopingToGetWorkData): ObjectSc
               NotHopingToGetWorkValues.NOT_SURE,
             ),
         )
-        .required()
         .messages({
           'any.only': msg,
           'any.required': msg,
@@ -68,4 +68,7 @@ export default function validationSchema(data: NotHopingToGetWorkData): ObjectSc
       'any.custom': msgOther,
       'any.length': 'Reason must be 200 characters or less',
     })
+
+  console.log(schema)
+  return schema
 }
