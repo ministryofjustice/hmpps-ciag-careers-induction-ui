@@ -4,18 +4,18 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
+import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 
-export default class InPrisonWorkController {
+export default class InPrisonEducationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or incorrect value return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
       if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
@@ -34,50 +34,52 @@ export default class InPrisonWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        inPrisonWork: record.inPrisonWork || [],
-        inPrisonWorkDetails: record.inPrisonWorkDetails,
+        inPrisonEducation: record.inPrisonEducation || [],
+        inPrisonEducationDetails: record.inPrisonEducationDetails,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['inPrisonWork', id, 'data'], data)
+      setSessionData(req, ['inPrisonEducation', id, 'data'], data)
 
-      res.render('pages/createPlan/inPrisonWork/index', { ...data })
+      res.render('pages/createPlan/inPrisonEducation/index', { ...data })
     } catch (err) {
       next(err)
     }
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
-    const { inPrisonWork = [], inPrisonWorkDetails } = req.body
+    const { id } = req.params
+    const { inPrisonEducation = [], inPrisonEducationDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['inPrisonWork', id, 'data'])
+      const data = getSessionData(req, ['inPrisonEducation', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/inPrisonWork/index', {
+        res.render('pages/createPlan/inPrisonEducation/index', {
           ...data,
           errors,
-          inPrisonWork,
-          inPrisonWorkDetails,
+          inPrisonEducation,
+          inPrisonEducationDetails,
         })
         return
       }
 
-      deleteSessionData(req, ['inPrisonWork', id, 'data'])
+      deleteSessionData(req, ['inPrisonEducation', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        inPrisonWork,
-        inPrisonWorkDetails: inPrisonWork.includes(InPrisonWorkValue.OTHER) ? inPrisonWorkDetails : '',
+        inPrisonEducation,
+        inPrisonEducationDetails: inPrisonEducation.includes(InPrisonEducationValue.OTHER)
+          ? inPrisonEducationDetails
+          : '',
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.inPrisonEducation(id, mode))
+      res.redirect(addressLookup.createPlan.checkAnswers(id))
     } catch (err) {
       next(err)
     }
