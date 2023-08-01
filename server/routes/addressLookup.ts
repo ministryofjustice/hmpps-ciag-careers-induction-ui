@@ -17,6 +17,7 @@ export default {
       `/plan/create/${id}/qualification-details/${qualificationId}/${mode}`,
     hasWorkedBefore: (id: string, mode = 'new') => `/plan/create/${id}/has-worked-before/${mode}`,
     inPrisonWork: (id: string, mode = 'new') => `/plan/create/${id}/in-prison-work/${mode}`,
+    inPrisonEducation: (id: string, mode = 'new') => `/plan/create/${id}/in-prison-education/${mode}`,
     typeOfWorkExperience: (id: string, mode = 'new') => `/plan/create/${id}/type-of-work-experience/${mode}`,
     workInterests: (id: string, mode = 'new') => `/plan/create/${id}/work-interests/${mode}`,
     workDetails: (id: string, typeOfWorkExperience: TypeOfWorkExperienceValue, mode = 'new') =>

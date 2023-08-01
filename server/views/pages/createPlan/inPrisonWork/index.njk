@@ -1,0 +1,139 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What type of work would " + prisoner.firstName + " " + prisoner.lastName + " like to do in prison?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * inPrisonWork - Array existing values for field
+    * inPrisonWorkDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "inPrisonWorkDetails",
+              name: "inPrisonWorkDetails",
+              rows: "2",
+              value: inPrisonWorkDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " would like to do in prison?" },
+              errorMessage: errors.inPrisonWorkDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "inPrisonWork",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "CLEANING_AND_HYGIENE",
+                checked: inPrisonWork.indexOf("CLEANING_AND_HYGIENE") > -1,
+                text: contentLookup.fields.inPrisonWork["CLEANING_AND_HYGIENE"]
+              },
+              {
+                value: "COMPUTERS_OR_DESK_BASED",
+                checked: inPrisonWork.indexOf("COMPUTERS_OR_DESK_BASED") > -1,
+                text: contentLookup.fields.inPrisonWork["COMPUTERS_OR_DESK_BASED"]
+              },
+              {
+                value: "GARDENING_AND_OUTDOORS",
+                checked: inPrisonWork.indexOf("GARDENING_AND_OUTDOORS") > -1,
+                text: contentLookup.fields.inPrisonWork["GARDENING_AND_OUTDOORS"]
+              },
+              {
+                value: "KITCHENS_AND_COOKING",
+                checked: inPrisonWork.indexOf("KITCHENS_AND_COOKING") > -1,
+                text: contentLookup.fields.inPrisonWork["KITCHENS_AND_COOKING"]
+              },
+              {
+                value: "MAINTENANCE",
+                checked: inPrisonWork.indexOf("MAINTENANCE") > -1,
+                text: contentLookup.fields.inPrisonWork["MAINTENANCE"]
+              },
+              {
+                value: "PRISON_LAUNDRY",
+                checked: inPrisonWork.indexOf("PRISON_LAUNDRY") > -1,
+                text: contentLookup.fields.inPrisonWork["PRISON_LAUNDRY"]
+              },
+              {
+                value: "PRISON_LIBRARY",
+                checked: inPrisonWork.indexOf("PRISON_LIBRARY") > -1,
+                text: contentLookup.fields.inPrisonWork["PRISON_LIBRARY"]
+              },
+              {
+                value: "TEXTILES_AND_SEWING",
+                checked: inPrisonWork.indexOf("TEXTILES_AND_SEWING") > -1,
+                text: contentLookup.fields.inPrisonWork["TEXTILES_AND_SEWING"]
+              },
+              {
+                value: "WELDING_AND_METALWORK",
+                checked: inPrisonWork.indexOf("WELDING_AND_METALWORK") > -1,
+                text: contentLookup.fields.inPrisonWork["WELDING_AND_METALWORK"]
+              },
+              {
+                value: "WOODWORK_AND_JOINERY",
+                checked: inPrisonWork.indexOf("WOODWORK_AND_JOINERY") > -1,
+                text: contentLookup.fields.inPrisonWork["WOODWORK_AND_JOINERY"]
+              },
+              {
+                value: "OTHER",
+                checked: inPrisonWork.indexOf("OTHER") > -1,
+                text: contentLookup.fields.inPrisonWork["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.inPrisonWork["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.inPrisonWork
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
