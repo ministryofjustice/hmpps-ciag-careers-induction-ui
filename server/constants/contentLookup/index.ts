@@ -9,6 +9,7 @@ import skills from './fields/skills'
 import interests from './fields/interests'
 import abilityToWork from './fields/abilityToWork'
 import inPrisonWork from './fields/inPrisonWork'
+import inPrisonEducation from './fields/inPrisonEducation'
 
 import qualifications from './pages/qualifications'
 import qualificationDetails from './pages/qualificationDetails'
@@ -26,6 +27,7 @@ export default {
     interests,
     abilityToWork,
     inPrisonWork,
+    inPrisonEducation,
   },
   pages: {
     qualifications,

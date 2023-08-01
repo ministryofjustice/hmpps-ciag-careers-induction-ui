@@ -2,10 +2,10 @@
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './inPrisonWorkController'
+import Controller from './inPrisonEducationController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
+import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
@@ -29,7 +29,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('InPrisonWorkController', () => {
+describe('InPrisonEducationController', () => {
   const { req, res, next } = expressMocks()
 
   const pageTitleLookupMock = pageTitleLookup as jest.Mock
@@ -48,7 +48,7 @@ describe('InPrisonWorkController', () => {
     backLocation: addressLookup.createPlan.hasWorkedBefore(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    inPrisonWork: [] as any,
+    inPrisonEducation: [] as any,
   }
 
   res.locals.user = {}
@@ -59,7 +59,7 @@ describe('InPrisonWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['inPrisonWork', id, 'data'], mockData)
+      setSessionData(req, ['inPrisonEducation', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -87,16 +87,16 @@ describe('InPrisonWorkController', () => {
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        inPrisonWork: InPrisonWorkValue.OTHER,
+        inPrisonEducation: InPrisonEducationValue.OTHER,
       })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonWork/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonEducation/index', {
         ...mockData,
         backLocation: addressLookup.createPlan.checkAnswers(id),
-        inPrisonWork: InPrisonWorkValue.OTHER,
+        inPrisonEducation: InPrisonEducationValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -112,7 +112,7 @@ describe('InPrisonWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['inPrisonWork', id, 'data'], mockData)
+      setSessionData(req, ['inPrisonEducation', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -134,27 +134,27 @@ describe('InPrisonWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonWork/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonEducation/index', {
         ...mockData,
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to inPrisonEducation', async () => {
-      req.body.inPrisonWork = [InPrisonWorkValue.OTHER]
-      req.body.inPrisonWorkDetails = 'mock_details'
+    it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
+      req.body.inPrisonEducation = [InPrisonEducationValue.OTHER]
+      req.body.inPrisonEducationDetails = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        inPrisonWork: [InPrisonWorkValue.OTHER],
-        inPrisonWorkDetails: 'mock_details',
+        inPrisonEducation: [InPrisonEducationValue.OTHER],
+        inPrisonEducationDetails: 'mock_details',
       })
-      expect(getSessionData(req, ['inPrisonWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonEducation(id, mode))
+      expect(getSessionData(req, ['inPrisonEducation', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
     })
   })
 })

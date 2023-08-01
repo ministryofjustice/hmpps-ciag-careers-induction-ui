@@ -18,6 +18,7 @@ import skillsRoutes from './createPlan/skills'
 import interestsRoutes from './createPlan/interests'
 import abilityToWorkRoutes from './createPlan/abilityToWork'
 import inPrisonWorkRoutes from './createPlan/inPrisonWork'
+import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -41,6 +42,7 @@ export default function routes(services: Services): Router {
   interestsRoutes(router, services)
   abilityToWorkRoutes(router, services)
   inPrisonWorkRoutes(router, services)
+  inPrisonEducationRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
