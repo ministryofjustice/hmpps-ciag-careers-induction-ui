@@ -40,7 +40,7 @@ export default class WorkInterestsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests: record.workInterests || [],
-        workInterestsDetails: record.workInterestsDetails,
+        workInterestsOther: record.workInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -54,7 +54,7 @@ export default class WorkInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { workInterests = [], workInterestsDetails } = req.body
+    const { workInterests = [], workInterestsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -65,7 +65,7 @@ export default class WorkInterestsController {
           ...data,
           errors,
           workInterests,
-          workInterestsDetails,
+          workInterestsOther,
         })
         return
       }
@@ -78,7 +78,7 @@ export default class WorkInterestsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         workInterests,
-        workInterestsDetails: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsDetails : '',
+        workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
       })
 
       // Redirect to the correct page based on hopingToGetWork

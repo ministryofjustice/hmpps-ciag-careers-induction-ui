@@ -7,13 +7,13 @@ export default class WorkInterestsPage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#workInterestsDetails')
+  textareaField = (): PageElement => cy.get('#workInterestsOther')
 
   checkboxPageErrorMessage = (): PageElement => cy.get('[href="#workInterests"]')
 
   checkboxFieldErrorMessage = (): PageElement => cy.get('#workInterests-error')
 
-  detailsPageErrorMessage = (): PageElement => cy.get('[href="#workInterestsDetails"]')
+  detailsPageErrorMessage = (): PageElement => cy.get('[href="#workInterestsOther"]')
 
-  detailsFieldErrorMessage = (): PageElement => cy.get('#workInterestsDetails-error')
+  detailsFieldErrorMessage = (): PageElement => cy.get('#workInterestsOther-error')
 }

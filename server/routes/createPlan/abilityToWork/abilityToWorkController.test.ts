@@ -143,7 +143,7 @@ describe('AbilityToWorkController', () => {
 
     it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
       req.body.abilityToWork = AbilityToWorkValue.OTHER
-      req.body.abilityToWorkDetails = 'mock_details'
+      req.body.abilityToWorkOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,7 +151,7 @@ describe('AbilityToWorkController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         abilityToWork: AbilityToWorkValue.OTHER,
-        abilityToWorkDetails: 'mock_details',
+        abilityToWorkOther: 'mock_details',
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))

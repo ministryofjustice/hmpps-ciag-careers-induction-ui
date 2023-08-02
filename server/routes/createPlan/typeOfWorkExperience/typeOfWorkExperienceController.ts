@@ -33,7 +33,7 @@ export default class TypeOfWorkExperienceController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         typeOfWorkExperience: record.typeOfWorkExperience || [],
-        typeOfWorkExperienceDetails: record.typeOfWorkExperienceDetails,
+        typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
       }
 
       // Store page data for use if validation fails
@@ -47,7 +47,7 @@ export default class TypeOfWorkExperienceController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { typeOfWorkExperience = [], typeOfWorkExperienceDetails } = req.body
+    const { typeOfWorkExperience = [], typeOfWorkExperienceOther } = req.body
 
     try {
       // If validation errors render errors
@@ -58,7 +58,7 @@ export default class TypeOfWorkExperienceController {
           ...data,
           errors,
           typeOfWorkExperience,
-          typeOfWorkExperienceDetails,
+          typeOfWorkExperienceOther,
         })
         return
       }
@@ -71,8 +71,8 @@ export default class TypeOfWorkExperienceController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         typeOfWorkExperience,
-        typeOfWorkExperienceDetails: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
-          ? typeOfWorkExperienceDetails
+        typeOfWorkExperienceOther: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
+          ? typeOfWorkExperienceOther
           : '',
         workExperience: (record.workExperience || []).filter((j: { typeOfWorkExperience: string }) =>
           typeOfWorkExperience.includes(j.typeOfWorkExperience),

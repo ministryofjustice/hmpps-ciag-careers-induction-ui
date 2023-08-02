@@ -35,7 +35,7 @@ export default class AbilityToWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         abilityToWork: record.abilityToWork || [],
-        abilityToWorkDetails: record.abilityToWorkDetails,
+        abilityToWorkOther: record.abilityToWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -49,7 +49,7 @@ export default class AbilityToWorkController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { abilityToWork = [], abilityToWorkDetails } = req.body
+    const { abilityToWork = [], abilityToWorkOther } = req.body
 
     try {
       // If validation errors render errors
@@ -60,7 +60,7 @@ export default class AbilityToWorkController {
           ...data,
           errors,
           abilityToWork,
-          abilityToWorkDetails,
+          abilityToWorkOther,
         })
         return
       }
@@ -73,7 +73,7 @@ export default class AbilityToWorkController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         abilityToWork,
-        abilityToWorkDetails: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkDetails : '',
+        abilityToWorkOther: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkOther : '',
       })
 
       // Redirect to the correct page

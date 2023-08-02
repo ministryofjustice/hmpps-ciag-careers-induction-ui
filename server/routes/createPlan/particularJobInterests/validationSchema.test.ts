@@ -7,7 +7,7 @@ describe('validationSchema', () => {
 
   const mockData = {
     workInterests: [WorkInterestsValue.BEAUTY, WorkInterestsValue.CONSTRUCTION, WorkInterestsValue.OTHER],
-    workInterestsDetails: 'Some random job',
+    workInterestsOther: 'Some random job',
   }
 
   const longStr = 'x'.repeat(201)

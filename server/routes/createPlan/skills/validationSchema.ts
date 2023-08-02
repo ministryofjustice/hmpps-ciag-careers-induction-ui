@@ -17,7 +17,7 @@ export default function validationSchema(data: SkillsData): ObjectSchema {
 
   return joi
     .object({
-      skillsDetails: joi.string().allow(''),
+      skillsOther: joi.string().allow(''),
       skills: joi
         .array()
         .required()
@@ -42,23 +42,23 @@ export default function validationSchema(data: SkillsData): ObjectSchema {
         }),
     })
     .custom((obj, helper) => {
-      const { skillsDetails, skills } = obj
+      const { skillsOther, skills } = obj
 
       if (!skills.includes('OTHER')) {
         return true
       }
 
-      if (!skillsDetails) {
+      if (!skillsOther) {
         return helper.error('any.custom', {
-          key: 'skillsDetails',
-          label: 'skillsDetails',
+          key: 'skillsOther',
+          label: 'skillsOther',
         })
       }
 
-      if (skillsDetails.length > 200) {
+      if (skillsOther.length > 200) {
         return helper.error('any.length', {
-          key: 'skillsDetails',
-          label: 'skillsDetails',
+          key: 'skillsOther',
+          label: 'skillsOther',
         })
       }
 

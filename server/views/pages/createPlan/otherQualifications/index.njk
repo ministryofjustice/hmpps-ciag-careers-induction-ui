@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * otherQualifications - Array existing values for field
-    * otherQualificationsDetails - Existing value
+    * otherQualificationsOther - Existing value
     * errors? - validation errors
 #}
 
@@ -35,17 +35,17 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "otherQualificationsDetails",
-              name: "otherQualificationsDetails",
+              id: "otherQualificationsOther",
+              name: "otherQualificationsOther",
               rows: "2",
-              value: otherQualificationsDetails,
+              value: otherQualificationsOther,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any qualifications or training" },
-              errorMessage: errors.otherQualificationsDetails
+              errorMessage: errors.otherQualificationsOther
             }) }}
           {% endset -%}
 

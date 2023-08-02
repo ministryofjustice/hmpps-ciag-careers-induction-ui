@@ -33,7 +33,7 @@ export default class ParticularJobInterestsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests: record.workInterests,
-        workInterestsDetails: record.workInterestsDetails,
+        workInterestsOther: record.workInterestsOther,
         particularJobInterests: (record.particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
             acc[curr.interestKey] = curr.jobDetails

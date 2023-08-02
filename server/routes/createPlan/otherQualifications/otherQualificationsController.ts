@@ -42,7 +42,7 @@ export default class OtherQualificationsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         otherQualifications: record.otherQualifications || [],
-        otherQualificationsDetails: record.otherQualificationsDetails,
+        otherQualificationsOther: record.otherQualificationsOther,
       }
 
       // Store page data for use if validation fails
@@ -56,7 +56,7 @@ export default class OtherQualificationsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { otherQualifications = [], otherQualificationsDetails } = req.body
+    const { otherQualifications = [], otherQualificationsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -67,7 +67,7 @@ export default class OtherQualificationsController {
           ...data,
           errors,
           otherQualifications,
-          otherQualificationsDetails,
+          otherQualificationsOther,
         })
         return
       }
@@ -80,8 +80,8 @@ export default class OtherQualificationsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         otherQualifications,
-        otherQualificationsDetails: otherQualifications.includes(OtherQualificationsValue.OTHER)
-          ? otherQualificationsDetails
+        otherQualificationsOther: otherQualifications.includes(OtherQualificationsValue.OTHER)
+          ? otherQualificationsOther
           : '',
       })
 

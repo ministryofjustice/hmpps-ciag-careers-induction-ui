@@ -35,7 +35,7 @@ export default class SkillsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         skills: record.skills || [],
-        skillsDetails: record.skillsDetails,
+        skillsOther: record.skillsOther,
       }
 
       // Store page data for use if validation fails
@@ -49,7 +49,7 @@ export default class SkillsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { skills = [], skillsDetails } = req.body
+    const { skills = [], skillsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -60,7 +60,7 @@ export default class SkillsController {
           ...data,
           errors,
           skills,
-          skillsDetails,
+          skillsOther,
         })
         return
       }
@@ -73,7 +73,7 @@ export default class SkillsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         skills,
-        skillsDetails: skills.includes(SkillsValue.OTHER) ? skillsDetails : '',
+        skillsOther: skills.includes(SkillsValue.OTHER) ? skillsOther : '',
       })
 
       // Redirect to the correct page

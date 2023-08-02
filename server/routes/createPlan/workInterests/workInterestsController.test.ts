@@ -143,7 +143,7 @@ describe('WorkInterestsController', () => {
 
     it('On success - mode = new - Sets session record then redirects to particularJobInterests', async () => {
       req.body.workInterests = [WorkInterestsValue.OTHER]
-      req.body.workInterestsDetails = 'mock_details'
+      req.body.workInterestsOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,7 +151,7 @@ describe('WorkInterestsController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         workInterests: [WorkInterestsValue.OTHER],
-        workInterestsDetails: 'mock_details',
+        workInterestsOther: 'mock_details',
       })
       expect(getSessionData(req, ['workInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.particularJobInterests(id))

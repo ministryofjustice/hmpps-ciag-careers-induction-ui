@@ -35,7 +35,7 @@ export default class InPrisonWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         inPrisonWork: record.inPrisonWork || [],
-        inPrisonWorkDetails: record.inPrisonWorkDetails,
+        inPrisonWorkOther: record.inPrisonWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -49,7 +49,7 @@ export default class InPrisonWorkController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { inPrisonWork = [], inPrisonWorkDetails } = req.body
+    const { inPrisonWork = [], inPrisonWorkOther } = req.body
 
     try {
       // If validation errors render errors
@@ -60,7 +60,7 @@ export default class InPrisonWorkController {
           ...data,
           errors,
           inPrisonWork,
-          inPrisonWorkDetails,
+          inPrisonWorkOther,
         })
         return
       }
@@ -73,7 +73,7 @@ export default class InPrisonWorkController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         inPrisonWork,
-        inPrisonWorkDetails: inPrisonWork.includes(InPrisonWorkValue.OTHER) ? inPrisonWorkDetails : '',
+        inPrisonWorkOther: inPrisonWork.includes(InPrisonWorkValue.OTHER) ? inPrisonWorkOther : '',
       })
 
       // Redirect to the correct page

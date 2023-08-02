@@ -17,7 +17,7 @@ export default function validationSchema(data: OtherQualificationsData): ObjectS
 
   return joi
     .object({
-      otherQualificationsDetails: joi.string().allow(''),
+      otherQualificationsOther: joi.string().allow(''),
       otherQualifications: joi
         .array()
         .required()
@@ -44,23 +44,23 @@ export default function validationSchema(data: OtherQualificationsData): ObjectS
         }),
     })
     .custom((obj, helper) => {
-      const { otherQualificationsDetails, otherQualifications } = obj
+      const { otherQualificationsOther, otherQualifications } = obj
 
       if (!otherQualifications.includes('OTHER')) {
         return true
       }
 
-      if (!otherQualificationsDetails) {
+      if (!otherQualificationsOther) {
         return helper.error('any.custom', {
-          key: 'otherQualificationsDetails',
-          label: 'otherQualificationsDetails',
+          key: 'otherQualificationsOther',
+          label: 'otherQualificationsOther',
         })
       }
 
-      if (otherQualificationsDetails.length > 200) {
+      if (otherQualificationsOther.length > 200) {
         return helper.error('any.length', {
-          key: 'otherQualificationsDetails',
-          label: 'otherQualificationsDetails',
+          key: 'otherQualificationsOther',
+          label: 'otherQualificationsOther',
         })
       }
 

@@ -143,7 +143,7 @@ describe('InPrisonWorkController', () => {
 
     it('On success - mode = new - Sets session record then redirects to inPrisonEducation', async () => {
       req.body.inPrisonWork = [InPrisonWorkValue.OTHER]
-      req.body.inPrisonWorkDetails = 'mock_details'
+      req.body.inPrisonWorkOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,7 +151,7 @@ describe('InPrisonWorkController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         inPrisonWork: [InPrisonWorkValue.OTHER],
-        inPrisonWorkDetails: 'mock_details',
+        inPrisonWorkOther: 'mock_details',
       })
       expect(getSessionData(req, ['inPrisonWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonEducation(id, mode))

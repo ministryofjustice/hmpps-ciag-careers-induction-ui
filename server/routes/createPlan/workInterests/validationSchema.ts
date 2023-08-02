@@ -17,7 +17,7 @@ export default function validationSchema(data: WorkInterestsData): ObjectSchema 
 
   return joi
     .object({
-      workInterestsDetails: joi.string().allow(''),
+      workInterestsOther: joi.string().allow(''),
       workInterests: joi
         .array()
         .required()
@@ -47,23 +47,23 @@ export default function validationSchema(data: WorkInterestsData): ObjectSchema 
         }),
     })
     .custom((obj, helper) => {
-      const { workInterestsDetails, workInterests } = obj
+      const { workInterestsOther, workInterests } = obj
 
       if (!workInterests.includes('OTHER')) {
         return true
       }
 
-      if (!workInterestsDetails) {
+      if (!workInterestsOther) {
         return helper.error('any.custom', {
-          key: 'workInterestsDetails',
-          label: 'workInterestsDetails',
+          key: 'workInterestsOther',
+          label: 'workInterestsOther',
         })
       }
 
-      if (workInterestsDetails.length > 200) {
+      if (workInterestsOther.length > 200) {
         return helper.error('any.length', {
-          key: 'workInterestsDetails',
-          label: 'workInterestsDetails',
+          key: 'workInterestsOther',
+          label: 'workInterestsOther',
         })
       }
 

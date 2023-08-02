@@ -7,13 +7,13 @@ export default class TypeOfWorkExperiencePage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#typeOfWorkExperienceDetails')
+  textareaField = (): PageElement => cy.get('#typeOfWorkExperienceOther')
 
   checkboxPageErrorMessage = (): PageElement => cy.get('[href="#typeOfWorkExperience"]')
 
   checkboxFieldErrorMessage = (): PageElement => cy.get('#typeOfWorkExperience-error')
 
-  detailsPageErrorMessage = (): PageElement => cy.get('[href="#typeOfWorkExperienceDetails"]')
+  detailsPageErrorMessage = (): PageElement => cy.get('[href="#typeOfWorkExperienceOther"]')
 
-  detailsFieldErrorMessage = (): PageElement => cy.get('#typeOfWorkExperienceDetails-error')
+  detailsFieldErrorMessage = (): PageElement => cy.get('#typeOfWorkExperienceOther-error')
 }

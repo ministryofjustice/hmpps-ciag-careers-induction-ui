@@ -7,13 +7,13 @@ export default class OtherQualificationsPage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#otherQualificationsDetails')
+  textareaField = (): PageElement => cy.get('#otherQualificationsOther')
 
   checkboxPageErrorMessage = (): PageElement => cy.get('[href="#otherQualifications"]')
 
   checkboxFieldErrorMessage = (): PageElement => cy.get('#otherQualifications-error')
 
-  detailsPageErrorMessage = (): PageElement => cy.get('[href="#otherQualificationsDetails"]')
+  detailsPageErrorMessage = (): PageElement => cy.get('[href="#otherQualificationsOther"]')
 
-  detailsFieldErrorMessage = (): PageElement => cy.get('#otherQualificationsDetails-error')
+  detailsFieldErrorMessage = (): PageElement => cy.get('#otherQualificationsOther-error')
 }
