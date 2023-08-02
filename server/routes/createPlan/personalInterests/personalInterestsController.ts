@@ -4,12 +4,12 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import InterestsValue from '../../../enums/interestsValue'
+import PersonalInterestsValue from '../../../enums/personalInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 
-export default class InterestsController {
+export default class PersonalInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -32,14 +32,14 @@ export default class InterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        interests: record.interests || [],
-        interestsDetails: record.interestsDetails,
+        personalInterests: record.personalInterests || [],
+        personalInterestsDetails: record.personalInterestsDetails,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['interests', id, 'data'], data)
+      setSessionData(req, ['personalInterests', id, 'data'], data)
 
-      res.render('pages/createPlan/interests/index', { ...data })
+      res.render('pages/createPlan/personalInterests/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -47,31 +47,33 @@ export default class InterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { interests = [], interestsDetails } = req.body
+    const { personalInterests = [], personalInterestsDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['interests', id, 'data'])
+      const data = getSessionData(req, ['personalInterests', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/interests/index', {
+        res.render('pages/createPlan/personalInterests/index', {
           ...data,
           errors,
-          interests,
-          interestsDetails,
+          personalInterests,
+          personalInterestsDetails,
         })
         return
       }
 
-      deleteSessionData(req, ['interests', id, 'data'])
+      deleteSessionData(req, ['personalInterests', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        interests,
-        interestsDetails: interests.includes(InterestsValue.OTHER) ? interestsDetails : '',
+        personalInterests,
+        personalInterestsDetails: personalInterests.includes(PersonalInterestsValue.OTHER)
+          ? personalInterestsDetails
+          : '',
       })
 
       // Redirect to the correct page

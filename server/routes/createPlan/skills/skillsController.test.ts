@@ -141,7 +141,7 @@ describe('SkillsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to interests', async () => {
+    it('On success - mode = new - Sets session record then redirects to personalInterests', async () => {
       req.body.skills = SkillsValue.OTHER
       req.body.skillsDetails = 'mock_details'
       req.params.mode = 'new'
@@ -154,7 +154,7 @@ describe('SkillsController', () => {
         skillsDetails: 'mock_details',
       })
       expect(getSessionData(req, ['skills', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.interests(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.personalInterests(id))
     })
   })
 })

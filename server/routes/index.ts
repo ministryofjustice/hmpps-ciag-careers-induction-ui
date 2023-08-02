@@ -15,7 +15,7 @@ import workDetailsRoutes from './createPlan/workDetails'
 import workInterestsRoutes from './createPlan/workInterests'
 import particularJobInterestsRoutes from './createPlan/particularJobInterests'
 import skillsRoutes from './createPlan/skills'
-import interestsRoutes from './createPlan/interests'
+import personalInterestsRoutes from './createPlan/personalInterests'
 import abilityToWorkRoutes from './createPlan/abilityToWork'
 import inPrisonWorkRoutes from './createPlan/inPrisonWork'
 import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
@@ -39,7 +39,7 @@ export default function routes(services: Services): Router {
   workInterestsRoutes(router, services)
   particularJobInterestsRoutes(router, services)
   skillsRoutes(router, services)
-  interestsRoutes(router, services)
+  personalInterestsRoutes(router, services)
   abilityToWorkRoutes(router, services)
   inPrisonWorkRoutes(router, services)
   inPrisonEducationRoutes(router, services)

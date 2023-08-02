@@ -1,15 +1,15 @@
 import { Router } from 'express'
-import Controller from './interestsController'
+import Controller from './personalInterestsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./interestsController')
+jest.mock('./personalInterestsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Interests routes', () => {
+describe('PersonalInterests routes', () => {
   let router: Router
   let services: Services
 
@@ -31,7 +31,7 @@ describe('Interests routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/interests/:mode',
+      '/plan/create/:id/personal-interests/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Interests routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/interests/:mode',
+      '/plan/create/:id/personal-interests/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

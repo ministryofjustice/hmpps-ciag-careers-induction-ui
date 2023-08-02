@@ -13,8 +13,8 @@
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * interests - Array existing values for field
-    * interestsDetails - Existing value
+    * personalInterests - Array existing values for field
+    * personalInterestsDetails - Existing value
     * errors? - validation errors
 #}
 
@@ -35,22 +35,22 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "interestsDetails",
-              name: "interestsDetails",
+              id: "personalInterestsDetails",
+              name: "personalInterestsDetails",
               rows: "2",
-              value: interestsDetails,
+              value: personalInterestsDetails,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
-              attributes: { "aria-label" : "Give details of any interests" },
-              errorMessage: errors.interestsDetails
+              attributes: { "aria-label" : "Give details of any personalInterests" },
+              errorMessage: errors.personalInterestsDetails
             }) }}
           {% endset -%}
 
           {{ govukCheckboxes({
-            name: "interests",
+            name: "personalInterests",
             fieldset: {
               legend: {
                   text: title,
@@ -64,113 +64,113 @@
             items: [
               {
                 value: "COMMUNITY",
-                checked: interests.indexOf("COMMUNITY") > -1,
-                text: contentLookup.fields.interests["COMMUNITY"],
+                checked: personalInterests.indexOf("COMMUNITY") > -1,
+                text: contentLookup.fields.personalInterests["COMMUNITY"],
                 hint: {
                   text: " things like volunteering with local organisations or charities"
                 }
               },
               {
                 value: "CRAFTS",
-                checked: interests.indexOf("CRAFTS") > -1,
-                text: contentLookup.fields.interests["CRAFTS"],
+                checked: personalInterests.indexOf("CRAFTS") > -1,
+                text: contentLookup.fields.personalInterests["CRAFTS"],
                 hint: {
                   text: "things like DIY, sewing or woodworking"
                 }
               },
               {
                 value: "CREATIVE",
-                checked: interests.indexOf("CREATIVE") > -1,
-                text: contentLookup.fields.interests["CREATIVE"],
+                checked: personalInterests.indexOf("CREATIVE") > -1,
+                text: contentLookup.fields.personalInterests["CREATIVE"],
                 hint: {
                   text: "things like writing, cooking or photography"
                 }
               },
                {
                 value: "DIGITAL",
-                checked: interests.indexOf("DIGITAL") > -1,
-                text: contentLookup.fields.interests["DIGITAL"],
+                checked: personalInterests.indexOf("DIGITAL") > -1,
+                text: contentLookup.fields.personalInterests["DIGITAL"],
                 hint: {
                   text: "things like computer gaming, making movies or coding"
                 }
               },
               {
                 value: "KNOWLEDGE_BASED",
-                checked: interests.indexOf("KNOWLEDGE_BASED") > -1,
-                text: contentLookup.fields.interests["KNOWLEDGE_BASED"],
+                checked: personalInterests.indexOf("KNOWLEDGE_BASED") > -1,
+                text: contentLookup.fields.personalInterests["KNOWLEDGE_BASED"],
                 hint: {
                   text: "things like quizzes, local history or learning a language"
                 }
               },
               {
                 value: "MUSICAL",
-                checked: interests.indexOf("MUSICAL") > -1,
-                text:contentLookup.fields.interests["MUSICAL"],
+                checked: personalInterests.indexOf("MUSICAL") > -1,
+                text:contentLookup.fields.personalInterests["MUSICAL"],
                 hint: {
                   text: "things like singing, playing an instrument or dancing"
                 }
               },
               {
                 value: "OUTDOOR",
-                checked: interests.indexOf("OUTDOOR") > -1,
-                text: contentLookup.fields.interests["OUTDOOR"],
+                checked: personalInterests.indexOf("OUTDOOR") > -1,
+                text: contentLookup.fields.personalInterests["OUTDOOR"],
                 hint: {
                   text: " things like cycling, hiking or gardening"
                 }
               },
               {
                 value: "NATURE_AND_ANIMALS",
-                checked: interests.indexOf("NATURE_AND_ANIMALS") > -1,
-                text: contentLookup.fields.interests["NATURE_AND_ANIMALS"],
+                checked: personalInterests.indexOf("NATURE_AND_ANIMALS") > -1,
+                text: contentLookup.fields.personalInterests["NATURE_AND_ANIMALS"],
                 hint: {
                   text: "things like looking after pets, fishing or birdwatching"
                 }
               },
               {
                 value: "SOCIAL",
-                checked: interests.indexOf("SOCIAL") > -1,
-                text: contentLookup.fields.interests["SOCIAL"],
+                checked: personalInterests.indexOf("SOCIAL") > -1,
+                text: contentLookup.fields.personalInterests["SOCIAL"],
                 hint: {
                   text: "things like spending time with friends or going to the cinema"
                 }
               },
               {
                 value: "SOLO_ACTIVITIES",
-                checked: interests.indexOf("SOLO_ACTIVITIES") > -1,
-                text: contentLookup.fields.interests["SOLO_ACTIVITIES"],
+                checked: personalInterests.indexOf("SOLO_ACTIVITIES") > -1,
+                text: contentLookup.fields.personalInterests["SOLO_ACTIVITIES"],
                 hint: {
                   text: "  things like reading, watching TV or listening to music"
                 }
               },
               {
                 value: "SOLO_SPORTS",
-                checked: interests.indexOf("SOLO_SPORTS") > -1,
-                text: contentLookup.fields.interests["SOLO_SPORTS"],
+                checked: personalInterests.indexOf("SOLO_SPORTS") > -1,
+                text: contentLookup.fields.personalInterests["SOLO_SPORTS"],
                 hint: {
                   text: "things like golf, running or swimming"
                 }
               },
               {
                 value: "TEAM_SPORTS",
-                checked: interests.indexOf("TEAM_SPORTS") > -1,
-                text: contentLookup.fields.interests["TEAM_SPORTS"],
+                checked: personalInterests.indexOf("TEAM_SPORTS") > -1,
+                text: contentLookup.fields.personalInterests["TEAM_SPORTS"],
                 hint: {
                   text: "things like football, netball or cricket"
                 }
               },
               {
                 value: "WELLNESS",
-                checked: interests.indexOf("WELLNESS") > -1,
-                text: contentLookup.fields.interests["WELLNESS"],
+                checked: personalInterests.indexOf("WELLNESS") > -1,
+                text: contentLookup.fields.personalInterests["WELLNESS"],
                 hint: {
                   text: "things like yoga, meditation or going to the gym"
                 }
               },
               {
                 value: "OTHER",
-                checked: interests.indexOf("OTHER") > -1,
-                text: contentLookup.fields.interests["OTHER"],
-                attributes: { "aria-label": contentLookup.fields.interests["OTHER"] + " (Opens a dialogue box)" },
+                checked: personalInterests.indexOf("OTHER") > -1,
+                text: contentLookup.fields.personalInterests["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.personalInterests["OTHER"] + " (Opens a dialogue box)" },
                 conditional: {
                   html: otherHtml
                 }
@@ -180,12 +180,12 @@
               },
               {
                 value: "NONE",
-                text:contentLookup.fields.interests["NONE"],
-                checked: interests.indexOf("NONE") > -1,
+                text:contentLookup.fields.personalInterests["NONE"],
+                checked: personalInterests.indexOf("NONE") > -1,
                 behaviour: "exclusive"
               }
             ],
-            errorMessage: errors.interests
+            errorMessage: errors.personalInterests
           }) }}
         </div>
 

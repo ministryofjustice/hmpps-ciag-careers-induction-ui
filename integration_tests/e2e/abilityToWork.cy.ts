@@ -2,7 +2,7 @@ import AbilityToWorkPage from '../pages/abilityToWork'
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import InterestsPage from '../pages/interests'
+import PersonalInterestsPage from '../pages/personalInterests'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
@@ -64,11 +64,11 @@ context('Ability to work page', () => {
 
     skillsPage.submitButton().click()
 
-    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+    const personalInterestsPage = new PersonalInterestsPage("What are Daniel Craig's interests?")
 
-    interestsPage.checkboxFieldValue('COMMUNITY').click()
+    personalInterestsPage.checkboxFieldValue('COMMUNITY').click()
 
-    interestsPage.submitButton().click()
+    personalInterestsPage.submitButton().click()
   })
 
   it('New record - Validation messages display when no value selected', () => {

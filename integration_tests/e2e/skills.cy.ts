@@ -83,7 +83,7 @@ context('Skills page', () => {
 
     skillsPage.submitButton().click()
 
-    cy.url().should('include', 'interests')
+    cy.url().should('include', 'personal-interests')
   })
 
   it('New record - Select OTHER - navigates to interests page', () => {
@@ -94,6 +94,6 @@ context('Skills page', () => {
 
     skillsPage.submitButton().click()
 
-    cy.url().should('include', 'interests')
+    cy.url().should('include', 'personal-interests')
   })
 })

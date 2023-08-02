@@ -1,4 +1,4 @@
-import InterestsValue from '../../../enums/interestsValue'
+import PersonalInterestsValue from '../../../enums/personalInterestsValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -21,60 +21,60 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       message: "Select mock_firstName mock_lastName's interests or select 'None of these'",
-      path: ['interests'],
+      path: ['personalInterests'],
       type: 'any.required',
       context: {
-        key: 'interests',
-        label: 'interests',
+        key: 'personalInterests',
+        label: 'personalInterests',
       },
     })
   })
 
   it('On validation error - Valid - Returns the correct error message', () => {
-    req.body.interests = ['SOME_VALUE']
+    req.body.personalInterests = ['SOME_VALUE']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
         key: 0,
-        label: 'interests[0]',
+        label: 'personalInterests[0]',
         valids: [
-          InterestsValue.COMMUNITY,
-          InterestsValue.CRAFTS,
-          InterestsValue.CREATIVE,
-          InterestsValue.DIGITAL,
-          InterestsValue.KNOWLEDGE_BASED,
-          InterestsValue.MUSICAL,
-          InterestsValue.OUTDOOR,
-          InterestsValue.NATURE_AND_ANIMALS,
-          InterestsValue.SOCIAL,
-          InterestsValue.SOLO_ACTIVITIES,
-          InterestsValue.SOLO_SPORTS,
-          InterestsValue.TEAM_SPORTS,
-          InterestsValue.WELLNESS,
-          InterestsValue.OTHER,
-          InterestsValue.NONE,
+          PersonalInterestsValue.COMMUNITY,
+          PersonalInterestsValue.CRAFTS,
+          PersonalInterestsValue.CREATIVE,
+          PersonalInterestsValue.DIGITAL,
+          PersonalInterestsValue.KNOWLEDGE_BASED,
+          PersonalInterestsValue.MUSICAL,
+          PersonalInterestsValue.OUTDOOR,
+          PersonalInterestsValue.NATURE_AND_ANIMALS,
+          PersonalInterestsValue.SOCIAL,
+          PersonalInterestsValue.SOLO_ACTIVITIES,
+          PersonalInterestsValue.SOLO_SPORTS,
+          PersonalInterestsValue.TEAM_SPORTS,
+          PersonalInterestsValue.WELLNESS,
+          PersonalInterestsValue.OTHER,
+          PersonalInterestsValue.NONE,
         ],
         value: 'SOME_VALUE',
       },
       message: "Select mock_firstName mock_lastName's interests or select 'None of these'",
-      path: ['interests', 0],
+      path: ['personalInterests', 0],
       type: 'any.only',
     })
   })
 
   it('On validation error - OTHER with no value - Returns the correct error message', () => {
-    req.body.interests = ['OTHER']
+    req.body.personalInterests = ['OTHER']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'interestsDetails',
+        key: 'personalInterestsDetails',
         label: 'value',
         value: {
-          interests: ['OTHER'],
+          personalInterests: ['OTHER'],
         },
       },
       message: "Enter mock_firstName mock_lastName's interests",
@@ -84,18 +84,18 @@ describe('validationSchema', () => {
   })
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
-    req.body.interests = ['OTHER']
-    req.body.interestsDetails = longStr
+    req.body.personalInterests = ['OTHER']
+    req.body.personalInterestsDetails = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'interestsDetails',
+        key: 'personalInterestsDetails',
         label: 'value',
         value: {
-          interestsDetails: longStr,
-          interests: ['OTHER'],
+          personalInterestsDetails: longStr,
+          personalInterests: ['OTHER'],
         },
       },
       message: 'Interest must be 200 characters or less',
@@ -105,8 +105,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.interests = ['COMMUNITY']
-    req.body.interestsDetails = ''
+    req.body.personalInterests = ['COMMUNITY']
+    req.body.personalInterestsDetails = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -114,8 +114,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - OTHER with value - Returns no errors', () => {
-    req.body.interests = ['OTHER']
-    req.body.interestsDetails = 'Some value'
+    req.body.personalInterests = ['OTHER']
+    req.body.personalInterestsDetails = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

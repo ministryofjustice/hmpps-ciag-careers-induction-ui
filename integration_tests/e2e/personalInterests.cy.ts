@@ -1,14 +1,14 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import InterestsPage from '../pages/interests'
+import PersonalInterestsPage from '../pages/personalInterests'
 import OtherQualificationsPage from '../pages/otherQualifications'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
-context('Interests page', () => {
+context('Personal Interests page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -65,37 +65,37 @@ context('Interests page', () => {
   })
 
   it('New record - Validation messages display when no value selected', () => {
-    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+    const personalInterests = new PersonalInterestsPage("What are Daniel Craig's interests?")
 
-    interestsPage.submitButton().click()
+    personalInterests.submitButton().click()
 
-    interestsPage.checkboxPageErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
-    interestsPage.checkboxFieldErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
+    personalInterests.checkboxPageErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
+    personalInterests.checkboxFieldErrorMessage().contains("Select Daniel Craig's interests or select 'None of these'")
 
-    interestsPage.checkboxFieldValue('OTHER').click()
-    interestsPage.submitButton().click()
+    personalInterests.checkboxFieldValue('OTHER').click()
+    personalInterests.submitButton().click()
 
-    interestsPage.detailsPageErrorMessage().contains("Enter Daniel Craig's interests")
-    interestsPage.detailsFieldErrorMessage().contains("Enter Daniel Craig's interests")
+    personalInterests.detailsPageErrorMessage().contains("Enter Daniel Craig's interests")
+    personalInterests.detailsFieldErrorMessage().contains("Enter Daniel Craig's interests")
   })
 
   it('New record - Select COMMUNITY - navigates to ability-to-work page', () => {
-    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+    const personalInterests = new PersonalInterestsPage("What are Daniel Craig's interests?")
 
-    interestsPage.checkboxFieldValue('COMMUNITY').click()
+    personalInterests.checkboxFieldValue('COMMUNITY').click()
 
-    interestsPage.submitButton().click()
+    personalInterests.submitButton().click()
 
     cy.url().should('include', 'ability-to-work')
   })
 
   it('New record - Select OTHER - navigates to ability-to-work page', () => {
-    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+    const personalInterests = new PersonalInterestsPage("What are Daniel Craig's interests?")
 
-    interestsPage.checkboxFieldValue('OTHER').click()
-    interestsPage.textareaField().type('Some other interest')
+    personalInterests.checkboxFieldValue('OTHER').click()
+    personalInterests.textareaField().type('Some other interest')
 
-    interestsPage.submitButton().click()
+    personalInterests.submitButton().click()
 
     cy.url().should('include', 'ability-to-work')
   })

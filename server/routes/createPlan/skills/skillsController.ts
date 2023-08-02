@@ -77,7 +77,7 @@ export default class SkillsController {
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.interests(id, mode))
+      res.redirect(addressLookup.createPlan.personalInterests(id, mode))
     } catch (err) {
       next(err)
     }

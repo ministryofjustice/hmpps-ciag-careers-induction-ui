@@ -6,7 +6,7 @@ import otherQualifications from './fields/otherQualifications'
 import typeOfWorkExperience from './fields/typeOfWorkExperience'
 import workInterests from './fields/workInterests'
 import skills from './fields/skills'
-import interests from './fields/interests'
+import personalInterests from './fields/personalInterests'
 import abilityToWork from './fields/abilityToWork'
 import inPrisonWork from './fields/inPrisonWork'
 import inPrisonEducation from './fields/inPrisonEducation'
@@ -24,7 +24,7 @@ export default {
     typeOfWorkExperience,
     workInterests,
     skills,
-    interests,
+    personalInterests,
     abilityToWork,
     inPrisonWork,
     inPrisonEducation,
