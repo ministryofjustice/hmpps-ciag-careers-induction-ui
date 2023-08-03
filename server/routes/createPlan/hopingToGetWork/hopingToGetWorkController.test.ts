@@ -117,7 +117,7 @@ describe('HopingToGetWorkController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
 
-    it('On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkYourAnswers', async () => {
       req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
 
       controller.post(req, res, next)

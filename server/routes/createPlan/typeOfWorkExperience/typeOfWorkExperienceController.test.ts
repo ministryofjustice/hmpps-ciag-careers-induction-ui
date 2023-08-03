@@ -95,7 +95,7 @@ describe('TypeOfWorkExperienceController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         typeOfWorkExperience: TypeOfWorkExperienceValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)

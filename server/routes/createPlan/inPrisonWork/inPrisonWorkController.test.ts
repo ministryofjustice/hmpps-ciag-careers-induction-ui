@@ -95,7 +95,7 @@ describe('InPrisonWorkController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonWork/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         inPrisonWork: InPrisonWorkValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)

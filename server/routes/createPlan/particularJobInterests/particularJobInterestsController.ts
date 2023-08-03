@@ -24,7 +24,9 @@ export default class ParticularJobInterestsController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.workInterests(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new'
+          ? addressLookup.createPlan.workInterests(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -75,7 +77,7 @@ export default class ParticularJobInterestsController {
       const record = getSessionData(req, ['createPlan', id])
 
       // Get keys of entered job details
-      const values = Object.keys(req.body).filter(v => !!req.body[v])
+      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
       setSessionData(req, ['createPlan', id], {
         ...record,
         particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),

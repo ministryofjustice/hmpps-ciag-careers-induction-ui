@@ -95,7 +95,7 @@ describe('InPrisonEducationController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/inPrisonEducation/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         inPrisonEducation: InPrisonEducationValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -141,7 +141,7 @@ describe('InPrisonEducationController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = new - Sets session record then redirects to checkYourAnswers', async () => {
       req.body.inPrisonEducation = [InPrisonEducationValue.OTHER]
       req.body.inPrisonEducationOther = 'mock_details'
       req.params.mode = 'new'
@@ -154,7 +154,7 @@ describe('InPrisonEducationController', () => {
         inPrisonEducationOther: 'mock_details',
       })
       expect(getSessionData(req, ['inPrisonEducation', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
   })
 })

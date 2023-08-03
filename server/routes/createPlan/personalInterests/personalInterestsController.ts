@@ -24,7 +24,7 @@ export default class PersonalInterestsController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.skills(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.skills(id, mode) : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -33,7 +33,7 @@ export default class PersonalInterestsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         personalInterests: record.personalInterests || [],
-        personalInterestsDetails: record.personalInterestsDetails,
+        personalInterestsOther: record.personalInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -47,7 +47,7 @@ export default class PersonalInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { personalInterests = [], personalInterestsDetails } = req.body
+    const { personalInterests = [], personalInterestsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -58,7 +58,7 @@ export default class PersonalInterestsController {
           ...data,
           errors,
           personalInterests,
-          personalInterestsDetails,
+          personalInterestsOther,
         })
         return
       }
@@ -71,9 +71,7 @@ export default class PersonalInterestsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         personalInterests,
-        personalInterestsDetails: personalInterests.includes(PersonalInterestsValue.OTHER)
-          ? personalInterestsDetails
-          : '',
+        personalInterestsOther: personalInterests.includes(PersonalInterestsValue.OTHER) ? personalInterestsOther : '',
       })
 
       // Redirect to the correct page

@@ -29,7 +29,7 @@ export default class EducationLevelController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

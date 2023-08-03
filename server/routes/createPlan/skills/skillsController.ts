@@ -26,7 +26,7 @@ export default class SkillsController {
       const backLocation =
         mode === 'new'
           ? addressLookup.createPlan.particularJobInterests(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

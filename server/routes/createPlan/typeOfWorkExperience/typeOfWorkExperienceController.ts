@@ -24,7 +24,9 @@ export default class TypeOfWorkExperienceController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new'
+          ? addressLookup.createPlan.hasWorkedBefore(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

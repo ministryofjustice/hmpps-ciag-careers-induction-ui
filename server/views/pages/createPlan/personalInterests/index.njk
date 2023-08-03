@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * personalInterests - Array existing values for field
-    * personalInterestsDetails - Existing value
+    * personalInterestsOther - Existing value
     * errors? - validation errors
 #}
 
@@ -35,17 +35,17 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "personalInterestsDetails",
-              name: "personalInterestsDetails",
+              id: "personalInterestsOther",
+              name: "personalInterestsOther",
               rows: "2",
-              value: personalInterestsDetails,
+              value: personalInterestsOther,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any interests" },
-              errorMessage: errors.personalInterestsDetails
+              errorMessage: errors.personalInterestsOther
             }) }}
           {% endset -%}
 

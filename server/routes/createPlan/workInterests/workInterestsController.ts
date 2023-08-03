@@ -31,7 +31,7 @@ export default class WorkInterestsController {
           ? lastKey
             ? addressLookup.createPlan.workDetails(id, lastKey, mode)
             : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

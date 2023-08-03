@@ -101,7 +101,7 @@ describe('ParticularJobInterestsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/particularJobInterests/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         workInterests: [WorkInterestsValue.OTHER],
         workInterestsOther: 'Other job',
         particularJobInterests: {

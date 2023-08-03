@@ -95,7 +95,7 @@ describe('SkillsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/skills/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         skills: SkillsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)

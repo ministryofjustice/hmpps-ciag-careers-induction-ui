@@ -1,0 +1,69 @@
+<h2 class="govuk-heading-m">Skills and interests</h2>
+
+<dl class="govuk-summary-list govuk-!-margin-bottom-8">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Type of work interested in
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.workInterests %}
+        <div>{{ contentLookup.fields.workInterests[item] }}{{ ' - ' + record.workInterestsOther if item === 'OTHER' }}{{ ',' if record.workInterests.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link govuk-link--no-visited-state" href="#">
+        Change<span class="govuk-visually-hidden"> type of work interested in</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Particular job roles of interest
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.particularJobInterests %}
+        <p class="govuk-body">
+          {{ contentLookup.fields.workInterests[item.interestKey] }}:<br>
+          {{ item.jobDetails }}
+        </p>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link govuk-link--no-visited-state" href="#">
+        Change<span class="govuk-visually-hidden"> particular job roles of interest</span>
+      </a>
+    </dd>
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Skills
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.skills %}
+        <div>{{ contentLookup.fields.skills[item] }}{{ ' - ' + record.skillsOther if item === 'OTHER' }}{{ ',' if record.skills.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="q9a-skills">
+        Change<span class="govuk-visually-hidden"> skills</span>
+      </a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Interests
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.personalInterests %}
+        <div>{{ contentLookup.fields.personalInterests[item] }}{{ ' - ' + record.personalInterestsOther if item === 'OTHER' }}{{ ',' if record.personalInterests.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="q9b-interests">
+        Change<span class="govuk-visually-hidden"> interests</span>
+      </a>
+    </dd>
+  </div>
+</dl>

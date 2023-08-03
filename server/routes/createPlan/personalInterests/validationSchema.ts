@@ -17,7 +17,7 @@ export default function validationSchema(data: PersonalInterestsData): ObjectSch
 
   return joi
     .object({
-      personalInterestsDetails: joi.string().allow(''),
+      personalInterestsOther: joi.string().allow(''),
       personalInterests: joi
         .array()
         .required()
@@ -48,23 +48,23 @@ export default function validationSchema(data: PersonalInterestsData): ObjectSch
         }),
     })
     .custom((obj, helper) => {
-      const { personalInterestsDetails, personalInterests } = obj
+      const { personalInterestsOther, personalInterests } = obj
 
       if (!personalInterests.includes('OTHER')) {
         return true
       }
 
-      if (!personalInterestsDetails) {
+      if (!personalInterestsOther) {
         return helper.error('any.custom', {
-          key: 'personalInterestsDetails',
-          label: 'personalInterestsDetails',
+          key: 'personalInterestsOther',
+          label: 'personalInterestsOther',
         })
       }
 
-      if (personalInterestsDetails.length > 200) {
+      if (personalInterestsOther.length > 200) {
         return helper.error('any.length', {
-          key: 'personalInterestsDetails',
-          label: 'personalInterestsDetails',
+          key: 'personalInterestsOther',
+          label: 'personalInterestsOther',
         })
       }
 

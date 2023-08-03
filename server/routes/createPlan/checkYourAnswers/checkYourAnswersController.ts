@@ -26,6 +26,8 @@ export default class CheckYourAnswersController {
         statusChange: getSessionData(req, ['changeStatus', id], false),
       }
 
+      console.log(record)
+
       res.render('pages/createPlan/checkYourAnswers/index', { ...data })
     } catch (err) {
       next(err)

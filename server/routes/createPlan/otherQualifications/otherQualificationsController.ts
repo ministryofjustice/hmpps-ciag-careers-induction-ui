@@ -30,7 +30,7 @@ export default class OtherQualificationsController {
         defaultRoute:
           mode === 'new'
             ? addressLookup.createPlan.qualifications(id, mode)
-            : addressLookup.createPlan.checkAnswers(id),
+            : addressLookup.createPlan.checkYourAnswers(id),
         page: 'otherQualifications',
         uid: id,
       })

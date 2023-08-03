@@ -31,7 +31,7 @@ describe('Check your answers routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/check-answers',
+      '/plan/create/:id/check-your-answers',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Check your answers routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/check-answers',
+      '/plan/create/:id/check-your-answers',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

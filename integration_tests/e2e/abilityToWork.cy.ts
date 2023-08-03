@@ -96,7 +96,7 @@ context('Ability to work page', () => {
       .contains('Enter what Daniel Craig feels may affect their ability to work')
   })
 
-  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-answers page', () => {
+  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-your-answers page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -105,10 +105,10 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-answers')
+    cy.url().should('include', 'check-your-answers')
   })
 
-  it('New record - Select OTHER - navigates to check-answers page', () => {
+  it('New record - Select OTHER - navigates to check-your-answers page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -118,6 +118,6 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-answers')
+    cy.url().should('include', 'check-your-answers')
   })
 })

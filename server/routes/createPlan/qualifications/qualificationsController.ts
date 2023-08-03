@@ -31,7 +31,7 @@ export default class QualificationsController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -75,7 +75,7 @@ export default class QualificationsController {
 
       // Handle edit
       if (mode === 'edit') {
-        res.redirect(addressLookup.createPlan.checkAnswers(id))
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }
 

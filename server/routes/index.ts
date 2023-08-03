@@ -19,12 +19,14 @@ import personalInterestsRoutes from './createPlan/personalInterests'
 import abilityToWorkRoutes from './createPlan/abilityToWork'
 import inPrisonWorkRoutes from './createPlan/inPrisonWork'
 import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
+import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 
 export default function routes(services: Services): Router {
   // Append page routes
 
   const router = Router()
 
+  checkYourAnswersRoutes(router, services)
   ciagListRoutes(router, services)
   workPlanRoutes(router, services)
   hopingToGetWorkRoutes(router, services)

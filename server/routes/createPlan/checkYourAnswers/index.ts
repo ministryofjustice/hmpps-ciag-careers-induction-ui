@@ -8,12 +8,12 @@ export default (router: Router, services: Services) => {
   const controller = new CheckYourAnswersController()
 
   router.get(
-    '/plan/create/:id/check-answers',
+    '/plan/create/:id/check-your-answers',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
-    '/plan/create/:id/check-answers',
+    '/plan/create/:id/check-your-answers',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )

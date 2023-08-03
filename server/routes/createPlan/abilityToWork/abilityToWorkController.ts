@@ -26,7 +26,7 @@ export default class AbilityToWorkController {
       const backLocation =
         mode === 'new'
           ? addressLookup.createPlan.personalInterests(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -77,7 +77,7 @@ export default class AbilityToWorkController {
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.checkAnswers(id))
+      res.redirect(addressLookup.createPlan.checkYourAnswers(id))
     } catch (err) {
       next(err)
     }

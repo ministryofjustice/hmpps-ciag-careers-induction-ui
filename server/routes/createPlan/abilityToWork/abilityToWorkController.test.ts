@@ -95,7 +95,7 @@ describe('AbilityToWorkController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/abilityToWork/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         abilityToWork: AbilityToWorkValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -141,7 +141,7 @@ describe('AbilityToWorkController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = new - Sets session record then redirects to checkYourAnswers', async () => {
       req.body.abilityToWork = AbilityToWorkValue.OTHER
       req.body.abilityToWorkOther = 'mock_details'
       req.params.mode = 'new'
@@ -154,7 +154,7 @@ describe('AbilityToWorkController', () => {
         abilityToWorkOther: 'mock_details',
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
   })
 })

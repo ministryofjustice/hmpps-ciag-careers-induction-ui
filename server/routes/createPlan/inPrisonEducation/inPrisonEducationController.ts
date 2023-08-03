@@ -26,7 +26,7 @@ export default class InPrisonEducationController {
       const backLocation =
         mode === 'new'
           ? addressLookup.createPlan.otherQualifications(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -77,7 +77,7 @@ export default class InPrisonEducationController {
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.checkAnswers(id))
+      res.redirect(addressLookup.createPlan.checkYourAnswers(id))
     } catch (err) {
       next(err)
     }

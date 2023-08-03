@@ -43,7 +43,7 @@ export default class WorkDetailsController {
             ? lastKey
               ? addressLookup.createPlan.workDetails(id, lastKey, mode)
               : addressLookup.createPlan.typeOfWorkExperience(id, mode)
-            : addressLookup.createPlan.checkAnswers(id),
+            : addressLookup.createPlan.checkYourAnswers(id),
         page: 'workDetails',
         uid: id,
       })

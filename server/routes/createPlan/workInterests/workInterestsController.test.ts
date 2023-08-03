@@ -95,7 +95,7 @@ describe('WorkInterestsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/workInterests/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         workInterests: WorkInterestsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)

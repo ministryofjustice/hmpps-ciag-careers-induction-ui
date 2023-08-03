@@ -95,7 +95,7 @@ describe('OtherQualificationsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/otherQualifications/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         otherQualifications: OtherQualificationsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)

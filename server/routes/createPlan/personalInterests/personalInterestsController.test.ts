@@ -95,7 +95,7 @@ describe('PersonalInterestsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/personalInterests/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         personalInterests: PersonalInterestsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -143,7 +143,7 @@ describe('PersonalInterestsController', () => {
 
     it('On success - mode = new - Sets session record then redirects to abilityToWork', async () => {
       req.body.personalInterests = PersonalInterestsValue.OTHER
-      req.body.personalInterestsDetails = 'mock_details'
+      req.body.personalInterestsOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,7 +151,7 @@ describe('PersonalInterestsController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         personalInterests: PersonalInterestsValue.OTHER,
-        personalInterestsDetails: 'mock_details',
+        personalInterestsOther: 'mock_details',
       })
       expect(getSessionData(req, ['personalInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.abilityToWork(id))

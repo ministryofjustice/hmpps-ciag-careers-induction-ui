@@ -164,7 +164,7 @@ describe('QualificationsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id))
     })
 
-    it('On success - Edit - Continue - educationLevel - Redirects to checkAnswers', async () => {
+    it('On success - Edit - Continue - educationLevel - Redirects to checkYourAnswers', async () => {
       req.params.mode = 'edit'
 
       setSessionData(req, ['createPlan', id], {
@@ -174,7 +174,7 @@ describe('QualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
   })
 })
