@@ -1,4 +1,4 @@
-enum InPrisonWorkValue {
+enum InPrisonEducationValue {
   BARBERING_AND_HAIRDRESSING = 'BARBERING_AND_HAIRDRESSING',
   CATERING = 'CATERING',
   COMMUNICATION_SKILLS = 'COMMUNICATION_SKILLS',
@@ -14,4 +14,4 @@ enum InPrisonWorkValue {
   OTHER = 'OTHER',
 }
 
-export default InPrisonWorkValue
+export default InPrisonEducationValue

@@ -41,6 +41,7 @@ describe('validationSchema', () => {
         label: 'workInterests[0]',
         valids: [
           WorkInterestsValue.OUTDOOR,
+          WorkInterestsValue.CLEANING_AND_MAINTENANCE,
           WorkInterestsValue.CONSTRUCTION,
           WorkInterestsValue.DRIVING,
           WorkInterestsValue.BEAUTY,

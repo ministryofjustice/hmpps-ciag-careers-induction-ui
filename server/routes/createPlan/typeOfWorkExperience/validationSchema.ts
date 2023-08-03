@@ -26,6 +26,7 @@ export default function validationSchema(data: TypeOfWorkExperienceData): Object
             .any()
             .valid(
               TypeOfWorkExperienceValue.OUTDOOR,
+              TypeOfWorkExperienceValue.CLEANING_AND_MAINTENANCE,
               TypeOfWorkExperienceValue.CONSTRUCTION,
               TypeOfWorkExperienceValue.DRIVING,
               TypeOfWorkExperienceValue.BEAUTY,

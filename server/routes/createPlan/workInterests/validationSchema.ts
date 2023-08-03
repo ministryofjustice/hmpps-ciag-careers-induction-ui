@@ -26,6 +26,7 @@ export default function validationSchema(data: WorkInterestsData): ObjectSchema 
             .any()
             .valid(
               WorkInterestsValue.OUTDOOR,
+              WorkInterestsValue.CLEANING_AND_MAINTENANCE,
               WorkInterestsValue.CONSTRUCTION,
               WorkInterestsValue.DRIVING,
               WorkInterestsValue.BEAUTY,

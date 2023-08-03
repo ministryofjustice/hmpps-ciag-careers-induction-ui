@@ -1,4 +1,4 @@
-enum InterestsValue {
+enum PersonalInterestsValue {
   COMMUNITY = 'COMMUNITY',
   CRAFTS = 'CRAFTS',
   CREATIVE = 'CREATIVE',
@@ -16,4 +16,4 @@ enum InterestsValue {
   NONE = 'NONE',
 }
 
-export default InterestsValue
+export default PersonalInterestsValue

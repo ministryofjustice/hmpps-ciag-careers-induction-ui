@@ -41,6 +41,7 @@ describe('validationSchema', () => {
         label: 'typeOfWorkExperience[0]',
         valids: [
           TypeOfWorkExperienceValue.OUTDOOR,
+          TypeOfWorkExperienceValue.CLEANING_AND_MAINTENANCE,
           TypeOfWorkExperienceValue.CONSTRUCTION,
           TypeOfWorkExperienceValue.DRIVING,
           TypeOfWorkExperienceValue.BEAUTY,
