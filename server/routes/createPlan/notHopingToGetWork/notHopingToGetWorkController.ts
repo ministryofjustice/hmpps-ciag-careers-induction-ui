@@ -33,7 +33,7 @@ export default class NotHopingToGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        notHopingToGetWork: record.hopingToGetWork || [],
+        notHopingToGetWork: record.notHopingToGetWork || [],
         notHopingToGetWorkDetails: record.notHopingToGetWorkDetails,
       }
 
@@ -53,7 +53,7 @@ export default class NotHopingToGetWorkController {
     try {
       // If validation errors render errors
       const data = getSessionData(req, ['notHopingToGetWork', id, 'data'])
-      const errors = validateFormSchema(req, validationSchema({ ...data, notHopingToGetWork }))
+      const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createPlan/notHopingToGetWork/index', {
           ...data,

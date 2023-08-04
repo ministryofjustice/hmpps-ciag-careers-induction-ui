@@ -44,6 +44,10 @@ describe('Not hoping to get work routes', () => {
 
     expect(router.post).toHaveBeenCalledWith(
       '/plan/create/:id/not-hoping-to-get-work',
+      [
+        expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // parseCheckBoxValue
+      ],
       expect.any(Function), // controller.post
     )
   })

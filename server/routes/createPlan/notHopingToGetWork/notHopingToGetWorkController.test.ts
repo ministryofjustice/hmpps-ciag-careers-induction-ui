@@ -3,8 +3,7 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './notHopingToGetWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import HopingToGetWorkValue from '../../../enums/notHopingToGetWorkValues'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
@@ -23,8 +22,8 @@ describe('NotHopingToGetWorkController', () => {
   const { req, res, next } = expressMocks()
 
   req.context.prisoner = {
-    firstName: 'mock_firstName',
-    lastName: 'mock_lastName',
+    firstName: 'Mock_firstname',
+    lastName: 'Mock_lastname',
   }
 
   req.params.id = 'mock_ref'
@@ -36,7 +35,7 @@ describe('NotHopingToGetWorkController', () => {
     backLocationAriaText: `Back to Is ${req.context.prisoner.firstName} ${req.context.prisoner.lastName} hoping to get work when they're released?`,
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     notHopingToGetWork: [] as any,
-    // notHopingToGetWorkDetails: any | undefined,
+    // notHopingToGetWorkDetails: undefined,
   }
 
   const controller = new Controller()
@@ -61,7 +60,7 @@ describe('NotHopingToGetWorkController', () => {
     it('On success - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
-      // expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

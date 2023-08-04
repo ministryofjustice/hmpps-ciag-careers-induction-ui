@@ -47,7 +47,7 @@ context('Hoping to get work page', () => {
     hopingToGetWorkPage.radioFieldValue('NO').click()
     hopingToGetWorkPage.submitButton().click()
 
-    cy.url().should('include', 'why-no-work/new')
+    cy.url().should('include', 'not-hoping-to-get-work')
   })
 
   it('New record - Select NO_SURE - navigates to why-no-work page', () => {
@@ -60,6 +60,6 @@ context('Hoping to get work page', () => {
     hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()
     hopingToGetWorkPage.submitButton().click()
 
-    cy.url().should('include', 'why-no-work/new')
+    cy.url().should('include', 'not-hoping-to-get-work')
   })
 })
