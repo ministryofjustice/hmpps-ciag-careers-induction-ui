@@ -2,10 +2,10 @@
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './otherQualificationsController'
+import Controller from './additionalTrainingController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import OtherQualificationsValue from '../../../enums/otherQualificationsValue'
+import AdditionalTrainingValue from '../../../enums/additionalTrainingValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
@@ -29,7 +29,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('OtherQualificationsController', () => {
+describe('AdditionalTrainingController', () => {
   const { req, res, next } = expressMocks()
 
   const pageTitleLookupMock = pageTitleLookup as jest.Mock
@@ -48,7 +48,7 @@ describe('OtherQualificationsController', () => {
     backLocation: addressLookup.createPlan.qualifications(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    otherQualifications: [] as any,
+    additionalTraining: [] as any,
   }
 
   res.locals.user = {}
@@ -59,7 +59,7 @@ describe('OtherQualificationsController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['otherQualifications', id, 'data'], mockData)
+      setSessionData(req, ['additionalTraining', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -87,16 +87,16 @@ describe('OtherQualificationsController', () => {
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        otherQualifications: OtherQualificationsValue.OTHER,
+        additionalTraining: AdditionalTrainingValue.OTHER,
       })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/otherQualifications/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/additionalTraining/index', {
         ...mockData,
         backLocation: addressLookup.createPlan.checkYourAnswers(id),
-        otherQualifications: OtherQualificationsValue.OTHER,
+        additionalTraining: AdditionalTrainingValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -112,7 +112,7 @@ describe('OtherQualificationsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['otherQualifications', id, 'data'], mockData)
+      setSessionData(req, ['additionalTraining', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
       })
@@ -134,7 +134,7 @@ describe('OtherQualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/otherQualifications/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/additionalTraining/index', {
         ...mockData,
         errors,
       })
@@ -142,18 +142,18 @@ describe('OtherQualificationsController', () => {
     })
 
     it('On success - mode = new - Sets session record then redirects to hasWorkedBefore', async () => {
-      req.body.otherQualifications = OtherQualificationsValue.OTHER
-      req.body.otherQualificationsOther = 'mock_details'
+      req.body.additionalTraining = AdditionalTrainingValue.OTHER
+      req.body.additionalTrainingOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        otherQualifications: OtherQualificationsValue.OTHER,
-        otherQualificationsOther: 'mock_details',
+        additionalTraining: AdditionalTrainingValue.OTHER,
+        additionalTrainingOther: 'mock_details',
       })
-      expect(getSessionData(req, ['otherQualifications', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['additionalTraining', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hasWorkedBefore(id))
     })
   })

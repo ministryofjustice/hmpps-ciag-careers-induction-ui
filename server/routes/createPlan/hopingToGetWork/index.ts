@@ -8,9 +8,9 @@ export default (router: Router, services: Services) => {
   const controller = new HopingToGetWorkController()
 
   router.get(
-    '/plan/create/:id/hoping-to-get-work',
+    '/plan/create/:id/hoping-to-get-work/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
-  router.post('/plan/create/:id/hoping-to-get-work', controller.post)
+  router.post('/plan/create/:id/hoping-to-get-work/:mode', controller.post)
 }

@@ -2,7 +2,7 @@ import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import JobDetailsPage from '../pages/jobDetails'
-import OtherQualificationsPage from '../pages/otherQualifications'
+import AdditionalTrainingPage from '../pages/additionalTraining'
 import QualificationsPage from '../pages/qualifications'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
@@ -33,11 +33,11 @@ context('Job details page', () => {
     educationLevelPage.radioFieldValue('PRIMARY_SCHOOL').click()
     educationLevelPage.submitButton().click()
 
-    const otherQualifications = new OtherQualificationsPage(
+    const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
-    otherQualifications.checkboxFieldValue('DRIVING_LICENSE').click()
-    otherQualifications.submitButton().click()
+    additionalTraining.checkboxFieldValue('DRIVING_LICENSE').click()
+    additionalTraining.submitButton().click()
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')
 

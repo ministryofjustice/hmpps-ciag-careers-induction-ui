@@ -2,7 +2,7 @@ import yesNo from './fields/yesNo'
 import hopingToGetWork from './fields/hopingToGetWork'
 import educationLevel from './fields/educationLevel'
 import qualificationLevel from './fields/qualificationLevel'
-import otherQualifications from './fields/otherQualifications'
+import additionalTraining from './fields/additionalTraining'
 import typeOfWorkExperience from './fields/typeOfWorkExperience'
 import workInterests from './fields/workInterests'
 import skills from './fields/skills'
@@ -20,7 +20,7 @@ export default {
     hopingToGetWork,
     educationLevel,
     qualificationLevel,
-    otherQualifications,
+    additionalTraining,
     typeOfWorkExperience,
     workInterests,
     skills,

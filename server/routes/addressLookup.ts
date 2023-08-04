@@ -5,11 +5,11 @@ export default {
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
-    hopingToGetWork: (id: string) => `/plan/create/${id}/hoping-to-get-work`,
+    hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
     qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
     whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
-    otherQualifications: (id: string, mode = 'new') => `/plan/create/${id}/other-qualifications/${mode}`,
+    additionalTraining: (id: string, mode = 'new') => `/plan/create/${id}/additional-training/${mode}`,
     qualificationLevel: (id: string, qualificationId: string, mode = 'new') =>
       `/plan/create/${id}/qualification-level/${qualificationId}/${mode}`,
     qualificationDetails: (id: string, qualificationId: string, mode = 'new') =>

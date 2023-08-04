@@ -76,8 +76,14 @@ export default class SkillsController {
         skillsOther: skills.includes(SkillsValue.OTHER) ? skillsOther : '',
       })
 
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.personalInterests(id, mode))
+      res.redirect(addressLookup.createPlan.personalInterests(id))
     } catch (err) {
       next(err)
     }

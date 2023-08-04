@@ -71,6 +71,12 @@ export default class EducationLevelController {
       const record = getSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['educationLevel', id, 'data'])
 
+      // If edit and existing qualifications, goto checkYourAnswers
+      if (mode === 'edit' && (record.qualifications || []).length) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Handle higher qualifications
       if (
         [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
@@ -117,7 +123,11 @@ export default class EducationLevelController {
       }
 
       // Default no qualifications
-      res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
+      res.redirect(
+        mode === 'edit'
+          ? addressLookup.createPlan.checkYourAnswers(id)
+          : addressLookup.createPlan.additionalTraining(id),
+      )
     } catch (err) {
       next(err)
     }

@@ -83,8 +83,14 @@ export default class ParticularJobInterestsController {
         particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
       })
 
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.skills(id, mode))
+      res.redirect(addressLookup.createPlan.skills(id))
     } catch (err) {
       next(err)
     }

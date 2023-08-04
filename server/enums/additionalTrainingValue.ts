@@ -1,4 +1,4 @@
-enum OtherQualificationsValue {
+enum AdditionalTrainingValue {
   CSCS = 'CSCS',
   DRIVING_LICENSE = 'DRIVING_LICENSE',
   FIRST_AID = 'FIRST_AID',
@@ -12,4 +12,4 @@ enum OtherQualificationsValue {
   NONE = 'NONE',
 }
 
-export default OtherQualificationsValue
+export default AdditionalTrainingValue

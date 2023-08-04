@@ -16,7 +16,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'education-level': `What's the highest level of education ${prisonerName} has completed?`,
     'qualification-level': `What level of qualification does ${prisonerName} want to add`,
     'qualification-details': 'Add a degree qualification',
-    'other-qualifications': `Does ${prisonerName} have any other training or vocational qualifications?`,
+    'additional-training': `Does ${prisonerName} have any other training or vocational qualifications?`,
     'qualifications-list': `${prisonerName}'s qualifications`,
     'has-worked-before': `Has ${prisonerName} worked before?`,
     'type-of-work-experience': `What type of work has ${prisonerName} done before?`,

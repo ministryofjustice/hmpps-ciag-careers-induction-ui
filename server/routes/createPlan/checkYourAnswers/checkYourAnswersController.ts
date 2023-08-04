@@ -2,7 +2,6 @@ import { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
-import yesNoValue from '../../../enums/yesNoValue'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
@@ -26,8 +25,6 @@ export default class CheckYourAnswersController {
         statusChange: getSessionData(req, ['changeStatus', id], false),
       }
 
-      console.log(record)
-
       res.render('pages/createPlan/checkYourAnswers/index', { ...data })
     } catch (err) {
       next(err)
@@ -36,13 +33,13 @@ export default class CheckYourAnswersController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner } = req.context
+    //  const { prisoner } = req.context
 
     try {
-      const record = getSessionData(req, ['createPlan', id])
-      const statusChange = getSessionData(req, ['changeStatus', id])
+      // const record = getSessionData(req, ['createPlan', id])
+      // const statusChange = getSessionData(req, ['changeStatus', id])
 
-      const newRecord = {}
+      // const newRecord = {}
 
       // Tidy up record in session
       deleteSessionData(req, ['createPlan', id])

@@ -44,7 +44,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
   it('New record - Select PRIMARY_SCHOOL - Continue navigates to other qualifications page', () => {
@@ -56,7 +56,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
   it('New record - Select SECONDARY_SCHOOL_NO_EXAMS - Continue navigates to other qualifications page', () => {
@@ -68,7 +68,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
   it('New record - Select SECONDARY_SCHOOL_EXAMS - Continue navigates to qualification level page', () => {

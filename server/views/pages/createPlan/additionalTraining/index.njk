@@ -13,8 +13,8 @@
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * otherQualifications - Array existing values for field
-    * otherQualificationsOther - Existing value
+    * additionalTraining - Array existing values for field
+    * additionalTrainingOther - Existing value
     * errors? - validation errors
 #}
 
@@ -35,22 +35,22 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "otherQualificationsOther",
-              name: "otherQualificationsOther",
+              id: "additionalTrainingOther",
+              name: "additionalTrainingOther",
               rows: "2",
-              value: otherQualificationsOther,
+              value: additionalTrainingOther,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any qualifications or training" },
-              errorMessage: errors.otherQualificationsOther
+              errorMessage: errors.additionalTrainingOther
             }) }}
           {% endset -%}
 
           {{ govukCheckboxes({
-            name: "otherQualifications",
+            name: "additionalTraining",
             fieldset: {
               legend: {
                   text: title,
@@ -64,60 +64,60 @@
             items: [
               {
                 value: "CSCS",
-                checked: otherQualifications.indexOf("CSCS") > -1,
-                text: contentLookup.fields.otherQualifications["CSCS"]
+                checked: additionalTraining.indexOf("CSCS") > -1,
+                text: contentLookup.fields.additionalTraining["CSCS"]
               },
               {
                 value: "FIRST_AID",
-                checked: otherQualifications.indexOf("FIRST_AID") > -1,
-                text: contentLookup.fields.otherQualifications["FIRST_AID"]
+                checked: additionalTraining.indexOf("FIRST_AID") > -1,
+                text: contentLookup.fields.additionalTraining["FIRST_AID"]
               },
               {
                 value: "FOOD_HYGIENE",
-                checked: otherQualifications.indexOf("FOOD_HYGIENE") > -1,
-                text: contentLookup.fields.otherQualifications["FOOD_HYGIENE"]
+                checked: additionalTraining.indexOf("FOOD_HYGIENE") > -1,
+                text: contentLookup.fields.additionalTraining["FOOD_HYGIENE"]
               },
                {
                 value: "DRIVING_LICENSE",
-                checked: otherQualifications.indexOf("DRIVING_LICENSE") > -1,
-                text: contentLookup.fields.otherQualifications["DRIVING_LICENSE"]
+                checked: additionalTraining.indexOf("DRIVING_LICENSE") > -1,
+                text: contentLookup.fields.additionalTraining["DRIVING_LICENSE"]
               },
               {
                 value: "HEALTH_AND_SAFETY",
-                checked: otherQualifications.indexOf("HEALTH_AND_SAFETY") > -1,
-                text: contentLookup.fields.otherQualifications["HEALTH_AND_SAFETY"]
+                checked: additionalTraining.indexOf("HEALTH_AND_SAFETY") > -1,
+                text: contentLookup.fields.additionalTraining["HEALTH_AND_SAFETY"]
               },
               {
                 value: "HGV_LICENSE",
-                checked: otherQualifications.indexOf("HGV_LICENSE") > -1,
-                text:contentLookup.fields.otherQualifications["HGV_LICENSE"]
+                checked: additionalTraining.indexOf("HGV_LICENSE") > -1,
+                text:contentLookup.fields.additionalTraining["HGV_LICENSE"]
               },
               {
                 value: "MACHINERY",
-                checked: otherQualifications.indexOf("MACHINERY") > -1,
-                text: contentLookup.fields.otherQualifications["MACHINERY"],
+                checked: additionalTraining.indexOf("MACHINERY") > -1,
+                text: contentLookup.fields.additionalTraining["MACHINERY"],
                 hint: {
                   text: "including things like forklift, digger and dumper"
                 }
               },
               {
                 value: "MANUAL",
-                checked: otherQualifications.indexOf("MANUAL") > -1,
-                text: contentLookup.fields.otherQualifications["MANUAL"]
+                checked: additionalTraining.indexOf("MANUAL") > -1,
+                text: contentLookup.fields.additionalTraining["MANUAL"]
               },
               {
                 value: "TRADE",
-                checked: otherQualifications.indexOf("TRADE") > -1,
-                text: contentLookup.fields.otherQualifications["TRADE"],
+                checked: additionalTraining.indexOf("TRADE") > -1,
+                text: contentLookup.fields.additionalTraining["TRADE"],
                 hint: {
                   text: "including things like bricklaying, painting and decorating and carpentry"
                 }
               },
               {
                 value: "OTHER",
-                checked: otherQualifications.indexOf("OTHER") > -1,
-                text: contentLookup.fields.otherQualifications["OTHER"],
-                attributes: { "aria-label": contentLookup.fields.otherQualifications["OTHER"] + " (Opens a dialogue box)" },
+                checked: additionalTraining.indexOf("OTHER") > -1,
+                text: contentLookup.fields.additionalTraining["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.additionalTraining["OTHER"] + " (Opens a dialogue box)" },
                 conditional: {
                   html: otherHtml
                 }
@@ -127,12 +127,12 @@
               },
               {
                 value: "NONE",
-                text:contentLookup.fields.otherQualifications["NONE"],
-                checked: otherQualifications.indexOf("NONE") > -1,
+                text:contentLookup.fields.additionalTraining["NONE"],
+                checked: additionalTraining.indexOf("NONE") > -1,
                 behaviour: "exclusive"
               }
             ],
-            errorMessage: errors.otherQualifications
+            errorMessage: errors.additionalTraining
           }) }}
         </div>
 

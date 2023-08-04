@@ -1,4 +1,4 @@
-import OtherQualificationsValue from '../../../enums/otherQualificationsValue'
+import AdditionalTrainingValue from '../../../enums/additionalTrainingValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -21,56 +21,56 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
-      path: ['otherQualifications'],
+      path: ['additionalTraining'],
       type: 'any.required',
       context: {
-        key: 'otherQualifications',
-        label: 'otherQualifications',
+        key: 'additionalTraining',
+        label: 'additionalTraining',
       },
     })
   })
 
   it('On validation error - Valid - Returns the correct error message', () => {
-    req.body.otherQualifications = ['SOME_VALUE']
+    req.body.additionalTraining = ['SOME_VALUE']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
         key: 0,
-        label: 'otherQualifications[0]',
+        label: 'additionalTraining[0]',
         valids: [
-          OtherQualificationsValue.CSCS,
-          OtherQualificationsValue.DRIVING_LICENSE,
-          OtherQualificationsValue.FIRST_AID,
-          OtherQualificationsValue.FOOD_HYGIENE,
-          OtherQualificationsValue.HEALTH_AND_SAFETY,
-          OtherQualificationsValue.HGV_LICENSE,
-          OtherQualificationsValue.MACHINERY,
-          OtherQualificationsValue.MANUAL,
-          OtherQualificationsValue.TRADE,
-          OtherQualificationsValue.OTHER,
-          OtherQualificationsValue.NONE,
+          AdditionalTrainingValue.CSCS,
+          AdditionalTrainingValue.DRIVING_LICENSE,
+          AdditionalTrainingValue.FIRST_AID,
+          AdditionalTrainingValue.FOOD_HYGIENE,
+          AdditionalTrainingValue.HEALTH_AND_SAFETY,
+          AdditionalTrainingValue.HGV_LICENSE,
+          AdditionalTrainingValue.MACHINERY,
+          AdditionalTrainingValue.MANUAL,
+          AdditionalTrainingValue.TRADE,
+          AdditionalTrainingValue.OTHER,
+          AdditionalTrainingValue.NONE,
         ],
         value: 'SOME_VALUE',
       },
       message: 'Select the type of training or vocational qualification mock_firstName mock_lastName has',
-      path: ['otherQualifications', 0],
+      path: ['additionalTraining', 0],
       type: 'any.only',
     })
   })
 
   it('On validation error - OTHER with no value - Returns the correct error message', () => {
-    req.body.otherQualifications = ['OTHER']
+    req.body.additionalTraining = ['OTHER']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'otherQualificationsOther',
+        key: 'additionalTrainingOther',
         label: 'value',
         value: {
-          otherQualifications: ['OTHER'],
+          additionalTraining: ['OTHER'],
         },
       },
       message: 'Enter the type of training or vocational qualification mock_firstName mock_lastName has',
@@ -80,18 +80,18 @@ describe('validationSchema', () => {
   })
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
-    req.body.otherQualifications = ['OTHER']
-    req.body.otherQualificationsOther = longStr
+    req.body.additionalTraining = ['OTHER']
+    req.body.additionalTrainingOther = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'otherQualificationsOther',
+        key: 'additionalTrainingOther',
         label: 'value',
         value: {
-          otherQualificationsOther: longStr,
-          otherQualifications: ['OTHER'],
+          additionalTrainingOther: longStr,
+          additionalTraining: ['OTHER'],
         },
       },
       message: 'Other qualification must be 200 characters or less',
@@ -101,8 +101,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.otherQualifications = ['MACHINERY']
-    req.body.otherQualificationsOther = ''
+    req.body.additionalTraining = ['MACHINERY']
+    req.body.additionalTrainingOther = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -110,8 +110,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - OTHER with value - Returns no errors', () => {
-    req.body.otherQualifications = ['OTHER']
-    req.body.otherQualificationsOther = 'Some value'
+    req.body.additionalTraining = ['OTHER']
+    req.body.additionalTrainingOther = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

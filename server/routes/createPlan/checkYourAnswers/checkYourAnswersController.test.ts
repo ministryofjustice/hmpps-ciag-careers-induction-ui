@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './checkYourAnswersController'
-import { setSessionData, getSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 describe('CheckYourAnswersController', () => {

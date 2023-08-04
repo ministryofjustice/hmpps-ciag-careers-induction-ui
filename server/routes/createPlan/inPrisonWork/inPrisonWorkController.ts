@@ -25,7 +25,7 @@ export default class InPrisonWorkController {
       // Setup back location
       const backLocation =
         mode === 'new'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
           : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
@@ -75,6 +75,12 @@ export default class InPrisonWorkController {
         inPrisonWork,
         inPrisonWorkOther: inPrisonWork.includes(InPrisonWorkValue.OTHER) ? inPrisonWorkOther : '',
       })
+
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
 
       // Redirect to the correct page
       res.redirect(addressLookup.createPlan.inPrisonEducation(id, mode))

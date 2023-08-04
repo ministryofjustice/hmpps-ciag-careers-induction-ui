@@ -49,12 +49,12 @@
       Other training or qualifications
     </dt>
     <dd class="govuk-summary-list__value">
-      {% for item in record.otherQualifications %}
-        <div>{{ contentLookup.fields.otherQualifications[item] }}{{ ' - ' + record.otherQualificationsOther if item === 'OTHER' }}{{ ',' if record.otherQualifications.length !== loop.index }}</div>
+      {% for item in record.additionalTraining %}
+        <div>{{ contentLookup.fields.additionalTraining[item] }}{{ ' - ' + record.additionalTrainingOther if item === 'OTHER' }}{{ ',' if record.additionalTraining.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.otherQualifications(id, 'edit') }}">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> other training or qualifications</span>
       </a>
     </dd>

@@ -1,6 +1,6 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import OtherQualificationsPage from '../pages/otherQualifications'
+import AdditionalTrainingPage from '../pages/additionalTraining'
 import QualificationsPage from '../pages/qualifications'
 
 context('Other qualifications level page', () => {
@@ -33,40 +33,40 @@ context('Other qualifications level page', () => {
   })
 
   it('New record - Validation messages display when no value selected', () => {
-    const otherQualifications = new OtherQualificationsPage(
+    const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
 
-    otherQualifications.submitButton().click()
+    additionalTraining.submitButton().click()
 
-    otherQualifications
+    additionalTraining
       .checkboxPageErrorMessage()
       .contains('Select the type of training or vocational qualification Daniel Craig has')
-    otherQualifications
+    additionalTraining
       .checkboxFieldErrorMessage()
       .contains('Select the type of training or vocational qualification Daniel Craig has')
 
-    otherQualifications.checkboxFieldValue('OTHER').click()
-    otherQualifications.submitButton().click()
+    additionalTraining.checkboxFieldValue('OTHER').click()
+    additionalTraining.submitButton().click()
 
-    otherQualifications
+    additionalTraining
       .detailsPageErrorMessage()
       .contains('Enter the type of training or vocational qualification Daniel Craig has')
-    otherQualifications
+    additionalTraining
       .detailsFieldErrorMessage()
       .contains('Enter the type of training or vocational qualification Daniel Craig has')
   })
 
   it('New record - Select DRIVING_LICENSE and OTHER - navigates to has-worked-before page', () => {
-    const otherQualifications = new OtherQualificationsPage(
+    const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
 
-    otherQualifications.checkboxFieldValue('DRIVING_LICENSE').click()
-    otherQualifications.checkboxFieldValue('OTHER').click()
-    otherQualifications.textareaField().type('Some other qualifications')
+    additionalTraining.checkboxFieldValue('DRIVING_LICENSE').click()
+    additionalTraining.checkboxFieldValue('OTHER').click()
+    additionalTraining.textareaField().type('Some other qualifications')
 
-    otherQualifications.submitButton().click()
+    additionalTraining.submitButton().click()
 
     cy.url().should('include', 'has-worked-before')
   })

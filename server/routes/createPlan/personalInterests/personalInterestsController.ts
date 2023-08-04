@@ -74,8 +74,14 @@ export default class PersonalInterestsController {
         personalInterestsOther: personalInterests.includes(PersonalInterestsValue.OTHER) ? personalInterestsOther : '',
       })
 
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.abilityToWork(id, mode))
+      res.redirect(addressLookup.createPlan.abilityToWork(id))
     } catch (err) {
       next(err)
     }

@@ -25,7 +25,7 @@ export default class InPrisonEducationController {
       // Setup back location
       const backLocation =
         mode === 'new'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
           : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 

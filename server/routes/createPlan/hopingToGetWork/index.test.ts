@@ -31,7 +31,7 @@ describe('Hope to get work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/hoping-to-get-work',
+      '/plan/create/:id/hoping-to-get-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Hope to get work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/hoping-to-get-work',
+      '/plan/create/:id/hoping-to-get-work/:mode',
       expect.any(Function), // controller.post
     )
   })

@@ -3,7 +3,7 @@ import EducationLevelValue from '../../enums/educationLevelValue'
 import HopingToGetWorkValue from '../../enums/hopingToGetWorkValue'
 import InPrisonEducationValue from '../../enums/inPrisonEducationValue'
 import InPrisonWorkValue from '../../enums/inPrisonWorkValue'
-import OtherQualificationsValue from '../../enums/otherQualificationsValue'
+import AdditionalTrainingValue from '../../enums/additionalTrainingValue'
 import PersonalInterestsValue from '../../enums/personalInterestsValue'
 import QualificationLevelValue from '../../enums/qualificationLevelValue'
 import SkillsValue from '../../enums/skillsValue'
@@ -192,20 +192,20 @@ export default interface CiagPlan {
         | QualificationLevelValue.LEVEL_8
     }>
 
-    otherQualifications: Array<
-      | OtherQualificationsValue.CSCS
-      | OtherQualificationsValue.DRIVING_LICENSE
-      | OtherQualificationsValue.FIRST_AID
-      | OtherQualificationsValue.FOOD_HYGIENE
-      | OtherQualificationsValue.HEALTH_AND_SAFETY
-      | OtherQualificationsValue.HGV_LICENSE
-      | OtherQualificationsValue.MACHINERY
-      | OtherQualificationsValue.MANUAL
-      | OtherQualificationsValue.TRADE
-      | OtherQualificationsValue.OTHER
-      | OtherQualificationsValue.NONE
+    additionalTraining: Array<
+      | AdditionalTrainingValue.CSCS
+      | AdditionalTrainingValue.DRIVING_LICENSE
+      | AdditionalTrainingValue.FIRST_AID
+      | AdditionalTrainingValue.FOOD_HYGIENE
+      | AdditionalTrainingValue.HEALTH_AND_SAFETY
+      | AdditionalTrainingValue.HGV_LICENSE
+      | AdditionalTrainingValue.MACHINERY
+      | AdditionalTrainingValue.MANUAL
+      | AdditionalTrainingValue.TRADE
+      | AdditionalTrainingValue.OTHER
+      | AdditionalTrainingValue.NONE
     >
-    otherQualificationsOther?: string
+    additionalTrainingOther?: string
 
     modifiedBy: string
     modifiedDateTime: string

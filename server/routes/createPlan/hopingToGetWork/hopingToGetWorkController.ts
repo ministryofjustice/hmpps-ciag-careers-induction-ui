@@ -34,7 +34,7 @@ export default class HopingToGetWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { hopingToGetWork } = req.body
 
     try {
@@ -49,13 +49,20 @@ export default class HopingToGetWorkController {
         return
       }
 
-      // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id], {})
+      deleteSessionData(req, ['hopingToGetWork', id, 'data'])
+
+      // Handle edit, no changes
+      if (mode === 'edit' && hopingToGetWork !== record.hopingToGetWork) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
+      // Create new record in sessionData
       setSessionData(req, ['createPlan', id], {
         ...record,
         hopingToGetWork,
       })
-      deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
       // Redirect to the correct page based on value
       res.redirect(

@@ -27,7 +27,7 @@ export default class HasWorkedBeforeController {
       // Setup back location
       const backLocation =
         mode !== 'edit'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
           : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 

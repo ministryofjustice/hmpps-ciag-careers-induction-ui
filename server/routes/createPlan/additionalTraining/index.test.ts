@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import Controller from './otherQualificationsController'
+import Controller from './additionalTrainingController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./otherQualificationsController')
+jest.mock('./additionalTrainingController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
@@ -31,7 +31,7 @@ describe('Other qualifications routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/other-qualifications/:mode',
+      '/plan/create/:id/additional-training/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Other qualifications routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/other-qualifications/:mode',
+      '/plan/create/:id/additional-training/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

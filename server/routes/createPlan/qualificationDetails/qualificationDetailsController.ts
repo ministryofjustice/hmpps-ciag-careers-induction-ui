@@ -38,7 +38,7 @@ export default class QualificationDetailsController {
           mode !== 'edit'
             ? addressLookup.createPlan.qualificationLevel(id, qualificationId, mode)
             : addressLookup.createPlan.qualifications(id, mode),
-        page: 'otherQualifications',
+        page: 'additionalTraining',
         uid: id,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`

@@ -137,12 +137,12 @@ describe('EducationLevelController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - educationLevel = NOT_SURE - Sets session record then redirects to otherQualifications', async () => {
+    it('On success - educationLevel = NOT_SURE - Sets session record then redirects to additionalTraining', async () => {
       req.body.educationLevel = EducationLevelValue.NOT_SURE
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.additionalTraining(id, mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.NOT_SURE,
@@ -150,12 +150,12 @@ describe('EducationLevelController', () => {
       })
     })
 
-    it('On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to otherQualifications', async () => {
+    it('On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to additionalTraining', async () => {
       req.body.educationLevel = EducationLevelValue.PRIMARY_SCHOOL
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.additionalTraining(id, mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.PRIMARY_SCHOOL,
@@ -163,12 +163,12 @@ describe('EducationLevelController', () => {
       })
     })
 
-    it('On success - educationLevel = SECONDARY_SCHOOL_NO_EXAMS - Sets session record then redirects to otherQualifications', async () => {
+    it('On success - educationLevel = SECONDARY_SCHOOL_NO_EXAMS - Sets session record then redirects to additionalTraining', async () => {
       req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id, mode))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.additionalTraining(id, mode))
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS,

@@ -8,7 +8,7 @@ import qualificationsRoutes from './createPlan/qualifications'
 import educationLevelRoutes from './createPlan/educationLevel'
 import qualificationLevelRoutes from './createPlan/qualificationLevel'
 import qualificationDetailsRoutes from './createPlan/qualificationDetails'
-import otherQualificationsRoutes from './createPlan/otherQualifications'
+import additionalTrainingRoutes from './createPlan/additionalTraining'
 import hasWorkedBeforeRoutes from './createPlan/hasWorkedBefore'
 import typeOfWorkExperienceRoutes from './createPlan/typeOfWorkExperience'
 import workDetailsRoutes from './createPlan/workDetails'
@@ -34,7 +34,7 @@ export default function routes(services: Services): Router {
   educationLevelRoutes(router, services)
   qualificationLevelRoutes(router, services)
   qualificationDetailsRoutes(router, services)
-  otherQualificationsRoutes(router, services)
+  additionalTrainingRoutes(router, services)
   hasWorkedBeforeRoutes(router, services)
   typeOfWorkExperienceRoutes(router, services)
   workDetailsRoutes(router, services)

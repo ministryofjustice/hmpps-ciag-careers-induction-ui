@@ -4,14 +4,14 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import OtherQualificationsValue from '../../../enums/otherQualificationsValue'
+import AdditionalTrainingValue from '../../../enums/additionalTrainingValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
-export default class OtherQualificationsController {
+export default class AdditionalTrainingController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -31,7 +31,7 @@ export default class OtherQualificationsController {
           mode === 'new'
             ? addressLookup.createPlan.qualifications(id, mode)
             : addressLookup.createPlan.checkYourAnswers(id),
-        page: 'otherQualifications',
+        page: 'additionalTraining',
         uid: id,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
@@ -41,14 +41,14 @@ export default class OtherQualificationsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        otherQualifications: record.otherQualifications || [],
-        otherQualificationsOther: record.otherQualificationsOther,
+        additionalTraining: record.additionalTraining || [],
+        additionalTrainingOther: record.additionalTrainingOther,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['otherQualifications', id, 'data'], data)
+      setSessionData(req, ['additionalTraining', id, 'data'], data)
 
-      res.render('pages/createPlan/otherQualifications/index', { ...data })
+      res.render('pages/createPlan/additionalTraining/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -56,34 +56,40 @@ export default class OtherQualificationsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { otherQualifications = [], otherQualificationsOther } = req.body
+    const { additionalTraining = [], additionalTrainingOther } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['otherQualifications', id, 'data'])
+      const data = getSessionData(req, ['additionalTraining', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/otherQualifications/index', {
+        res.render('pages/createPlan/additionalTraining/index', {
           ...data,
           errors,
-          otherQualifications,
-          otherQualificationsOther,
+          additionalTraining,
+          additionalTrainingOther,
         })
         return
       }
 
-      deleteSessionData(req, ['otherQualifications', id, 'data'])
+      deleteSessionData(req, ['additionalTraining', id, 'data'])
 
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        otherQualifications,
-        otherQualificationsOther: otherQualifications.includes(OtherQualificationsValue.OTHER)
-          ? otherQualificationsOther
+        additionalTraining,
+        additionalTrainingOther: additionalTraining.includes(AdditionalTrainingValue.OTHER)
+          ? additionalTrainingOther
           : '',
       })
+
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
 
       // Redirect to the correct page based on hopingToGetWork
       res.redirect(

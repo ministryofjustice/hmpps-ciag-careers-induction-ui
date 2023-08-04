@@ -108,6 +108,13 @@ export default class WorkDetailsController {
       const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
+      // Handle edit
+      if (mode === 'edit' && !nextKey) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
+      // Default flow
       res.redirect(
         nextKey
           ? addressLookup.createPlan.workDetails(id, nextKey, mode)
