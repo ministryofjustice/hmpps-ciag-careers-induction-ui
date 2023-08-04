@@ -35,7 +35,6 @@ describe('NotHopingToGetWorkController', () => {
     backLocationAriaText: `Back to Is ${req.context.prisoner.firstName} ${req.context.prisoner.lastName} hoping to get work when they're released?`,
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     notHopingToGetWork: [] as any,
-    // notHopingToGetWorkDetails: undefined,
   }
 
   const controller = new Controller()
