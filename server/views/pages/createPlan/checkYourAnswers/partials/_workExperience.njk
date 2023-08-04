@@ -25,7 +25,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="#">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.typeOfWorkExperience(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> type of work experience</span>
       </a>
     </dd>
@@ -48,7 +48,7 @@
       </dd>
       <dd class="govuk-summary-list__actions">
         <a class="govuk-link govuk-link--no-visited-state" href="#">
-          Change<span class="govuk-visually-hidden"></span>
+          Change<span class="govuk-visually-hidden">  {{ contentLookup.fields.typeOfWorkExperience[item.typeOfWorkExperience] }}</span>
         </a>
       </dd>
     </div>
