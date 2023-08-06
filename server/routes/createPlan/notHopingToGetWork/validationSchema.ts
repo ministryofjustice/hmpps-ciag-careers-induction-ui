@@ -69,6 +69,5 @@ export default function validationSchema(data: NotHopingToGetWorkData): ObjectSc
       'any.length': 'Reason must be 200 characters or less',
     })
 
-  console.log(schema)
   return schema
 }
