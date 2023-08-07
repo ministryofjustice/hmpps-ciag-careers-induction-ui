@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import _ from 'lodash'
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -45,7 +46,7 @@ export default class WorkDetailsController {
               : addressLookup.createPlan.typeOfWorkExperience(id, mode)
             : addressLookup.createPlan.checkYourAnswers(id),
         page: 'workDetails',
-        uid: id,
+        uid: `${id}-${typeOfWorkExperienceKey}`,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
@@ -70,6 +71,7 @@ export default class WorkDetailsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
+    const { from } = req.query
     const { jobRole, jobDetails } = req.body
 
     try {
@@ -90,16 +92,20 @@ export default class WorkDetailsController {
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        workExperience: [
-          ...(record.workExperience || []).filter(
-            (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
-          ),
-          {
-            typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
-            role: jobRole,
-            details: jobDetails,
-          },
-        ],
+        workExperience: _.orderBy(
+          [
+            ...(record.workExperience || []).filter(
+              (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+            ),
+            {
+              typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+              role: jobRole,
+              details: jobDetails,
+            },
+          ],
+          ['typeOfWorkExperience'],
+          ['asc'],
+        ),
       })
 
       deleteSessionData(req, ['workDetails', id, 'data'])
@@ -109,8 +115,8 @@ export default class WorkDetailsController {
       const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
       // Handle edit
-      if (mode === 'edit' && !nextKey) {
-        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+      if (mode === 'edit' && (!nextKey || from)) {
+        res.redirect(from ? data.backLocation : addressLookup.createPlan.checkYourAnswers(id))
         return
       }
 

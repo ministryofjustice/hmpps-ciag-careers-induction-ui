@@ -1,10 +1,27 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-6">Qualifications and training</h2>
 
-{% if record.qualifications.length %}
+{% if hopingToGetWork !== 'YES' %}
+  <dl class="govuk-summary-list govuk-!-margin-bottom-8">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+        Has educational qualifications they want recorded					
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {{ contentLookup.fields.yesNo[record.wantsToAddQualifications] if record.wantsToAddQualifications }}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createPlan.wantsToAddQualifications(id, 'edit') }}">
+          Change<span class="govuk-visually-hidden"> whether they want educational qualifications recorded</span>
+        </a>
+      </dd>
+    </div>
+  </dl>
+{% endif %}
 
+{% if record.qualifications.length and record.wantsAddQualifications === 'YES' %}
   <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">
     Educational qualifications
-    <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}">Change <span class="govuk-visually-hidden"> there educational qualifications</span></a></span>
+    <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}">Change <span class="govuk-visually-hidden"> qualifications</span></a></span>
   </h3>
 
   <table class="govuk-table govuk-!-margin-bottom-6">
@@ -25,25 +42,9 @@
         {% endfor %}
     </tbody>
   </table>
-
 {% endif %}
 
-<h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">Other qualifications and history</h3>
-
 <dl class="govuk-summary-list govuk-!-margin-bottom-8">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key govuk-!-width-one-quarter ">
-      Highest level of education
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ contentLookup.fields.educationLevel[record.educationLevel] if record.educationLevel }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.educationLevel(id, 'edit') }}">
-        Change<span class="govuk-visually-hidden"> highest level of education</span>
-      </a>
-    </dd>
-  </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Other training or qualifications
@@ -55,7 +56,7 @@
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'edit') }}">
-        Change<span class="govuk-visually-hidden"> other training or qualifications they have</span>
+        Change<span class="govuk-visually-hidden"> other training or qualifications</span>
       </a>
     </dd>
   </div>

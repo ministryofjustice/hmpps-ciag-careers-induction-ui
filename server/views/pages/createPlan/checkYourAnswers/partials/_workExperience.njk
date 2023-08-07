@@ -10,7 +10,7 @@
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link govuk-link--no-visited-state" href="#">
-        Change<span class="govuk-visually-hidden"> has worked before</span>
+        Change<span class="govuk-visually-hidden"> whether they have worked before</span>
       </a>
     </dd>
   </div>
@@ -26,7 +26,7 @@
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.typeOfWorkExperience(id, 'edit') }}">
-        Change<span class="govuk-visually-hidden"> type of work experience</span>
+        Change<span class="govuk-visually-hidden"> type of work they have done before</span>
       </a>
     </dd>
   </div>
@@ -47,8 +47,8 @@
         </p>
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link govuk-link--no-visited-state" href="#">
-          Change<span class="govuk-visually-hidden">  {{ contentLookup.fields.typeOfWorkExperience[item.typeOfWorkExperience] }}</span>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workDetails(id, item.typeOfWorkExperience, 'edit') + '?from=' + encryptUrlParameter(originalUrl) }}">
+          Change<span class="govuk-visually-hidden"> {{ contentLookup.fields.typeOfWorkExperience[item.typeOfWorkExperience] }}</span>
         </a>
       </dd>
     </div>

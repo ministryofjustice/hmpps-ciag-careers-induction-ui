@@ -1,0 +1,34 @@
+<h2 class="govuk-heading-m">Work and education in prison</h2>
+
+<dl class="govuk-summary-list govuk-!-margin-bottom-8">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Work interests in prison
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.inPrisonWork %}
+        <div>{{ contentLookup.fields.inPrisonWork[item] }}{{ ' - ' + record.inPrisonWorkOther if item === 'OTHER' }}{{ ',' if record.inPrisonWork.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.inPrisonWorkOther(id, 'edit') }}">
+        Change<span class="govuk-visually-hidden"> work interests in prison</span>
+      </a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Training and education interests in prison
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {% for item in record.inPrisonEducation %}
+        <div>{{ contentLookup.fields.inPrisonEducation[item] }}{{ ' - ' + record.inPrisonEducationOther if item === 'OTHER' }}{{ ',' if record.inPrisonEducation.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.inPrisonEducationOther(id, 'edit') }}">
+        Change<span class="govuk-visually-hidden"> training and education interests in prison</span>
+      </a>
+    </dd>
+  </div>
+</dl>
