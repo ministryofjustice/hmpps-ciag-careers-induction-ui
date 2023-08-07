@@ -6,6 +6,8 @@ export default {
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
+    checkAnswers: (id: string) => `/plan/create/${id}/check-answers`,
+    notHopingToGetWork: (id: string) => `/plan/create/${id}/not-hoping-to-get-work`,
     qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
     whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,

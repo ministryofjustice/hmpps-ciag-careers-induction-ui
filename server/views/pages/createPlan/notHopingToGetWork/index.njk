@@ -1,0 +1,133 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Why is " + prisoner.firstName + " " + prisoner.lastName + " not hoping to get work when they're released?" %}
+
+{#
+Data supplied to this template:
+  * backLocation - url of the back link
+  * prisoner - object with firsName and lastName
+  * notHopingToGetWork - Array existing values for field
+  * notHopingToGetWorkDetails - Existing value
+  * errors? - validation errors
+#}
+
+{% block beforeContent %}
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ errorSummary(errors) }}
+
+            <form class="form" method="post" novalidate="">
+                <div class="govuk-form-group">
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+                    {% set otherHtml %}
+                        {{ govukTextarea({
+                            id: "notHopingToGetWorkDetails",
+                            name: "notHopingToGetWorkDetails",
+                            rows: "2",
+                            value: notHopingToGetWorkDetails,
+                            type: "text",
+                            label: {
+                                text: "Give details",
+                                attributes: { "aria-live": "polite" }
+                            },
+                            attributes: { "aria-label" : "Give reasons why " + prisoner.firstName + " " + prisoner.lastName + " doesn't want to work" },
+                            errorMessage: errors.notHopingToGetWorkDetails
+                        }) }}
+                    {% endset -%}
+
+                    {{ govukCheckboxes({
+                        name: "notHopingToGetWork",
+                        fieldset: {
+                            legend: {
+                                text: title,
+                                isPageHeading: true,
+                                classes: "govuk-fieldset__legend--l"
+                            }
+                        },
+                        hint: {
+                            text: "Select all that apply."
+                        },
+                        items: [
+                            {
+                                value: "FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK",
+                                checked: notHopingToGetWork.indexOf("FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK"]
+                            },
+                            {
+                                value: "HAS_FULL_TIME_CARING_RESPONSIBILITIES",
+                                checked: notHopingToGetWork.indexOf("HAS_FULL_TIME_CARING_RESPONSIBILITIES") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["HAS_FULL_TIME_CARING_RESPONSIBILITIES"]
+                            },
+                            {
+                                value: "LACKS_CONFIDENCE_OR_MOTIVATION",
+                                checked: notHopingToGetWork.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["LACKS_CONFIDENCE_OR_MOTIVATION"]
+                            },
+                            {
+                                value: "NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH",
+                                checked: notHopingToGetWork.indexOf("NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH"]
+                            },
+                            {
+                                value: "REFUSED_SUPPORT_WITH_NO_REASON",
+                                checked: notHopingToGetWork.indexOf("REFUSED_SUPPORT_WITH_NO_REASON") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["REFUSED_SUPPORT_WITH_NO_REASON"]
+                            },
+                            {
+                                value: "RETIRED",
+                                checked: notHopingToGetWork.indexOf("RETIRED") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["RETIRED"]
+                            },
+                            {
+                                value: "RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED",
+                                checked: notHopingToGetWork.indexOf("RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED"]
+                            },
+                            {
+                                value: "OTHER",
+                                checked: notHopingToGetWork.indexOf("OTHER") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["OTHER"],
+                                attributes: { "aria-label": contentLookup.fields.notHopingToGetWork["OTHER"] + " (Opens a dialogue box)" },
+                                conditional: {
+                                   html: otherHtml
+                                }
+                            },
+                            {
+                                divider: "or"
+                            },
+                            {
+                                value: "NOT_SURE",
+                                checked: notHopingToGetWork.indexOf("NOT_SURE") > -1,
+                                text: contentLookup.fields.notHopingToGetWork["NOT_SURE"],
+                                behaviour: "exclusive"
+                            }
+                        ],
+                        errorMessage: errors.notHopingToGetWork
+                    }) }}
+
+                </div>
+
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: {"data-qa": "submit-button"}
+                }) }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
