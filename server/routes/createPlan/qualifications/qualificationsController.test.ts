@@ -52,7 +52,7 @@ describe('QualificationsController', () => {
       next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: HopingToGetWorkValue.YES,
+        hopingToGetWork: HopingToGetWorkValue.NO,
         qualifications: [],
       })
     })
@@ -76,9 +76,9 @@ describe('QualificationsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Record found - NO - Redirects to hopingToGetWork', async () => {
+    it('On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork', async () => {
       setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: HopingToGetWorkValue.NO,
+        hopingToGetWork: undefined,
       })
 
       controller.get(req, res, next)

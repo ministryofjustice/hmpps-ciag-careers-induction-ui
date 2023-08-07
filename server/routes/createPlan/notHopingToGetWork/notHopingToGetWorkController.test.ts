@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './hopingToGetWorkController'
+import Controller from './notHopingToGetWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
@@ -19,12 +19,12 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('HopingToGetWorkController', () => {
+describe('NotHopingToGetWorkController', () => {
   const { req, res, next } = expressMocks()
 
   req.context.prisoner = {
-    firstName: 'mock_firstName',
-    lastName: 'mock_lastName',
+    firstName: 'Mock_firstname',
+    lastName: 'Mock_lastname',
   }
 
   req.params.id = 'mock_ref'
@@ -32,8 +32,10 @@ describe('HopingToGetWorkController', () => {
   const { id } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workPlan(id),
+    backLocation: addressLookup.createPlan.hopingToGetWork(id),
+    backLocationAriaText: `Back to Is ${req.context.prisoner.firstName} ${req.context.prisoner.lastName} hoping to get work when they're released?`,
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
+    notHopingToGetWork: [] as any,
   }
 
   const controller = new Controller()
@@ -42,7 +44,7 @@ describe('HopingToGetWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
+      setSessionData(req, ['notHopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
 
@@ -58,7 +60,7 @@ describe('HopingToGetWorkController', () => {
     it('On success - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hopingToGetWork/index', { ...mockData })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
@@ -73,7 +75,7 @@ describe('HopingToGetWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
+      setSessionData(req, ['notHopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
 
@@ -93,38 +95,8 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/hopingToGetWork/index', { ...mockData, errors })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData, errors })
       expect(next).toHaveBeenCalledTimes(0)
-    })
-
-    it('On success - hopingToGetWork = YES - Sets session record then redirects to supportOptIn', async () => {
-      req.body.hopingToGetWork = HopingToGetWorkValue.YES
-
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'new'))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.YES })
-    })
-
-    it('On success - hopingToGetWork = NO - Sets session record then redirects to ineligableToWork', async () => {
-      req.body.hopingToGetWork = HopingToGetWorkValue.NO
-
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
-    })
-
-    it('On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkAnswers', async () => {
-      req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
-
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })
   })
 })
