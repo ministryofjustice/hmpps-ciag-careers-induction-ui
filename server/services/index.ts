@@ -8,6 +8,7 @@ import PrisonService from './prisonService'
 import WhereaboutsService from './whereaboutsService'
 import AllocationManagerService from './allocationManagerService'
 import CommunityService from './communityService'
+import CiagService from './ciagService'
 
 export const services = () => {
   const { hmppsAuthClient } = dataAccess()
@@ -21,6 +22,7 @@ export const services = () => {
   const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
   const communityService = new CommunityService(hmppsAuthClient)
+  const ciagService = new CiagService(hmppsAuthClient)
 
   return {
     userService,
@@ -32,6 +34,7 @@ export const services = () => {
     whereaboutsService,
     allocationManagerService,
     communityService,
+    ciagService,
   }
 }
 
