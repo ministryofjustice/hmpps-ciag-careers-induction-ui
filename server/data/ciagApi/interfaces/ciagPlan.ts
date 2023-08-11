@@ -1,17 +1,17 @@
-import AbilityToWorkValue from '../../enums/abilityToWorkValue'
-import EducationLevelValue from '../../enums/educationLevelValue'
-import HopingToGetWorkValue from '../../enums/hopingToGetWorkValue'
-import InPrisonEducationValue from '../../enums/inPrisonEducationValue'
-import InPrisonWorkValue from '../../enums/inPrisonWorkValue'
-import AdditionalTrainingValue from '../../enums/additionalTrainingValue'
-import PersonalInterestsValue from '../../enums/personalInterestsValue'
-import QualificationLevelValue from '../../enums/qualificationLevelValue'
-import SkillsValue from '../../enums/skillsValue'
-import TypeOfWorkExperienceValue from '../../enums/typeOfWorkExperienceValue'
-import WorkInterestsValue from '../../enums/workInterestsValue'
-import NotHopingToGetWorkValues from '../../enums/notHopingToGetWorkValues'
+import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
+import EducationLevelValue from '../../../enums/educationLevelValue'
+import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
+import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
+import AdditionalTrainingValue from '../../../enums/additionalTrainingValue'
+import PersonalInterestsValue from '../../../enums/personalInterestsValue'
+import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import SkillsValue from '../../../enums/skillsValue'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
+import WorkInterestsValue from '../../../enums/workInterestsValue'
+import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
 
-export default interface GetCiagPlanResponse {
+export default interface CiagPlan {
   offenderId: string
 
   desireToWork: boolean
