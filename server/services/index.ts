@@ -22,7 +22,7 @@ export const services = () => {
   const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
   const communityService = new CommunityService(hmppsAuthClient)
-  const ciagService = new CiagService(hmppsAuthClient)
+  const ciagService = new CiagService()
 
   return {
     userService,

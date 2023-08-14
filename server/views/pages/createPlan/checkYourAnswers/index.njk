@@ -29,7 +29,7 @@
 
         {% include './partials/_workOnRelease.njk' %}
         
-        {% record.hopingToGetWork === 'YES' %}
+        {% if record.hopingToGetWork === 'YES' %}
           {% include './partials/_educationAndTraining.njk' %}
           {% include './partials/_workExperience.njk' %}
           {% include './partials/_skillsAndInterests.njk' %}
