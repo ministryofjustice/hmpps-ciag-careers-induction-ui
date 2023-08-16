@@ -7,19 +7,30 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class HopingToGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { prisoner } = req.context
 
     try {
       // Get record in sessionData
       const record = getSessionData(req, ['createPlan', id], {})
 
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : addressLookup.createPlan.checkYourAnswers(id),
+        page: 'hopingToGetWork',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
       // Setup page data
       const data = {
-        backLocation: addressLookup.workPlan(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hopingToGetWork: record.hopingToGetWork,
       }

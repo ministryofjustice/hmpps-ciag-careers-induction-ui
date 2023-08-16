@@ -14,7 +14,7 @@ Data supplied to this template:
   * backLocation - url of the back link
   * prisoner - object with firsName and lastName
   * reasonToNotGetWork - Array existing values for field
-  * reasonToNotGetWorkDetails - Existing value
+  * reasonToNotGetWorkOther - Existing value
   * errors? - validation errors
 #}
 
@@ -35,17 +35,17 @@ Data supplied to this template:
 
                     {% set otherHtml %}
                         {{ govukTextarea({
-                            id: "reasonToNotGetWorkDetails",
-                            name: "reasonToNotGetWorkDetails",
+                            id: "reasonToNotGetWorkOther",
+                            name: "reasonToNotGetWorkOther",
                             rows: "2",
-                            value: reasonToNotGetWorkDetails,
+                            value: reasonToNotGetWorkOther,
                             type: "text",
                             label: {
                                 text: "Give details",
                                 attributes: { "aria-live": "polite" }
                             },
                             attributes: { "aria-label" : "Give reasons why " + prisoner.firstName + " " + prisoner.lastName + " doesn't want to work" },
-                            errorMessage: errors.reasonToNotGetWorkDetails
+                            errorMessage: errors.reasonToNotGetWorkOther
                         }) }}
                     {% endset -%}
 

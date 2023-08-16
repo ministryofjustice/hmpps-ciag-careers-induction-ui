@@ -31,7 +31,7 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/reason-to-not-get-work',
+      '/plan/create/:id/reason-to-not-get-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/reason-to-not-get-work',
+      '/plan/create/:id/reason-to-not-get-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

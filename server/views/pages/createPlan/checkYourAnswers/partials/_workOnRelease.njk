@@ -14,13 +14,15 @@
     </dd>
   </div>
 
-  {% if hopingToGetWork !== 'YES' %}
+  {% if record.hopingToGetWork !== 'YES' %}
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
         Reasons why not hoping
       </dt>
       <dd class="govuk-summary-list__value">
-        {{ contentLookup.fields.reasonToNotGetWork[record.reasonToNotGetWork] if record.reasonToNotGetWork }}
+        {% for item in record.reasonToNotGetWork %}
+          <div>{{ contentLookup.fields.reasonToNotGetWork[item] }}{{ ' - ' + record.reasonToNotGetWorkOther if item === 'OTHER' }}{{ ',' if record.reasonToNotGetWork.length !== loop.index }}</div>
+        {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
         <a class="govuk-link" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'edit') }}">

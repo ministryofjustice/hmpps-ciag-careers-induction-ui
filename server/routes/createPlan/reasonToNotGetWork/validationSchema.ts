@@ -13,11 +13,11 @@ export default function validationSchema(data: ReasonToNotGetWorkData): ObjectSc
   } = data
 
   const msg = `Select why ${firstName} ${lastName} is not hoping to get work`
-  const msgOther = `Enter why ${firstName} ${lastName} is not hoping to get work when they’re released`
+  const msgOther = `Enter why ${firstName} ${lastName} is not hoping to get work when they're released`
 
   const schema = joi
     .object({
-      reasonToNotGetWorkDetails: joi.string().allow(''),
+      reasonToNotGetWorkOther: joi.string().allow(''),
       reasonToNotGetWork: joi
         .array()
         .required()
@@ -42,23 +42,23 @@ export default function validationSchema(data: ReasonToNotGetWorkData): ObjectSc
         }),
     })
     .custom((obj, helper) => {
-      const { reasonToNotGetWorkDetails, reasonToNotGetWork } = obj
+      const { reasonToNotGetWorkOther, reasonToNotGetWork } = obj
 
       if (!reasonToNotGetWork.includes('OTHER')) {
         return true
       }
 
-      if (!reasonToNotGetWorkDetails) {
+      if (!reasonToNotGetWorkOther) {
         return helper.error('any.custom', {
-          key: 'reasonToNotGetWorkDetails',
-          label: 'reasonToNotGetWorkDetails',
+          key: 'reasonToNotGetWorkOther',
+          label: 'reasonToNotGetWorkOther',
         })
       }
 
-      if (reasonToNotGetWorkDetails.length > 200) {
+      if (reasonToNotGetWorkOther.length > 200) {
         return helper.error('any.length', {
-          key: 'reasonToNotGetWorkDetails',
-          label: 'reasonToNotGetWorkDetails',
+          key: 'reasonToNotGetWorkOther',
+          label: 'reasonToNotGetWorkOther',
         })
       }
 

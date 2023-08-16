@@ -12,7 +12,7 @@ import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 
 export default class ReasonToNotGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { prisoner } = req.context
 
     try {
@@ -22,7 +22,8 @@ export default class ReasonToNotGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: addressLookup.createPlan.hopingToGetWork(id),
+        defaultRoute:
+          mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id),
         page: 'reasonToNotGetWork',
         uid: id,
       })
@@ -34,7 +35,7 @@ export default class ReasonToNotGetWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         reasonToNotGetWork: record.reasonToNotGetWork || [],
-        reasonToNotGetWorkDetails: record.reasonToNotGetWorkDetails,
+        reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -47,8 +48,8 @@ export default class ReasonToNotGetWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
-    const { reasonToNotGetWork = [], reasonToNotGetWorkDetails } = req.body
+    const { id, mode } = req.params
+    const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
 
     try {
       // If validation errors render errors
@@ -59,7 +60,7 @@ export default class ReasonToNotGetWorkController {
           ...data,
           errors,
           reasonToNotGetWork,
-          reasonToNotGetWorkDetails,
+          reasonToNotGetWorkOther,
         })
         return
       }
@@ -69,12 +70,18 @@ export default class ReasonToNotGetWorkController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         reasonToNotGetWork,
-        reasonToNotGetWorkDetails: reasonToNotGetWork.includes(ReasonToNotGetWorkValues.OTHER)
-          ? reasonToNotGetWorkDetails
+        reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValues.OTHER)
+          ? reasonToNotGetWorkOther
           : '',
       })
 
       deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
+
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
 
       // Redirect to the correct page based on value
       res.redirect(addressLookup.createPlan.qualifications(id, 'new'))

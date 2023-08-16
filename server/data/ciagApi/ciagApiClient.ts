@@ -23,7 +23,6 @@ export default class CiagApiClient {
   }
 
   async createCiagPlan(offenderId: string, newPlan: CreateCiagPlanArgs) {
-    console.log(JSON.stringify(new CreateCiagPlanRequest(offenderId, newPlan)))
     const result = await this.restClient.post<CiagPlan>({
       path: `${BASE_URL}/${offenderId}`,
       data: new CreateCiagPlanRequest(offenderId, newPlan),
