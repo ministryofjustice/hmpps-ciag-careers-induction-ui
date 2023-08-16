@@ -8,6 +8,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
 import uuidv4 from '../../../utils/guid'
+import YesNoValue from '../../../enums/yesNoValue'
 
 export default class FunctionalSkillsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -51,7 +52,7 @@ export default class FunctionalSkillsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { removeQualification } = req.body
+    const { addQualification, removeQualification } = req.body
 
     try {
       const record = getSessionData(req, ['createPlan', id])
@@ -63,6 +64,12 @@ export default class FunctionalSkillsController {
           functionalSkills: record.qualifications.filter((p: { id: string }) => p.id !== removeQualification),
         })
         res.redirect(addressLookup.createPlan.functionalSkills(id, mode))
+        return
+      }
+
+      // If NO, redirect to otherQualifications
+      if (addQualification === YesNoValue.NO) {
+        res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
         return
       }
 

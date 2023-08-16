@@ -18,19 +18,19 @@ export default class QualificationLevelController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Get or setup qualification
-      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+      const qualification = (record.qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
         id: qualificationId,
       }
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' && record.qualifications.length === 1
+        mode !== 'edit' && record.qualifications?.length === 1
           ? addressLookup.createPlan.educationLevel(id)
           : addressLookup.createPlan.qualifications(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
@@ -72,9 +72,13 @@ export default class QualificationLevelController {
 
       // Update record in session
       const record = getSessionData(req, ['createPlan', id])
-      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+      const qualification = (record.qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
         id: qualificationId,
       }
+
+      // Clear blank qualifications, from back functionality
+      record.qualifications = (record.qualifications || []).filter((q: { id: string }) => q.id)
+
       setSessionData(req, ['createPlan', id], {
         ...record,
         qualifications: [

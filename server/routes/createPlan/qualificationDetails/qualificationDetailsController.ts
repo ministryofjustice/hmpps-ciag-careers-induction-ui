@@ -19,7 +19,7 @@ export default class QualificationDetailsController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }

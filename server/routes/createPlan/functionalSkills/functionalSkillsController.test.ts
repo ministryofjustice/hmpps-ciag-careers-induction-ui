@@ -3,6 +3,8 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './functionalSkillsController'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
+import EducationLevelValue from '../../../enums/educationLevelValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
 
@@ -17,11 +19,6 @@ describe('FunctionalSkillsController', () => {
   const uuidv4Mock = uuidv4 as jest.Mock
 
   uuidv4Mock.mockReturnValue('guid')
-
-  req.context.prisoner = {
-    firstName: 'mock_firstName',
-    lastName: 'mock_lastName',
-  }
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -78,13 +75,14 @@ describe('FunctionalSkillsController', () => {
 
     it('On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork', async () => {
       setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: undefined,
+        hopingToGetWork: HopingToGetWorkValue.NOT_SURE,
+        notHopingToGetWork: NotHopingToGetWorkValues.RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED,
+        educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
       })
 
       controller.get(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
-      expect(res.render).toHaveBeenCalledTimes(0)
+      expect(res.render).toHaveBeenCalledTimes(1)
       expect(next).toHaveBeenCalledTimes(0)
     })
 
