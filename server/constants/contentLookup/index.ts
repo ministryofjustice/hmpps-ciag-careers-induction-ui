@@ -10,7 +10,7 @@ import personalInterests from './fields/personalInterests'
 import abilityToWork from './fields/abilityToWork'
 import inPrisonWork from './fields/inPrisonWork'
 import inPrisonEducation from './fields/inPrisonEducation'
-import notHopingToGetWork from './fields/notHopingToGetWork'
+import reasonToNotGetWork from './fields/reasonToNotGetWork'
 
 import qualifications from './pages/qualifications'
 import qualificationDetails from './pages/qualificationDetails'
@@ -29,7 +29,7 @@ export default {
     abilityToWork,
     inPrisonWork,
     inPrisonEducation,
-    notHopingToGetWork,
+    reasonToNotGetWork,
   },
   pages: {
     qualifications,

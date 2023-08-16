@@ -57,12 +57,12 @@ context('Other qualifications level page', () => {
       .contains('Enter the type of training or vocational qualification Daniel Craig has')
   })
 
-  it('New record - Select DRIVING_LICENSE and OTHER - navigates to has-worked-before page', () => {
+  it('New record - Select FULL_UK_DRIVING_LICENCE and OTHER - navigates to has-worked-before page', () => {
     const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
 
-    additionalTraining.checkboxFieldValue('DRIVING_LICENSE').click()
+    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
     additionalTraining.checkboxFieldValue('OTHER').click()
     additionalTraining.textareaField().type('Some other qualifications')
 

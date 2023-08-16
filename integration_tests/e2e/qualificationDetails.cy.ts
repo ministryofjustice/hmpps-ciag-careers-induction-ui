@@ -28,7 +28,7 @@ context('Qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
 
     const qualificationLevelPage = new QualificationLevelPage(

@@ -8,9 +8,9 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
+import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 
-export default class NotHopingToGetWorkController {
+export default class ReasonToNotGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { prisoner } = req.context
@@ -23,7 +23,7 @@ export default class NotHopingToGetWorkController {
       const backLocation = getBackLocation({
         req,
         defaultRoute: addressLookup.createPlan.hopingToGetWork(id),
-        page: 'notHopingToGetWork',
+        page: 'reasonToNotGetWork',
         uid: id,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
@@ -33,14 +33,14 @@ export default class NotHopingToGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        notHopingToGetWork: record.notHopingToGetWork || [],
-        notHopingToGetWorkDetails: record.notHopingToGetWorkDetails,
+        reasonToNotGetWork: record.reasonToNotGetWork || [],
+        reasonToNotGetWorkDetails: record.reasonToNotGetWorkDetails,
       }
 
       // Store page data for use if validation fails
-      setSessionData(req, ['notHopingToGetWork', id, 'data'], data)
+      setSessionData(req, ['reasonToNotGetWork', id, 'data'], data)
 
-      res.render('pages/createPlan/notHopingToGetWork/index', { ...data })
+      res.render('pages/createPlan/reasonToNotGetWork/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -48,18 +48,18 @@ export default class NotHopingToGetWorkController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { notHopingToGetWork = [], notHopingToGetWorkDetails } = req.body
+    const { reasonToNotGetWork = [], reasonToNotGetWorkDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['notHopingToGetWork', id, 'data'])
+      const data = getSessionData(req, ['reasonToNotGetWork', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createPlan/notHopingToGetWork/index', {
+        res.render('pages/createPlan/reasonToNotGetWork/index', {
           ...data,
           errors,
-          notHopingToGetWork,
-          notHopingToGetWorkDetails,
+          reasonToNotGetWork,
+          reasonToNotGetWorkDetails,
         })
         return
       }
@@ -68,13 +68,13 @@ export default class NotHopingToGetWorkController {
       const record = getSessionData(req, ['createPlan', id], {})
       setSessionData(req, ['createPlan', id], {
         ...record,
-        notHopingToGetWork,
-        notHopingToGetWorkDetails: notHopingToGetWork.includes(NotHopingToGetWorkValues.OTHER)
-          ? notHopingToGetWorkDetails
+        reasonToNotGetWork,
+        reasonToNotGetWorkDetails: reasonToNotGetWork.includes(ReasonToNotGetWorkValues.OTHER)
+          ? reasonToNotGetWorkDetails
           : '',
       })
 
-      deleteSessionData(req, ['notHopingToGetWork', id, 'data'])
+      deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
 
       // Redirect to the correct page based on value
       res.redirect(addressLookup.createPlan.qualifications(id, 'new'))

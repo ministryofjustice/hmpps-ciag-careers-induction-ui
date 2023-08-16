@@ -13,8 +13,8 @@
 Data supplied to this template:
   * backLocation - url of the back link
   * prisoner - object with firsName and lastName
-  * notHopingToGetWork - Array existing values for field
-  * notHopingToGetWorkDetails - Existing value
+  * reasonToNotGetWork - Array existing values for field
+  * reasonToNotGetWorkDetails - Existing value
   * errors? - validation errors
 #}
 
@@ -35,22 +35,22 @@ Data supplied to this template:
 
                     {% set otherHtml %}
                         {{ govukTextarea({
-                            id: "notHopingToGetWorkDetails",
-                            name: "notHopingToGetWorkDetails",
+                            id: "reasonToNotGetWorkDetails",
+                            name: "reasonToNotGetWorkDetails",
                             rows: "2",
-                            value: notHopingToGetWorkDetails,
+                            value: reasonToNotGetWorkDetails,
                             type: "text",
                             label: {
                                 text: "Give details",
                                 attributes: { "aria-live": "polite" }
                             },
                             attributes: { "aria-label" : "Give reasons why " + prisoner.firstName + " " + prisoner.lastName + " doesn't want to work" },
-                            errorMessage: errors.notHopingToGetWorkDetails
+                            errorMessage: errors.reasonToNotGetWorkDetails
                         }) }}
                     {% endset -%}
 
                     {{ govukCheckboxes({
-                        name: "notHopingToGetWork",
+                        name: "reasonToNotGetWork",
                         fieldset: {
                             legend: {
                                 text: title,
@@ -63,45 +63,45 @@ Data supplied to this template:
                         },
                         items: [
                             {
-                                value: "FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK",
-                                checked: notHopingToGetWork.indexOf("FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["FEELS_OFFENCE_WILL_LIMIT_ABILITY_TO_WORK"]
+                                value: "LIMIT_THEIR_ABILITY",
+                                checked: reasonToNotGetWork.indexOf("LIMIT_THEIR_ABILITY") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["LIMIT_THEIR_ABILITY"]
                             },
                             {
-                                value: "HAS_FULL_TIME_CARING_RESPONSIBILITIES",
-                                checked: notHopingToGetWork.indexOf("HAS_FULL_TIME_CARING_RESPONSIBILITIES") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["HAS_FULL_TIME_CARING_RESPONSIBILITIES"]
+                                value: "FULL_TIME_CARER",
+                                checked: reasonToNotGetWork.indexOf("FULL_TIME_CARER") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["FULL_TIME_CARER"]
                             },
                             {
                                 value: "LACKS_CONFIDENCE_OR_MOTIVATION",
-                                checked: notHopingToGetWork.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["LACKS_CONFIDENCE_OR_MOTIVATION"]
+                                checked: reasonToNotGetWork.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["LACKS_CONFIDENCE_OR_MOTIVATION"]
                             },
                             {
-                                value: "NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH",
-                                checked: notHopingToGetWork.indexOf("NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["NOT_ABLE_TO_WORK_DUE_TO_ILL_HEALTH"]
+                                value: "HEALTH",
+                                checked: reasonToNotGetWork.indexOf("HEALTH") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["HEALTH"]
                             },
                             {
-                                value: "REFUSED_SUPPORT_WITH_NO_REASON",
-                                checked: notHopingToGetWork.indexOf("REFUSED_SUPPORT_WITH_NO_REASON") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["REFUSED_SUPPORT_WITH_NO_REASON"]
+                                value: "NO_REASON",
+                                checked: reasonToNotGetWork.indexOf("NO_REASON") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NO_REASON"]
                             },
                             {
                                 value: "RETIRED",
-                                checked: notHopingToGetWork.indexOf("RETIRED") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["RETIRED"]
+                                checked: reasonToNotGetWork.indexOf("RETIRED") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["RETIRED"]
                             },
                             {
-                                value: "RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED",
-                                checked: notHopingToGetWork.indexOf("RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["RIGHT_TO_WORK_IN_UK_NOT_CONFIRMED"]
+                                value: "NO_RIGHT_TO_WORK",
+                                checked: reasonToNotGetWork.indexOf("NO_RIGHT_TO_WORK") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NO_RIGHT_TO_WORK"]
                             },
                             {
                                 value: "OTHER",
-                                checked: notHopingToGetWork.indexOf("OTHER") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["OTHER"],
-                                attributes: { "aria-label": contentLookup.fields.notHopingToGetWork["OTHER"] + " (Opens a dialogue box)" },
+                                checked: reasonToNotGetWork.indexOf("OTHER") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["OTHER"],
+                                attributes: { "aria-label": contentLookup.fields.reasonToNotGetWork["OTHER"] + " (Opens a dialogue box)" },
                                 conditional: {
                                    html: otherHtml
                                 }
@@ -111,12 +111,12 @@ Data supplied to this template:
                             },
                             {
                                 value: "NOT_SURE",
-                                checked: notHopingToGetWork.indexOf("NOT_SURE") > -1,
-                                text: contentLookup.fields.notHopingToGetWork["NOT_SURE"],
+                                checked: reasonToNotGetWork.indexOf("NOT_SURE") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NOT_SURE"],
                                 behaviour: "exclusive"
                             }
                         ],
-                        errorMessage: errors.notHopingToGetWork
+                        errorMessage: errors.reasonToNotGetWork
                     }) }}
 
                 </div>

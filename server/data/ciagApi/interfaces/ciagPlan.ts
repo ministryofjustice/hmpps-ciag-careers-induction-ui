@@ -9,7 +9,7 @@ import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import SkillsValue from '../../../enums/skillsValue'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import WorkInterestsValue from '../../../enums/workInterestsValue'
-import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
+import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 
 export default interface CiagPlan {
   offenderId: string
@@ -17,8 +17,8 @@ export default interface CiagPlan {
   desireToWork: boolean
   hopingToGetWork: HopingToGetWorkValue
 
-  notHopingToGetWork?: NotHopingToGetWorkValues
-  notHopingToGetWorkOther?: string
+  reasonToNotGetWork?: ReasonToNotGetWorkValues
+  reasonToNotGetWorkOther?: string
 
   abilityToWork: Array<AbilityToWorkValue>
   abilityToWorkOther?: string

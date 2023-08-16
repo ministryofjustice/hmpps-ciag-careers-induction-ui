@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './notHopingToGetWorkController'
+import Controller from './reasonToNotGetWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import { setSessionData } from '../../../utils/session'
@@ -19,7 +19,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('NotHopingToGetWorkController', () => {
+describe('ReasonToNotGetWorkController', () => {
   const { req, res, next } = expressMocks()
 
   req.context.prisoner = {
@@ -35,7 +35,7 @@ describe('NotHopingToGetWorkController', () => {
     backLocation: addressLookup.createPlan.hopingToGetWork(id),
     backLocationAriaText: `Back to Is ${req.context.prisoner.firstName} ${req.context.prisoner.lastName} hoping to get work when they're released?`,
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    notHopingToGetWork: [] as any,
+    reasonToNotGetWork: [] as any,
   }
 
   const controller = new Controller()
@@ -44,7 +44,7 @@ describe('NotHopingToGetWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['notHopingToGetWork', id, 'data'], mockData)
+      setSessionData(req, ['reasonToNotGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
 
@@ -60,7 +60,7 @@ describe('NotHopingToGetWorkController', () => {
     it('On success - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/reasonToNotGetWork/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
@@ -75,7 +75,7 @@ describe('NotHopingToGetWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['notHopingToGetWork', id, 'data'], mockData)
+      setSessionData(req, ['reasonToNotGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
 
@@ -95,7 +95,7 @@ describe('NotHopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/notHopingToGetWork/index', { ...mockData, errors })
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/reasonToNotGetWork/index', { ...mockData, errors })
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

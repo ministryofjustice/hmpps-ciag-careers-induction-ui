@@ -37,7 +37,7 @@ context('Skills page', () => {
     const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
-    additionalTraining.checkboxFieldValue('DRIVING_LICENSE').click()
+    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
     additionalTraining.submitButton().click()
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')

@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import Controller from './notHopingToGetWorkController'
+import Controller from './reasonToNotGetWorkController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./notHopingToGetWorkController')
+jest.mock('./reasonToNotGetWorkController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
@@ -31,7 +31,7 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/not-hoping-to-get-work',
+      '/plan/create/:id/reason-to-not-get-work',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -43,7 +43,7 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/not-hoping-to-get-work',
+      '/plan/create/:id/reason-to-not-get-work',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

@@ -1,4 +1,4 @@
-import NotHopingToGetWork from '../pages/notHopingToGetWork'
+import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 
 const pageTitle = "Why is Daniel Craig not hoping to get work when they're released?"
 
@@ -18,13 +18,13 @@ context('Not hoping to get work page', () => {
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 
-    const notHopingToGetWork = new NotHopingToGetWork(
+    const reasonToNotGetWork = new ReasonToNotGetWork(
       `Why is Daniel Craig not hoping to get work when they're released?`,
     )
 
-    notHopingToGetWork.submitButton().click()
+    reasonToNotGetWork.submitButton().click()
 
-    notHopingToGetWork.pageErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
+    reasonToNotGetWork.pageErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
   })
 
   it('Select OTHER - no details given, display appropriate message', () => {
@@ -32,13 +32,13 @@ context('Not hoping to get work page', () => {
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 
-    const notHopingToGetWork = new NotHopingToGetWork(pageTitle)
+    const reasonToNotGetWork = new ReasonToNotGetWork(pageTitle)
 
-    notHopingToGetWork.checkboxFieldValue('OTHER').click()
-    notHopingToGetWork.textareaField().clear()
-    notHopingToGetWork.submitButton().click()
+    reasonToNotGetWork.checkboxFieldValue('OTHER').click()
+    reasonToNotGetWork.textareaField().clear()
+    reasonToNotGetWork.submitButton().click()
 
-    notHopingToGetWork
+    reasonToNotGetWork
       .detailsFieldErrorMessage()
       .should('contain', 'Enter why Daniel Craig is not hoping to get work when they’re released')
   })
@@ -48,11 +48,11 @@ context('Not hoping to get work page', () => {
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 
-    const notHopingToGetWork = new NotHopingToGetWork(pageTitle)
+    const reasonToNotGetWork = new ReasonToNotGetWork(pageTitle)
 
-    notHopingToGetWork.checkboxFieldValue('OTHER').click()
-    notHopingToGetWork.textareaField().clear().type('other details')
-    notHopingToGetWork.submitButton().click()
+    reasonToNotGetWork.checkboxFieldValue('OTHER').click()
+    reasonToNotGetWork.textareaField().clear().type('other details')
+    reasonToNotGetWork.submitButton().click()
 
     cy.visit('/plan/create/G6115VJ/qualifications-list/new')
   })
@@ -62,14 +62,14 @@ context('Not hoping to get work page', () => {
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 
-    const notHopingToGetWork = new NotHopingToGetWork(pageTitle)
+    const reasonToNotGetWork = new ReasonToNotGetWork(pageTitle)
 
     const longStr = 'x'.repeat(201)
 
-    notHopingToGetWork.checkboxFieldValue('OTHER').click()
-    notHopingToGetWork.textareaField().clear().type(longStr)
-    notHopingToGetWork.submitButton().click()
+    reasonToNotGetWork.checkboxFieldValue('OTHER').click()
+    reasonToNotGetWork.textareaField().clear().type(longStr)
+    reasonToNotGetWork.submitButton().click()
 
-    notHopingToGetWork.detailsFieldErrorMessage().should('contain', 'Reason must be 200 characters or less')
+    reasonToNotGetWork.detailsFieldErrorMessage().should('contain', 'Reason must be 200 characters or less')
   })
 })

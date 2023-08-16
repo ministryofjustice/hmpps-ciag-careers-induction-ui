@@ -40,15 +40,15 @@ describe('validationSchema', () => {
         key: 0,
         label: 'additionalTraining[0]',
         valids: [
-          AdditionalTrainingValue.CSCS,
-          AdditionalTrainingValue.DRIVING_LICENSE,
-          AdditionalTrainingValue.FIRST_AID,
-          AdditionalTrainingValue.FOOD_HYGIENE,
+          AdditionalTrainingValue.CSCS_CARD,
+          AdditionalTrainingValue.FULL_UK_DRIVING_LICENCE,
+          AdditionalTrainingValue.FIRST_AID_CERTIFICATE,
+          AdditionalTrainingValue.FOOD_HYGIENE_CERTIFICATE,
           AdditionalTrainingValue.HEALTH_AND_SAFETY,
           AdditionalTrainingValue.HGV_LICENSE,
-          AdditionalTrainingValue.MACHINERY,
-          AdditionalTrainingValue.MANUAL,
-          AdditionalTrainingValue.TRADE,
+          AdditionalTrainingValue.MACHINERY_TICKETS,
+          AdditionalTrainingValue.MANUAL_HANDLING,
+          AdditionalTrainingValue.TRADE_COURSE,
           AdditionalTrainingValue.OTHER,
           AdditionalTrainingValue.NONE,
         ],
@@ -101,7 +101,7 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.additionalTraining = ['MACHINERY']
+    req.body.additionalTraining = ['MACHINERY_TICKETS']
     req.body.additionalTrainingOther = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })

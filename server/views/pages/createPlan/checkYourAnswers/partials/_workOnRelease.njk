@@ -20,10 +20,10 @@
         Reasons why not hoping
       </dt>
       <dd class="govuk-summary-list__value">
-        {{ contentLookup.fields.notHopingToGetWork[record.hopingnotHopingToGetWorkToGetWork] if record.notHopingToGetWork }}
+        {{ contentLookup.fields.reasonToNotGetWork[record.reasonToNotGetWork] if record.reasonToNotGetWork }}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createPlan.notHopingToGetWork(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'edit') }}">
           Change<span class="govuk-visually-hidden"> the reasons why they're not hoping to work</span>
         </a>
       </dd>

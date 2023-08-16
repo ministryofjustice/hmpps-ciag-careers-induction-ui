@@ -30,7 +30,7 @@ context('Qualification level page', () => {
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
 
     const qualificationLevelPage = new QualificationLevelPage(
@@ -43,12 +43,12 @@ context('Qualification level page', () => {
     qualificationLevelPage.fieldErrorMessage().contains('Select the level of qualification Daniel Craig wants to add')
   })
 
-  it('New record - SECONDARY_SCHOOL_EXAMS - Select a value - Continue navigates to qualification details page', () => {
+  it('New record - SECONDARY_SCHOOL_TOOK_EXAMS - Select a value - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
 
     const qualificationLevelPage = new QualificationLevelPage(

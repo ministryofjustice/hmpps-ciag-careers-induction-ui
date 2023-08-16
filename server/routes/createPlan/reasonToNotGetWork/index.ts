@@ -3,19 +3,19 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
 import type { Services } from '../../../services'
-import NotHopingToGetWorkController from './notHopingToGetWorkController'
+import ReasonToNotGetWorkController from './reasonToNotGetWorkController'
 
 export default (router: Router, services: Services) => {
-  const controller = new NotHopingToGetWorkController()
+  const controller = new ReasonToNotGetWorkController()
 
   router.get(
-    '/plan/create/:id/not-hoping-to-get-work',
+    '/plan/create/:id/reason-to-not-get-work',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
-    '/plan/create/:id/not-hoping-to-get-work',
-    [getPrisonerByIdResolver(services.prisonerSearchService), parseCheckBoxValue('notHopingToGetWork')],
+    '/plan/create/:id/reason-to-not-get-work',
+    [getPrisonerByIdResolver(services.prisonerSearchService), parseCheckBoxValue('reasonToNotGetWork')],
     controller.post,
   )
 }

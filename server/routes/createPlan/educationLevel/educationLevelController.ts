@@ -79,7 +79,10 @@ export default class EducationLevelController {
 
       // Handle higher qualifications
       if (
-        [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
+        [
+          EducationLevelValue.UNDERGRADUATE_DEGREE_AT_UNIVERSITY,
+          EducationLevelValue.POSTGRADUATE_DEGREE_AT_UNIVERSITY,
+        ].includes(educationLevel)
       ) {
         const newid = uuidv4()
         // Handle qualifications collection
@@ -90,7 +93,7 @@ export default class EducationLevelController {
             {
               id: newid,
               level:
-                educationLevel === EducationLevelValue.POSTGRADUATE_DEGREE
+                educationLevel === EducationLevelValue.POSTGRADUATE_DEGREE_AT_UNIVERSITY
                   ? QualificationLevelValue.LEVEL_8
                   : QualificationLevelValue.LEVEL_6,
             },
@@ -114,7 +117,7 @@ export default class EducationLevelController {
 
       // Handle secondary qualifications
       if (
-        [EducationLevelValue.SECONDARY_SCHOOL_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
+        [EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
           educationLevel,
         )
       ) {

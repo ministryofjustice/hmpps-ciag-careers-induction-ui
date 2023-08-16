@@ -4,7 +4,7 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
 import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
-import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
+import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 import PersonalInterestsValue from '../../../enums/personalInterestsValue'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import SkillsValue from '../../../enums/skillsValue'
@@ -23,8 +23,8 @@ export default class CreateCiagPlanRequest {
     this.desireToWork = data.hopingToGetWork === HopingToGetWorkValue.YES
     this.hopingToGetWork = data.hopingToGetWork
 
-    this.notHopingToGetWork = data.notHopingToGetWork
-    this.notHopingToGetWorkOther = data.notHopingToGetWorkOther
+    this.reasonToNotGetWork = data.reasonToNotGetWork
+    this.reasonToNotGetWorkOther = data.reasonToNotGetWorkOther
 
     this.abilityToWork = data.abilityToWork || []
     this.abilityToWorkOther = data.abilityToWorkOther
@@ -70,7 +70,7 @@ export default class CreateCiagPlanRequest {
           }
         : null
 
-    this.qualificationsAndTrainin = {
+    this.qualificationsAndTraining = {
       educationLevel: data.educationLevel,
       qualifications: data.qualifications,
       additionalTraining: data.additionalTraining,
@@ -99,9 +99,9 @@ export default class CreateCiagPlanRequest {
 
   hopingToGetWork: HopingToGetWorkValue
 
-  notHopingToGetWork?: NotHopingToGetWorkValues
+  reasonToNotGetWork?: ReasonToNotGetWorkValues
 
-  notHopingToGetWorkOther?: string
+  reasonToNotGetWorkOther?: string
 
   abilityToWork: Array<AbilityToWorkValue>
 
@@ -148,7 +148,7 @@ export default class CreateCiagPlanRequest {
     modifiedDateTime: string
   }
 
-  qualificationsAndTrainin?: {
+  qualificationsAndTraining?: {
     educationLevel?: EducationLevelValue
     qualifications?: Array<{
       subject: string
