@@ -164,5 +164,19 @@ describe('ParticularJobInterestsController', () => {
       expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.skills(id))
     })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.OTHER = 'Some job'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
+      })
+      expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
   })
 })

@@ -8,7 +8,7 @@
       {{ contentLookup.fields.hopingToGetWork[record.hopingToGetWork] if record.hopingToGetWork }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createPlan.hopingToGetWork(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.hopingToGetWork(id, 'edit') }}" data-qa="hopingToGetWorkLink">
         Change<span class="govuk-visually-hidden"> whether they're hoping to work when they're released</span>
       </a>
     </dd>
@@ -25,7 +25,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'edit') }}" data-qa="reasonToNotGetWorkLink">
           Change<span class="govuk-visually-hidden"> the reasons why they're not hoping to work</span>
         </a>
       </dd>

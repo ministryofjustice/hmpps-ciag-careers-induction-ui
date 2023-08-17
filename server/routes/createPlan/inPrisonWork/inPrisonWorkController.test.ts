@@ -156,5 +156,21 @@ describe('InPrisonWorkController', () => {
       expect(getSessionData(req, ['inPrisonWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.inPrisonEducation(id, mode))
     })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.inPrisonWork = [InPrisonWorkValue.OTHER]
+      req.body.inPrisonWorkOther = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        inPrisonWork: [InPrisonWorkValue.OTHER],
+        inPrisonWorkOther: 'mock_details',
+      })
+      expect(getSessionData(req, ['inPrisonWork', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
   })
 })

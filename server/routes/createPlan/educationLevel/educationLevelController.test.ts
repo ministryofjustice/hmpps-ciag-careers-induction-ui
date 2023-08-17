@@ -235,5 +235,19 @@ describe('EducationLevelController', () => {
         qualifications: [{ id: 'guid', level: QualificationLevelValue.LEVEL_8 }],
       })
     })
+
+    it('On success - educationLevel = SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - mode === edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+      expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
+        qualifications: [],
+      })
+    })
   })
 })

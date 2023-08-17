@@ -156,5 +156,21 @@ describe('AdditionalTrainingController', () => {
       expect(getSessionData(req, ['additionalTraining', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hasWorkedBefore(id))
     })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.additionalTraining = AdditionalTrainingValue.OTHER
+      req.body.additionalTrainingOther = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        additionalTraining: AdditionalTrainingValue.OTHER,
+        additionalTrainingOther: 'mock_details',
+      })
+      expect(getSessionData(req, ['additionalTraining', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
   })
 })

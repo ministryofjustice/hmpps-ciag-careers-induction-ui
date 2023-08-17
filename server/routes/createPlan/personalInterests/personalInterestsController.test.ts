@@ -156,5 +156,21 @@ describe('PersonalInterestsController', () => {
       expect(getSessionData(req, ['personalInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.abilityToWork(id))
     })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.personalInterests = PersonalInterestsValue.OTHER
+      req.body.personalInterestsOther = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        personalInterests: PersonalInterestsValue.OTHER,
+        personalInterestsOther: 'mock_details',
+      })
+      expect(getSessionData(req, ['personalInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
   })
 })

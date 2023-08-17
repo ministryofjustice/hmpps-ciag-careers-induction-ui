@@ -11,7 +11,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workInterests(id, 'edit') }}">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workInterests(id, 'edit') }}" data-qa="workInterestsLink">
         Change<span class="govuk-visually-hidden"> type of work interested in</span>
       </a>
     </dd>
@@ -30,7 +30,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.particularJobInterests(id, 'edit') }}">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.particularJobInterests(id, 'edit') }}" data-qa="particularJobInterestsLink">
         Change<span class="govuk-visually-hidden"> particular job roles of interest</span>
       </a>
     </dd>
@@ -46,7 +46,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createPlan.skills(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.skills(id, 'edit') }}" data-qa="skillsLink">
         Change<span class="govuk-visually-hidden"> skills</span>
       </a>
     </dd>
@@ -61,7 +61,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createPlan.personalInterests(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.personalInterests(id, 'edit') }}" data-qa="personalInterestsLink">
         Change<span class="govuk-visually-hidden"> interests</span>
       </a>
     </dd>

@@ -21,7 +21,7 @@
 {% if record.qualifications.length and record.wantsAddQualifications === 'YES' %}
   <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">
     Educational qualifications
-    <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}">Change <span class="govuk-visually-hidden"> qualifications</span></a></span>
+    <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}" data-qa="qualificationsLink">Change <span class="govuk-visually-hidden"> qualifications</span></a></span>
   </h3>
 
   <table class="govuk-table govuk-!-margin-bottom-6">
@@ -55,7 +55,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'edit') }}">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'edit') }}" data-qa="additionalTrainingLink">
         Change<span class="govuk-visually-hidden"> other training or qualifications</span>
       </a>
     </dd>

@@ -64,14 +64,13 @@ export default class HopingToGetWorkController {
       deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
       // Handle edit, no changes
-      if (mode === 'edit' && hopingToGetWork !== record.hopingToGetWork) {
+      if (mode === 'edit' && hopingToGetWork === record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }
 
       // Create new record in sessionData
       setSessionData(req, ['createPlan', id], {
-        ...record,
         hopingToGetWork,
       })
 
@@ -79,7 +78,7 @@ export default class HopingToGetWorkController {
       res.redirect(
         hopingToGetWork === HopingToGetWorkValue.YES
           ? addressLookup.createPlan.qualifications(id, 'new')
-          : addressLookup.createPlan.reasonToNotGetWork(id),
+          : addressLookup.createPlan.reasonToNotGetWork(id, 'new'),
       )
     } catch (err) {
       next(err)
