@@ -5,7 +5,7 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import NotHopingToGetWorkValues from '../../../enums/notHopingToGetWorkValues'
 import EducationLevelValue from '../../../enums/educationLevelValue'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
 
 jest.mock('../../../utils/guid', () => ({
