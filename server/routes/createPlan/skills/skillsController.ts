@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class SkillsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -34,8 +34,8 @@ export default class SkillsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        skills: record.skills || [],
-        skillsOther: record.skillsOther,
+        skills: mode === 'update' ? plan.skillsAndInterests.skills : record.skills || [],
+        skillsOther: mode === 'update' ? plan.skillsAndInterests.skillsOther : record.skillsOther,
       }
 
       // Store page data for use if validation fails

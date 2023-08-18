@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class TypeOfWorkExperienceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -34,8 +34,10 @@ export default class TypeOfWorkExperienceController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWorkExperience: record.typeOfWorkExperience || [],
-        typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
+        typeOfWorkExperience:
+          mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || [],
+        typeOfWorkExperienceOther:
+          mode === 'update' ? plan.workExperience.typeOfWorkExperienceOther : record.typeOfWorkExperienceOther,
       }
 
       // Store page data for use if validation fails

@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class ParticularJobInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -29,14 +29,18 @@ export default class ParticularJobInterestsController {
           : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
+      // Build field value
+      const particularJobInterests =
+        mode === 'update' ? plan.workInterests.particularJobInterests : record.particularJobInterests
+
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: record.workInterests,
-        workInterestsOther: record.workInterestsOther,
-        particularJobInterests: (record.particularJobInterests || []).reduce(
+        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
+        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
+        particularJobInterests: (particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
             acc[curr.interestKey] = curr.jobDetails
             return acc

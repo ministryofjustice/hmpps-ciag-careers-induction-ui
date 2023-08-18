@@ -13,7 +13,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 export default class QualificationDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
@@ -24,7 +24,9 @@ export default class QualificationDetailsController {
       }
 
       // If no qualification goto education level to start again
-      const qualification = record.qualifications?.find((q: { id: string }) => q.id === qualificationId)
+      const qualifications =
+        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
+      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId)
       if (!qualification) {
         res.redirect(addressLookup.createPlan.educationLevel(id))
         return

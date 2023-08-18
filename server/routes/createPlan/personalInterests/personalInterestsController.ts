@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class PersonalInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -32,8 +32,10 @@ export default class PersonalInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        personalInterests: record.personalInterests || [],
-        personalInterestsOther: record.personalInterestsOther,
+        personalInterests:
+          mode === 'update' ? plan.skillsAndInterests.personalInterests : record.personalInterests || [],
+        personalInterestsOther:
+          mode === 'update' ? plan.skillsAndInterests.personalInterestsOther : record.personalInterestsOther,
       }
 
       // Store page data for use if validation fails

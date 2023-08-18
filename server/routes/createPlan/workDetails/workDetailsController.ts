@@ -14,7 +14,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
@@ -25,16 +25,19 @@ export default class WorkDetailsController {
       }
 
       // Get job details
+      const workExperience = mode === 'update' ? plan.workExperience.workExperience : record.workExperience
       const job =
-        (record.workExperience || []).find(
+        (workExperience || []).find(
           (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
       // Setup back location
 
       // Calculate last page
-      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
-      const lastKey = position > 0 ? record.typeOfWorkExperience[position - 1] : ''
+      const typeOfWorkExperience =
+        mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || []
+      const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 
       const backLocation = getBackLocation({
         req,

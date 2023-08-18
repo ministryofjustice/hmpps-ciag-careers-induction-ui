@@ -13,7 +13,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class HopingToGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // Get record in sessionData
@@ -32,7 +32,7 @@ export default class HopingToGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hopingToGetWork: record.hopingToGetWork,
+        hopingToGetWork: mode === 'update' ? plan.hopingToGetWork : record.hopingToGetWork,
       }
 
       // Store page data for use if validation fails

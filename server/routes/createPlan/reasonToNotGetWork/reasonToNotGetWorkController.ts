@@ -13,7 +13,7 @@ import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 export default class ReasonToNotGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // Get record in sessionData
@@ -34,8 +34,8 @@ export default class ReasonToNotGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        reasonToNotGetWork: record.reasonToNotGetWork || [],
-        reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
+        reasonToNotGetWork: mode === 'update' ? plan.reasonToNotGetWork : record.reasonToNotGetWork || [],
+        reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 
       // Store page data for use if validation fails

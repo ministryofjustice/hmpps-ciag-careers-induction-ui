@@ -16,7 +16,7 @@ import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
@@ -36,7 +36,7 @@ export default class EducationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: record.educationLevel,
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
       }
 
       // Store page data for use if validation fails

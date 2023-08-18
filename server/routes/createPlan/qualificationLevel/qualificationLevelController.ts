@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
@@ -23,7 +23,9 @@ export default class QualificationLevelController {
       }
 
       // Get or setup qualification
-      const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId) || {
+      const qualifications =
+        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
+      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
         id: qualificationId,
       }
 
@@ -39,7 +41,7 @@ export default class QualificationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: record.educationLevel || '',
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel || '',
         qualificationLevel: qualification.level,
       }
 
@@ -48,6 +50,7 @@ export default class QualificationLevelController {
 
       res.render('pages/createPlan/qualificationLevel/index', { ...data })
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }

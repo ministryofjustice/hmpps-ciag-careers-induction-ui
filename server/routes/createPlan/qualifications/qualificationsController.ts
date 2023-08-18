@@ -12,7 +12,7 @@ import uuidv4 from '../../../utils/guid'
 export default class QualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner, learnerLatestAssessment } = req.context
+    const { prisoner, learnerLatestAssessment, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWork
@@ -37,8 +37,8 @@ export default class QualificationsController {
       const data = {
         backLocation,
         backLocationAriaText,
-        educationLevel: record.educationLevel,
-        qualifications: record.qualifications || [],
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
+        qualifications: mode === 'update' ? plan.qualificationsAndTraining.qualifications : record.qualifications || [],
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }

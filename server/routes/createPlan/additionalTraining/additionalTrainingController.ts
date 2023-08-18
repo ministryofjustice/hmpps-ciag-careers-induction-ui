@@ -14,7 +14,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 export default class AdditionalTrainingController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -41,8 +41,10 @@ export default class AdditionalTrainingController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        additionalTraining: record.additionalTraining || [],
-        additionalTrainingOther: record.additionalTrainingOther,
+        additionalTraining:
+          mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.additionalTraining || [],
+        additionalTrainingOther:
+          mode === 'update' ? plan.qualificationsAndTraining.additionalTrainingOther : record.additionalTrainingOther,
       }
 
       // Store page data for use if validation fails
