@@ -1,0 +1,50 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = prisoner.firstName + " " + prisoner.lastName + "'s qualifications" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * educationLevel - Highest level of education
+    * learnerLatestAssessment - Existing assessment details
+    * qualifications - Added qualifications
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+
+      <form class="form" method="post" novalidate="">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+        {% include './partials/_assessments.njk' %}
+
+        {% include './partials/_qualifications.njk' %}
+
+        {% include './partials/_additionalAssessments.njk' %}
+
+        <div class="govuk-form-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

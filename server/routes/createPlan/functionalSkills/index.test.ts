@@ -1,15 +1,17 @@
 import { Router } from 'express'
-import Controller from './notHopingToGetWorkController'
+import Controller from './functionalSkillsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./notHopingToGetWorkController')
+jest.mock('./functionalSkillsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../../middleware/resolvers/getLatestAssessmentResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Not hoping to get work routes', () => {
+describe('functionalSkills routes', () => {
   let router: Router
   let services: Services
 
@@ -17,6 +19,7 @@ describe('Not hoping to get work routes', () => {
     router = { get: jest.fn(), post: jest.fn() } as unknown as Router
     services = {
       prisonerSearchService: {},
+      curiousEsweService: {},
       userService: {},
     } as unknown as Services
     ;(Controller as jest.Mock).mockImplementation(() => ({
@@ -24,6 +27,7 @@ describe('Not hoping to get work routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getLatestAssessmentResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -31,9 +35,10 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/not-hoping-to-get-work/:mode',
+      '/plan/create/:id/functional-skills/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getLatestAssessmentResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -43,10 +48,9 @@ describe('Not hoping to get work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/not-hoping-to-get-work/:mode',
+      '/plan/create/:id/functional-skills/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post
     )

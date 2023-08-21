@@ -8,7 +8,6 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getBackLocation from '../../../utils/getBackLocation'
 
 export default class QualificationDetailsController {
@@ -19,7 +18,7 @@ export default class QualificationDetailsController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }

@@ -1,0 +1,31 @@
+{% if learnerLatestAssessment.qualifications.length %}
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Functional skills assessment levels</caption>
+    <caption class="govuk-table__caption govuk-!-font-weight-regular govuk-body">Functional skills assessment levels inform in-prison work and education allocations.</caption>
+
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Assessment</th>
+        <th scope="col" class="govuk-table__header">Level</th>
+        <th scope="col" class="govuk-table__header">Assessment date</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in learnerLatestAssessment.qualifications %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">{{ item.qualification.qualificationType }}</td>
+          <td class="govuk-table__cell"> {{ item.qualification.qualificationGrade }}</td>
+          <td class="govuk-table__cell">{{ item.qualification.assessmentDate }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <table class="govuk-table govuk-!-margin-bottom-0" >
+    <caption class="govuk-table__caption govuk-table__caption--m">Functional skills assessment levels</caption>
+    <caption class="govuk-table__caption govuk-!-font-weight-regular govuk-body">Functional skills assessment levels inform in-prison work and education allocations.</caption>
+  </table>
+
+  <p>{{  prisoner.firstName + " " + prisoner.lastName }} has no recorded functional skills levels.</p>
+  <br>
+{% endif %}

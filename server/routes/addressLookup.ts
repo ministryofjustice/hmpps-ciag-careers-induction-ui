@@ -6,9 +6,8 @@ export default {
   createPlan: {
     checkAnswers: (id: string) => `/plan/create/${id}/check-answers`,
     hopingToGetWork: (id: string) => `/plan/create/${id}/hoping-to-get-work`,
-    notHopingToGetWork: (id: string) => `/plan/create/${id}/not-hoping-to-get-work`,
+    notHopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/not-hoping-to-get-work/${mode}`,
     qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
-    whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
     otherQualifications: (id: string, mode = 'new') => `/plan/create/${id}/other-qualifications/${mode}`,
     qualificationLevel: (id: string, qualificationId: string, mode = 'new') =>
@@ -26,5 +25,6 @@ export default {
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
     interests: (id: string, mode = 'new') => `/plan/create/${id}/interests/${mode}`,
     abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
+    functionalSkills: (id: string, mode = 'new') => `/plan/create/${id}/functional-skills/${mode}`,
   },
 }
