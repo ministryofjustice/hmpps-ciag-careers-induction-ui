@@ -42,8 +42,6 @@ export default class AddQualificationsLiteController {
         addQualificationsLite: record.addQualificationsLite,
       }
 
-      console.log(data)
-
       // Store page data for use if validation fails
       setSessionData(req, ['addQualificationsLite', id, 'data'], data)
 
@@ -104,7 +102,6 @@ export default class AddQualificationsLiteController {
           : `${addressLookup.createPlan.additionalTraining(id, mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
