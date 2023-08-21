@@ -25,6 +25,6 @@ export default {
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
     personalInterests: (id: string, mode = 'new') => `/plan/create/${id}/personal-interests/${mode}`,
     abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
-    functionalSkills: (id: string, mode = 'new') => `/plan/create/${id}/functional-skills/${mode}`,
+    addQualificationsLite: (id: string, mode = 'new') => `/plan/create/${id}/add-qualifications-lite/${mode}`,
   },
 }

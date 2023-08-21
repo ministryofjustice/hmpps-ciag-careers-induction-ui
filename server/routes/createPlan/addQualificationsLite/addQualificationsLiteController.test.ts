@@ -1,20 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './functionalSkillsController'
+import Controller from './addQualificationsLiteController'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import validateFormSchema from '../../../utils/validateFormSchema'
 import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import { setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
+import YesNoValue from '../../../enums/yesNoValue'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+
+jest.mock('../../../utils/validateFormSchema', () => ({
+  ...jest.requireActual('../../../utils/validateFormSchema'),
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+jest.mock('./validationSchema', () => ({
+  ...jest.requireActual('./validationSchema'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/guid', () => ({
   ...jest.requireActual('../../../utils/guid'),
   __esModule: true,
   default: jest.fn(),
 }))
+jest.mock('../../../utils/urlParameterEncryption')
 
-describe('FunctionalSkillsController', () => {
+describe('AddQualificationsLiteController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
 
@@ -30,15 +46,15 @@ describe('FunctionalSkillsController', () => {
   const { id, mode } = req.params
 
   const mockData: any = {
-    backLocation: '/plan/create/mock_ref/hoping-to-get-work',
-    backLocationAriaText: "Back to Is Mock_firstname Mock_lastname hoping to get work when they're released?",
+    addQualificationsLite: undefined,
+    backLocation: '/plan/create/mock_ref/reason-to-not-get-work/new',
+    backLocationAriaText: "Back to Why is Mock_firstname Mock_lastname not hoping to get work when they're released?",
     prisoner: {
       dateOfBirth: 'N/A',
       firstName: 'Mock_firstname',
       lastName: 'Mock_lastname',
       releaseDate: 'N/A',
     },
-    qualifications: [],
   }
 
   const controller = new Controller()
@@ -50,7 +66,7 @@ describe('FunctionalSkillsController', () => {
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NO,
-        qualifications: [],
+        addQualificationsLite: YesNoValue.YES,
       })
     })
 
@@ -89,25 +105,30 @@ describe('FunctionalSkillsController', () => {
     it('On success - Record found - YES - Calls render with the correct data', async () => {
       controller.get(req, res, next)
       //
-      // expect(res.render).toHaveBeenCalledWith('pages/createPlan/functionalSkills/index', { ...mockData })
+      // expect(res.render).toHaveBeenCalledWith('pages/createPlan/addQualificationsLite/index', { ...mockData })
       // expect(next).toHaveBeenCalledTimes(0)
     })
   })
 
   describe('#post(req, res)', () => {
+    const errors = { details: 'mock_error' }
+
+    const validationMock = validateFormSchema as jest.Mock
+
     beforeEach(() => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
+      validationMock.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 'A' }, { id: 'B' }],
+        hopingToGetWork: HopingToGetWorkValue.NO,
       })
       req.body = {}
     })
 
     it('On error - Calls next with error', async () => {
-      res.redirect.mockImplementation(() => {
+      validationMock.mockImplementation(() => {
         throw new Error('mock_error')
       })
 
@@ -117,46 +138,79 @@ describe('FunctionalSkillsController', () => {
       expect(res.render).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - addQualification - Redirects to educationLevel', async () => {
-      req.body.addQualification = 'addQualification'
+    it('On validation error - Calls render with the correct data', async () => {
+      validationMock.mockImplementation(() => errors)
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
-    })
-
-    it('On success - Continue - No qualifications - Redirects to educationLevel', async () => {
-      setSessionData(req, ['createPlan', id], {
-        qualifications: [],
-        educationLevel: 'mock_value',
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/addQualificationsLite/index', {
+        ...mockData,
+        errors,
       })
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.educationLevel(id))
+      expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Continue - qualifications - Redirects to educationLevel', async () => {
-      setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 'A' }, { id: 'B' }],
-        educationLevel: 'mock_value',
-      })
+    it('On success - new - addQualificationsLite === YES - Redirects to educationLevel', async () => {
+      req.body.addQualificationsLite = 'YES'
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.educationLevel(id))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
     })
 
-    it('On success - Edit - Continue - educationLevel - Redirects to checkAnswers', async () => {
+    it('On success - new - addQualificationsLite === NO - Redirects to additionalTraining', async () => {
+      req.body.addQualificationsLite = 'NO'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.additionalTraining(id, mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
+    })
+
+    it('On success - edit - no change - Redirects to checkYourAnswers', async () => {
+      req.body.addQualificationsLite = 'NO'
       req.params.mode = 'edit'
-
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 'A' }, { id: 'B' }],
-        educationLevel: 'mock_value',
+        hopingToGetWork: HopingToGetWorkValue.NO,
+        addQualificationsLite: YesNoValue.NO,
       })
 
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - edit - change to addQualificationsLite === NO - Redirects to checkYourAnswers', async () => {
+      req.body.addQualificationsLite = 'NO'
+      req.params.mode = 'edit'
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.NO,
+        addQualificationsLite: YesNoValue.YES,
+      })
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - edit - change to addQualificationsLite === YES - Redirects to qualificationLevel', async () => {
+      req.body.addQualificationsLite = 'YES'
+      req.params.mode = 'edit'
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        addQualificationsLite: YesNoValue.NO,
+      })
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', 'edit')}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
+      )
     })
   })
 })

@@ -8,6 +8,7 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -30,10 +31,15 @@ export default class QualificationLevelController {
       }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' && record.qualifications?.length === 1
-          ? addressLookup.createPlan.educationLevel(id)
-          : addressLookup.createPlan.qualifications(id)
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute:
+          mode !== 'edit' && record.qualifications?.length === 1
+            ? addressLookup.createPlan.educationLevel(id)
+            : addressLookup.createPlan.qualifications(id),
+        page: 'additionalTraining',
+        uid: id,
+      })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
