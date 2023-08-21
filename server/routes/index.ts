@@ -21,7 +21,7 @@ import inPrisonWorkRoutes from './createPlan/inPrisonWork'
 import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
 import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
-import addQualificationsLite from './createPlan/addQualificationsLite'
+import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -48,7 +48,7 @@ export default function routes(services: Services): Router {
   inPrisonWorkRoutes(router, services)
   inPrisonEducationRoutes(router, services)
   reasonToNotGetWorkRoutes(router, services)
-  addQualificationsLite(router, services)
+  wantsToAddQualifications(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

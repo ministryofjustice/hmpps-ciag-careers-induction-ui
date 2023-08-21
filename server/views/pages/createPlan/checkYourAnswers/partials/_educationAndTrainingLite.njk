@@ -1,24 +1,22 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-6">Qualifications and training</h2>
 
-{# {% if record.hopingToGetWork !== 'YES' %}
-  <dl class="govuk-summary-list govuk-!-margin-bottom-8">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-        Has educational qualifications they want recorded					
-      </dt>
-      <dd class="govuk-summary-list__value">
-        {{ contentLookup.fields.yesNo[record.wantsToAddQualifications] if record.wantsToAddQualifications }}
-      </dd>
-      <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createPlan.wantsToAddQualifications(id, 'edit') }}">
-          Change<span class="govuk-visually-hidden"> whether they want educational qualifications recorded</span>
-        </a>
-      </dd>
-    </div>
-  </dl>
-{% endif %} #}
+<dl class="govuk-summary-list govuk-!-margin-bottom-8">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Has educational qualifications they want recorded					
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ contentLookup.fields.yesNo[record.wantsToAddQualifications] if record.wantsToAddQualifications }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.wantsToAddQualifications(id, 'edit') }}">
+        Change<span class="govuk-visually-hidden"> whether they want educational qualifications recorded</span>
+      </a>
+    </dd>
+  </div>
+</dl>
 
-{% if record.qualifications.length and record.wantsAddQualifications === 'YES' %}
+{% if record.qualifications.length and record.wantsToAddQualifications === 'YES' %}
   <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">
     Educational qualifications
     <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}" data-qa="qualificationsLink">Change <span class="govuk-visually-hidden"> qualifications</span></a></span>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './addQualificationsLiteController'
+import Controller from './wantsToAddQualificationsController'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -30,7 +30,7 @@ jest.mock('../../../utils/guid', () => ({
 }))
 jest.mock('../../../utils/urlParameterEncryption')
 
-describe('AddQualificationsLiteController', () => {
+describe('WantsToAddQualificationsController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
 
@@ -46,7 +46,7 @@ describe('AddQualificationsLiteController', () => {
   const { id, mode } = req.params
 
   const mockData: any = {
-    addQualificationsLite: undefined,
+    wantsToAddQualifications: undefined,
     backLocation: '/plan/create/mock_ref/reason-to-not-get-work/new',
     backLocationAriaText: "Back to Why is Mock_firstname Mock_lastname not hoping to get work when they're released?",
     prisoner: {
@@ -66,7 +66,7 @@ describe('AddQualificationsLiteController', () => {
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NO,
-        addQualificationsLite: YesNoValue.YES,
+        wantsToAddQualifications: YesNoValue.YES,
       })
     })
 
@@ -105,7 +105,7 @@ describe('AddQualificationsLiteController', () => {
     it('On success - Record found - YES - Calls render with the correct data', async () => {
       controller.get(req, res, next)
       //
-      // expect(res.render).toHaveBeenCalledWith('pages/createPlan/addQualificationsLite/index', { ...mockData })
+      // expect(res.render).toHaveBeenCalledWith('pages/createPlan/wantsToAddQualifications/index', { ...mockData })
       // expect(next).toHaveBeenCalledTimes(0)
     })
   })
@@ -143,15 +143,15 @@ describe('AddQualificationsLiteController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createPlan/addQualificationsLite/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createPlan/wantsToAddQualifications/index', {
         ...mockData,
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - new - addQualificationsLite === YES - Redirects to educationLevel', async () => {
-      req.body.addQualificationsLite = 'YES'
+    it('On success - new - wantsToAddQualifications === YES - Redirects to educationLevel', async () => {
+      req.body.wantsToAddQualifications = 'YES'
 
       controller.post(req, res, next)
 
@@ -160,8 +160,8 @@ describe('AddQualificationsLiteController', () => {
       )
     })
 
-    it('On success - new - addQualificationsLite === NO - Redirects to additionalTraining', async () => {
-      req.body.addQualificationsLite = 'NO'
+    it('On success - new - wantsToAddQualifications === NO - Redirects to additionalTraining', async () => {
+      req.body.wantsToAddQualifications = 'NO'
 
       controller.post(req, res, next)
 
@@ -171,11 +171,11 @@ describe('AddQualificationsLiteController', () => {
     })
 
     it('On success - edit - no change - Redirects to checkYourAnswers', async () => {
-      req.body.addQualificationsLite = 'NO'
+      req.body.wantsToAddQualifications = 'NO'
       req.params.mode = 'edit'
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NO,
-        addQualificationsLite: YesNoValue.NO,
+        wantsToAddQualifications: YesNoValue.NO,
       })
 
       controller.post(req, res, next)
@@ -183,12 +183,12 @@ describe('AddQualificationsLiteController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - edit - change to addQualificationsLite === NO - Redirects to checkYourAnswers', async () => {
-      req.body.addQualificationsLite = 'NO'
+    it('On success - edit - change to wantsToAddQualifications === NO - Redirects to checkYourAnswers', async () => {
+      req.body.wantsToAddQualifications = 'NO'
       req.params.mode = 'edit'
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NO,
-        addQualificationsLite: YesNoValue.YES,
+        wantsToAddQualifications: YesNoValue.YES,
       })
 
       controller.post(req, res, next)
@@ -196,12 +196,12 @@ describe('AddQualificationsLiteController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - edit - change to addQualificationsLite === YES - Redirects to qualificationLevel', async () => {
-      req.body.addQualificationsLite = 'YES'
+    it('On success - edit - change to wantsToAddQualifications === YES - Redirects to qualificationLevel', async () => {
+      req.body.wantsToAddQualifications = 'YES'
       req.params.mode = 'edit'
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        addQualificationsLite: YesNoValue.NO,
+        wantsToAddQualifications: YesNoValue.NO,
       })
 
       controller.post(req, res, next)

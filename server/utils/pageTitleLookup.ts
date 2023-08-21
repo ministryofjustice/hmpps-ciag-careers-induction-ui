@@ -27,6 +27,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'personal-interests': `What are ${prisonerName}'s interests?`,
     'does-not-want-work': `Why does ${prisonerName} not want work after release?`,
     'reason-to-not-get-work': `Why is ${prisonerName} not hoping to get work when they're released?`,
+    'wants-to-add-qualifications': `Does ${prisonerName} have any other educational qualifications they want to be recorded?`,
   }
 
   return findValue(url, lookup)

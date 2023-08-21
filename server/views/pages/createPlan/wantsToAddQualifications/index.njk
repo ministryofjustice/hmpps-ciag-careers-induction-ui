@@ -13,7 +13,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * Functionsl Skills - Existing data
-    * addQualificationsLite - Existing field values
+    * wantsToAddQualifications - Existing field values
     * errors? - validation errors
 #}
 
@@ -35,7 +35,7 @@
         {% include './partials/_assessments.njk' %}
 
         {{ govukRadios({
-            name: "addQualificationsLite",
+            name: "wantsToAddQualifications",
             fieldset: {
                 legend: {
                     text: "Does " + prisoner.firstName + " " + prisoner.lastName + " have any other educational qualifications they want to be recorded?",
@@ -47,15 +47,15 @@
                 {
                     value: "YES",
                     text: contentLookup.fields.yesNo["YES"],
-                    checked: addQualificationsLite === "YES"
+                    checked: wantsToAddQualifications === "YES"
                 },
                 {
                     value: "NO",
                     text: contentLookup.fields.yesNo["NO"],
-                    checked: addQualificationsLite === "NO"
+                    checked: wantsToAddQualifications === "NO"
                 }
             ],
-            errorMessage: errors.addQualificationsLite
+            errorMessage: errors.wantsToAddQualifications
         }) }}
 
         <div class="govuk-form-group">

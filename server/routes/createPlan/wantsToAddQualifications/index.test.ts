@@ -1,17 +1,17 @@
 import { Router } from 'express'
-import Controller from './addQualificationsLiteController'
+import Controller from './wantsToAddQualificationsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./addQualificationsLiteController')
+jest.mock('./wantsToAddQualificationsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getLatestAssessmentResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('addQualificationsLite routes', () => {
+describe('wantsToAddQualifications routes', () => {
   let router: Router
   let services: Services
 
@@ -35,7 +35,7 @@ describe('addQualificationsLite routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/add-qualifications-lite/:mode',
+      '/plan/create/:id/wants-to-add-qualifications/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getLatestAssessmentResolver
@@ -48,7 +48,7 @@ describe('addQualificationsLite routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/add-qualifications-lite/:mode',
+      '/plan/create/:id/wants-to-add-qualifications/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
