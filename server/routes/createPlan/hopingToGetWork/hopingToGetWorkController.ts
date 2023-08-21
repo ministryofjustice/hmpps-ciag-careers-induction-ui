@@ -61,7 +61,7 @@ export default class HopingToGetWorkController {
       res.redirect(
         hopingToGetWork === HopingToGetWorkValue.YES
           ? addressLookup.createPlan.qualifications(id, 'new')
-          : addressLookup.createPlan.notHopingToGetWork(id),
+          : addressLookup.createPlan.notHopingToGetWork(id, 'new'),
       )
     } catch (err) {
       next(err)
