@@ -12,7 +12,6 @@ export default class CiagApiClient {
 
   constructor(token: string) {
     this.restClient = new RestClient('Ciag Plan API', config.apis.ciagApi, token)
-    console.log(token)
   }
 
   async getCiagPlan(offenderId: string) {

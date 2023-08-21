@@ -7,9 +7,7 @@ import { deleteSessionData } from '../../utils/session'
 export default class WorkPlanController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, tab } = req.params
-    const { prisoner, plan } = req.context
-
-    console.log(plan)
+    const { prisoner } = req.context
 
     try {
       deleteSessionData(req, ['editAction', id, 'cachedValues'])

@@ -10,11 +10,13 @@ context('Not hoping to get work page', () => {
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
+    cy.signIn()
   })
 
   it('Validation messages display when no value selected', () => {
-    cy.signIn()
+    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work/new')
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 
@@ -28,9 +30,7 @@ context('Not hoping to get work page', () => {
   })
 
   it('Select OTHER - no details given, display appropriate message', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work/new')
 
     const reasonToNotGetWork = new ReasonToNotGetWork(pageTitle)
 
@@ -44,9 +44,7 @@ context('Not hoping to get work page', () => {
   })
 
   it('Select OTHER - details entered - navigate to qualifications page', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work/new')
 
     const reasonToNotGetWork = new ReasonToNotGetWork(pageTitle)
 
@@ -58,7 +56,7 @@ context('Not hoping to get work page', () => {
   })
 
   it('Select OTHER - enter text with more characters than allowed', () => {
-    cy.signIn()
+    cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work/new')
 
     cy.visit('/plan/create/G6115VJ/not-hoping-to-get-work')
 

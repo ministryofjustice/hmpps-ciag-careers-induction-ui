@@ -8,7 +8,6 @@ export default {
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
     reasonToNotGetWork: (id: string, mode = 'new') => `/plan/create/${id}/reason-to-not-get-work/${mode}`,
     qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
-    whyNoWork: (id: string, mode = 'new') => `/plan/create/${id}/why-no-work/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
     additionalTraining: (id: string, mode = 'new') => `/plan/create/${id}/additional-training/${mode}`,
     qualificationLevel: (id: string, qualificationId: string, mode = 'new') =>
@@ -26,5 +25,6 @@ export default {
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
     personalInterests: (id: string, mode = 'new') => `/plan/create/${id}/personal-interests/${mode}`,
     abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
+    functionalSkills: (id: string, mode = 'new') => `/plan/create/${id}/functional-skills/${mode}`,
   },
 }

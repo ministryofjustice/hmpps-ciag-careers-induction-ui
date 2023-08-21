@@ -84,7 +84,7 @@ export default class ReasonToNotGetWorkController {
       }
 
       // Redirect to the correct page based on value
-      res.redirect(addressLookup.createPlan.qualifications(id, 'new'))
+      res.redirect(addressLookup.createPlan.functionalSkills(id, 'new'))
     } catch (err) {
       next(err)
     }
