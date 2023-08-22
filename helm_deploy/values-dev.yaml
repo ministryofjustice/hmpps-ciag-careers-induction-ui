@@ -23,6 +23,7 @@ generic-service:
     KEYWORKER_API_URL: "https://keyworker-api-dev.prison.service.justice.gov.uk"
     WHEREABOUTS_API_URL: "https://whereabouts-api-dev.service.justice.gov.uk"
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk"
+    CIAG_API_URL: "https://ciag-induction-api-dev.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
 
 generic-prometheus-alerts:
