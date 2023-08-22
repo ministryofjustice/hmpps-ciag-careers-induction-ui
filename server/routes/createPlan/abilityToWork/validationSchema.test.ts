@@ -62,7 +62,7 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'abilityToWorkDetails',
+        key: 'abilityToWorkOther',
         label: 'value',
         value: {
           abilityToWork: ['OTHER'],
@@ -76,16 +76,16 @@ describe('validationSchema', () => {
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
     req.body.abilityToWork = ['OTHER']
-    req.body.abilityToWorkDetails = longStr
+    req.body.abilityToWorkOther = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'abilityToWorkDetails',
+        key: 'abilityToWorkOther',
         label: 'value',
         value: {
-          abilityToWorkDetails: longStr,
+          abilityToWorkOther: longStr,
           abilityToWork: ['OTHER'],
         },
       },
@@ -97,7 +97,7 @@ describe('validationSchema', () => {
 
   it('On validation success - Returns no errors', () => {
     req.body.abilityToWork = ['LIMITED_BY_OFFENSE']
-    req.body.abilityToWorkDetails = ''
+    req.body.abilityToWorkOther = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -106,7 +106,7 @@ describe('validationSchema', () => {
 
   it('On validation success - OTHER with value - Returns no errors', () => {
     req.body.abilityToWork = ['OTHER']
-    req.body.abilityToWorkDetails = 'Some value'
+    req.body.abilityToWorkOther = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

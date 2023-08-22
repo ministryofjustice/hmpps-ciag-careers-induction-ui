@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import Controller from './workDetailsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./workDetailsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
 describe('Work details routes', () => {
@@ -25,6 +27,7 @@ describe('Work details routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -35,6 +38,7 @@ describe('Work details routes', () => {
       '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -45,6 +49,10 @@ describe('Work details routes', () => {
 
     expect(router.post).toHaveBeenCalledWith(
       '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
+      [
+        expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getCiagPlanByIdResolver
+      ],
       expect.any(Function), // controller.post
     )
   })

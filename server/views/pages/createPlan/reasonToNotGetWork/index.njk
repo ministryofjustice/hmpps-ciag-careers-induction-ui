@@ -1,0 +1,133 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Why is " + prisoner.firstName + " " + prisoner.lastName + " not hoping to get work when they're released?" %}
+
+{#
+Data supplied to this template:
+  * backLocation - url of the back link
+  * prisoner - object with firsName and lastName
+  * reasonToNotGetWork - Array existing values for field
+  * reasonToNotGetWorkOther - Existing value
+  * errors? - validation errors
+#}
+
+{% block beforeContent %}
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ errorSummary(errors) }}
+
+            <form class="form" method="post" novalidate="">
+                <div class="govuk-form-group">
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+                    {% set otherHtml %}
+                        {{ govukTextarea({
+                            id: "reasonToNotGetWorkOther",
+                            name: "reasonToNotGetWorkOther",
+                            rows: "2",
+                            value: reasonToNotGetWorkOther,
+                            type: "text",
+                            label: {
+                                text: "Give details",
+                                attributes: { "aria-live": "polite" }
+                            },
+                            attributes: { "aria-label" : "Give reasons why " + prisoner.firstName + " " + prisoner.lastName + " doesn't want to work" },
+                            errorMessage: errors.reasonToNotGetWorkOther
+                        }) }}
+                    {% endset -%}
+
+                    {{ govukCheckboxes({
+                        name: "reasonToNotGetWork",
+                        fieldset: {
+                            legend: {
+                                text: title,
+                                isPageHeading: true,
+                                classes: "govuk-fieldset__legend--l"
+                            }
+                        },
+                        hint: {
+                            text: "Select all that apply."
+                        },
+                        items: [
+                            {
+                                value: "LIMIT_THEIR_ABILITY",
+                                checked: reasonToNotGetWork.indexOf("LIMIT_THEIR_ABILITY") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["LIMIT_THEIR_ABILITY"]
+                            },
+                            {
+                                value: "FULL_TIME_CARER",
+                                checked: reasonToNotGetWork.indexOf("FULL_TIME_CARER") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["FULL_TIME_CARER"]
+                            },
+                            {
+                                value: "LACKS_CONFIDENCE_OR_MOTIVATION",
+                                checked: reasonToNotGetWork.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["LACKS_CONFIDENCE_OR_MOTIVATION"]
+                            },
+                            {
+                                value: "HEALTH",
+                                checked: reasonToNotGetWork.indexOf("HEALTH") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["HEALTH"]
+                            },
+                            {
+                                value: "NO_REASON",
+                                checked: reasonToNotGetWork.indexOf("NO_REASON") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NO_REASON"]
+                            },
+                            {
+                                value: "RETIRED",
+                                checked: reasonToNotGetWork.indexOf("RETIRED") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["RETIRED"]
+                            },
+                            {
+                                value: "NO_RIGHT_TO_WORK",
+                                checked: reasonToNotGetWork.indexOf("NO_RIGHT_TO_WORK") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NO_RIGHT_TO_WORK"]
+                            },
+                            {
+                                value: "OTHER",
+                                checked: reasonToNotGetWork.indexOf("OTHER") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["OTHER"],
+                                attributes: { "aria-label": contentLookup.fields.reasonToNotGetWork["OTHER"] + " (Opens a dialogue box)" },
+                                conditional: {
+                                   html: otherHtml
+                                }
+                            },
+                            {
+                                divider: "or"
+                            },
+                            {
+                                value: "NOT_SURE",
+                                checked: reasonToNotGetWork.indexOf("NOT_SURE") > -1,
+                                text: contentLookup.fields.reasonToNotGetWork["NOT_SURE"],
+                                behaviour: "exclusive"
+                            }
+                        ],
+                        errorMessage: errors.reasonToNotGetWork
+                    }) }}
+
+                </div>
+
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: {"data-qa": "submit-button"}
+                }) }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

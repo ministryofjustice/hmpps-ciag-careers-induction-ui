@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% if ['UNDERGRADUATE_DEGREE','POSTGRADUATE_DEGREE'].includes(educationLevel) %}
+{% if ['UNDERGRADUATE_DEGREE_AT_UNIVERSITY','POSTGRADUATE_DEGREE_AT_UNIVERSITY'].includes(educationLevel) %}
   {% set title = "Add a degree qualification" %}
 {% else %}
   {% set title = "Add a " + contentLookup.fields.qualificationLevel[qualificationLevel].text.toLowerCase() + " qualification" %}

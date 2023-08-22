@@ -202,5 +202,57 @@ describe('WorkDetailsController', () => {
         ],
       })
     })
+
+    it('On success - Not last typeOfWorkExperience - mode === edit - Sets session record then redirects to workDetails', async () => {
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        workExperience: [],
+      })
+
+      req.body.jobRole = 'mock_role'
+      req.body.jobDetails = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.CONSTRUCTION, 'edit'),
+      )
+      expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        workExperience: [
+          {
+            typeOfWorkExperience: typeOfWorkExperienceKey,
+            role: 'mock_role',
+            details: 'mock_details',
+          },
+        ],
+      })
+    })
+
+    it('On success - Last typeOfWorkExperience - mode === edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.jobRole = 'mock_role'
+      req.body.jobDetails = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+      expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        typeOfWorkExperience: [typeOfWorkExperienceKey],
+        workExperience: [
+          {
+            typeOfWorkExperience: typeOfWorkExperienceKey,
+            role: 'mock_role',
+            details: 'mock_details',
+          },
+        ],
+      })
+    })
   })
 })

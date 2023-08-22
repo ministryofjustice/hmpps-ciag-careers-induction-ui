@@ -8,13 +8,14 @@ context('Education level page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
     hopingToGetWorkPage.radioFieldValue('YES').click()
@@ -44,7 +45,7 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
   it('New record - Select PRIMARY_SCHOOL - Continue navigates to other qualifications page', () => {
@@ -56,27 +57,27 @@ context('Education level page', () => {
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
-  it('New record - Select SECONDARY_SCHOOL_NO_EXAMS - Continue navigates to other qualifications page', () => {
+  it('New record - Select SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - Continue navigates to other qualifications page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_NO_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS').click()
 
     educationLevelPage.submitButton().click()
 
-    cy.url().should('include', 'other-qualifications/new')
+    cy.url().should('include', 'additional-training/new')
   })
 
-  it('New record - Select SECONDARY_SCHOOL_EXAMS - Continue navigates to qualification level page', () => {
+  it('New record - Select SECONDARY_SCHOOL_TOOK_EXAMS - Continue navigates to qualification level page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
 
     educationLevelPage.submitButton().click()
 
@@ -95,24 +96,24 @@ context('Education level page', () => {
     cy.url().should('include', '/qualification-level')
   })
 
-  it('New record - Select UNDERGRADUATE_DEGREE - Continue navigates to qualification details page', () => {
+  it('New record - Select UNDERGRADUATE_DEGREE_AT_UNIVERSITY - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('UNDERGRADUATE_DEGREE').click()
+    educationLevelPage.radioFieldValue('UNDERGRADUATE_DEGREE_AT_UNIVERSITY').click()
 
     educationLevelPage.submitButton().click()
 
     cy.url().should('include', '/qualification-details')
   })
 
-  it('New record - Select POSTGRADUATE_DEGREE - Continue navigates to qualification details page', () => {
+  it('New record - Select POSTGRADUATE_DEGREE_AT_UNIVERSITY - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('POSTGRADUATE_DEGREE').click()
+    educationLevelPage.radioFieldValue('POSTGRADUATE_DEGREE_AT_UNIVERSITY').click()
 
     educationLevelPage.submitButton().click()
 

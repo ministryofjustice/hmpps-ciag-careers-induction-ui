@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class TypeOfWorkExperienceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -24,7 +24,9 @@ export default class TypeOfWorkExperienceController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new'
+          ? addressLookup.createPlan.hasWorkedBefore(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -32,8 +34,10 @@ export default class TypeOfWorkExperienceController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWorkExperience: record.typeOfWorkExperience || [],
-        typeOfWorkExperienceDetails: record.typeOfWorkExperienceDetails,
+        typeOfWorkExperience:
+          mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || [],
+        typeOfWorkExperienceOther:
+          mode === 'update' ? plan.workExperience.typeOfWorkExperienceOther : record.typeOfWorkExperienceOther,
       }
 
       // Store page data for use if validation fails
@@ -47,7 +51,7 @@ export default class TypeOfWorkExperienceController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { typeOfWorkExperience = [], typeOfWorkExperienceDetails } = req.body
+    const { typeOfWorkExperience = [], typeOfWorkExperienceOther } = req.body
 
     try {
       // If validation errors render errors
@@ -58,7 +62,7 @@ export default class TypeOfWorkExperienceController {
           ...data,
           errors,
           typeOfWorkExperience,
-          typeOfWorkExperienceDetails,
+          typeOfWorkExperienceOther,
         })
         return
       }
@@ -71,8 +75,8 @@ export default class TypeOfWorkExperienceController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         typeOfWorkExperience,
-        typeOfWorkExperienceDetails: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
-          ? typeOfWorkExperienceDetails
+        typeOfWorkExperienceOther: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
+          ? typeOfWorkExperienceOther
           : '',
         workExperience: (record.workExperience || []).filter((j: { typeOfWorkExperience: string }) =>
           typeOfWorkExperience.includes(j.typeOfWorkExperience),

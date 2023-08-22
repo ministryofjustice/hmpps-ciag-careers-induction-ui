@@ -13,18 +13,20 @@ import getBackLocation from '../../../utils/getBackLocation'
 export default class QualificationDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record) {
+      if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // If no qualification goto education level to start again
-      const qualification = record.qualifications?.find((q: { id: string }) => q.id === qualificationId)
+      const qualifications =
+        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
+      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId)
       if (!qualification) {
         res.redirect(addressLookup.createPlan.educationLevel(id))
         return
@@ -37,8 +39,8 @@ export default class QualificationDetailsController {
           mode !== 'edit'
             ? addressLookup.createPlan.qualificationLevel(id, qualificationId, mode)
             : addressLookup.createPlan.qualifications(id, mode),
-        page: 'otherQualifications',
-        uid: id,
+        page: 'additionalTraining',
+        uid: `${id}_${qualificationId}`,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 

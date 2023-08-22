@@ -1,5 +1,6 @@
 export default {
   OUTDOOR: 'Animal care and farming',
+  CLEANING_AND_MAINTENANCE: 'Cleaning and maintenance',
   CONSTRUCTION: 'Construction and trade',
   DRIVING: 'Driving and transport',
   BEAUTY: 'Hair, beauty and wellbeing',

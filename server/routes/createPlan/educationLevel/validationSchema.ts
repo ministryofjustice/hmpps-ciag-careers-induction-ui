@@ -20,11 +20,11 @@ export default function validationSchema(data: EducationLevelData): ObjectSchema
       .required()
       .valid(
         EducationLevelValue.PRIMARY_SCHOOL,
-        EducationLevelValue.SECONDARY_SCHOOL_NO_EXAMS,
-        EducationLevelValue.SECONDARY_SCHOOL_EXAMS,
+        EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
+        EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
         EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
-        EducationLevelValue.UNDERGRADUATE_DEGREE,
-        EducationLevelValue.POSTGRADUATE_DEGREE,
+        EducationLevelValue.UNDERGRADUATE_DEGREE_AT_UNIVERSITY,
+        EducationLevelValue.POSTGRADUATE_DEGREE_AT_UNIVERSITY,
         EducationLevelValue.NOT_SURE,
       )
       .messages({

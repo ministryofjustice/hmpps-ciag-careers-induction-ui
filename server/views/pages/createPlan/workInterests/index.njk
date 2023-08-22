@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * workInterests - Array existing values for field
-    * workInterestsDetails - Existing value
+    * workInterestsOther - Existing value
     * errors? - validation errors
 #}
 
@@ -35,17 +35,17 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "workInterestsDetails",
-              name: "workInterestsDetails",
+              id: "workInterestsOther",
+              name: "workInterestsOther",
               rows: "2",
-              value: workInterestsDetails,
+              value: workInterestsOther,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " has done before" },
-              errorMessage: errors.workInterestsDetails
+              errorMessage: errors.workInterestsOther
             }) }}
           {% endset -%}
 
@@ -68,6 +68,14 @@
                 text: contentLookup.fields.workInterests["OUTDOOR"],
                 hint: {
                   text: "things like kennel worker, groundskeeper and farm work"
+                }
+              },
+              {
+                value: "CLEANING_AND_MAINTENANCE",
+                checked: workInterests.indexOf("CLEANING_AND_MAINTENANCE") > -1,
+                text: contentLookup.fields.workInterests["CLEANING_AND_MAINTENANCE"],
+                hint: {
+                  text: "things like biohazard cleaning, janitor and window cleaner"
                 }
               },
               { 

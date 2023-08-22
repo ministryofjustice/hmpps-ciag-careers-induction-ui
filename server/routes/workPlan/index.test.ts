@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import Controller from './workPlanController'
 import getPrisonerByIdResolver from '../../middleware/resolvers/getPrisonerByIdResolver'
+import getCiagPlanByIdResolver from '../../middleware/resolvers/getCiagPlanByIdResolver'
 import { Services } from '../../services'
 import routes from './index'
 
 jest.mock('./workPlanController')
 jest.mock('../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../middleware/resolvers/getCiagPlanByIdResolver')
 
 describe('Work plan routes', () => {
   let router: Router
@@ -22,6 +24,7 @@ describe('Work plan routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for the page', () => {
@@ -31,6 +34,7 @@ describe('Work plan routes', () => {
       '/plan/:id/view/:tab',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.get
     )

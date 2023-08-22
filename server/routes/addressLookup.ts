@@ -4,12 +4,12 @@ export default {
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
   createPlan: {
-    checkAnswers: (id: string) => `/plan/create/${id}/check-answers`,
-    hopingToGetWork: (id: string) => `/plan/create/${id}/hoping-to-get-work`,
-    notHopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/not-hoping-to-get-work/${mode}`,
+    checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
+    hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
+    reasonToNotGetWork: (id: string, mode = 'new') => `/plan/create/${id}/reason-to-not-get-work/${mode}`,
     qualifications: (id: string, mode = 'new') => `/plan/create/${id}/qualifications-list/${mode}`,
     educationLevel: (id: string, mode = 'new') => `/plan/create/${id}/education-level/${mode}`,
-    otherQualifications: (id: string, mode = 'new') => `/plan/create/${id}/other-qualifications/${mode}`,
+    additionalTraining: (id: string, mode = 'new') => `/plan/create/${id}/additional-training/${mode}`,
     qualificationLevel: (id: string, qualificationId: string, mode = 'new') =>
       `/plan/create/${id}/qualification-level/${qualificationId}/${mode}`,
     qualificationDetails: (id: string, qualificationId: string, mode = 'new') =>
@@ -23,8 +23,8 @@ export default {
       `/plan/create/${id}/work-details/${typeOfWorkExperience.toLowerCase()}/${mode}`,
     particularJobInterests: (id: string, mode = 'new') => `/plan/create/${id}/particular-job-interests/${mode}`,
     skills: (id: string, mode = 'new') => `/plan/create/${id}/skills/${mode}`,
-    interests: (id: string, mode = 'new') => `/plan/create/${id}/interests/${mode}`,
+    personalInterests: (id: string, mode = 'new') => `/plan/create/${id}/personal-interests/${mode}`,
     abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
-    functionalSkills: (id: string, mode = 'new') => `/plan/create/${id}/functional-skills/${mode}`,
+    wantsToAddQualifications: (id: string, mode = 'new') => `/plan/create/${id}/wants-to-add-qualifications/${mode}`,
   },
 }

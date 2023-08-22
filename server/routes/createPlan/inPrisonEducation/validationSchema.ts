@@ -17,7 +17,7 @@ export default function validationSchema(data: InPrisonEducationData): ObjectSch
 
   return joi
     .object({
-      inPrisonEducationDetails: joi.string().allow(''),
+      inPrisonEducationOther: joi.string().allow(''),
       inPrisonEducation: joi
         .array()
         .required()
@@ -46,23 +46,23 @@ export default function validationSchema(data: InPrisonEducationData): ObjectSch
         }),
     })
     .custom((obj, helper) => {
-      const { inPrisonEducationDetails, inPrisonEducation } = obj
+      const { inPrisonEducationOther, inPrisonEducation } = obj
 
       if (!inPrisonEducation.includes('OTHER')) {
         return true
       }
 
-      if (!inPrisonEducationDetails) {
+      if (!inPrisonEducationOther) {
         return helper.error('any.custom', {
-          key: 'inPrisonEducationDetails',
-          label: 'inPrisonEducationDetails',
+          key: 'inPrisonEducationOther',
+          label: 'inPrisonEducationOther',
         })
       }
 
-      if (inPrisonEducationDetails.length > 200) {
+      if (inPrisonEducationOther.length > 200) {
         return helper.error('any.length', {
-          key: 'inPrisonEducationDetails',
-          label: 'inPrisonEducationDetails',
+          key: 'inPrisonEducationOther',
+          label: 'inPrisonEducationOther',
         })
       }
 

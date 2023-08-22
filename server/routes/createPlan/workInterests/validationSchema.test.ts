@@ -41,6 +41,7 @@ describe('validationSchema', () => {
         label: 'workInterests[0]',
         valids: [
           WorkInterestsValue.OUTDOOR,
+          WorkInterestsValue.CLEANING_AND_MAINTENANCE,
           WorkInterestsValue.CONSTRUCTION,
           WorkInterestsValue.DRIVING,
           WorkInterestsValue.BEAUTY,
@@ -70,7 +71,7 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'workInterestsDetails',
+        key: 'workInterestsOther',
         label: 'value',
         value: {
           workInterests: ['OTHER'],
@@ -84,16 +85,16 @@ describe('validationSchema', () => {
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
     req.body.workInterests = ['OTHER']
-    req.body.workInterestsDetails = longStr
+    req.body.workInterestsOther = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'workInterestsDetails',
+        key: 'workInterestsOther',
         label: 'value',
         value: {
-          workInterestsDetails: longStr,
+          workInterestsOther: longStr,
           workInterests: ['OTHER'],
         },
       },
@@ -105,7 +106,7 @@ describe('validationSchema', () => {
 
   it('On validation success - Returns no errors', () => {
     req.body.workInterests = ['CONSTRUCTION']
-    req.body.workInterestsDetails = ''
+    req.body.workInterestsOther = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -114,7 +115,7 @@ describe('validationSchema', () => {
 
   it('On validation success - OTHER with value - Returns no errors', () => {
     req.body.workInterests = ['OTHER']
-    req.body.workInterestsDetails = 'Some value'
+    req.body.workInterestsOther = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

@@ -95,7 +95,7 @@ describe('TypeOfWorkExperienceController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/typeOfWorkExperience/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         typeOfWorkExperience: TypeOfWorkExperienceValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -143,7 +143,7 @@ describe('TypeOfWorkExperienceController', () => {
 
     it('On success - mode = new - Sets session record then redirects to workDetails', async () => {
       req.body.typeOfWorkExperience = [TypeOfWorkExperienceValue.OTHER]
-      req.body.typeOfWorkExperienceDetails = 'mock_details'
+      req.body.typeOfWorkExperienceOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,7 +151,7 @@ describe('TypeOfWorkExperienceController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         typeOfWorkExperience: [TypeOfWorkExperienceValue.OTHER],
-        typeOfWorkExperienceDetails: 'mock_details',
+        typeOfWorkExperienceOther: 'mock_details',
         workExperience: [],
       })
       expect(getSessionData(req, ['typeOfWorkExperience', id, 'data'])).toBeFalsy()

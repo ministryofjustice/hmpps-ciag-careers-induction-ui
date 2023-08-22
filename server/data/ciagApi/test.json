@@ -1,0 +1,51 @@
+{
+  "offenderId": "A0011DZ",
+  "desireToWork": true,
+  "hopingToGetWork": "YES",
+  "abilityToWork": ["HEALTH_ISSUES", "OTHER"],
+  "abilityToWorkOther": "hkjhkjhkjjhhkjjhk",
+  "createdBy": "GDUTTON_GEN",
+  "createdDateTime": "2023-08-15T09:47:25.448Z",
+  "modifiedBy": "GDUTTON_GEN",
+  "modifiedDateTime": "2023-08-15T09:47:25.448Z",
+  "workExperience": {
+    "hasWorkedBefore": true,
+    "typeOfWorkExperience": ["OUTDOOR", "OTHER"],
+    "typeOfWorkExperienceOther": "jkjkjlkklljljlklkj",
+    "workExperience": [
+      { "typeOfWorkExperience": "OTHER", "role": "jlkjljlkjljlkjlk", "details": "jkjlkjljkljlkjlkljlklkj" },
+      { "typeOfWorkExperience": "OUTDOOR", "role": "hfhgfhgf", "details": "hjkhkjhkhkhkjhkj" }
+    ],
+    "modifiedBy": "GDUTTON_GEN",
+    "modifiedDateTime": "2023-08-15T09:47:25.448Z"
+  },
+  "workInterests": {
+    "workInterests": ["CONSTRUCTION", "OTHER"],
+    "workInterestsOther": "jljlkjljlkjlkjljlkjkllk",
+    "particularJobInterests": [
+      { "interestKey": "CONSTRUCTION", "jobDetails": "sssssss" },
+      { "interestKey": "OTHER", "jobDetails": "Some details of job role" }
+    ],
+    "modifiedBy": "GDUTTON_GEN",
+    "modifiedDateTime": "2023-08-15T09:47:25.448Z"
+  },
+  "skillsAndInterests": {
+    "skills": ["POSITIVE_ATTITUDE", "OTHER"],
+    "skillsOther": "khkjhkjhkjhkjhkj",
+    "personalInterests": ["CREATIVE", "OTHER"],
+    "personalInterestsOther": "jhjhkhkjjkhkj",
+    "modifiedBy": "GDUTTON_GEN",
+    "modifiedDateTime": "2023-08-15T09:47:25.448Z"
+  },
+  "qualificationsAndTrainin": {
+    "educationLevel": "SECONDARY_SCHOOL_TOOK_EXAMS",
+    "qualifications": [
+      { "id": "fb9345ec-7588-4840-93ff-52bb06d4535e", "level": "LEVEL_1", "subject": "French", "grade": "A" }
+    ],
+    "additionalTraining": ["CSCS_CARD", "OTHER"],
+    "additionalTrainingOther": "jljlijlkjlkljk",
+    "modifiedBy": "GDUTTON_GEN",
+    "modifiedDateTime": "2023-08-15T09:47:25.448Z"
+  },
+  "inPrisonInterests": null
+}

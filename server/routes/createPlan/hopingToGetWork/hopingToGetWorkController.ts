@@ -7,21 +7,32 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class HopingToGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
-    const { prisoner } = req.context
+    const { id, mode } = req.params
+    const { prisoner, plan } = req.context
 
     try {
       // Get record in sessionData
       const record = getSessionData(req, ['createPlan', id], {})
 
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : addressLookup.createPlan.checkYourAnswers(id),
+        page: 'hopingToGetWork',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
       // Setup page data
       const data = {
-        backLocation: addressLookup.workPlan(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hopingToGetWork: record.hopingToGetWork,
+        hopingToGetWork: mode === 'update' ? plan.hopingToGetWork : record.hopingToGetWork,
       }
 
       // Store page data for use if validation fails
@@ -34,7 +45,7 @@ export default class HopingToGetWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { hopingToGetWork } = req.body
 
     try {
@@ -49,19 +60,25 @@ export default class HopingToGetWorkController {
         return
       }
 
-      // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id], {})
+      deleteSessionData(req, ['hopingToGetWork', id, 'data'])
+
+      // Handle edit, no changes
+      if (mode === 'edit' && hopingToGetWork === record.hopingToGetWork) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
+      // Create new record in sessionData
       setSessionData(req, ['createPlan', id], {
-        ...record,
         hopingToGetWork,
       })
-      deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
       // Redirect to the correct page based on value
       res.redirect(
         hopingToGetWork === HopingToGetWorkValue.YES
           ? addressLookup.createPlan.qualifications(id, 'new')
-          : addressLookup.createPlan.notHopingToGetWork(id, 'new'),
+          : addressLookup.createPlan.reasonToNotGetWork(id, 'new'),
       )
     } catch (err) {
       next(err)

@@ -5,11 +5,11 @@ import contentLookup from '../../../constants/contentLookup'
 
 interface WorkDetailsData {
   workInterests: WorkInterestsValue[]
-  workInterestsDetails: string
+  workInterestsOther: string
 }
 
 export default function validationSchema(data: WorkDetailsData): ObjectSchema {
-  const { workInterests, workInterestsDetails } = data
+  const { workInterests, workInterestsOther } = data
 
   const schema = {}
   workInterests.forEach(key => {
@@ -20,7 +20,7 @@ export default function validationSchema(data: WorkDetailsData): ObjectSchema {
       .messages({
         'string.max':
           key === WorkInterestsValue.OTHER
-            ? `${workInterestsDetails} job role must be 200 characters or less`
+            ? `${workInterestsOther} job role must be 200 characters or less`
             : `${contentLookup.fields.workInterests[key]} job role must be 200 characters or less`,
       })
   })
