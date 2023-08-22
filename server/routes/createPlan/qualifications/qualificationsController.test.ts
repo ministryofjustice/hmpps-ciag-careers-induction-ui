@@ -33,7 +33,7 @@ describe('QualificationsController', () => {
   const { id, mode } = req.params
 
   const mockData: any = {
-    backLocation: '/plan/create/mock_ref/hoping-to-get-work',
+    backLocation: '/plan/create/mock_ref/hoping-to-get-work/new',
     backLocationAriaText: "Back to Is Mock_firstname Mock_lastname hoping to get work when they're released?",
     prisoner: {
       dateOfBirth: 'N/A',
@@ -161,10 +161,10 @@ describe('QualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.otherQualifications(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.additionalTraining(id))
     })
 
-    it('On success - Edit - Continue - educationLevel - Redirects to checkAnswers', async () => {
+    it('On success - Edit - Continue - educationLevel - Redirects to checkYourAnswers', async () => {
       req.params.mode = 'edit'
 
       setSessionData(req, ['createPlan', id], {
@@ -174,7 +174,7 @@ describe('QualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
   })
 })

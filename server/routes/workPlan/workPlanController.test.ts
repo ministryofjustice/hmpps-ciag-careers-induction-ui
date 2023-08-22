@@ -13,6 +13,8 @@ describe('WorkPlanController', () => {
     lastName: 'mock_lastName',
   }
 
+  req.context.plan = {}
+
   req.params.id = 'mock_ref'
   req.params.tab = 'overview'
   const { tab } = req.params
@@ -20,6 +22,7 @@ describe('WorkPlanController', () => {
   const mockData = {
     id: 'mock_ref',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
+    plan: {},
     tab,
   }
 

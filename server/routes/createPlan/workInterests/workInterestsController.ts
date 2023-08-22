@@ -13,7 +13,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class WorkInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -31,7 +31,7 @@ export default class WorkInterestsController {
           ? lastKey
             ? addressLookup.createPlan.workDetails(id, lastKey, mode)
             : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,8 +39,8 @@ export default class WorkInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: record.workInterests || [],
-        workInterestsDetails: record.workInterestsDetails,
+        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
+        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -54,7 +54,7 @@ export default class WorkInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { workInterests = [], workInterestsDetails } = req.body
+    const { workInterests = [], workInterestsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -65,7 +65,7 @@ export default class WorkInterestsController {
           ...data,
           errors,
           workInterests,
-          workInterestsDetails,
+          workInterestsOther,
         })
         return
       }
@@ -78,7 +78,7 @@ export default class WorkInterestsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         workInterests,
-        workInterestsDetails: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsDetails : '',
+        workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
       })
 
       // Redirect to the correct page based on hopingToGetWork

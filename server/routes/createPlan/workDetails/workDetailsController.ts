@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import _ from 'lodash'
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -8,33 +9,35 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getBackLocation from '../../../utils/getBackLocation'
 
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Get job details
+      const workExperience = mode === 'update' ? plan.workExperience.workExperience : record.workExperience
       const job =
-        (record.workExperience || []).find(
+        (workExperience || []).find(
           (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
       // Setup back location
 
       // Calculate last page
-      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
-      const lastKey = position > 0 ? record.typeOfWorkExperience[position - 1] : ''
+      const typeOfWorkExperience =
+        mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || []
+      const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 
       const backLocation = getBackLocation({
         req,
@@ -43,9 +46,9 @@ export default class WorkDetailsController {
             ? lastKey
               ? addressLookup.createPlan.workDetails(id, lastKey, mode)
               : addressLookup.createPlan.typeOfWorkExperience(id, mode)
-            : addressLookup.createPlan.checkAnswers(id),
+            : addressLookup.createPlan.checkYourAnswers(id),
         page: 'workDetails',
-        uid: id,
+        uid: `${id}-${typeOfWorkExperienceKey}`,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
@@ -70,6 +73,7 @@ export default class WorkDetailsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
+    const { from } = req.query
     const { jobRole, jobDetails } = req.body
 
     try {
@@ -90,16 +94,20 @@ export default class WorkDetailsController {
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        workExperience: [
-          ...(record.workExperience || []).filter(
-            (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
-          ),
-          {
-            typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
-            role: jobRole,
-            details: jobDetails,
-          },
-        ],
+        workExperience: _.orderBy(
+          [
+            ...(record.workExperience || []).filter(
+              (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+            ),
+            {
+              typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+              role: jobRole,
+              details: jobDetails,
+            },
+          ],
+          ['typeOfWorkExperience'],
+          ['asc'],
+        ),
       })
 
       deleteSessionData(req, ['workDetails', id, 'data'])
@@ -108,6 +116,13 @@ export default class WorkDetailsController {
       const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
+      // Handle edit
+      if (mode === 'edit' && (!nextKey || from)) {
+        res.redirect(from ? data.backLocation : addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
+      // Default flow
       res.redirect(
         nextKey
           ? addressLookup.createPlan.workDetails(id, nextKey, mode)

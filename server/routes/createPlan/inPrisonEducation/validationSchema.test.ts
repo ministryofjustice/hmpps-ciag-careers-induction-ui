@@ -69,7 +69,7 @@ describe('validationSchema', () => {
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'inPrisonEducationDetails',
+        key: 'inPrisonEducationOther',
         label: 'value',
         value: {
           inPrisonEducation: ['OTHER'],
@@ -83,16 +83,16 @@ describe('validationSchema', () => {
 
   it('On validation error - OTHER with value length > 200 - Returns the correct error message', () => {
     req.body.inPrisonEducation = ['OTHER']
-    req.body.inPrisonEducationDetails = longStr
+    req.body.inPrisonEducationOther = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
-        key: 'inPrisonEducationDetails',
+        key: 'inPrisonEducationOther',
         label: 'value',
         value: {
-          inPrisonEducationDetails: longStr,
+          inPrisonEducationOther: longStr,
           inPrisonEducation: ['OTHER'],
         },
       },
@@ -104,7 +104,7 @@ describe('validationSchema', () => {
 
   it('On validation success - Returns no errors', () => {
     req.body.inPrisonEducation = ['WELDING_AND_METALWORK']
-    req.body.inPrisonEducationDetails = ''
+    req.body.inPrisonEducationOther = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -113,7 +113,7 @@ describe('validationSchema', () => {
 
   it('On validation success - OTHER with value - Returns no errors', () => {
     req.body.inPrisonEducation = ['OTHER']
-    req.body.inPrisonEducationDetails = 'Some value'
+    req.body.inPrisonEducationOther = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

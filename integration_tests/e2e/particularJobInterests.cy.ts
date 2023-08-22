@@ -1,7 +1,7 @@
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import OtherQualificationsPage from '../pages/otherQualifications'
+import AdditionalTrainingPage from '../pages/additionalTraining'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import WorkInterestsPage from '../pages/workInterests'
@@ -14,13 +14,14 @@ context('Particular interests page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
     hopingToGetWorkPage.radioFieldValue('YES').click()
@@ -35,11 +36,11 @@ context('Particular interests page', () => {
     educationLevelPage.radioFieldValue('PRIMARY_SCHOOL').click()
     educationLevelPage.submitButton().click()
 
-    const otherQualifications = new OtherQualificationsPage(
+    const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
-    otherQualifications.checkboxFieldValue('DRIVING_LICENSE').click()
-    otherQualifications.submitButton().click()
+    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
+    additionalTraining.submitButton().click()
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')
 

@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import Controller from './hopingToGetWorkController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./hopingToGetWorkController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
 describe('Hope to get work routes', () => {
@@ -24,6 +26,7 @@ describe('Hope to get work routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -31,9 +34,10 @@ describe('Hope to get work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/plan/create/:id/hoping-to-get-work',
+      '/plan/create/:id/hoping-to-get-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -43,7 +47,11 @@ describe('Hope to get work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/plan/create/:id/hoping-to-get-work',
+      '/plan/create/:id/hoping-to-get-work/:mode',
+      [
+        expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getCiagPlanByIdResolver
+      ],
       expect.any(Function), // controller.post
     )
   })

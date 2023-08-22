@@ -14,7 +14,7 @@ import YesNoValue from '../../../enums/yesNoValue'
 export default class HasWorkedBeforeController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
@@ -27,8 +27,8 @@ export default class HasWorkedBeforeController {
       // Setup back location
       const backLocation =
         mode !== 'edit'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -36,7 +36,12 @@ export default class HasWorkedBeforeController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hasWorkedBefore: record.hasWorkedBefore,
+        hasWorkedBefore:
+          mode === 'update'
+            ? plan.workExperience.hasWorkedBefore
+              ? YesNoValue.YES
+              : YesNoValue.NO
+            : record.hasWorkedBefore,
       }
 
       // Store page data for use if validation fails

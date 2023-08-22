@@ -17,7 +17,7 @@ export default function validationSchema(data: TypeOfWorkExperienceData): Object
 
   return joi
     .object({
-      typeOfWorkExperienceDetails: joi.string().allow(''),
+      typeOfWorkExperienceOther: joi.string().allow(''),
       typeOfWorkExperience: joi
         .array()
         .required()
@@ -26,6 +26,7 @@ export default function validationSchema(data: TypeOfWorkExperienceData): Object
             .any()
             .valid(
               TypeOfWorkExperienceValue.OUTDOOR,
+              TypeOfWorkExperienceValue.CLEANING_AND_MAINTENANCE,
               TypeOfWorkExperienceValue.CONSTRUCTION,
               TypeOfWorkExperienceValue.DRIVING,
               TypeOfWorkExperienceValue.BEAUTY,
@@ -47,23 +48,23 @@ export default function validationSchema(data: TypeOfWorkExperienceData): Object
         }),
     })
     .custom((obj, helper) => {
-      const { typeOfWorkExperienceDetails, typeOfWorkExperience } = obj
+      const { typeOfWorkExperienceOther, typeOfWorkExperience } = obj
 
       if (!typeOfWorkExperience.includes('OTHER')) {
         return true
       }
 
-      if (!typeOfWorkExperienceDetails) {
+      if (!typeOfWorkExperienceOther) {
         return helper.error('any.custom', {
-          key: 'typeOfWorkExperienceDetails',
-          label: 'typeOfWorkExperienceDetails',
+          key: 'typeOfWorkExperienceOther',
+          label: 'typeOfWorkExperienceOther',
         })
       }
 
-      if (typeOfWorkExperienceDetails.length > 200) {
+      if (typeOfWorkExperienceOther.length > 200) {
         return helper.error('any.length', {
-          key: 'typeOfWorkExperienceDetails',
-          label: 'typeOfWorkExperienceDetails',
+          key: 'typeOfWorkExperienceOther',
+          label: 'typeOfWorkExperienceOther',
         })
       }
 

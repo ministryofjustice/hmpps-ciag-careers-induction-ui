@@ -9,13 +9,14 @@ context('Qualification level page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
     hopingToGetWorkPage.radioFieldValue('YES').click()
@@ -30,7 +31,7 @@ context('Qualification level page', () => {
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
 
     const qualificationLevelPage = new QualificationLevelPage(
@@ -43,12 +44,12 @@ context('Qualification level page', () => {
     qualificationLevelPage.fieldErrorMessage().contains('Select the level of qualification Daniel Craig wants to add')
   })
 
-  it('New record - SECONDARY_SCHOOL_EXAMS - Select a value - Continue navigates to qualification details page', () => {
+  it('New record - SECONDARY_SCHOOL_TOOK_EXAMS - Select a value - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
       "What's the highest level of education Daniel Craig has completed?",
     )
 
-    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_EXAMS').click()
+    educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
 
     const qualificationLevelPage = new QualificationLevelPage(

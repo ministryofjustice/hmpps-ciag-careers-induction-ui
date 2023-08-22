@@ -12,7 +12,7 @@ import uuidv4 from '../../../utils/guid'
 export default class QualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner, learnerLatestAssessment } = req.context
+    const { prisoner, learnerLatestAssessment, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWork
@@ -30,15 +30,15 @@ export default class QualificationsController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
-        educationLevel: record.educationLevel,
-        qualifications: record.qualifications || [],
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
+        qualifications: mode === 'update' ? plan.qualificationsAndTraining.qualifications : record.qualifications || [],
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }
@@ -74,14 +74,14 @@ export default class QualificationsController {
 
       // Handle edit
       if (mode === 'edit') {
-        res.redirect(addressLookup.createPlan.checkAnswers(id))
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }
 
       // Default flow
       const nextPage =
         record.qualifications && record.qualifications.length
-          ? addressLookup.createPlan.otherQualifications(id, mode)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
           : addressLookup.createPlan.educationLevel(id, mode)
       res.redirect(nextPage)
     } catch (err) {

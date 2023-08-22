@@ -7,13 +7,13 @@ export default class AbilityToWorkPage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#abilityToWorkDetails')
+  textareaField = (): PageElement => cy.get('#abilityToWorkOther')
 
   checkboxPageErrorMessage = (): PageElement => cy.get('[href="#abilityToWork"]')
 
   checkboxFieldErrorMessage = (): PageElement => cy.get('#abilityToWork-error')
 
-  detailsPageErrorMessage = (): PageElement => cy.get('[href="#abilityToWorkDetails"]')
+  detailsPageErrorMessage = (): PageElement => cy.get('[href="#abilityToWorkOther"]')
 
-  detailsFieldErrorMessage = (): PageElement => cy.get('#abilityToWorkDetails-error')
+  detailsFieldErrorMessage = (): PageElement => cy.get('#abilityToWorkOther-error')
 }

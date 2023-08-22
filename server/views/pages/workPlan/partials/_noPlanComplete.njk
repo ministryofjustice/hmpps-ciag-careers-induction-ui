@@ -1,13 +1,35 @@
-<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-  <div class="govuk-notification-banner__header">
-    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-      Important
-    </h2>
+{% if plan %}
+  {#
+    Temporary fix to make testing easy
+  #}
+  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Important
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">
+        {{ prisoner.firstName }} {{ prisoner.lastName }} has an education and work plan.
+      </p>
+    </div>
   </div>
-  <div class="govuk-notification-banner__content">
-    <p class="govuk-notification-banner__heading">
-      {{ prisoner.firstName }} {{ prisoner.lastName }} has not created an education and work plan.
-      <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}"><br>Create plan now</a>.
-    </p>
+
+  <p>Development message: Data dump</p>
+
+  {{ plan | dump | safe }}
+{% else %}
+  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Important
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">
+        {{ prisoner.firstName }} {{ prisoner.lastName }} has not created an education and work plan.
+        <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}"><br>Create plan now</a>.
+      </p>
+    </div>
   </div>
-</div>
+{% endif %}

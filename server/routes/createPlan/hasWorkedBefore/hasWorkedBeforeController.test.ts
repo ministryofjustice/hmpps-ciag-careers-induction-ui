@@ -45,7 +45,7 @@ describe('HasWorkedBeforeController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.otherQualifications(id, mode),
+    backLocation: addressLookup.createPlan.additionalTraining(id, mode),
     backLocationAriaText:
       'Back to Does Mock_firstname Mock_lastname have any other training or vocational qualifications?',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),

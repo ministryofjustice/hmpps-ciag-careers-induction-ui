@@ -8,7 +8,6 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
@@ -17,19 +16,19 @@ import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -37,7 +36,7 @@ export default class EducationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: record.educationLevel,
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
       }
 
       // Store page data for use if validation fails
@@ -71,9 +70,18 @@ export default class EducationLevelController {
       const record = getSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['educationLevel', id, 'data'])
 
+      // If edit and existing qualifications, goto checkYourAnswers
+      if (mode === 'edit' && (record.qualifications || []).length) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Handle higher qualifications
       if (
-        [EducationLevelValue.UNDERGRADUATE_DEGREE, EducationLevelValue.POSTGRADUATE_DEGREE].includes(educationLevel)
+        [
+          EducationLevelValue.UNDERGRADUATE_DEGREE_AT_UNIVERSITY,
+          EducationLevelValue.POSTGRADUATE_DEGREE_AT_UNIVERSITY,
+        ].includes(educationLevel)
       ) {
         const newid = uuidv4()
         // Handle qualifications collection
@@ -84,7 +92,7 @@ export default class EducationLevelController {
             {
               id: newid,
               level:
-                educationLevel === EducationLevelValue.POSTGRADUATE_DEGREE
+                educationLevel === EducationLevelValue.POSTGRADUATE_DEGREE_AT_UNIVERSITY
                   ? QualificationLevelValue.LEVEL_8
                   : QualificationLevelValue.LEVEL_6,
             },
@@ -108,7 +116,7 @@ export default class EducationLevelController {
 
       // Handle secondary qualifications
       if (
-        [EducationLevelValue.SECONDARY_SCHOOL_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
+        [EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS, EducationLevelValue.FURTHER_EDUCATION_COLLEGE].includes(
           educationLevel,
         )
       ) {
@@ -117,7 +125,11 @@ export default class EducationLevelController {
       }
 
       // Default no qualifications
-      res.redirect(addressLookup.createPlan.otherQualifications(id, mode))
+      res.redirect(
+        mode === 'edit'
+          ? addressLookup.createPlan.checkYourAnswers(id)
+          : addressLookup.createPlan.additionalTraining(id),
+      )
     } catch (err) {
       next(err)
     }
