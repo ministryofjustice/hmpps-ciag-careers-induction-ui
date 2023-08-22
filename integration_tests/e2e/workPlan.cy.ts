@@ -14,6 +14,7 @@ context('Work plan page', () => {
 
   it('No plan found', () => {
     cy.task('getPrisonerById', 'A00001A')
+    cy.task('getCiagPlan', 'A00001A')
 
     cy.visit('/plan/A00001A/view/overview')
     const workProfilePage = new WorkPlanPage('Paris Jones')

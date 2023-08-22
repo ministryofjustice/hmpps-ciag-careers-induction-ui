@@ -13,13 +13,14 @@ context('Skills page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
     hopingToGetWorkPage.radioFieldValue('YES').click()
