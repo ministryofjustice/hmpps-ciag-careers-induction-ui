@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class InPrisonEducationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWork
@@ -25,8 +25,8 @@ export default class InPrisonEducationController {
       // Setup back location
       const backLocation =
         mode === 'new'
-          ? addressLookup.createPlan.otherQualifications(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          ? addressLookup.createPlan.additionalTraining(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -34,8 +34,10 @@ export default class InPrisonEducationController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        inPrisonEducation: record.inPrisonEducation || [],
-        inPrisonEducationDetails: record.inPrisonEducationDetails,
+        inPrisonEducation:
+          mode === 'update' ? plan.inPrisonInterests.inPrisonEducation : record.inPrisonEducation || [],
+        inPrisonEducationOther:
+          mode === 'update' ? plan.inPrisonInterests.inPrisonEducationOther : record.inPrisonEducationOther,
       }
 
       // Store page data for use if validation fails
@@ -49,7 +51,7 @@ export default class InPrisonEducationController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { inPrisonEducation = [], inPrisonEducationDetails } = req.body
+    const { inPrisonEducation = [], inPrisonEducationOther } = req.body
 
     try {
       // If validation errors render errors
@@ -60,7 +62,7 @@ export default class InPrisonEducationController {
           ...data,
           errors,
           inPrisonEducation,
-          inPrisonEducationDetails,
+          inPrisonEducationOther,
         })
         return
       }
@@ -73,13 +75,11 @@ export default class InPrisonEducationController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         inPrisonEducation,
-        inPrisonEducationDetails: inPrisonEducation.includes(InPrisonEducationValue.OTHER)
-          ? inPrisonEducationDetails
-          : '',
+        inPrisonEducationOther: inPrisonEducation.includes(InPrisonEducationValue.OTHER) ? inPrisonEducationOther : '',
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.checkAnswers(id))
+      res.redirect(addressLookup.createPlan.checkYourAnswers(id))
     } catch (err) {
       next(err)
     }

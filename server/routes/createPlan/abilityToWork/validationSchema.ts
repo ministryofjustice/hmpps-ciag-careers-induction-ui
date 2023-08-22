@@ -17,7 +17,7 @@ export default function validationSchema(data: AbilityToWorkData): ObjectSchema 
 
   return joi
     .object({
-      abilityToWorkDetails: joi.string().allow(''),
+      abilityToWorkOther: joi.string().allow(''),
       abilityToWork: joi
         .array()
         .required()
@@ -39,23 +39,23 @@ export default function validationSchema(data: AbilityToWorkData): ObjectSchema 
         }),
     })
     .custom((obj, helper) => {
-      const { abilityToWorkDetails, abilityToWork } = obj
+      const { abilityToWorkOther, abilityToWork } = obj
 
       if (!abilityToWork.includes('OTHER')) {
         return true
       }
 
-      if (!abilityToWorkDetails) {
+      if (!abilityToWorkOther) {
         return helper.error('any.custom', {
-          key: 'abilityToWorkDetails',
-          label: 'abilityToWorkDetails',
+          key: 'abilityToWorkOther',
+          label: 'abilityToWorkOther',
         })
       }
 
-      if (abilityToWorkDetails.length > 200) {
+      if (abilityToWorkOther.length > 200) {
         return helper.error('any.length', {
-          key: 'abilityToWorkDetails',
-          label: 'abilityToWorkDetails',
+          key: 'abilityToWorkOther',
+          label: 'abilityToWorkOther',
         })
       }
 

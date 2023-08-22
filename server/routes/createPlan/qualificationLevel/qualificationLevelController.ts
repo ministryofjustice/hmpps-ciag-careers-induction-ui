@@ -8,30 +8,38 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record) {
+      if (!record || !record.hopingToGetWork) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Get or setup qualification
-      const qualification = (record.qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
+      const qualifications =
+        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
+      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
         id: qualificationId,
       }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' && record.qualifications?.length === 1
-          ? addressLookup.createPlan.educationLevel(id)
-          : addressLookup.createPlan.qualifications(id)
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute:
+          mode !== 'edit' && record.qualifications?.length === 1
+            ? addressLookup.createPlan.educationLevel(id)
+            : addressLookup.createPlan.qualifications(id),
+        page: 'additionalTraining',
+        uid: `${id}_${qualificationId}`,
+      })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,7 +47,7 @@ export default class QualificationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: record.educationLevel || '',
+        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel || '',
         qualificationLevel: qualification.level,
       }
 

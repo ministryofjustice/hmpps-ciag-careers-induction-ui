@@ -2,8 +2,8 @@ import AbilityToWorkPage from '../pages/abilityToWork'
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
-import InterestsPage from '../pages/interests'
-import OtherQualificationsPage from '../pages/otherQualifications'
+import PersonalInterestsPage from '../pages/personalInterests'
+import AdditionalTrainingPage from '../pages/additionalTraining'
 import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
@@ -15,13 +15,14 @@ context('Ability to work page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.signIn()
 
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work')
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
     hopingToGetWorkPage.radioFieldValue('YES').click()
@@ -36,11 +37,11 @@ context('Ability to work page', () => {
     educationLevelPage.radioFieldValue('PRIMARY_SCHOOL').click()
     educationLevelPage.submitButton().click()
 
-    const otherQualifications = new OtherQualificationsPage(
+    const additionalTraining = new AdditionalTrainingPage(
       'Does Daniel Craig have any other training or vocational qualifications?',
     )
-    otherQualifications.checkboxFieldValue('DRIVING_LICENSE').click()
-    otherQualifications.submitButton().click()
+    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
+    additionalTraining.submitButton().click()
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Daniel Craig worked before?')
 
@@ -64,11 +65,11 @@ context('Ability to work page', () => {
 
     skillsPage.submitButton().click()
 
-    const interestsPage = new InterestsPage("What are Daniel Craig's interests?")
+    const personalInterestsPage = new PersonalInterestsPage("What are Daniel Craig's interests?")
 
-    interestsPage.checkboxFieldValue('COMMUNITY').click()
+    personalInterestsPage.checkboxFieldValue('COMMUNITY').click()
 
-    interestsPage.submitButton().click()
+    personalInterestsPage.submitButton().click()
   })
 
   it('New record - Validation messages display when no value selected', () => {
@@ -96,7 +97,7 @@ context('Ability to work page', () => {
       .contains('Enter what Daniel Craig feels may affect their ability to work')
   })
 
-  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-answers page', () => {
+  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-your-answers page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -105,10 +106,10 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-answers')
+    cy.url().should('include', 'check-your-answers')
   })
 
-  it('New record - Select OTHER - navigates to check-answers page', () => {
+  it('New record - Select OTHER - navigates to check-your-answers page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -118,6 +119,6 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-answers')
+    cy.url().should('include', 'check-your-answers')
   })
 })

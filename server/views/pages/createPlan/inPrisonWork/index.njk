@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * inPrisonWork - Array existing values for field
-    * inPrisonWorkDetails - Existing value
+    * inPrisonWorkOther - Existing value
     * errors? - validation errors
 #}
 
@@ -35,17 +35,17 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "inPrisonWorkDetails",
-              name: "inPrisonWorkDetails",
+              id: "inPrisonWorkOther",
+              name: "inPrisonWorkOther",
               rows: "2",
-              value: inPrisonWorkDetails,
+              value: inPrisonWorkOther,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " would like to do in prison?" },
-              errorMessage: errors.inPrisonWorkDetails
+              errorMessage: errors.inPrisonWorkOther
             }) }}
           {% endset -%}
 

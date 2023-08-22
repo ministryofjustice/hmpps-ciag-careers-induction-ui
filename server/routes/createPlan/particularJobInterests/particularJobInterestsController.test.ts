@@ -49,7 +49,7 @@ describe('ParticularJobInterestsController', () => {
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     workInterests: [WorkInterestsValue.OTHER],
-    workInterestsDetails: 'Other job',
+    workInterestsOther: 'Other job',
     particularJobInterests: {},
   }
 
@@ -65,7 +65,7 @@ describe('ParticularJobInterestsController', () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
         workInterests: [WorkInterestsValue.OTHER],
-        workInterestsDetails: 'Other job',
+        workInterestsOther: 'Other job',
       })
     })
 
@@ -92,7 +92,7 @@ describe('ParticularJobInterestsController', () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
         workInterests: [WorkInterestsValue.OTHER],
-        workInterestsDetails: 'Other job',
+        workInterestsOther: 'Other job',
         particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
       })
       req.params.mode = 'edit'
@@ -101,9 +101,9 @@ describe('ParticularJobInterestsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/particularJobInterests/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         workInterests: [WorkInterestsValue.OTHER],
-        workInterestsDetails: 'Other job',
+        workInterestsOther: 'Other job',
         particularJobInterests: {
           OTHER: 'Some job',
         },
@@ -163,6 +163,20 @@ describe('ParticularJobInterestsController', () => {
       })
       expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.skills(id))
+    })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.OTHER = 'Some job'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: 'YES',
+        particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
+      })
+      expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
   })
 })

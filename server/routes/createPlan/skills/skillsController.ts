@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class SkillsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -26,7 +26,7 @@ export default class SkillsController {
       const backLocation =
         mode === 'new'
           ? addressLookup.createPlan.particularJobInterests(id, mode)
-          : addressLookup.createPlan.checkAnswers(id)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -34,8 +34,8 @@ export default class SkillsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        skills: record.skills || [],
-        skillsDetails: record.skillsDetails,
+        skills: mode === 'update' ? plan.skillsAndInterests.skills : record.skills || [],
+        skillsOther: mode === 'update' ? plan.skillsAndInterests.skillsOther : record.skillsOther,
       }
 
       // Store page data for use if validation fails
@@ -49,7 +49,7 @@ export default class SkillsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { skills = [], skillsDetails } = req.body
+    const { skills = [], skillsOther } = req.body
 
     try {
       // If validation errors render errors
@@ -60,7 +60,7 @@ export default class SkillsController {
           ...data,
           errors,
           skills,
-          skillsDetails,
+          skillsOther,
         })
         return
       }
@@ -73,11 +73,17 @@ export default class SkillsController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         skills,
-        skillsDetails: skills.includes(SkillsValue.OTHER) ? skillsDetails : '',
+        skillsOther: skills.includes(SkillsValue.OTHER) ? skillsOther : '',
       })
 
+      // Handle edit
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.interests(id, mode))
+      res.redirect(addressLookup.createPlan.personalInterests(id))
     } catch (err) {
       next(err)
     }

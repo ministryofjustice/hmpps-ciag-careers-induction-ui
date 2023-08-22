@@ -33,6 +33,7 @@ describe('HopingToGetWorkController', () => {
 
   const mockData = {
     backLocation: addressLookup.workPlan(id),
+    backLocationAriaText: 'Back to Mock_firstname Mock_lastname',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
@@ -112,17 +113,17 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
 
-    it('On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkYourAnswers', async () => {
       req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.notHopingToGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })

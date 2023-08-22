@@ -12,7 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 export default class AbilityToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWorkz
@@ -24,7 +24,9 @@ export default class AbilityToWorkController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.interests(id, mode) : addressLookup.createPlan.checkAnswers(id)
+        mode === 'new'
+          ? addressLookup.createPlan.personalInterests(id, mode)
+          : addressLookup.createPlan.checkYourAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -32,8 +34,8 @@ export default class AbilityToWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        abilityToWork: record.abilityToWork || [],
-        abilityToWorkDetails: record.abilityToWorkDetails,
+        abilityToWork: mode === 'update' ? plan.abilityToWork : record.abilityToWork || [],
+        abilityToWorkOther: mode === 'update' ? plan.abilityToWorkOther : record.abilityToWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -47,7 +49,7 @@ export default class AbilityToWorkController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { abilityToWork = [], abilityToWorkDetails } = req.body
+    const { abilityToWork = [], abilityToWorkOther } = req.body
 
     try {
       // If validation errors render errors
@@ -58,7 +60,7 @@ export default class AbilityToWorkController {
           ...data,
           errors,
           abilityToWork,
-          abilityToWorkDetails,
+          abilityToWorkOther,
         })
         return
       }
@@ -71,11 +73,11 @@ export default class AbilityToWorkController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         abilityToWork,
-        abilityToWorkDetails: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkDetails : '',
+        abilityToWorkOther: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkOther : '',
       })
 
       // Redirect to the correct page
-      res.redirect(addressLookup.createPlan.checkAnswers(id))
+      res.redirect(addressLookup.createPlan.checkYourAnswers(id))
     } catch (err) {
       next(err)
     }

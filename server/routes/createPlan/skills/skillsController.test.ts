@@ -95,7 +95,7 @@ describe('SkillsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/skills/index', {
         ...mockData,
-        backLocation: addressLookup.createPlan.checkAnswers(id),
+        backLocation: addressLookup.createPlan.checkYourAnswers(id),
         skills: SkillsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -141,9 +141,9 @@ describe('SkillsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to interests', async () => {
+    it('On success - mode = new - Sets session record then redirects to personalInterests', async () => {
       req.body.skills = SkillsValue.OTHER
-      req.body.skillsDetails = 'mock_details'
+      req.body.skillsOther = 'mock_details'
       req.params.mode = 'new'
 
       controller.post(req, res, next)
@@ -151,10 +151,10 @@ describe('SkillsController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
         skills: SkillsValue.OTHER,
-        skillsDetails: 'mock_details',
+        skillsOther: 'mock_details',
       })
       expect(getSessionData(req, ['skills', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.interests(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.personalInterests(id))
     })
   })
 })
