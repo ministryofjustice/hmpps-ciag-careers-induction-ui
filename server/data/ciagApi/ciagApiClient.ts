@@ -11,6 +11,7 @@ export default class CiagApiClient {
   restClient: RestClient
 
   constructor(token: string) {
+    console.log(token)
     this.restClient = new RestClient('Ciag Plan API', config.apis.ciagApi, token)
   }
 
@@ -35,6 +36,14 @@ export default class CiagApiClient {
     const result = await this.restClient.put<CiagPlan>({
       path: `${BASE_URL}/${updatedPlan.offenderId}`,
       data: new UpdateCiagPlanRequest(updatedPlan, existingPlan),
+    })
+
+    return result
+  }
+
+  async deleteCiagPlan(offenderId: string) {
+    const result = await this.restClient.delete<CiagPlan>({
+      path: `${BASE_URL}/${offenderId}`,
     })
 
     return result

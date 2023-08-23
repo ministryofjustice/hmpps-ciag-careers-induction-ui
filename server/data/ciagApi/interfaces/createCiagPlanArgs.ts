@@ -4,7 +4,7 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
 import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
-import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
+import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 import PersonalInterestsValue from '../../../enums/personalInterestsValue'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import SkillsValue from '../../../enums/skillsValue'
@@ -17,7 +17,7 @@ export default interface CreateCiagPlanArgs {
 
   hopingToGetWork: HopingToGetWorkValue
 
-  reasonToNotGetWork?: ReasonToNotGetWorkValues
+  reasonToNotGetWork?: Array<ReasonToNotGetWorkValue>
   reasonToNotGetWorkOther?: string
 
   abilityToWork: Array<AbilityToWorkValue>

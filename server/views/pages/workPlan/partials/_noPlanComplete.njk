@@ -18,6 +18,18 @@
   <p>Development message: Data dump</p>
 
   {{ plan | dump | safe }}
+
+<form class="form" method="post" novalidate="">
+  <div class="govuk-form-group">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+  </div>
+
+  {{ govukButton({
+      text: "Delete plan",
+      type: "submit",
+      attributes: {"data-qa": "submit-button"}
+    }) }}
+</form>
 {% else %}
   <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
     <div class="govuk-notification-banner__header">
