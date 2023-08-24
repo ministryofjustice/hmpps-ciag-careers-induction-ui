@@ -34,7 +34,6 @@ export default function routes(services: Services): Router {
     const { id } = req.params
     const url = getSessionData(req, ['redirect', id])
     deleteSessionData(req, ['redirect', id])
-    console.log('HERE', url)
 
     return res.status(307).redirect('http://google.com')
   })

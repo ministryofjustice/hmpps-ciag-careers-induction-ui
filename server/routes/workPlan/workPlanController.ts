@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
-import { deleteSessionData, setSessionData } from '../../utils/session'
+import { deleteSessionData } from '../../utils/session'
 import addressLookup from '../addressLookup'
 import CiagService from '../../services/ciagService'
 
