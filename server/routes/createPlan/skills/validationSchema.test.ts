@@ -45,7 +45,7 @@ describe('validationSchema', () => {
           SkillsValue.RESILIENCE,
           SkillsValue.SELF_MANAGEMENT,
           SkillsValue.TEAMWORK,
-          SkillsValue.THINKING_PROBLEM_SOLVING,
+          SkillsValue.THINKING_AND_PROBLEM_SOLVING,
           SkillsValue.WILLINGNESS_TO_LEARN,
           SkillsValue.OTHER,
           SkillsValue.NONE,

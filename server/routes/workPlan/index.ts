@@ -6,11 +6,18 @@ import getPrisonerByIdResolver from '../../middleware/resolvers/getPrisonerByIdR
 import getCiagPlanByIdResolver from '../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new WorkPlanController()
+  const controller = new WorkPlanController(services.ciagService)
 
   router.get(
     '/plan/:id/view/:tab',
     [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
     controller.get,
+  )
+
+  // TODO: Remove when dev is complete
+  router.post(
+    '/plan/:id/view/:tab',
+    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    controller.post,
   )
 }

@@ -143,9 +143,18 @@ export default {
       },
       agent: new AgentConfig(),
     },
+    plpFrontEnd: {
+      url: get('LEARNING_AND_WORK_PROGRESS_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
+  learningPlanUrl: get('LEARNING_AND_WORK_PROGRESS_URL', 'http://localhost:3003', requiredInProduction),
   urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
