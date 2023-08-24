@@ -16,7 +16,7 @@ export default class CheckYourAnswersController {
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }

@@ -12,25 +12,24 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import uuidv4 from '../../../utils/guid'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class WantsToAddQualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner, learnerLatestAssessment } = req.context
+    const { prisoner, learnerLatestAssessment, plan } = req.context
 
     try {
       // If no record or incorrect value return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode !== 'edit'
-          ? addressLookup.createPlan.reasonToNotGetWork(id)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.reasonToNotGetWork(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

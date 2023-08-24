@@ -2,6 +2,7 @@
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
+import _ from 'lodash'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -18,14 +19,14 @@ export default class QualificationDetailsController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // If no qualification goto education level to start again
       const qualifications =
-        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
+        mode === 'update' ? _.get(plan, 'qualificationsAndTraining.qualifications') : record.qualifications
       const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId)
       if (!qualification) {
         res.redirect(addressLookup.createPlan.educationLevel(id))

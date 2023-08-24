@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -10,6 +11,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class AdditionalTrainingController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -17,9 +19,9 @@ export default class AdditionalTrainingController {
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -27,10 +29,7 @@ export default class AdditionalTrainingController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new'
-            ? addressLookup.createPlan.qualifications(id, mode)
-            : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.createPlan.qualifications(id, mode) : getHubPageByMode(mode, id),
         page: 'additionalTraining',
         uid: id,
       })
@@ -42,9 +41,13 @@ export default class AdditionalTrainingController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         additionalTraining:
-          mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.additionalTraining || [],
+          mode === 'update'
+            ? _.get(plan, 'qualificationsAndTraining.additionalTraining', [])
+            : _.get(record, 'additionalTraining', []),
         additionalTrainingOther:
-          mode === 'update' ? plan.qualificationsAndTraining.additionalTrainingOther : record.additionalTrainingOther,
+          mode === 'update'
+            ? _.get(plan, 'qualificationsAndTraining.additionalTrainingOther')
+            : record.additionalTrainingOther,
       }
 
       // Store page data for use if validation fails

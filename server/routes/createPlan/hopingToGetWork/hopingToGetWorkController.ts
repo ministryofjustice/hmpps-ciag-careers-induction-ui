@@ -9,6 +9,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class HopingToGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -19,9 +20,10 @@ export default class HopingToGetWorkController {
       // Get record in sessionData
       const record = getSessionData(req, ['createPlan', id], {})
 
+      // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : getHubPageByMode(mode, id),
         page: 'hopingToGetWork',
         uid: id,
       })
@@ -63,10 +65,15 @@ export default class HopingToGetWorkController {
       const record = getSessionData(req, ['createPlan', id], {})
       deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
-      // Handle edit, no changes
-      if (mode === 'edit' && hopingToGetWork === record.hopingToGetWork) {
-        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+      // Handle no changes
+      if (mode !== 'new' && hopingToGetWork === record.hopingToGetWork) {
+        res.redirect(getHubPageByMode(mode, id))
         return
+      }
+
+      // Handle update with full flow change
+      if (mode === 'update') {
+        setSessionData(req, ['isUpdateFlow', id], true)
       }
 
       // Create new record in sessionData

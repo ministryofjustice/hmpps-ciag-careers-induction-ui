@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +13,7 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class EducationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -21,14 +23,13 @@ export default class EducationLevelController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkYourAnswers(id)
+      const backLocation = mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -36,7 +37,8 @@ export default class EducationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
+        educationLevel:
+          mode === 'update' ? _.get(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
       }
 
       // Store page data for use if validation fails

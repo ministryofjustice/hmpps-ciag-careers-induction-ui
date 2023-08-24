@@ -8,6 +8,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
 import uuidv4 from '../../../utils/guid'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class QualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -17,28 +18,33 @@ export default class QualificationsController {
     try {
       // If no record or incorrect value return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Clear blank qualifications, from back functionality
-      record.qualifications = (record.qualifications || []).filter(
-        (q: { level: string; subject: string; grade: string }) => q.level && q.subject && q.grade,
-      )
-      setSessionData(req, ['createPlan', id], record)
+      if (mode !== 'update') {
+        record.qualifications = (record.qualifications || []).filter(
+          (q: { level: string; subject: string; grade: string }) => q.level && q.subject && q.grade,
+        )
+        setSessionData(req, ['createPlan', id], record)
+      }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id)
+      const backLocation = mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
-        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
-        qualifications: mode === 'update' ? plan.qualificationsAndTraining.qualifications : record.qualifications || [],
+        educationLevel:
+          mode === 'update' ? _.get(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
+        qualifications:
+          mode === 'update'
+            ? _.get(plan, 'qualificationsAndTraining.qualifications', [])
+            : _.get(record, 'qualifications', []),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }

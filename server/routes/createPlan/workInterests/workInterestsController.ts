@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -9,6 +10,7 @@ import WorkInterestsValue from '../../../enums/workInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class WorkInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -16,14 +18,19 @@ export default class WorkInterestsController {
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
-      const lastKey = record.typeOfWorkExperience ? record.typeOfWorkExperience.at(-1) : ''
+      // Get last key
+      const typeOfWorkExperience =
+        mode === 'update'
+          ? _.get(plan, 'workInterests.typeOfWorkExperience', [])
+          : _.get(record, 'typeOfWorkExperience', [])
+      const lastKey = typeOfWorkExperience ? typeOfWorkExperience.at(-1) : ''
 
       // Setup back location
       const backLocation =
@@ -31,7 +38,7 @@ export default class WorkInterestsController {
           ? lastKey
             ? addressLookup.createPlan.workDetails(id, lastKey, mode)
             : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+          : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,8 +46,10 @@ export default class WorkInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
-        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
+        workInterests:
+          mode === 'update' ? _.get(plan, 'workInterests.workInterests', []) : _.get(record, 'workInterests', []),
+        workInterestsOther:
+          mode === 'update' ? _.get(plan, 'workInterests.workInterestsOther') : record.workInterestsOther,
       }
 
       // Store page data for use if validation fails

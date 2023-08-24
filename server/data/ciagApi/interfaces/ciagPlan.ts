@@ -17,7 +17,7 @@ export default interface CiagPlan {
   desireToWork: boolean
   hopingToGetWork: HopingToGetWorkValue
 
-  reasonToNotGetWork?: ReasonToNotGetWorkValue
+  reasonToNotGetWork?: Array<ReasonToNotGetWorkValue>
   reasonToNotGetWorkOther?: string
 
   abilityToWork: Array<AbilityToWorkValue>
@@ -30,7 +30,7 @@ export default interface CiagPlan {
   modifiedDateTime: string
 
   workExperience?: {
-    id: number
+    id?: number
 
     hasWorkedBefore: boolean
     typeOfWorkExperience?: Array<TypeOfWorkExperienceValue>
@@ -47,7 +47,7 @@ export default interface CiagPlan {
   }
 
   workInterests?: {
-    id: number
+    id?: number
 
     workInterests: Array<WorkInterestsValue>
     workInterestsOther?: string
@@ -62,7 +62,7 @@ export default interface CiagPlan {
   }
 
   skillsAndInterests?: {
-    id: number
+    id?: number
 
     skills: Array<SkillsValue>
     skillsOther?: string
@@ -74,8 +74,8 @@ export default interface CiagPlan {
     modifiedDateTime: string
   }
 
-  qualificationsAndTrainin?: {
-    id: number
+  qualificationsAndTraining?: {
+    id?: number
 
     educationLevel?: EducationLevelValue
 
@@ -93,7 +93,7 @@ export default interface CiagPlan {
   }
 
   inPrisonInterests?: {
-    id: number
+    id?: number
 
     inPrisonWork: Array<InPrisonWorkValue>
     inPrisonWorkOther?: string

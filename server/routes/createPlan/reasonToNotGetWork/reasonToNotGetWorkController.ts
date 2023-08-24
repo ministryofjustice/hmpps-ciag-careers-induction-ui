@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class ReasonToNotGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -22,8 +24,7 @@ export default class ReasonToNotGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
         page: 'reasonToNotGetWork',
         uid: id,
       })
@@ -34,7 +35,8 @@ export default class ReasonToNotGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        reasonToNotGetWork: mode === 'update' ? plan.reasonToNotGetWork : record.reasonToNotGetWork || [],
+        reasonToNotGetWork:
+          mode === 'update' ? _.get(plan, 'qualifications', []) : _.get(record, 'reasonToNotGetWork', []),
         reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 

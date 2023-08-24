@@ -18,7 +18,7 @@ export default class QualificationLevelController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }

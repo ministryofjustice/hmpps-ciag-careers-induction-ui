@@ -76,18 +76,6 @@ describe('QualificationsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork', async () => {
-      setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: undefined,
-      })
-
-      controller.get(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
-      expect(res.render).toHaveBeenCalledTimes(0)
-      expect(next).toHaveBeenCalledTimes(0)
-    })
-
     it('On success - Record found - YES - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 

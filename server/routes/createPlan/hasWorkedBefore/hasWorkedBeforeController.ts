@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,8 +9,8 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import YesNoValue from '../../../enums/yesNoValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class HasWorkedBeforeController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -19,16 +20,14 @@ export default class HasWorkedBeforeController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode !== 'edit'
-          ? addressLookup.createPlan.additionalTraining(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode !== 'edit' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -38,7 +37,7 @@ export default class HasWorkedBeforeController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hasWorkedBefore:
           mode === 'update'
-            ? plan.workExperience.hasWorkedBefore
+            ? _.get(record, 'workExperience.hasWorkedBefore')
               ? YesNoValue.YES
               : YesNoValue.NO
             : record.hasWorkedBefore,

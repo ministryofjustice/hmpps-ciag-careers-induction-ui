@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,6 +9,7 @@ import InPrisonWorkValue from '../../../enums/inPrisonWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class InPrisonWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -15,18 +17,16 @@ export default class InPrisonWorkController {
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.additionalTraining(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -34,8 +34,10 @@ export default class InPrisonWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        inPrisonWork: mode === 'update' ? plan.inPrisonInterests.inPrisonWork : record.inPrisonWork || [],
-        inPrisonWorkOther: mode === 'update' ? plan.inPrisonInterests.inPrisonWorkOther : record.inPrisonWorkOther,
+        inPrisonWork:
+          mode === 'update' ? _.get(plan, 'inPrisonInterests.inPrisonWork', []) : _.get(record, 'inPrisonWork', []),
+        inPrisonWorkOther:
+          mode === 'update' ? _.get(plan, 'inPrisonInterests.inPrisonWorkOther', []) : record.inPrisonWorkOther,
       }
 
       // Store page data for use if validation fails

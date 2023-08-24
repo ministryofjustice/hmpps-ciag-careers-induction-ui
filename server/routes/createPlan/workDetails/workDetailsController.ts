@@ -10,6 +10,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class WorkDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -19,7 +20,7 @@ export default class WorkDetailsController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -31,14 +32,15 @@ export default class WorkDetailsController {
           (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
-      // Setup back location
-
       // Calculate last page
       const typeOfWorkExperience =
-        mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || []
+        mode === 'update'
+          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
+          : _.get(record, 'typeOfWorkExperience', [])
       const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 
+      // Setup back location
       const backLocation = getBackLocation({
         req,
         defaultRoute:
@@ -46,7 +48,7 @@ export default class WorkDetailsController {
             ? lastKey
               ? addressLookup.createPlan.workDetails(id, lastKey, mode)
               : addressLookup.createPlan.typeOfWorkExperience(id, mode)
-            : addressLookup.createPlan.checkYourAnswers(id),
+            : getHubPageByMode(mode, id),
         page: 'workDetails',
         uid: `${id}-${typeOfWorkExperienceKey}`,
       })

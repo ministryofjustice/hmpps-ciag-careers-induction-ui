@@ -1,0 +1,22 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+
+{% set title = 'Redirecting to page' %}
+
+{#
+  Data supplied to this template:
+    * url - url to be forwarded to
+#}
+
+{% block beforeContent %}
+
+{% endblock %}
+
+{% block content %}
+{{ url }}
+  <input type="hidden" name="redirectUrl" value="{{ url }}" />
+
+  <h2>Redirecting to page</h2>
+  <a href="{{ url }}" id="continue">Continue</a>
+{% endblock %}

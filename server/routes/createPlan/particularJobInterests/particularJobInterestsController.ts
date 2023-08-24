@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,6 +9,7 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class ParticularJobInterestsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -15,31 +17,31 @@ export default class ParticularJobInterestsController {
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.workInterests(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.workInterests(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Build field value
       const particularJobInterests =
-        mode === 'update' ? plan.workInterests.particularJobInterests : record.particularJobInterests
+        mode === 'update' ? _.get(plan, 'workInterests.particularJobInterests') : record.particularJobInterests
 
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
-        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
+        workInterests:
+          mode === 'update' ? _.get(plan, 'workInterests.workInterests', []) : _.get(record, 'workInterests', []),
+        workInterestsOther:
+          mode === 'update' ? _.get(plan, 'workInterests.workInterestsOther') : record.workInterestsOther,
         particularJobInterests: (particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
             acc[curr.interestKey] = curr.jobDetails
