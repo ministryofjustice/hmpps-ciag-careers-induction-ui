@@ -4,7 +4,7 @@ import Controller from './wantsToAddQualificationsController'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import validateFormSchema from '../../../utils/validateFormSchema'
-import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
+import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import { setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
@@ -92,7 +92,7 @@ describe('WantsToAddQualificationsController', () => {
     it('On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NOT_SURE,
-        notHopingToGetWork: ReasonToNotGetWorkValues.NO_RIGHT_TO_WORK,
+        notHopingToGetWork: ReasonToNotGetWorkValue.NO_RIGHT_TO_WORK,
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
       })
 

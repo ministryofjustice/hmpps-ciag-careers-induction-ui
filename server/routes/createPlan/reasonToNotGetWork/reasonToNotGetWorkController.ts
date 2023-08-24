@@ -8,7 +8,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
+import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 
 export default class ReasonToNotGetWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -70,7 +70,7 @@ export default class ReasonToNotGetWorkController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         reasonToNotGetWork,
-        reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValues.OTHER)
+        reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValue.OTHER)
           ? reasonToNotGetWorkOther
           : '',
       })

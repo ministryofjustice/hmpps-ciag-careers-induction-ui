@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import ReasonToNotGetWorkValues from '../../../enums/reasonToNotGetWorkValues'
+import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 
 interface ReasonToNotGetWorkData {
   prisoner: { firstName: string; lastName: string }
@@ -25,15 +25,15 @@ export default function validationSchema(data: ReasonToNotGetWorkData): ObjectSc
           joi
             .any()
             .valid(
-              ReasonToNotGetWorkValues.LIMIT_THEIR_ABILITY,
-              ReasonToNotGetWorkValues.HEALTH,
-              ReasonToNotGetWorkValues.FULL_TIME_CARER,
-              ReasonToNotGetWorkValues.LACKS_CONFIDENCE_OR_MOTIVATION,
-              ReasonToNotGetWorkValues.NO_REASON,
-              ReasonToNotGetWorkValues.NO_RIGHT_TO_WORK,
-              ReasonToNotGetWorkValues.RETIRED,
-              ReasonToNotGetWorkValues.OTHER,
-              ReasonToNotGetWorkValues.NOT_SURE,
+              ReasonToNotGetWorkValue.LIMIT_THEIR_ABILITY,
+              ReasonToNotGetWorkValue.HEALTH,
+              ReasonToNotGetWorkValue.FULL_TIME_CARER,
+              ReasonToNotGetWorkValue.LACKS_CONFIDENCE_OR_MOTIVATION,
+              ReasonToNotGetWorkValue.NO_REASON,
+              ReasonToNotGetWorkValue.NO_RIGHT_TO_WORK,
+              ReasonToNotGetWorkValue.RETIRED,
+              ReasonToNotGetWorkValue.OTHER,
+              ReasonToNotGetWorkValue.NOT_SURE,
             ),
         )
         .messages({
