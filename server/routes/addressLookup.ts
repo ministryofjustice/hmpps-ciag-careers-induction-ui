@@ -1,8 +1,10 @@
 import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
+import config from '../config'
 
 export default {
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
+  redirect: (id: string) => `/redirect/${id}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
@@ -26,5 +28,9 @@ export default {
     personalInterests: (id: string, mode = 'new') => `/plan/create/${id}/personal-interests/${mode}`,
     abilityToWork: (id: string, mode = 'new') => `/plan/create/${id}/ability-to-work/${mode}`,
     wantsToAddQualifications: (id: string, mode = 'new') => `/plan/create/${id}/wants-to-add-qualifications/${mode}`,
+  },
+  learningPlan: {
+    profile: (id: string) => `${config.learningPlanUrl}/plan/${id}/view/overview`,
+    addGoals: (id: string) => `${config.learningPlanUrl}/plan/${id}/goals/create`,
   },
 }

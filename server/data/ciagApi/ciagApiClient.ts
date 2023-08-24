@@ -39,4 +39,12 @@ export default class CiagApiClient {
 
     return result
   }
+
+  async deleteCiagPlan(offenderId: string) {
+    const result = await this.restClient.delete<CiagPlan>({
+      path: `${BASE_URL}/${offenderId}`,
+    })
+
+    return result
+  }
 }

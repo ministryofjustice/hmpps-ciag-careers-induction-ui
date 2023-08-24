@@ -45,7 +45,7 @@ describe('validationSchema', () => {
           AdditionalTrainingValue.FIRST_AID_CERTIFICATE,
           AdditionalTrainingValue.FOOD_HYGIENE_CERTIFICATE,
           AdditionalTrainingValue.HEALTH_AND_SAFETY,
-          AdditionalTrainingValue.HGV_LICENSE,
+          AdditionalTrainingValue.HGV_LICENCE,
           AdditionalTrainingValue.MACHINERY_TICKETS,
           AdditionalTrainingValue.MANUAL_HANDLING,
           AdditionalTrainingValue.TRADE_COURSE,

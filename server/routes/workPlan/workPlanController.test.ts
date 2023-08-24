@@ -28,7 +28,11 @@ describe('WorkPlanController', () => {
 
   res.locals.user = {}
 
-  const controller = new Controller()
+  const mockService: any = {
+    deleteCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

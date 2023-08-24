@@ -1,4 +1,4 @@
-enum NotHopingToGetWorkValues {
+enum ReasonToNotGetWorkValue {
   LIMIT_THEIR_ABILITY = 'LIMIT_THEIR_ABILITY',
   FULL_TIME_CARER = 'FULL_TIME_CARER',
   LACKS_CONFIDENCE_OR_MOTIVATION = 'LACKS_CONFIDENCE_OR_MOTIVATION',
@@ -10,4 +10,4 @@ enum NotHopingToGetWorkValues {
   NOT_SURE = 'NOT_SURE',
 }
 
-export default NotHopingToGetWorkValues
+export default ReasonToNotGetWorkValue

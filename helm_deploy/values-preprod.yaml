@@ -24,6 +24,7 @@ generic-service:
     WHEREABOUTS_API_URL: "https://whereabouts-api-preprod.service.justice.gov.uk"
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-preprod.apps.live.cloud-platform.service.justice.gov.uk"
     CIAG_API_URL: "https://ciag-induction-api-preprod.hmpps.service.justice.gov.uk"
+    LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-ui-preprod.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: PREPROD
 
 generic-prometheus-alerts:
