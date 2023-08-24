@@ -5,10 +5,10 @@ const plans = {
       urlPattern: '/ciag/induction/A00001A',
     },
     response: {
-      status: 400,
+      status: 404,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        status: 400,
+        status: 404,
         userMessage: 'CIAG profile does not exist',
       },
     },
