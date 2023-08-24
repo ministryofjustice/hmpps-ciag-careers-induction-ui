@@ -30,11 +30,10 @@ describe('getCiagPlanByIdResolver', () => {
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 400 error - Calls next without error', async () => {
+  it('On error - 404 error - Calls next without error', async () => {
     serviceMock.getCiagPlan.mockRejectedValue({
       data: {
-        status: 400,
-        userMessage: 'CIAG profile does not exist',
+        status: 404,
       },
     })
 

@@ -14,7 +14,7 @@ const getCiagPlanByIdResolver =
       next()
     } catch (err) {
       // Handle no prplanofile
-      if (err?.data?.status === 400 && err?.data?.userMessage.indexOf('CIAG profile does not exist') > -1) {
+      if (err?.data?.status === 404) {
         next()
         return
       }

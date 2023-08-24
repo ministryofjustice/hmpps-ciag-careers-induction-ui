@@ -2,7 +2,7 @@ const plans = {
   A00001A: {
     request: {
       method: 'GET',
-      urlPattern: '/ciag/A00001A',
+      urlPattern: '/ciag/induction/A00001A',
     },
     response: {
       status: 400,
@@ -16,7 +16,7 @@ const plans = {
   G6115VJ: {
     request: {
       method: 'GET',
-      urlPattern: '/ciag/G6115VJ',
+      urlPattern: '/ciag/induction/G6115VJ',
     },
     response: {
       status: 200,
