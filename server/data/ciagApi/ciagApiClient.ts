@@ -6,7 +6,7 @@ import CreateCiagPlanRequest from './models/createCiagPlanRequest'
 import UpdateCiagPlanArgs from './interfaces/updateCiagPlanArgs'
 import UpdateCiagPlanRequest from './models/updateCiagPlanRequest'
 
-const BASE_URL = '/ciag'
+const BASE_URL = '/ciag/induction'
 export default class CiagApiClient {
   restClient: RestClient
 
