@@ -7,7 +7,7 @@ import InPrisonWorkController from './inPrisonWorkController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new InPrisonWorkController()
+  const controller = new InPrisonWorkController(services.ciagService)
 
   router.get(
     '/plan/create/:id/in-prison-work/:mode',

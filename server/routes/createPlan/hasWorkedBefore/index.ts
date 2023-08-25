@@ -6,7 +6,7 @@ import HasWorkedBeforeController from './hasWorkedBeforeController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new HasWorkedBeforeController()
+  const controller = new HasWorkedBeforeController(services.ciagService)
 
   router.get(
     '/plan/create/:id/has-worked-before/:mode',

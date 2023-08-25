@@ -6,7 +6,7 @@ import EducationLevelController from './educationLevelController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new EducationLevelController()
+  const controller = new EducationLevelController(services.ciagService)
 
   router.get(
     '/plan/create/:id/education-level/:mode',

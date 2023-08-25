@@ -11,8 +11,12 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class HasWorkedBeforeController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -55,6 +59,7 @@ export default class HasWorkedBeforeController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { hasWorkedBefore } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -69,10 +74,33 @@ export default class HasWorkedBeforeController {
         return
       }
 
-      // Update record in session
-      const record = getSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['hasWorkedBefore', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          workExperience: {
+            ...plan.workExperience,
+            hasWorkedBefore: hasWorkedBefore === YesNoValue.YES,
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api, change status
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        // Set redirect destination
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(addressLookup.redirect(id))
+        return
+      }
+
+      // Update record in session
+      const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
         hasWorkedBefore,

@@ -14,8 +14,12 @@ import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class EducationLevelController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -53,6 +57,7 @@ export default class EducationLevelController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { educationLevel } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -67,10 +72,39 @@ export default class EducationLevelController {
         return
       }
 
+      deleteSessionData(req, ['educationLevel', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          qualificationsAndTraining: {
+            ...plan.qualificationsAndTraining,
+            educationLevel,
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api, change status
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        // Set redirect destination
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(
+          [EducationLevelValue.NOT_SURE, EducationLevelValue.PRIMARY_SCHOOL].includes(educationLevel) &&
+            (plan.qualifications || []).length === 0
+            ? addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)
+            : addressLookup.redirect(id),
+        )
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
-      deleteSessionData(req, ['educationLevel', id, 'data'])
 
       // If edit and existing qualifications, goto checkYourAnswers
       if (mode === 'edit' && (record.qualifications || []).length) {

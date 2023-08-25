@@ -8,7 +8,7 @@ import PersonalInterestsController from './personalInterestsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new PersonalInterestsController()
+  const controller = new PersonalInterestsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/personal-interests/:mode',

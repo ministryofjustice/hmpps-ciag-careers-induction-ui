@@ -10,8 +10,12 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class InPrisonEducationController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -52,8 +56,9 @@ export default class InPrisonEducationController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { inPrisonEducation = [], inPrisonEducationOther } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -70,6 +75,32 @@ export default class InPrisonEducationController {
       }
 
       deleteSessionData(req, ['inPrisonEducation', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          inPrisonInterests: {
+            ...plan.inPrisonInterests,
+            inPrisonEducation,
+            inPrisonEducationOther: inPrisonEducation.includes(InPrisonEducationValue.OTHER)
+              ? inPrisonEducationOther
+              : '',
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api, change status
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        // Set redirect destination
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(addressLookup.redirect(id))
+        return
+      }
 
       // Handle edit and new
       // Update record in sessionData and tidy

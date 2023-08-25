@@ -31,11 +31,11 @@ export default class UpdateCiagPlanRequest {
     this.modifiedBy = data.modifiedBy
     this.modifiedDateTime = data.modifiedDateTime
 
-    this.workExperience = data.workExperience
-    this.workInterests = data.workInterests
-    this.skillsAndInterests = data.skillsAndInterests
-    this.qualificationsAndTraining = data.qualificationsAndTraining
-    this.inPrisonInterests = data.inPrisonInterests
+    this.workExperience = data.workExperience || null
+    this.workInterests = data.workInterests || null
+    this.skillsAndInterests = data.skillsAndInterests || null
+    this.qualificationsAndTraining = data.qualificationsAndTraining || null
+    this.inPrisonInterests = data.inPrisonInterests || null
   }
 
   // Properties

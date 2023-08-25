@@ -7,7 +7,7 @@ import ParticularJobInterestsController from './particularJobInterestsController
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new ParticularJobInterestsController()
+  const controller = new ParticularJobInterestsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/particular-job-interests/:mode',

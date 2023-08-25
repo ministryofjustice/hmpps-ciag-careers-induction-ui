@@ -55,7 +55,11 @@ describe('EducationLevelController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

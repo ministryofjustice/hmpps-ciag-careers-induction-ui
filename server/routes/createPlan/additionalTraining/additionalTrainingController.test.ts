@@ -53,7 +53,11 @@ describe('AdditionalTrainingController', () => {
 
   res.locals.user = {}
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

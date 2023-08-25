@@ -11,8 +11,12 @@ import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class ReasonToNotGetWorkController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -36,7 +40,7 @@ export default class ReasonToNotGetWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         reasonToNotGetWork:
-          mode === 'update' ? _.get(plan, 'qualifications', []) : _.get(record, 'reasonToNotGetWork', []),
+          mode === 'update' ? _.get(plan, 'reasonToNotGetWork', []) : _.get(record, 'reasonToNotGetWork', []),
         reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 
@@ -52,6 +56,7 @@ export default class ReasonToNotGetWorkController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -67,6 +72,31 @@ export default class ReasonToNotGetWorkController {
         return
       }
 
+      deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          reasonToNotGetWork,
+          reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValue.OTHER)
+            ? reasonToNotGetWorkOther
+            : '',
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        }
+
+        // Call api, change status
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        // Set redirect destination
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(addressLookup.redirect(id))
+        return
+      }
+
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id], {})
       setSessionData(req, ['createPlan', id], {
@@ -76,8 +106,6 @@ export default class ReasonToNotGetWorkController {
           ? reasonToNotGetWorkOther
           : '',
       })
-
-      deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
 
       // Handle edit
       if (mode === 'edit') {

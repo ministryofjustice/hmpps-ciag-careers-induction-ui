@@ -10,8 +10,12 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class ParticularJobInterestsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -62,6 +66,7 @@ export default class ParticularJobInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -78,12 +83,37 @@ export default class ParticularJobInterestsController {
 
       deleteSessionData(req, ['particularJobInterests', id, 'data'])
 
+      // Get dynamic form values
+      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          workInterests: {
+            ...plan.workInterests,
+            particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api, change status
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        // Set redirect destination
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(addressLookup.redirect(id))
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
 
       // Get keys of entered job details
-      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
       setSessionData(req, ['createPlan', id], {
         ...record,
         particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
