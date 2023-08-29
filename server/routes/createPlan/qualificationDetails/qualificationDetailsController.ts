@@ -2,7 +2,6 @@
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
-import _ from 'lodash'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -10,8 +9,12 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class QualificationDetailsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
     const { prisoner, plan } = req.context
@@ -25,9 +28,7 @@ export default class QualificationDetailsController {
       }
 
       // If no qualification goto education level to start again
-      const qualifications =
-        mode === 'update' ? _.get(plan, 'qualificationsAndTraining.qualifications') : record.qualifications
-      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId)
+      const qualification = (record.qualifications || []).find((q: { id: string }) => q.id === qualificationId)
       if (!qualification) {
         res.redirect(addressLookup.createPlan.educationLevel(id))
         return
@@ -36,11 +37,8 @@ export default class QualificationDetailsController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode !== 'edit'
-            ? addressLookup.createPlan.qualificationLevel(id, qualificationId, mode)
-            : addressLookup.createPlan.qualifications(id, mode),
-        page: 'additionalTraining',
+        defaultRoute: addressLookup.createPlan.qualificationLevel(id, qualificationId, mode),
+        page: 'qualificationDetails',
         uid: `${id}_${qualificationId}`,
       })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
@@ -68,6 +66,7 @@ export default class QualificationDetailsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
     const { qualificationSubject, qualificationGrade } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -86,6 +85,34 @@ export default class QualificationDetailsController {
       // Update record in session
       const record = getSessionData(req, ['createPlan', id])
       const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId)
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          qualificationsAndTraining: {
+            ...plan.qualificationsAndTraining,
+            qualifications: [
+              ...(plan.qualificationsAndTraining.qualifications || []),
+              {
+                ...qualification,
+                subject: qualificationSubject,
+                grade: qualificationGrade,
+              },
+            ],
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        res.redirect(addressLookup.createPlan.qualifications(id, mode))
+        return
+      }
+
       setSessionData(req, ['createPlan', id], {
         ...record,
         qualifications: [

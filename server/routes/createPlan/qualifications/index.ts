@@ -7,7 +7,7 @@ import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatest
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new QualificationsController()
+  const controller = new QualificationsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/qualifications-list/:mode',

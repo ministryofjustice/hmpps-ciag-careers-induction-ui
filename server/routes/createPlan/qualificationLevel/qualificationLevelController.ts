@@ -24,19 +24,14 @@ export default class QualificationLevelController {
       }
 
       // Get or setup qualification
-      const qualifications =
-        mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.qualifications
-      const qualification = (qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
+      const qualification = (record.qualifications || []).find((q: { id: string }) => q.id === qualificationId) || {
         id: qualificationId,
       }
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode !== 'edit' && record.qualifications?.length === 1
-            ? addressLookup.createPlan.educationLevel(id)
-            : addressLookup.createPlan.qualifications(id),
+        defaultRoute: addressLookup.createPlan.qualifications(id),
         page: 'additionalTraining',
         uid: `${id}_${qualificationId}`,
       })

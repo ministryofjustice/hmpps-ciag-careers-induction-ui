@@ -6,7 +6,7 @@ import QualificationDetailsController from './qualificationDetailsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new QualificationDetailsController()
+  const controller = new QualificationDetailsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/qualification-details/:qualificationId/:mode',

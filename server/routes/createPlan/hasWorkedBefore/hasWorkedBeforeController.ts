@@ -31,7 +31,7 @@ export default class HasWorkedBeforeController {
 
       // Setup back location
       const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
+        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -89,7 +89,7 @@ export default class HasWorkedBeforeController {
           },
         }
 
-        // Call api, change status
+        // Call api
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
         // Set redirect destination

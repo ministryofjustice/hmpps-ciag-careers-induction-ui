@@ -10,8 +10,12 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class TypeOfWorkExperienceController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -56,6 +60,7 @@ export default class TypeOfWorkExperienceController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
     const { typeOfWorkExperience = [], typeOfWorkExperienceOther } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -72,6 +77,32 @@ export default class TypeOfWorkExperienceController {
       }
 
       deleteSessionData(req, ['typeOfWorkExperience', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          workExperience: {
+            ...plan.workExperience,
+            typeOfWorkExperience,
+            typeOfWorkExperienceOther: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
+              ? typeOfWorkExperienceOther
+              : '',
+            workExperience: (plan.workExperience.workExperience || []).filter((j: { typeOfWorkExperience: string }) =>
+              typeOfWorkExperience.includes(j.typeOfWorkExperience),
+            ),
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience[0], mode))
+        return
+      }
 
       // Handle edit and new
       // Update record in sessionData and tidy

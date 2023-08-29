@@ -33,7 +33,7 @@ export default class EducationLevelController {
       }
 
       // Setup back location
-      const backLocation = mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
+      const backLocation = mode === 'new' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -87,15 +87,18 @@ export default class EducationLevelController {
           },
         }
 
-        // Call api, change status
+        // Call api
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
         // Set redirect destination
         setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
 
         res.redirect(
-          [EducationLevelValue.NOT_SURE, EducationLevelValue.PRIMARY_SCHOOL].includes(educationLevel) &&
-            (plan.qualifications || []).length === 0
+          ![
+            EducationLevelValue.NOT_SURE,
+            EducationLevelValue.PRIMARY_SCHOOL,
+            EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
+          ].includes(educationLevel) && (plan.qualifications || []).length === 0
             ? addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)
             : addressLookup.redirect(id),
         )
@@ -156,7 +159,11 @@ export default class EducationLevelController {
           educationLevel,
         )
       ) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
+        res.redirect(
+          `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`,
+        )
         return
       }
 

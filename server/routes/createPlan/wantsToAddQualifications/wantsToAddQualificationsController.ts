@@ -28,8 +28,7 @@ export default class WantsToAddQualificationsController {
       }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.reasonToNotGetWork(id) : getHubPageByMode(mode, id)
+      const backLocation = mode === 'new' ? addressLookup.createPlan.reasonToNotGetWork(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data

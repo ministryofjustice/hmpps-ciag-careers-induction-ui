@@ -91,7 +91,7 @@ export default class PersonalInterestsController {
           },
         }
 
-        // Call api, change status
+        // Call api
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
         // Set redirect destination

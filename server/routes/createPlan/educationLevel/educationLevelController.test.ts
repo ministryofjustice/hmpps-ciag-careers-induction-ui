@@ -185,7 +185,9 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
@@ -198,7 +200,9 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,

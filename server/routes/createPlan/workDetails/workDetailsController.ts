@@ -11,8 +11,12 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class WorkDetailsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
     const { prisoner, plan } = req.context
@@ -77,6 +81,7 @@ export default class WorkDetailsController {
     const { id, mode, typeOfWorkExperienceKey } = req.params
     const { from } = req.query
     const { jobRole, jobDetails } = req.body
+    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -92,8 +97,48 @@ export default class WorkDetailsController {
         return
       }
 
-      // Update record in session
+      deleteSessionData(req, ['workDetails', id, 'data'])
+
+      // Calculate next page
       const record = getSessionData(req, ['createPlan', id])
+      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          workExperience: {
+            ...plan.workExperience,
+            workExperience: [
+              ...(plan.workExperience.workExperience || []).filter(
+                (w: { typeOfWorkExperience: string }) =>
+                  w.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+              ),
+              {
+                typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+                role: jobRole,
+                details: jobDetails,
+              },
+            ],
+            modifiedBy: res.locals.user.username,
+            modifiedDateTime: new Date().toISOString(),
+          },
+        }
+
+        // Call api
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+        res.redirect(
+          nextKey
+            ? addressLookup.createPlan.workDetails(id, nextKey, mode)
+            : addressLookup.createPlan.workInterests(id, mode),
+        )
+        return
+      }
+
+      // Update record in session
       setSessionData(req, ['createPlan', id], {
         ...record,
         workExperience: _.orderBy(
@@ -111,12 +156,6 @@ export default class WorkDetailsController {
           ['asc'],
         ),
       })
-
-      deleteSessionData(req, ['workDetails', id, 'data'])
-
-      // Calculate next page
-      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
-      const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
       // Handle edit
       if (mode === 'edit' && (!nextKey || from)) {

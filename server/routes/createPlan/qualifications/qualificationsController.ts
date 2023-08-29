@@ -9,8 +9,12 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
 import uuidv4 from '../../../utils/guid'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class QualificationsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, learnerLatestAssessment, plan } = req.context
@@ -32,7 +36,7 @@ export default class QualificationsController {
       }
 
       // Setup back location
-      const backLocation = mode !== 'edit' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id)
+      const backLocation = mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -58,27 +62,67 @@ export default class QualificationsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { removeQualification } = req.body
+    const { plan } = req.context
 
     try {
-      const record = getSessionData(req, ['createPlan', id])
+      let record = getSessionData(req, ['createPlan', id])
 
       // Handle delete
       if (removeQualification) {
-        setSessionData(req, ['createPlan', id], {
-          ...record,
-          qualifications: record.qualifications.filter((p: { id: string }) => p.id !== removeQualification),
-        })
+        if (mode === 'update') {
+          // Update data model
+          const updatedPlan = {
+            ...plan,
+            qualificationsAndTraining: {
+              ...plan.qualificationsAndTraining,
+              qualifications: plan.qualificationsAndTraining.qualifications.filter(
+                (p: { id: string }) => p.id !== removeQualification,
+              ),
+            },
+          }
+
+          // Call api
+          await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+        } else {
+          // Update record in session
+          setSessionData(req, ['createPlan', id], {
+            ...record,
+            qualifications: record.qualifications.filter((p: { id: string }) => p.id !== removeQualification),
+          })
+        }
         res.redirect(addressLookup.createPlan.qualifications(id, mode))
         return
       }
 
       // Handle add qualifications
       if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
+        if (mode === 'update') {
+          // Setup temporary record for multi page add qualification flow
+          record = {
+            qualifications: _.get(plan, 'qualificationsAndTraining.qualifications', []),
+          }
+          setSessionData(req, ['createPlan', id], record)
+        }
+
         res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
         return
       }
 
-      // Handle edit
+      // Handle continue
+      if (mode === 'update') {
+        // Redirect to profile if qualifications aleady added
+        if (record.qualifications && record.qualifications.length) {
+          setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+          res.redirect(addressLookup.redirect(id))
+          return
+        }
+
+        res.redirect(addressLookup.createPlan.educationLevel(id, mode))
+        return
+      }
+
+      // Handle edit and update
       if (mode === 'edit') {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return

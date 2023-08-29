@@ -6,7 +6,7 @@ import WorkDetailsController from './workDetailsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new WorkDetailsController()
+  const controller = new WorkDetailsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
