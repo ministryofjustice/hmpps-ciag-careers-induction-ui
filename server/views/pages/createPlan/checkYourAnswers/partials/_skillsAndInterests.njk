@@ -24,8 +24,8 @@
     <dd class="govuk-summary-list__value">
       {% for item in record.particularJobInterests %}
         <p class="govuk-body">
-          {{ contentLookup.fields.workInterests[item.interestKey] }}:<br>
-          {{ item.jobDetails }}
+          {{ contentLookup.fields.workInterests[item.workInterest] }}:<br>
+          {{ item.role }}
         </p>
       {% endfor %}
     </dd>

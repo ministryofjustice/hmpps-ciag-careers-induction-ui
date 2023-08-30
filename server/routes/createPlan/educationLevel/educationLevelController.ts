@@ -98,8 +98,10 @@ export default class EducationLevelController {
             EducationLevelValue.NOT_SURE,
             EducationLevelValue.PRIMARY_SCHOOL,
             EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
-          ].includes(educationLevel) && (plan.qualifications || []).length === 0
-            ? addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)
+          ].includes(educationLevel) && (plan.qualificationsAndTraining.qualifications || []).length === 0
+            ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)}?from=${encryptUrlParameter(
+                req.originalUrl,
+              )}`
             : addressLookup.redirect(id),
         )
         return
@@ -111,6 +113,11 @@ export default class EducationLevelController {
 
       // If edit and existing qualifications, goto checkYourAnswers
       if (mode === 'edit' && (record.qualifications || []).length) {
+        setSessionData(req, ['createPlan', id], {
+          ...record,
+          educationLevel,
+        })
+
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

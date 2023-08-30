@@ -14,10 +14,11 @@
 {% endblock %}
 
 {% block content %}
-{{ url }}
-  <input type="hidden" name="redirectUrl" value="{{ url }}" />
-
-  <h1>Redirecting to page</h1>
-
-  <a href="{{ url }}" id="continue">Continue</a>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+      <input type="hidden" name="redirectUrl" value="{{ url }}" />
+      <a href="{{ url }}" id="continue">Continue</a>
+    </div>
+  </div>
 {% endblock %}

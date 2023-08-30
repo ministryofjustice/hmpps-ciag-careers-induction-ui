@@ -31,7 +31,7 @@ export default class QualificationLevelController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: addressLookup.createPlan.qualifications(id),
+        defaultRoute: addressLookup.createPlan.qualifications(id, mode),
         page: 'additionalTraining',
         uid: `${id}_${qualificationId}`,
       })

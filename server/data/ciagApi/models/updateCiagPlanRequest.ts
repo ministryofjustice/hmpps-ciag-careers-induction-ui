@@ -32,7 +32,6 @@ export default class UpdateCiagPlanRequest {
     this.modifiedDateTime = data.modifiedDateTime
 
     this.workExperience = data.workExperience || null
-    this.workInterests = data.workInterests || null
     this.skillsAndInterests = data.skillsAndInterests || null
     this.qualificationsAndTraining = data.qualificationsAndTraining || null
     this.inPrisonInterests = data.inPrisonInterests || null
@@ -73,18 +72,18 @@ export default class UpdateCiagPlanRequest {
     }>
     modifiedBy: string
     modifiedDateTime: string
-  }
 
-  workInterests?: {
-    id?: number
-    workInterests: Array<WorkInterestsValue>
-    workInterestsOther?: string
-    particularJobInterests: Array<{
-      workInterest: WorkInterestsValue
-      role: string
-    }>
-    modifiedBy: string
-    modifiedDateTime: string
+    workInterests?: {
+      id?: number
+      workInterests: Array<WorkInterestsValue>
+      workInterestsOther?: string
+      particularJobInterests: Array<{
+        workInterest: WorkInterestsValue
+        role: string
+      }>
+      modifiedBy: string
+      modifiedDateTime: string
+    }
   }
 
   skillsAndInterests?: {

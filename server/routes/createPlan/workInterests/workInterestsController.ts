@@ -32,7 +32,7 @@ export default class WorkInterestsController {
       // Get last key
       const typeOfWorkExperience =
         mode === 'update'
-          ? _.get(plan, 'workInterests.typeOfWorkExperience', [])
+          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
           : _.get(record, 'typeOfWorkExperience', [])
       const lastKey = typeOfWorkExperience ? typeOfWorkExperience.at(-1) : ''
 
@@ -51,9 +51,13 @@ export default class WorkInterestsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests:
-          mode === 'update' ? _.get(plan, 'workInterests.workInterests', []) : _.get(record, 'workInterests', []),
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
+            : _.get(record, 'workInterests', []),
         workInterestsOther:
-          mode === 'update' ? _.get(plan, 'workInterests.workInterestsOther') : record.workInterestsOther,
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            : record.workInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -91,12 +95,15 @@ export default class WorkInterestsController {
         // Update data model
         const updatedPlan = {
           ...plan,
-          workInterests: {
-            ...plan.workInterests,
-            workInterests,
-            workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
-            modifiedBy: res.locals.user.username,
-            modifiedDateTime: new Date().toISOString(),
+          workExperience: {
+            ...plan.workExperience,
+            workInterests: {
+              ...plan.workExperience.workInterests,
+              workInterests,
+              workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
+              modifiedBy: res.locals.user.username,
+              modifiedDateTime: new Date().toISOString(),
+            },
           },
         }
 
@@ -118,6 +125,12 @@ export default class WorkInterestsController {
         workInterests,
         workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
       })
+
+      // Handle edit and update
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
 
       // Redirect to the correct page based on hopingToGetWork
       res.redirect(addressLookup.createPlan.particularJobInterests(id, mode))

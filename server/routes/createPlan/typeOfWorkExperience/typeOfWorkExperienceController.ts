@@ -100,7 +100,7 @@ export default class TypeOfWorkExperienceController {
         // Call api
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-        res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience[0], mode))
+        res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], mode))
         return
       }
 
@@ -119,7 +119,7 @@ export default class TypeOfWorkExperienceController {
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience[0], mode))
+      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], mode))
     } catch (err) {
       next(err)
     }

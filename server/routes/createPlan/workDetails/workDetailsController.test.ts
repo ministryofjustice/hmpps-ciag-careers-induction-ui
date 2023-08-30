@@ -181,7 +181,7 @@ describe('WorkDetailsController', () => {
     it('On success - Not last typeOfWorkExperience - Sets session record then redirects to workDetails', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [],
       })
 
@@ -191,12 +191,12 @@ describe('WorkDetailsController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.CONSTRUCTION, mode),
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.RETAIL, mode),
       )
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [
           {
             typeOfWorkExperience: typeOfWorkExperienceKey,
@@ -210,7 +210,7 @@ describe('WorkDetailsController', () => {
     it('On success - Not last typeOfWorkExperience - mode === edit - Sets session record then redirects to workDetails', async () => {
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
-        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [],
       })
 
@@ -221,12 +221,12 @@ describe('WorkDetailsController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.CONSTRUCTION, 'edit'),
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.RETAIL, 'edit'),
       )
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.CONSTRUCTION],
+        typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [
           {
             typeOfWorkExperience: typeOfWorkExperienceKey,

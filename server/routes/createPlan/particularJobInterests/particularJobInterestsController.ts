@@ -35,7 +35,9 @@ export default class ParticularJobInterestsController {
 
       // Build field value
       const particularJobInterests =
-        mode === 'update' ? _.get(plan, 'workInterests.particularJobInterests') : record.particularJobInterests
+        mode === 'update'
+          ? _.get(plan, 'workExperience.workInterests.particularJobInterests')
+          : record.particularJobInterests
 
       // Setup page data
       const data = {
@@ -43,12 +45,16 @@ export default class ParticularJobInterestsController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests:
-          mode === 'update' ? _.get(plan, 'workInterests.workInterests', []) : _.get(record, 'workInterests', []),
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
+            : _.get(record, 'workInterests', []),
         workInterestsOther:
-          mode === 'update' ? _.get(plan, 'workInterests.workInterestsOther') : record.workInterestsOther,
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            : record.workInterestsOther,
         particularJobInterests: (particularJobInterests || []).reduce(
-          (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
-            acc[curr.interestKey] = curr.jobDetails
+          (acc: { [x: string]: string }, curr: { workInterest: string; role: string }) => {
+            acc[curr.workInterest] = curr.role
             return acc
           },
           {},
@@ -91,11 +97,14 @@ export default class ParticularJobInterestsController {
         // Update data model
         const updatedPlan = {
           ...plan,
-          workInterests: {
-            ...plan.workInterests,
-            particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
-            modifiedBy: res.locals.user.username,
-            modifiedDateTime: new Date().toISOString(),
+          workExperience: {
+            ...plan.workExperience,
+            workInterests: {
+              ...plan.workExperience.workInterests,
+              particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
+              modifiedBy: res.locals.user.username,
+              modifiedDateTime: new Date().toISOString(),
+            },
           },
         }
 
@@ -116,7 +125,7 @@ export default class ParticularJobInterestsController {
       // Get keys of entered job details
       setSessionData(req, ['createPlan', id], {
         ...record,
-        particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
+        particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
       })
 
       // Handle edit

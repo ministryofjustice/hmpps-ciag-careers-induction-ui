@@ -95,7 +95,10 @@ describe('QualificationsController', () => {
       next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 'A' }, { id: 'B' }],
+        qualifications: [
+          { id: 'A', level: 'LEVEL_3', subject: 'Maths', grade: 'A' },
+          { id: 'B', level: 'LEVEL_3', subject: 'English', grade: 'C' },
+        ],
       })
       req.body = {}
     })
@@ -120,16 +123,12 @@ describe('QualificationsController', () => {
     })
 
     it('On success - removeQualification - Redirects to educationLevel', async () => {
-      req.body.removeQualification = 'A'
+      req.body.removeQualification = 'LEVEL_3-Maths-A'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
-        qualifications: [
-          {
-            id: 'B',
-          },
-        ],
+        qualifications: [{ id: 'B', level: 'LEVEL_3', subject: 'English', grade: 'C' }],
       })
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, mode))

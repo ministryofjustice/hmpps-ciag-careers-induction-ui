@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
@@ -76,8 +77,11 @@ export default class QualificationsController {
             qualificationsAndTraining: {
               ...plan.qualificationsAndTraining,
               qualifications: plan.qualificationsAndTraining.qualifications.filter(
-                (p: { id: string }) => p.id !== removeQualification,
+                (item: { level: any; subject: any; grade: any }) =>
+                  removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
               ),
+              modifiedBy: res.locals.user.username,
+              modifiedDateTime: new Date().toISOString(),
             },
           }
 
@@ -87,7 +91,10 @@ export default class QualificationsController {
           // Update record in session
           setSessionData(req, ['createPlan', id], {
             ...record,
-            qualifications: record.qualifications.filter((p: { id: string }) => p.id !== removeQualification),
+            qualifications: record.qualifications.filter(
+              (item: { level: any; subject: any; grade: any }) =>
+                removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
+            ),
           })
         }
         res.redirect(addressLookup.createPlan.qualifications(id, mode))

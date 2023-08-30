@@ -44,21 +44,21 @@ export default interface CiagPlan {
 
     modifiedBy: string
     modifiedDateTime: string
-  }
 
-  workInterests?: {
-    id?: number
+    workInterests?: {
+      id?: number
 
-    workInterests: Array<WorkInterestsValue>
-    workInterestsOther?: string
+      workInterests: Array<WorkInterestsValue>
+      workInterestsOther?: string
 
-    particularJobInterests: Array<{
-      workInterest: WorkInterestsValue
-      role: string
-    }>
+      particularJobInterests: Array<{
+        workInterest: WorkInterestsValue
+        role: string
+      }>
 
-    modifiedBy: string
-    modifiedDateTime: string
+      modifiedBy: string
+      modifiedDateTime: string
+    }
   }
 
   skillsAndInterests?: {

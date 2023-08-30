@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
-import { deleteSessionData, setSessionData } from '../../utils/session'
+import { deleteSessionData } from '../../utils/session'
 import addressLookup from '../addressLookup'
 import CiagService from '../../services/ciagService'
 
@@ -35,9 +35,8 @@ export default class WorkPlanController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
 
-    // await this.ciagService.deleteCiagPlan(res.locals.user.token, id)
-    setSessionData(req, ['redirect', id], addressLookup.learningPlan.addGoals(id))
+    await this.ciagService.deleteCiagPlan(res.locals.user.token, id)
 
-    res.redirect(addressLookup.redirect(id))
+    res.redirect(addressLookup.workPlan(id))
   }
 }

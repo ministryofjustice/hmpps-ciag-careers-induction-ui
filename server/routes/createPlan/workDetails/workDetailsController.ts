@@ -13,6 +13,8 @@ import getBackLocation from '../../../utils/getBackLocation'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 
 export default class WorkDetailsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -99,13 +101,14 @@ export default class WorkDetailsController {
 
       deleteSessionData(req, ['workDetails', id, 'data'])
 
-      // Calculate next page
-      const record = getSessionData(req, ['createPlan', id])
-      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
-      const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
-
       // Handle update
       if (mode === 'update') {
+        const position = plan.workExperience.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+        const nextKey =
+          position < plan.workExperience.typeOfWorkExperience.length
+            ? plan.workExperience.typeOfWorkExperience.sort()[position + 1]
+            : ''
+
         // Update data model
         const updatedPlan = {
           ...plan,
@@ -120,6 +123,10 @@ export default class WorkDetailsController {
                 typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
                 role: jobRole,
                 details: jobDetails,
+                otherWork:
+                  typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+                    ? plan.workExperience.typeOfWorkExperienceOther
+                    : '',
               },
             ],
             modifiedBy: res.locals.user.username,
@@ -130,13 +137,21 @@ export default class WorkDetailsController {
         // Call api
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
         res.redirect(
           nextKey
-            ? addressLookup.createPlan.workDetails(id, nextKey, mode)
-            : addressLookup.createPlan.workInterests(id, mode),
+            ? `${addressLookup.createPlan.workDetails(id, nextKey, mode)}?from=${encryptUrlParameter(req.originalUrl)}`
+            : addressLookup.redirect(id),
         )
         return
       }
+
+      // Calculate next page
+      const record = getSessionData(req, ['createPlan', id])
+      const position = record.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const nextKey =
+        position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience.sort()[position + 1] : ''
 
       // Update record in session
       setSessionData(req, ['createPlan', id], {
@@ -150,6 +165,10 @@ export default class WorkDetailsController {
               typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
               role: jobRole,
               details: jobDetails,
+              otherWork:
+                typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+                  ? record.typeOfWorkExperienceOther
+                  : '',
             },
           ],
           ['typeOfWorkExperience'],
