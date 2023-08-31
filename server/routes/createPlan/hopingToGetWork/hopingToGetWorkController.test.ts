@@ -6,6 +6,7 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -18,6 +19,8 @@ jest.mock('./validationSchema', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
+
+jest.mock('../../../utils/urlParameterEncryption')
 
 describe('HopingToGetWorkController', () => {
   const { req, res, next } = expressMocks()
@@ -37,7 +40,11 @@ describe('HopingToGetWorkController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -113,7 +120,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id, 'new'))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
@@ -123,7 +130,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id, 'new'))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })

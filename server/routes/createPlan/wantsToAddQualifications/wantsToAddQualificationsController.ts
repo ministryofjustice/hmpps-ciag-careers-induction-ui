@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { RequestHandler } from 'express'
+import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import addressLookup from '../../addressLookup'

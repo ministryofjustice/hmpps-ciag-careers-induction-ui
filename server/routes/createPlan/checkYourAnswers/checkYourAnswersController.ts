@@ -2,9 +2,10 @@ import { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
-import { deleteSessionData, getSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import CiagService from '../../../services/ciagService'
+import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCiagPlanRequest'
 
 export default class CheckYourAnswersController {
   constructor(private readonly ciagService: CiagService) {}
@@ -36,7 +37,7 @@ export default class CheckYourAnswersController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       const record = getSessionData(req, ['createPlan', id])
@@ -72,13 +73,30 @@ export default class CheckYourAnswersController {
         inPrisonEducationOther: record.inPrisonEducationOther,
       }
 
+      // Handle flow update, an update when hopingToGetWork was changed
+      if (getSessionData(req, ['isUpdateFlow', id])) {
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new FlowUpdateCiagPlanRequest(newRecord, plan))
+
+        deleteSessionData(req, ['isUpdateFlow', id])
+        deleteSessionData(req, ['createPlan', id])
+        deleteSessionData(req, ['changeStatus', id])
+
+        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+        res.redirect(addressLookup.redirect(id))
+        return
+      }
+
       await this.ciagService.createCiagPlan(res.locals.user.token, id, newRecord)
 
       // Tidy up record in session
       deleteSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      res.redirect(addressLookup.prisonerSearch())
+      // Set redirect destination
+      setSessionData(req, ['redirect', id], addressLookup.learningPlan.addGoals(id))
+
+      res.redirect(addressLookup.redirect(id))
     } catch (err) {
       next(err)
     }

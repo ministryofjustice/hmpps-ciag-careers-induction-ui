@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -66,7 +66,6 @@ export default class QualificationDetailsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, qualificationId } = req.params
     const { qualificationSubject, qualificationGrade } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -82,36 +81,15 @@ export default class QualificationDetailsController {
         return
       }
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Update record in session
       const record = getSessionData(req, ['createPlan', id])
       const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId)
-
-      // Handle update
-      if (mode === 'update') {
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          qualificationsAndTraining: {
-            ...plan.qualificationsAndTraining,
-            qualifications: [
-              ...(plan.qualificationsAndTraining.qualifications || []),
-              {
-                ...qualification,
-                subject: qualificationSubject,
-                grade: qualificationGrade,
-              },
-            ],
-            modifiedBy: res.locals.user.username,
-            modifiedDateTime: new Date().toISOString(),
-          },
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        res.redirect(addressLookup.createPlan.qualifications(id, mode))
-        return
-      }
 
       setSessionData(req, ['createPlan', id], {
         ...record,
@@ -131,5 +109,38 @@ export default class QualificationDetailsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id, qualificationId } = req.params
+    const { plan } = req.context
+    const { qualificationSubject, qualificationGrade } = req.body
+
+    // Update record in session
+    const record = getSessionData(req, ['createPlan', id])
+    const qualification = record.qualifications.find((q: { id: string }) => q.id === qualificationId)
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      qualificationsAndTraining: {
+        ...plan.qualificationsAndTraining,
+        qualifications: [
+          ...(plan.qualificationsAndTraining.qualifications || []),
+          {
+            ...qualification,
+            subject: qualificationSubject,
+            grade: qualificationGrade,
+          },
+        ],
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.createPlan.qualifications(id, 'update'))
   }
 }

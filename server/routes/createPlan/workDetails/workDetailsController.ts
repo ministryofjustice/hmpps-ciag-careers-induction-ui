@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import _ from 'lodash'
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -83,7 +83,6 @@ export default class WorkDetailsController {
     const { id, mode, typeOfWorkExperienceKey } = req.params
     const { from } = req.query
     const { jobRole, jobDetails } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -103,47 +102,7 @@ export default class WorkDetailsController {
 
       // Handle update
       if (mode === 'update') {
-        const position = plan.workExperience.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
-        const nextKey =
-          position < plan.workExperience.typeOfWorkExperience.length
-            ? plan.workExperience.typeOfWorkExperience.sort()[position + 1]
-            : ''
-
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          workExperience: {
-            ...plan.workExperience,
-            workExperience: [
-              ...(plan.workExperience.workExperience || []).filter(
-                (w: { typeOfWorkExperience: string }) =>
-                  w.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
-              ),
-              {
-                typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
-                role: jobRole,
-                details: jobDetails,
-                otherWork:
-                  typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
-                    ? plan.workExperience.typeOfWorkExperienceOther
-                    : '',
-              },
-            ],
-            modifiedBy: res.locals.user.username,
-            modifiedDateTime: new Date().toISOString(),
-          },
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(
-          nextKey
-            ? `${addressLookup.createPlan.workDetails(id, nextKey, mode)}?from=${encryptUrlParameter(req.originalUrl)}`
-            : addressLookup.redirect(id),
-        )
+        this.handleUpdate(req, res)
         return
       }
 
@@ -191,5 +150,52 @@ export default class WorkDetailsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id, typeOfWorkExperienceKey } = req.params
+    const { plan } = req.context
+    const { jobRole, jobDetails } = req.body
+
+    const position = plan.workExperience.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+    const nextKey =
+      position < plan.workExperience.typeOfWorkExperience.length
+        ? plan.workExperience.typeOfWorkExperience.sort()[position + 1]
+        : ''
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        workExperience: [
+          ...(plan.workExperience.workExperience || []).filter(
+            (w: { typeOfWorkExperience: string }) => w.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+          ),
+          {
+            typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+            role: jobRole,
+            details: jobDetails,
+            otherWork:
+              typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+                ? plan.workExperience.typeOfWorkExperienceOther
+                : '',
+          },
+        ],
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+    res.redirect(
+      nextKey
+        ? `${addressLookup.createPlan.workDetails(id, nextKey, 'update')}?from=${encryptUrlParameter(req.originalUrl)}`
+        : addressLookup.redirect(id),
+    )
   }
 }

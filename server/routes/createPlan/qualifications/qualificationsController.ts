@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
-import { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import addressLookup from '../../addressLookup'
@@ -12,6 +12,7 @@ import uuidv4 from '../../../utils/guid'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class QualificationsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -37,7 +38,12 @@ export default class QualificationsController {
       }
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id)
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
+        page: 'qualifications',
+        uid: id,
+      })
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -63,69 +69,34 @@ export default class QualificationsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { removeQualification } = req.body
-    const { plan } = req.context
 
     try {
-      let record = getSessionData(req, ['createPlan', id])
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
+      const record = getSessionData(req, ['createPlan', id])
 
       // Handle delete
       if (removeQualification) {
-        if (mode === 'update') {
-          // Update data model
-          const updatedPlan = {
-            ...plan,
-            qualificationsAndTraining: {
-              ...plan.qualificationsAndTraining,
-              qualifications: plan.qualificationsAndTraining.qualifications.filter(
-                (item: { level: any; subject: any; grade: any }) =>
-                  removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
-              ),
-              modifiedBy: res.locals.user.username,
-              modifiedDateTime: new Date().toISOString(),
-            },
-          }
+        // Update record in session
+        setSessionData(req, ['createPlan', id], {
+          ...record,
+          qualifications: record.qualifications.filter(
+            (item: { level: any; subject: any; grade: any }) =>
+              removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
+          ),
+        })
 
-          // Call api
-          await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-        } else {
-          // Update record in session
-          setSessionData(req, ['createPlan', id], {
-            ...record,
-            qualifications: record.qualifications.filter(
-              (item: { level: any; subject: any; grade: any }) =>
-                removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
-            ),
-          })
-        }
         res.redirect(addressLookup.createPlan.qualifications(id, mode))
         return
       }
 
       // Handle add qualifications
       if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
-        if (mode === 'update') {
-          // Setup temporary record for multi page add qualification flow
-          record = {
-            qualifications: _.get(plan, 'qualificationsAndTraining.qualifications', []),
-          }
-          setSessionData(req, ['createPlan', id], record)
-        }
-
         res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
-        return
-      }
-
-      // Handle continue
-      if (mode === 'update') {
-        // Redirect to profile if qualifications aleady added
-        if (record.qualifications && record.qualifications.length) {
-          setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-          res.redirect(addressLookup.redirect(id))
-          return
-        }
-
-        res.redirect(addressLookup.createPlan.educationLevel(id, mode))
         return
       }
 
@@ -144,5 +115,57 @@ export default class QualificationsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { removeQualification } = req.body
+
+    const record = getSessionData(req, ['createPlan', id])
+
+    // Handle remove qualification
+    if (removeQualification) {
+      // Update data model
+      const updatedPlan = {
+        ...plan,
+        qualificationsAndTraining: {
+          ...plan.qualificationsAndTraining,
+          qualifications: plan.qualificationsAndTraining.qualifications.filter(
+            (item: { level: any; subject: any; grade: any }) =>
+              removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
+          ),
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        },
+      }
+
+      // Call api
+      await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+      res.redirect(addressLookup.createPlan.qualifications(id, 'update'))
+      return
+    }
+
+    // Handle add qualification
+    if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
+      // Setup temporary record for multi page add qualification flow
+      setSessionData(req, ['createPlan', id], {
+        qualifications: _.get(plan, 'qualificationsAndTraining.qualifications', []),
+      })
+
+      res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update'))
+      return
+    }
+
+    // Redirect to profile if qualifications aleady added
+    if (record.qualifications && record.qualifications.length) {
+      setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+      res.redirect(addressLookup.redirect(id))
+      return
+    }
+
+    res.redirect(addressLookup.createPlan.educationLevel(id, 'update'))
   }
 }

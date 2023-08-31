@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
 
@@ -57,7 +57,6 @@ export default class EducationLevelController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { educationLevel } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -76,34 +75,7 @@ export default class EducationLevelController {
 
       // Handle update
       if (mode === 'update') {
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          qualificationsAndTraining: {
-            ...plan.qualificationsAndTraining,
-            educationLevel,
-            modifiedBy: res.locals.user.username,
-            modifiedDateTime: new Date().toISOString(),
-          },
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        // Set redirect destination
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(
-          ![
-            EducationLevelValue.NOT_SURE,
-            EducationLevelValue.PRIMARY_SCHOOL,
-            EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
-          ].includes(educationLevel) && (plan.qualificationsAndTraining.qualifications || []).length === 0
-            ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)}?from=${encryptUrlParameter(
-                req.originalUrl,
-              )}`
-            : addressLookup.redirect(id),
-        )
+        this.handleUpdate(req, res)
         return
       }
 
@@ -183,5 +155,40 @@ export default class EducationLevelController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { educationLevel } = req.body
+    const { plan } = req.context
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      qualificationsAndTraining: {
+        ...plan.qualificationsAndTraining,
+        educationLevel,
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    // Set redirect destination
+    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+    res.redirect(
+      ![
+        EducationLevelValue.NOT_SURE,
+        EducationLevelValue.PRIMARY_SCHOOL,
+        EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
+      ].includes(educationLevel) && (plan.qualificationsAndTraining.qualifications || []).length === 0
+        ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update')}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`
+        : addressLookup.redirect(id),
+    )
   }
 }

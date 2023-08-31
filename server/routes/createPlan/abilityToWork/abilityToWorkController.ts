@@ -1,4 +1,4 @@
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
 
@@ -54,7 +54,6 @@ export default class AbilityToWorkController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { abilityToWork = [], abilityToWorkOther } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -74,22 +73,7 @@ export default class AbilityToWorkController {
 
       // Handle update
       if (mode === 'update') {
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          abilityToWork,
-          abilityToWorkOther: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkOther : '',
-          modifiedBy: res.locals.user.username,
-          modifiedDateTime: new Date().toISOString(),
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        // Set redirect destination
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(addressLookup.redirect(id))
+        this.handleUpdate(req, res)
         return
       }
 
@@ -107,5 +91,28 @@ export default class AbilityToWorkController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { abilityToWork = [], abilityToWorkOther } = req.body
+    const { plan } = req.context
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      abilityToWork,
+      abilityToWorkOther: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkOther : '',
+      modifiedBy: res.locals.user.username,
+      modifiedDateTime: new Date().toISOString(),
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    // Set redirect destination
+    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+    res.redirect(addressLookup.redirect(id))
   }
 }

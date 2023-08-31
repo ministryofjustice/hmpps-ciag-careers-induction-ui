@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
 
@@ -72,7 +72,6 @@ export default class ParticularJobInterestsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -89,34 +88,14 @@ export default class ParticularJobInterestsController {
 
       deleteSessionData(req, ['particularJobInterests', id, 'data'])
 
-      // Get dynamic form values
-      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
-
       // Handle update
       if (mode === 'update') {
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          workExperience: {
-            ...plan.workExperience,
-            workInterests: {
-              ...plan.workExperience.workInterests,
-              particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
-              modifiedBy: res.locals.user.username,
-              modifiedDateTime: new Date().toISOString(),
-            },
-          },
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        // Set redirect destination
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(addressLookup.redirect(id))
+        this.handleUpdate(req, res)
         return
       }
+
+      // Get dynamic form values
+      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
 
       // Handle edit and new
       // Update record in sessionData and tidy
@@ -139,5 +118,35 @@ export default class ParticularJobInterestsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+
+    // Get dynamic form values
+    const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        workInterests: {
+          ...plan.workExperience.workInterests,
+          particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        },
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    // Set redirect destination
+    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+    res.redirect(addressLookup.redirect(id))
   }
 }

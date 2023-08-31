@@ -1,7 +1,7 @@
-import type { RequestHandler } from 'express'
-
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -56,7 +56,6 @@ export default class ReasonToNotGetWorkController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
@@ -76,24 +75,7 @@ export default class ReasonToNotGetWorkController {
 
       // Handle update
       if (mode === 'update') {
-        // Update data model
-        const updatedPlan = {
-          ...plan,
-          reasonToNotGetWork,
-          reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValue.OTHER)
-            ? reasonToNotGetWorkOther
-            : '',
-          modifiedBy: res.locals.user.username,
-          modifiedDateTime: new Date().toISOString(),
-        }
-
-        // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
-
-        // Set redirect destination
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(addressLookup.redirect(id))
+        this.handleUpdate(req, res)
         return
       }
 
@@ -113,10 +95,39 @@ export default class ReasonToNotGetWorkController {
         return
       }
 
-      // Redirect to the correct page based on value
-      res.redirect(addressLookup.createPlan.wantsToAddQualifications(id, 'new'))
+      // Redirect to the correct page based on if there are existing qualifications
+      res.redirect(
+        record.qualifications?.length
+          ? addressLookup.createPlan.qualifications(id, mode)
+          : addressLookup.createPlan.wantsToAddQualifications(id, mode),
+      )
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      reasonToNotGetWork,
+      reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValue.OTHER)
+        ? reasonToNotGetWorkOther
+        : '',
+      modifiedBy: res.locals.user.username,
+      modifiedDateTime: new Date().toISOString(),
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    // Set redirect destination
+    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
+
+    res.redirect(addressLookup.redirect(id))
   }
 }
