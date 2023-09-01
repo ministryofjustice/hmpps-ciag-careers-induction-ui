@@ -160,5 +160,20 @@ describe('SkillsController', () => {
       expect(getSessionData(req, ['skills', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.personalInterests(id))
     })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = {
+        skillsAndInterests: {},
+      }
+      req.body.skills = SkillsValue.OTHER
+      req.body.skillsOther = 'mock_details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+    })
   })
 })

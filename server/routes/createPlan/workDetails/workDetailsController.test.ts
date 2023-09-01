@@ -54,6 +54,8 @@ describe('WorkDetailsController', () => {
     jobRole: 'mock_role',
   }
 
+  res.locals.user = {}
+
   const mockService: any = {
     updateCiagPlan: jest.fn(),
   }
@@ -257,6 +259,30 @@ describe('WorkDetailsController', () => {
           },
         ],
       })
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = {
+        workExperience: {
+          typeOfWorkExperience: [typeOfWorkExperienceKey],
+          workExperience: [
+            {
+              typeOfWorkExperience: typeOfWorkExperienceKey,
+              details: 'mock_details',
+              role: 'mock_role',
+            },
+          ],
+        },
+      }
+      req.body.jobRole = 'mock_role'
+      req.body.jobDetails = 'mock_details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
     })
   })
 })

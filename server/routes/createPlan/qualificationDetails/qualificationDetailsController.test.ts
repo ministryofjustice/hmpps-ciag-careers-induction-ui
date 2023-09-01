@@ -54,6 +54,8 @@ describe('QualificationDetailsController', () => {
     qualificationLevel: QualificationLevelValue.LEVEL_3,
   }
 
+  res.locals.user = {}
+
   const mockService: any = {
     updateCiagPlan: jest.fn(),
   }
@@ -122,6 +124,7 @@ describe('QualificationDetailsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockService.updateCiagPlan.mockReset()
       setSessionData(req, ['qualificationDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -178,6 +181,18 @@ describe('QualificationDetailsController', () => {
           },
         ],
       })
+    })
+
+    it('On success - mode = update - Calls API then redirects to qualificationDetails', async () => {
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.qualificationSubject = 'Mathematics'
+      req.body.qualificationGrade = 'A'
+      req.params.mode = 'update'
+
+      controller.post(req, res, next)
+
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(getSessionData(req, ['qualificationDetails', id, 'data'])).toBeFalsy()
     })
   })
 })

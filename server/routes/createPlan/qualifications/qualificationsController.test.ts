@@ -167,5 +167,14 @@ describe('QualificationsController', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
+
+    it('On success - mode = update - redirects to redirect', async () => {
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+    })
   })
 })

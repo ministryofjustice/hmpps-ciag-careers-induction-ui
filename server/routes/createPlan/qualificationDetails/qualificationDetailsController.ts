@@ -81,6 +81,8 @@ export default class QualificationDetailsController {
         return
       }
 
+      deleteSessionData(req, ['qualificationDetails', id, 'data'])
+
       // Handle update
       if (mode === 'update') {
         this.handleUpdate(req, res)
@@ -102,8 +104,6 @@ export default class QualificationDetailsController {
           },
         ],
       })
-
-      deleteSessionData(req, ['qualificationDetails', id, 'data'])
 
       res.redirect(addressLookup.createPlan.qualifications(id, mode))
     } catch (err) {

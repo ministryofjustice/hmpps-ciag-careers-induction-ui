@@ -55,6 +55,8 @@ describe('EducationLevelController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
+  res.locals.user = {}
+
   const mockService: any = {
     updateCiagPlan: jest.fn(),
   }
@@ -114,6 +116,7 @@ describe('EducationLevelController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockService.updateCiagPlan.mockReset()
       setSessionData(req, ['educationLevel', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
@@ -256,6 +259,34 @@ describe('EducationLevelController', () => {
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
         qualifications: [],
       })
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+    })
+
+    it('On success - mode = update - higher level - calls api and redirects to qualificationLevel', async () => {
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', 'update')}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
+      )
     })
   })
 })

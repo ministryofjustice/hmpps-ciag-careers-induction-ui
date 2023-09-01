@@ -182,5 +182,17 @@ describe('ParticularJobInterestsController', () => {
       expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = { workExperience: { workInterests: {} } }
+      req.body.OTHER = 'Some job'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+    })
   })
 })

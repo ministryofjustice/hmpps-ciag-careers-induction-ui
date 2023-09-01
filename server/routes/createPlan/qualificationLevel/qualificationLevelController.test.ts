@@ -160,5 +160,27 @@ describe('QualificationLevelController', () => {
         ],
       })
     })
+
+    it('On success - Sets session record then redirects to qualificationDetails', async () => {
+      req.body.qualificationLevel = QualificationLevelValue.LEVEL_1
+      req.params.mode = 'update'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.createPlan.qualificationDetails(id, qualificationId, 'update'),
+      )
+      expect(getSessionData(req, ['qualificationLevel', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: 'FURTHER_EDUCATION_COLLEGE',
+        hopingToGetWork: 'YES',
+        qualifications: [
+          {
+            id: '1',
+            level: 'LEVEL_1',
+          },
+        ],
+      })
+    })
   })
 })

@@ -160,5 +160,17 @@ describe('AbilityToWorkController', () => {
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = {}
+      req.body.abilityToWork = [AbilityToWorkValue.HEALTH_ISSUES]
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+    })
   })
 })
