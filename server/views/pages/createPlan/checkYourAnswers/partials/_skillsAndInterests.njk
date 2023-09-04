@@ -5,9 +5,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Type of work interested in
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="workInterests">
       {% for item in record.workInterests %}
-        <div>{{ contentLookup.fields.workInterests[item] }}{{ ' - ' + record.workInterestsOther if item === 'OTHER' }}{{ ',' if record.workInterests.length !== loop.index }}</div>
+        <div data-qa="workInterests-{{ loop.index }}">{{ contentLookup.fields.workInterests[item] }}{{ ' - ' + record.workInterestsOther if item === 'OTHER' }}{{ ',' if record.workInterests.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
@@ -21,9 +21,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Particular job roles of interest
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="particularJobInterests">
       {% for item in record.particularJobInterests %}
-        <p class="govuk-body">
+        <p class="govuk-body"  data-qa="particularJobInterests-{{ loop.index }}">
           {{ contentLookup.fields.workInterests[item.workInterest] }}:<br>
           {{ item.role }}
         </p>
@@ -40,9 +40,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Skills
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="skills">
       {% for item in record.skills %}
-        <div>{{ contentLookup.fields.skills[item] }}{{ ' - ' + record.skillsOther if item === 'OTHER' }}{{ ',' if record.skills.length !== loop.index }}</div>
+        <div data-qa="skills-{{ loop.index }}">{{ contentLookup.fields.skills[item] }}{{ ' - ' + record.skillsOther if item === 'OTHER' }}{{ ',' if record.skills.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
@@ -55,9 +55,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Interests
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="personalInterests">
       {% for item in record.personalInterests %}
-        <div>{{ contentLookup.fields.personalInterests[item] }}{{ ' - ' + record.personalInterestsOther if item === 'OTHER' }}{{ ',' if record.personalInterests.length !== loop.index }}</div>
+        <div data-qa="personalInterests-{{ loop.index }}">{{ contentLookup.fields.personalInterests[item] }}{{ ' - ' + record.personalInterestsOther if item === 'OTHER' }}{{ ',' if record.personalInterests.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">

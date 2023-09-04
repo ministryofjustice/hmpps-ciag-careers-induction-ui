@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './hopingToGetWorkController'
@@ -6,7 +8,6 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),

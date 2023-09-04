@@ -55,7 +55,6 @@ export default class HopingToGetWorkController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { hopingToGetWork } = req.body
-    const { plan } = req.context
 
     try {
       // If validation errors render errors
