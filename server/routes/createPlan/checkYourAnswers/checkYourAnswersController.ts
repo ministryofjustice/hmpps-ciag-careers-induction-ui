@@ -15,7 +15,7 @@ export default class CheckYourAnswersController {
     const { prisoner } = req.context
 
     try {
-      // If no record return to rightToWork
+      // If no record return to hopingToGetWork
       const record = getSessionData(req, ['createPlan', id])
       if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
