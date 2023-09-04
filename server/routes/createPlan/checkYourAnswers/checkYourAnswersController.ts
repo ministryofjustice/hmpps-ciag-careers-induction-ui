@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
-import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import CiagService from '../../../services/ciagService'
 import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCiagPlanRequest'
