@@ -176,9 +176,6 @@ export default class EducationLevelController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    // Set redirect destination
-    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
     res.redirect(
       ![
         EducationLevelValue.NOT_SURE,
@@ -188,7 +185,7 @@ export default class EducationLevelController {
         ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update')}?from=${encryptUrlParameter(
             req.originalUrl,
           )}`
-        : addressLookup.redirect(id),
+        : addressLookup.learningPlan.profile(id),
     )
   }
 }

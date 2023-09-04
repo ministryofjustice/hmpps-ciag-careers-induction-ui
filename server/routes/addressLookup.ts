@@ -4,7 +4,6 @@ import config from '../config'
 export default {
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
-  redirect: (uid: string) => `/redirect/${uid}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,
@@ -30,7 +29,7 @@ export default {
     wantsToAddQualifications: (id: string, mode = 'new') => `/plan/create/${id}/wants-to-add-qualifications/${mode}`,
   },
   learningPlan: {
-    profile: (id: string) => `/plan/${id}/view/overview`, // `${config.learningPlanUrl}/plan/${id}/view/overview`,
+    profile: (id: string) => `${config.learningPlanUrl}/plan/${id}/view/overview`,
     addGoals: (id: string) => `${config.learningPlanUrl}/plan/${id}/goals/create`,
   },
 }

@@ -81,9 +81,7 @@ export default class CheckYourAnswersController {
         deleteSessionData(req, ['createPlan', id])
         deleteSessionData(req, ['changeStatus', id])
 
-        setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-        res.redirect(addressLookup.redirect(id))
+        res.redirect(addressLookup.learningPlan.profile(id))
         return
       }
 
@@ -93,10 +91,7 @@ export default class CheckYourAnswersController {
       deleteSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      // Set redirect destination
-      setSessionData(req, ['redirect', id], addressLookup.learningPlan.addGoals(id))
-
-      res.redirect(addressLookup.redirect(id))
+      res.redirect(addressLookup.learningPlan.addGoals(id))
     } catch (err) {
       next(err)
     }

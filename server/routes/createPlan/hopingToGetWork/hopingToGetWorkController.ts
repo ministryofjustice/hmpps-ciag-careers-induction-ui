@@ -108,7 +108,6 @@ export default class HopingToGetWorkController {
     const desireToWork = hopingToGetWork === HopingToGetWorkValue.YES
     if (desireToWork === plan.desireToWork) {
       deleteSessionData(req, ['createPlan', id])
-      setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
 
       // Update simple field value change
       if (hopingToGetWork !== plan.hopingToGetWork) {
@@ -125,7 +124,7 @@ export default class HopingToGetWorkController {
         await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
       }
 
-      res.redirect(addressLookup.redirect(id))
+      res.redirect(addressLookup.learningPlan.profile(id))
       return
     }
 

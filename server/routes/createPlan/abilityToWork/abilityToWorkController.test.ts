@@ -170,7 +170,7 @@ describe('AbilityToWorkController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

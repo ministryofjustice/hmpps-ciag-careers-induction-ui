@@ -190,12 +190,10 @@ export default class WorkDetailsController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
     res.redirect(
       nextKey
         ? `${addressLookup.createPlan.workDetails(id, nextKey, 'update')}?from=${encryptUrlParameter(req.originalUrl)}`
-        : addressLookup.redirect(id),
+        : addressLookup.learningPlan.profile(id),
     )
   }
 }

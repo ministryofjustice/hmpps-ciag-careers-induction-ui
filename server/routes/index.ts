@@ -22,7 +22,6 @@ import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
 import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
-import redirectRoutes from './redirect'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -50,7 +49,6 @@ export default function routes(services: Services): Router {
   inPrisonEducationRoutes(router, services)
   reasonToNotGetWorkRoutes(router, services)
   wantsToAddQualifications(router, services)
-  redirectRoutes(router)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

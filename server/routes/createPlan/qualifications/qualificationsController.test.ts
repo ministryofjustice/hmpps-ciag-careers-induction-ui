@@ -174,7 +174,7 @@ describe('QualificationsController', () => {
       await controller.post(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(0)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.redirect(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

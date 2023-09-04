@@ -125,9 +125,6 @@ export default class ReasonToNotGetWorkController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    // Set redirect destination
-    setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-    res.redirect(addressLookup.redirect(id))
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }

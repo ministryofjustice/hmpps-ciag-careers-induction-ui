@@ -160,9 +160,7 @@ export default class QualificationsController {
 
     // Redirect to profile if qualifications aleady added
     if (record.qualifications && record.qualifications.length) {
-      setSessionData(req, ['redirect', id], addressLookup.learningPlan.profile(id))
-
-      res.redirect(addressLookup.redirect(id))
+      res.redirect(addressLookup.learningPlan.profile(id))
       return
     }
 
