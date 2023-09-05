@@ -53,7 +53,11 @@ describe('AdditionalTrainingController', () => {
 
   res.locals.user = {}
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -172,5 +176,18 @@ describe('AdditionalTrainingController', () => {
       expect(getSessionData(req, ['additionalTraining', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
+  })
+
+  it('On success - mode = update - calls api and redirects to redirect', async () => {
+    req.context.plan = { qualificationsAndTraining: {} }
+    req.body.additionalTraining = AdditionalTrainingValue.OTHER
+    req.body.additionalTrainingOther = 'mock_details'
+    req.params.mode = 'update'
+
+    await controller.post(req, res, next)
+
+    expect(next).toHaveBeenCalledTimes(0)
+    expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+    expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
   })
 })

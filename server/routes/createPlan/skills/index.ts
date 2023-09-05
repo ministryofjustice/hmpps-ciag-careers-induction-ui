@@ -7,7 +7,7 @@ import SkillsController from './skillsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new SkillsController()
+  const controller = new SkillsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/skills/:mode',

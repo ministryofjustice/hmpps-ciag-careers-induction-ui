@@ -3,7 +3,6 @@ import RestClient from '../restClient'
 import CiagPlan from './interfaces/ciagPlan'
 import CreateCiagPlanArgs from './interfaces/createCiagPlanArgs'
 import CreateCiagPlanRequest from './models/createCiagPlanRequest'
-import UpdateCiagPlanArgs from './interfaces/updateCiagPlanArgs'
 import UpdateCiagPlanRequest from './models/updateCiagPlanRequest'
 
 const BASE_URL = '/ciag/induction'
@@ -31,10 +30,10 @@ export default class CiagApiClient {
     return result
   }
 
-  async updateCiagPlan(updatedPlan: UpdateCiagPlanArgs, existingPlan: CiagPlan) {
+  async updateCiagPlan(offenderId: string, updatedPlan: CiagPlan) {
     const result = await this.restClient.put<CiagPlan>({
-      path: `${BASE_URL}/${updatedPlan.offenderId}`,
-      data: new UpdateCiagPlanRequest(updatedPlan, existingPlan),
+      path: `${BASE_URL}/${offenderId}`,
+      data: new UpdateCiagPlanRequest(updatedPlan),
     })
 
     return result

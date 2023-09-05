@@ -11,6 +11,10 @@ export default class CiagService {
     return new CiagApiClient(userToken).createCiagPlan(offenderId, newPlan)
   }
 
+  async updateCiagPlan(userToken: string, offenderId: string, updatedPlan: CiagPlan): Promise<CiagPlan> {
+    return new CiagApiClient(userToken).updateCiagPlan(offenderId, updatedPlan)
+  }
+
   async deleteCiagPlan(userToken: string, offenderId: string): Promise<CiagPlan> {
     return new CiagApiClient(userToken).deleteCiagPlan(offenderId)
   }

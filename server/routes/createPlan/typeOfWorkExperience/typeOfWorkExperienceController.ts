@@ -1,5 +1,6 @@
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,25 +9,28 @@ import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class TypeOfWorkExperienceController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -35,9 +39,13 @@ export default class TypeOfWorkExperienceController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         typeOfWorkExperience:
-          mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || [],
+          mode === 'update'
+            ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
+            : _.get(record, 'typeOfWorkExperience', []),
         typeOfWorkExperienceOther:
-          mode === 'update' ? plan.workExperience.typeOfWorkExperienceOther : record.typeOfWorkExperienceOther,
+          mode === 'update'
+            ? _.get(plan, 'workExperience.typeOfWorkExperienceOther')
+            : record.typeOfWorkExperienceOther,
       }
 
       // Store page data for use if validation fails
@@ -69,6 +77,12 @@ export default class TypeOfWorkExperienceController {
 
       deleteSessionData(req, ['typeOfWorkExperience', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
@@ -84,9 +98,37 @@ export default class TypeOfWorkExperienceController {
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience[0], mode))
+      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], mode))
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { typeOfWorkExperience = [], typeOfWorkExperienceOther } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        typeOfWorkExperience,
+        typeOfWorkExperienceOther: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
+          ? typeOfWorkExperienceOther
+          : '',
+        workExperience: (plan.workExperience.workExperience || []).filter((j: { typeOfWorkExperience: string }) =>
+          typeOfWorkExperience.includes(j.typeOfWorkExperience),
+        ),
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], 'update'))
   }
 }

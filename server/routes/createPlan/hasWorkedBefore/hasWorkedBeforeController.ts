@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,10 +9,14 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import YesNoValue from '../../../enums/yesNoValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class HasWorkedBeforeController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -19,16 +24,14 @@ export default class HasWorkedBeforeController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || record.hopingToGetWork !== HopingToGetWorkValue.YES) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode !== 'edit'
-          ? addressLookup.createPlan.additionalTraining(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -38,7 +41,7 @@ export default class HasWorkedBeforeController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hasWorkedBefore:
           mode === 'update'
-            ? plan.workExperience.hasWorkedBefore
+            ? _.get(record, 'workExperience.hasWorkedBefore')
               ? YesNoValue.YES
               : YesNoValue.NO
             : record.hasWorkedBefore,
@@ -70,10 +73,16 @@ export default class HasWorkedBeforeController {
         return
       }
 
-      // Update record in session
-      const record = getSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['hasWorkedBefore', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
+      // Update record in session
+      const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
         hasWorkedBefore,
@@ -88,5 +97,27 @@ export default class HasWorkedBeforeController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { hasWorkedBefore } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        hasWorkedBefore: hasWorkedBefore === YesNoValue.YES,
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }

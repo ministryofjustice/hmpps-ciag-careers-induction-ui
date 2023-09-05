@@ -5,9 +5,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Work interests in prison
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="inPrisonWork">
       {% for item in record.inPrisonWork %}
-        <div>{{ contentLookup.fields.inPrisonWork[item] }}{{ ' - ' + record.inPrisonWorkOther if item === 'OTHER' }}{{ ',' if record.inPrisonWork.length !== loop.index }}</div>
+        <div data-qa="inPrisonWork-{{ loop.index }}">{{ contentLookup.fields.inPrisonWork[item] }}{{ ' - ' + record.inPrisonWorkOther if item === 'OTHER' }}{{ ',' if record.inPrisonWork.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
@@ -20,9 +20,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Training and education interests in prison
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="inPrisonEducation">
       {% for item in record.inPrisonEducation %}
-        <div>{{ contentLookup.fields.inPrisonEducation[item] }}{{ ' - ' + record.inPrisonEducationOther if item === 'OTHER' }}{{ ',' if record.inPrisonEducation.length !== loop.index }}</div>
+        <div data-qa="inPrisonEducation-{{ loop.index }}">{{ contentLookup.fields.inPrisonEducation[item] }}{{ ' - ' + record.inPrisonEducationOther if item === 'OTHER' }}{{ ',' if record.inPrisonEducation.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">

@@ -6,7 +6,7 @@ import HopingToGetWorkController from './hopingToGetWorkController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new HopingToGetWorkController()
+  const controller = new HopingToGetWorkController(services.ciagService)
 
   router.get(
     '/plan/create/:id/hoping-to-get-work/:mode',

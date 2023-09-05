@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './hopingToGetWorkController'
@@ -19,6 +21,8 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
+jest.mock('../../../utils/urlParameterEncryption')
+
 describe('HopingToGetWorkController', () => {
   const { req, res, next } = expressMocks()
 
@@ -37,7 +41,11 @@ describe('HopingToGetWorkController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -113,7 +121,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id, 'new'))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
@@ -123,7 +131,7 @@ describe('HopingToGetWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id, 'new'))
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })

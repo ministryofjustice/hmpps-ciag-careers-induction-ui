@@ -44,7 +44,11 @@ describe('QualificationsController', () => {
     qualifications: [],
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -76,18 +80,6 @@ describe('QualificationsController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork', async () => {
-      setSessionData(req, ['createPlan', id], {
-        hopingToGetWork: undefined,
-      })
-
-      controller.get(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
-      expect(res.render).toHaveBeenCalledTimes(0)
-      expect(next).toHaveBeenCalledTimes(0)
-    })
-
     it('On success - Record found - YES - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
@@ -103,7 +95,10 @@ describe('QualificationsController', () => {
       next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
-        qualifications: [{ id: 'A' }, { id: 'B' }],
+        qualifications: [
+          { id: 'A', level: 'LEVEL_3', subject: 'Maths', grade: 'A' },
+          { id: 'B', level: 'LEVEL_3', subject: 'English', grade: 'C' },
+        ],
       })
       req.body = {}
     })
@@ -128,16 +123,12 @@ describe('QualificationsController', () => {
     })
 
     it('On success - removeQualification - Redirects to educationLevel', async () => {
-      req.body.removeQualification = 'A'
+      req.body.removeQualification = 'LEVEL_3-Maths-A'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
-        qualifications: [
-          {
-            id: 'B',
-          },
-        ],
+        qualifications: [{ id: 'B', level: 'LEVEL_3', subject: 'English', grade: 'C' }],
       })
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, mode))
@@ -175,6 +166,15 @@ describe('QualificationsController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - mode = update - redirects to redirect', async () => {
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

@@ -1,4 +1,4 @@
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -8,16 +8,20 @@ import SkillsValue from '../../../enums/skillsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class SkillsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -67,6 +71,12 @@ export default class SkillsController {
 
       deleteSessionData(req, ['skills', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
@@ -87,5 +97,28 @@ export default class SkillsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { skills = [], skillsOther } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      skillsAndInterests: {
+        ...plan.skillsAndInterests,
+        skills,
+        skillsOther: skills.includes(SkillsValue.OTHER) ? skillsOther : '',
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }

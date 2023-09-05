@@ -37,8 +37,8 @@ describe('QualificationLevelController', () => {
   const { id, mode, qualificationId } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createPlan.educationLevel(id),
-    backLocationAriaText: "Back to What's the highest level of education Mock_firstname Mock_lastname has completed?",
+    backLocation: addressLookup.createPlan.qualifications(id),
+    backLocationAriaText: "Back to Mock_firstname Mock_lastname's qualifications",
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
   }
@@ -147,6 +147,28 @@ describe('QualificationLevelController', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(
         addressLookup.createPlan.qualificationDetails(id, qualificationId, mode),
+      )
+      expect(getSessionData(req, ['qualificationLevel', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        educationLevel: 'FURTHER_EDUCATION_COLLEGE',
+        hopingToGetWork: 'YES',
+        qualifications: [
+          {
+            id: '1',
+            level: 'LEVEL_1',
+          },
+        ],
+      })
+    })
+
+    it('On success - Sets session record then redirects to qualificationDetails', async () => {
+      req.body.qualificationLevel = QualificationLevelValue.LEVEL_1
+      req.params.mode = 'update'
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.createPlan.qualificationDetails(id, qualificationId, 'update'),
       )
       expect(getSessionData(req, ['qualificationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({

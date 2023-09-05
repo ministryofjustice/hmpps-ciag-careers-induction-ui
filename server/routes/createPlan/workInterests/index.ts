@@ -7,7 +7,7 @@ import WorkInterestsController from './workInterestsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new WorkInterestsController()
+  const controller = new WorkInterestsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/work-interests/:mode',

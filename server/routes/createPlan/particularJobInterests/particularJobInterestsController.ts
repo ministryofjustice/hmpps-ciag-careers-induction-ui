@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -8,41 +9,52 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class ParticularJobInterestsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.workInterests(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.workInterests(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Build field value
       const particularJobInterests =
-        mode === 'update' ? plan.workInterests.particularJobInterests : record.particularJobInterests
+        mode === 'update'
+          ? _.get(plan, 'workExperience.workInterests.particularJobInterests')
+          : record.particularJobInterests
 
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
-        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
+        workInterests:
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
+            : _.get(record, 'workInterests', []),
+        workInterestsOther:
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            : record.workInterestsOther,
         particularJobInterests: (particularJobInterests || []).reduce(
-          (acc: { [x: string]: string }, curr: { interestKey: string; jobDetails: string }) => {
-            acc[curr.interestKey] = curr.jobDetails
+          (acc: { [x: string]: string }, curr: { workInterest: string; role: string }) => {
+            acc[curr.workInterest] = curr.role
             return acc
           },
           {},
@@ -76,15 +88,23 @@ export default class ParticularJobInterestsController {
 
       deleteSessionData(req, ['particularJobInterests', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
+      // Get dynamic form values
+      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
 
       // Get keys of entered job details
-      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
       setSessionData(req, ['createPlan', id], {
         ...record,
-        particularJobInterests: values.map(v => ({ interestKey: v, jobDetails: req.body[v] })),
+        particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
       })
 
       // Handle edit
@@ -98,5 +118,32 @@ export default class ParticularJobInterestsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+
+    // Get dynamic form values
+    const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        workInterests: {
+          ...plan.workExperience.workInterests,
+          particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        },
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }
