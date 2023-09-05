@@ -4,7 +4,6 @@ import config from '../config'
 export default {
   prisonerSearch: () => '/',
   workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
-  redirect: (id: string) => `/redirect/${id}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,

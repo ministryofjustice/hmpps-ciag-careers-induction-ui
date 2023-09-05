@@ -22,21 +22,11 @@ import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
 import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
-import { deleteSessionData, getSessionData } from '../utils/session'
-import addressLookup from './addressLookup'
 
 export default function routes(services: Services): Router {
   // Append page routes
 
   const router = Router()
-
-  router.get('/redirect/:id', async (req, res, _): Promise<void> => {
-    const { id } = req.params
-    const url = getSessionData(req, ['redirect', id])
-    deleteSessionData(req, ['redirect', id])
-
-    return res.status(307).redirect('http://google.com')
-  })
 
   checkYourAnswersRoutes(router, services)
   ciagListRoutes(router, services)

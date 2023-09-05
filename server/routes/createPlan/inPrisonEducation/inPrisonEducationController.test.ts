@@ -53,7 +53,11 @@ describe('InPrisonEducationController', () => {
 
   res.locals.user = {}
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -155,6 +159,19 @@ describe('InPrisonEducationController', () => {
       })
       expect(getSessionData(req, ['inPrisonEducation', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = { inPrisonInterests: {} }
+      req.body.inPrisonEducation = [InPrisonEducationValue.OTHER]
+      req.body.inPrisonEducationOther = 'mock_details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

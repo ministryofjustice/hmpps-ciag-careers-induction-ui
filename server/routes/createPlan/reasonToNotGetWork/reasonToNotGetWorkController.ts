@@ -1,6 +1,7 @@
-import type { RequestHandler } from 'express'
-
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,8 +10,13 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 
 export default class ReasonToNotGetWorkController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -22,8 +28,7 @@ export default class ReasonToNotGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
         page: 'reasonToNotGetWork',
         uid: id,
       })
@@ -34,7 +39,8 @@ export default class ReasonToNotGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        reasonToNotGetWork: mode === 'update' ? plan.reasonToNotGetWork : record.reasonToNotGetWork || [],
+        reasonToNotGetWork:
+          mode === 'update' ? _.get(plan, 'reasonToNotGetWork', []) : _.get(record, 'reasonToNotGetWork', []),
         reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 
@@ -65,6 +71,14 @@ export default class ReasonToNotGetWorkController {
         return
       }
 
+      deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id], {})
       setSessionData(req, ['createPlan', id], {
@@ -75,18 +89,42 @@ export default class ReasonToNotGetWorkController {
           : '',
       })
 
-      deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
-
       // Handle edit
       if (mode === 'edit') {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }
 
-      // Redirect to the correct page based on value
-      res.redirect(addressLookup.createPlan.wantsToAddQualifications(id, 'new'))
+      // Redirect to the correct page based on if there are existing qualifications
+      res.redirect(
+        record.qualifications?.length
+          ? addressLookup.createPlan.qualifications(id, mode)
+          : addressLookup.createPlan.wantsToAddQualifications(id, mode),
+      )
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      reasonToNotGetWork,
+      reasonToNotGetWorkOther: reasonToNotGetWork.includes(ReasonToNotGetWorkValue.OTHER)
+        ? reasonToNotGetWorkOther
+        : '',
+      modifiedBy: res.locals.user.username,
+      modifiedDateTime: new Date().toISOString(),
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }

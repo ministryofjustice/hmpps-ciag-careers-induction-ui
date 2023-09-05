@@ -8,7 +8,7 @@ import AbilityToWorkController from './abilityToWorkController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new AbilityToWorkController()
+  const controller = new AbilityToWorkController(services.ciagService)
 
   router.get(
     '/plan/create/:id/ability-to-work/:mode',

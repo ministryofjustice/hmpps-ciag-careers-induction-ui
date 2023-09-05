@@ -4,8 +4,9 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './reasonToNotGetWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import { setSessionData } from '../../../utils/session'
+import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -38,7 +39,13 @@ describe('ReasonToNotGetWorkController', () => {
     reasonToNotGetWork: [] as any,
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -97,6 +104,49 @@ describe('ReasonToNotGetWorkController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/reasonToNotGetWork/index', { ...mockData, errors })
       expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - mode = new - Sets session record then redirects to wantsToAddQualifications', async () => {
+      req.body.reasonToNotGetWork = ReasonToNotGetWorkValue.OTHER
+      req.body.reasonToNotGetWorkOther = 'mock_details'
+      req.params.mode = 'new'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        reasonToNotGetWork: ReasonToNotGetWorkValue.OTHER,
+        reasonToNotGetWorkOther: 'mock_details',
+      })
+      expect(getSessionData(req, ['personalInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.wantsToAddQualifications(id))
+    })
+
+    it('On success - mode = edit - Sets session record then redirects to checkYourAnswers', async () => {
+      req.body.reasonToNotGetWork = ReasonToNotGetWorkValue.OTHER
+      req.body.reasonToNotGetWorkOther = 'mock_details'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        reasonToNotGetWork: ReasonToNotGetWorkValue.OTHER,
+        reasonToNotGetWorkOther: 'mock_details',
+      })
+      expect(getSessionData(req, ['personalInterests', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = {}
+      req.body.reasonToNotGetWork = ReasonToNotGetWorkValue.OTHER
+      req.body.reasonToNotGetWorkOther = 'mock_details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

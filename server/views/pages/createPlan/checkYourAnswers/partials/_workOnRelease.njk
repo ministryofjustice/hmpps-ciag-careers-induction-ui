@@ -4,7 +4,7 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Hoping to work on release
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="hopingToGetWork">
       {{ contentLookup.fields.hopingToGetWork[record.hopingToGetWork] if record.hopingToGetWork }}
     </dd>
     <dd class="govuk-summary-list__actions">
@@ -19,9 +19,9 @@
       <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
         Reasons why not hoping
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd class="govuk-summary-list__value" data-qa="reasonToNotGetWork">
         {% for item in record.reasonToNotGetWork %}
-          <div>{{ contentLookup.fields.reasonToNotGetWork[item] }}{{ ' - ' + record.reasonToNotGetWorkOther if item === 'OTHER' }}{{ ',' if record.reasonToNotGetWork.length !== loop.index }}</div>
+          <div data-qa="reasonToNotGetWork-{{ loop.index }}">{{ contentLookup.fields.reasonToNotGetWork[item] }}{{ ' - ' + record.reasonToNotGetWorkOther if item === 'OTHER' }}{{ ',' if record.reasonToNotGetWork.length !== loop.index }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">

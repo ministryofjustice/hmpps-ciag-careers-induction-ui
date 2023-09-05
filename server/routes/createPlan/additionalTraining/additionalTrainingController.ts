@@ -1,5 +1,6 @@
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -10,16 +11,21 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class AdditionalTrainingController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -27,10 +33,7 @@ export default class AdditionalTrainingController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new'
-            ? addressLookup.createPlan.qualifications(id, mode)
-            : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.createPlan.qualifications(id, mode) : getHubPageByMode(mode, id),
         page: 'additionalTraining',
         uid: id,
       })
@@ -42,9 +45,13 @@ export default class AdditionalTrainingController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         additionalTraining:
-          mode === 'update' ? plan.qualificationsAndTraining.additionalTraining : record.additionalTraining || [],
+          mode === 'update'
+            ? _.get(plan, 'qualificationsAndTraining.additionalTraining', [])
+            : _.get(record, 'additionalTraining', []),
         additionalTrainingOther:
-          mode === 'update' ? plan.qualificationsAndTraining.additionalTrainingOther : record.additionalTrainingOther,
+          mode === 'update'
+            ? _.get(plan, 'qualificationsAndTraining.additionalTrainingOther')
+            : record.additionalTrainingOther,
       }
 
       // Store page data for use if validation fails
@@ -76,6 +83,12 @@ export default class AdditionalTrainingController {
 
       deleteSessionData(req, ['additionalTraining', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
@@ -102,5 +115,30 @@ export default class AdditionalTrainingController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { additionalTraining = [], additionalTrainingOther } = req.body
+    const { plan } = req.context
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      qualificationsAndTraining: {
+        ...plan.qualificationsAndTraining,
+        additionalTraining,
+        additionalTrainingOther: additionalTraining.includes(AdditionalTrainingValue.OTHER)
+          ? additionalTrainingOther
+          : '',
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }

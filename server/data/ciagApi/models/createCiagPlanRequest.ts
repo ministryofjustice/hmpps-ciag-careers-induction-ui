@@ -44,17 +44,13 @@ export default class CreateCiagPlanRequest {
             workExperience: data.workExperience,
             modifiedBy: data.currentUser,
             modifiedDateTime: isoString,
-          }
-        : null
-
-    this.workInterests =
-      data.hopingToGetWork === HopingToGetWorkValue.YES
-        ? {
-            workInterests: data.workInterests,
-            workInterestsOther: data.workInterestsOther,
-            particularJobInterests: data.particularJobInterests,
-            modifiedBy: data.currentUser,
-            modifiedDateTime: isoString,
+            workInterests: {
+              workInterests: data.workInterests,
+              workInterestsOther: data.workInterestsOther,
+              particularJobInterests: data.particularJobInterests,
+              modifiedBy: data.currentUser,
+              modifiedDateTime: isoString,
+            },
           }
         : null
 
@@ -126,17 +122,17 @@ export default class CreateCiagPlanRequest {
     }>
     modifiedBy: string
     modifiedDateTime: string
-  }
 
-  workInterests?: {
-    workInterests: Array<WorkInterestsValue>
-    workInterestsOther?: string
-    particularJobInterests: Array<{
-      workInterest: WorkInterestsValue
-      role: string
-    }>
-    modifiedBy: string
-    modifiedDateTime: string
+    workInterests?: {
+      workInterests: Array<WorkInterestsValue>
+      workInterestsOther?: string
+      particularJobInterests: Array<{
+        workInterest: WorkInterestsValue
+        role: string
+      }>
+      modifiedBy: string
+      modifiedDateTime: string
+    }
   }
 
   skillsAndInterests?: {

@@ -55,7 +55,13 @@ describe('EducationLevelController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -110,6 +116,7 @@ describe('EducationLevelController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockService.updateCiagPlan.mockReset()
       setSessionData(req, ['educationLevel', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
@@ -181,7 +188,9 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
@@ -194,7 +203,9 @@ describe('EducationLevelController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualificationLevel(id, 'guid', mode))
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', mode)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
       expect(getSessionData(req, ['educationLevel', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         educationLevel: EducationLevelValue.FURTHER_EDUCATION_COLLEGE,
@@ -248,6 +259,34 @@ describe('EducationLevelController', () => {
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
         qualifications: [],
       })
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
+    })
+
+    it('On success - mode = update - higher level - calls api and redirects to qualificationLevel', async () => {
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createPlan.qualificationLevel(id, 'guid', 'update')}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
+      )
     })
   })
 })

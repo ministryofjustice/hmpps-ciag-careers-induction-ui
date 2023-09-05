@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -9,21 +10,31 @@ import WorkInterestsValue from '../../../enums/workInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class WorkInterestsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
 
     try {
-      // If no record or incorrect value return to hopeToGetWorkz
+      // If no record or plan
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
-      const lastKey = record.typeOfWorkExperience ? record.typeOfWorkExperience.at(-1) : ''
+      // Get last key
+      const typeOfWorkExperience =
+        mode === 'update'
+          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
+          : _.get(record, 'typeOfWorkExperience', [])
+      const lastKey = typeOfWorkExperience ? typeOfWorkExperience.at(-1) : ''
 
       // Setup back location
       const backLocation =
@@ -31,7 +42,7 @@ export default class WorkInterestsController {
           ? lastKey
             ? addressLookup.createPlan.workDetails(id, lastKey, mode)
             : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+          : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,8 +50,14 @@ export default class WorkInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests: mode === 'update' ? plan.workInterests.workInterests : record.workInterests || [],
-        workInterestsOther: mode === 'update' ? plan.workInterests.workInterestsOther : record.workInterestsOther,
+        workInterests:
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
+            : _.get(record, 'workInterests', []),
+        workInterestsOther:
+          mode === 'update'
+            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            : record.workInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -72,6 +89,12 @@ export default class WorkInterestsController {
 
       deleteSessionData(req, ['workInterests', id, 'data'])
 
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
@@ -81,10 +104,42 @@ export default class WorkInterestsController {
         workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
       })
 
+      // Handle edit and update
+      if (mode === 'edit') {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
+
       // Redirect to the correct page based on hopingToGetWork
       res.redirect(addressLookup.createPlan.particularJobInterests(id, mode))
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { workInterests = [], workInterestsOther } = req.body
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        workInterests: {
+          ...plan.workExperience.workInterests,
+          workInterests,
+          workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        },
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(addressLookup.learningPlan.profile(id))
   }
 }
