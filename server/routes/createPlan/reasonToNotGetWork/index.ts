@@ -7,7 +7,7 @@ import ReasonToNotGetWorkController from './reasonToNotGetWorkController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new ReasonToNotGetWorkController()
+  const controller = new ReasonToNotGetWorkController(services.ciagService)
 
   router.get(
     '/plan/create/:id/reason-to-not-get-work/:mode',

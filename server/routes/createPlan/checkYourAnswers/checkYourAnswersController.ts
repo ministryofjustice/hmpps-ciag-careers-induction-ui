@@ -5,6 +5,7 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import CiagService from '../../../services/ciagService'
+import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCiagPlanRequest'
 
 export default class CheckYourAnswersController {
   constructor(private readonly ciagService: CiagService) {}
@@ -14,9 +15,9 @@ export default class CheckYourAnswersController {
     const { prisoner } = req.context
 
     try {
-      // If no record return to rightToWork
+      // If no record return to hopingToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -36,7 +37,7 @@ export default class CheckYourAnswersController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner } = req.context
+    const { prisoner, plan } = req.context
 
     try {
       const record = getSessionData(req, ['createPlan', id])
@@ -72,13 +73,25 @@ export default class CheckYourAnswersController {
         inPrisonEducationOther: record.inPrisonEducationOther,
       }
 
+      // Handle flow update, an update when hopingToGetWork was changed
+      if (getSessionData(req, ['isUpdateFlow', id])) {
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new FlowUpdateCiagPlanRequest(newRecord, plan))
+
+        deleteSessionData(req, ['isUpdateFlow', id])
+        deleteSessionData(req, ['createPlan', id])
+        deleteSessionData(req, ['changeStatus', id])
+
+        res.redirect(addressLookup.learningPlan.profile(id))
+        return
+      }
+
       await this.ciagService.createCiagPlan(res.locals.user.token, id, newRecord)
 
       // Tidy up record in session
       deleteSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      res.redirect(addressLookup.prisonerSearch())
+      res.redirect(addressLookup.learningPlan.addGoals(id))
     } catch (err) {
       next(err)
     }

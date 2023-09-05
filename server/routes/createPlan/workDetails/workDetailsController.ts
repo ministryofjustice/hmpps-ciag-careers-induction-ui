@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import _ from 'lodash'
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -10,8 +10,15 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import CiagService from '../../../services/ciagService'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 
 export default class WorkDetailsController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode, typeOfWorkExperienceKey } = req.params
     const { prisoner, plan } = req.context
@@ -19,7 +26,7 @@ export default class WorkDetailsController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
@@ -31,14 +38,15 @@ export default class WorkDetailsController {
           (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
-      // Setup back location
-
       // Calculate last page
       const typeOfWorkExperience =
-        mode === 'update' ? plan.workExperience.typeOfWorkExperience : record.typeOfWorkExperience || []
+        mode === 'update'
+          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
+          : _.get(record, 'typeOfWorkExperience', [])
       const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 
+      // Setup back location
       const backLocation = getBackLocation({
         req,
         defaultRoute:
@@ -46,7 +54,7 @@ export default class WorkDetailsController {
             ? lastKey
               ? addressLookup.createPlan.workDetails(id, lastKey, mode)
               : addressLookup.createPlan.typeOfWorkExperience(id, mode)
-            : addressLookup.createPlan.checkYourAnswers(id),
+            : getHubPageByMode(mode, id),
         page: 'workDetails',
         uid: `${id}-${typeOfWorkExperienceKey}`,
       })
@@ -90,8 +98,21 @@ export default class WorkDetailsController {
         return
       }
 
-      // Update record in session
+      deleteSessionData(req, ['workDetails', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
+      // Calculate next page
       const record = getSessionData(req, ['createPlan', id])
+      const position = record.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const nextKey =
+        position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience.sort()[position + 1] : ''
+
+      // Update record in session
       setSessionData(req, ['createPlan', id], {
         ...record,
         workExperience: _.orderBy(
@@ -103,18 +124,16 @@ export default class WorkDetailsController {
               typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
               role: jobRole,
               details: jobDetails,
+              otherWork:
+                typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+                  ? record.typeOfWorkExperienceOther
+                  : '',
             },
           ],
           ['typeOfWorkExperience'],
           ['asc'],
         ),
       })
-
-      deleteSessionData(req, ['workDetails', id, 'data'])
-
-      // Calculate next page
-      const position = record.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
-      const nextKey = position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience[position + 1] : ''
 
       // Handle edit
       if (mode === 'edit' && (!nextKey || from)) {
@@ -131,5 +150,50 @@ export default class WorkDetailsController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id, typeOfWorkExperienceKey } = req.params
+    const { plan } = req.context
+    const { jobRole, jobDetails } = req.body
+
+    const position = plan.workExperience.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+    const nextKey =
+      position < plan.workExperience.typeOfWorkExperience.length
+        ? plan.workExperience.typeOfWorkExperience.sort()[position + 1]
+        : ''
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      workExperience: {
+        ...plan.workExperience,
+        workExperience: [
+          ...(plan.workExperience.workExperience || []).filter(
+            (w: { typeOfWorkExperience: string }) => w.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+          ),
+          {
+            typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+            role: jobRole,
+            details: jobDetails,
+            otherWork:
+              typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+                ? plan.workExperience.typeOfWorkExperienceOther
+                : '',
+          },
+        ],
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(
+      nextKey
+        ? `${addressLookup.createPlan.workDetails(id, nextKey, 'update')}?from=${encryptUrlParameter(req.originalUrl)}`
+        : addressLookup.learningPlan.profile(id),
+    )
   }
 }

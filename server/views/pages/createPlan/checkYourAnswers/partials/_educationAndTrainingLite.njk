@@ -5,11 +5,11 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Has educational qualifications they want recorded					
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="wantsToAddQualifications">
       {{ contentLookup.fields.yesNo[record.wantsToAddQualifications] if record.wantsToAddQualifications }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createPlan.wantsToAddQualifications(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createPlan.wantsToAddQualifications(id, 'edit') }}" data-qa="wantsToAddQualificationsLink">
         Change<span class="govuk-visually-hidden"> whether they want educational qualifications recorded</span>
       </a>
     </dd>
@@ -22,7 +22,7 @@
     <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}" data-qa="qualificationsLink">Change <span class="govuk-visually-hidden"> qualifications</span></a></span>
   </h3>
 
-  <table class="govuk-table govuk-!-margin-bottom-6">
+  <table class="govuk-table govuk-!-margin-bottom-6" data-qa="qualifications">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Level</th>
@@ -32,10 +32,10 @@
     </thead>
     <tbody class="govuk-table__body">
       {% for item in record.qualifications %}
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
-            <td class="govuk-table__cell">{{ item.subject }}</td>
-            <td class="govuk-table__cell">{{ item.grade }}</td>
+          <tr class="govuk-table__row" >
+            <td class="govuk-table__cell" data-qa="qualifications-level-{{ loop.index }}">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
+            <td class="govuk-table__cell" data-qa="qualifications-subject-{{ loop.index }}">{{ item.subject }}</td>
+            <td class="govuk-table__cell" data-qa="qualifications-grade-{{ loop.index }}">{{ item.grade }}</td>
           </tr>
         {% endfor %}
     </tbody>
@@ -47,9 +47,9 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Other training or qualifications
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="additionalTraining">
       {% for item in record.additionalTraining %}
-        <div>{{ contentLookup.fields.additionalTraining[item] }}{{ ' - ' + record.additionalTrainingOther if item === 'OTHER' }}{{ ',' if record.additionalTraining.length !== loop.index }}</div>
+        <div data-qa="additionalTraining-{{ loop.index }}">{{ contentLookup.fields.additionalTraining[item] }}{{ ' - ' + record.additionalTrainingOther if item === 'OTHER' }}{{ ',' if record.additionalTraining.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">

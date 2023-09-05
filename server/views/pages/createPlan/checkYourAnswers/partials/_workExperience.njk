@@ -5,22 +5,22 @@
     <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
       Worked before
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="hasWorkedBefore">
       {{ contentLookup.fields.yesNo[record.hasWorkedBefore] if record.hasWorkedBefore }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="#">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.hasWorkedBefore(id, 'edit') }}" data-qa="hasWorkedBeforeLink">
         Change<span class="govuk-visually-hidden"> whether they have worked before</span>
       </a>
     </dd>
   </div>
 
-  {% if record.hasWorkedBefore === YES %}
+  {% if record.hasWorkedBefore === 'YES' %}
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
         Type of work experience
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd class="govuk-summary-list__value" data-qa="typeOfWorkExperience">
         {% for item in record.typeOfWorkExperience %}
           <div>{{ contentLookup.fields.typeOfWorkExperience[item] }}{{ ' - ' + record.typeOfWorkExperienceOther if item === 'OTHER' }}{{ ',' if record.typeOfWorkExperience.length !== loop.index }}</div>
         {% endfor %}
@@ -39,17 +39,17 @@
         {{ contentLookup.fields.typeOfWorkExperience[item.typeOfWorkExperience] }} experience details
       </dt>
       <dd class="govuk-summary-list__value">
-        <p class="govuk-body">
+        <p class="govuk-body" data-qa="workExperience-role-{{ loop.index }}">
           Job role:<br>
           {{ item.role }}
         </p>
-        <p class="govuk-body">
+        <p class="govuk-body" data-qa="workExperience-details-{{ loop.index }}">
           Main tasks and responsibilities:<br>
           {{ item.details }}
         </p>
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workDetails(id, item.typeOfWorkExperience, 'edit') + '?from=' + encryptUrlParameter(originalUrl) }}" data-qa="workDetailsLink_{{ item.typeOfWorkExperience }}">
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workDetails(id, item.typeOfWorkExperience, 'edit') + '?from=' + encryptUrlParameter(originalUrl) }}" data-qa="workExperience-link-{{ loop.index }}">
           Change<span class="govuk-visually-hidden"> {{ contentLookup.fields.typeOfWorkExperience[item.typeOfWorkExperience] }}</span>
         </a>
       </dd>

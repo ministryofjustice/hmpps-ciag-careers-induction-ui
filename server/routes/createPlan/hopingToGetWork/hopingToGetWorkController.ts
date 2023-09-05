@@ -1,6 +1,6 @@
-import type { RequestHandler } from 'express'
-
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,8 +9,14 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class HopingToGetWorkController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -19,9 +25,10 @@ export default class HopingToGetWorkController {
       // Get record in sessionData
       const record = getSessionData(req, ['createPlan', id], {})
 
+      // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : addressLookup.createPlan.checkYourAnswers(id),
+        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : getHubPageByMode(mode, id),
         page: 'hopingToGetWork',
         uid: id,
       })
@@ -32,11 +39,12 @@ export default class HopingToGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hopingToGetWork: mode === 'update' ? plan.hopingToGetWork : record.hopingToGetWork,
+        hopingToGetWork: mode === 'update' ? record.hopingToGetWork || plan.hopingToGetWork : record.hopingToGetWork,
       }
 
       // Store page data for use if validation fails
       setSessionData(req, ['hopingToGetWork', id, 'data'], data)
+      setSessionData(req, ['isUpdateFlow', id], false)
 
       res.render('pages/createPlan/hopingToGetWork/index', { ...data })
     } catch (err) {
@@ -60,12 +68,18 @@ export default class HopingToGetWorkController {
         return
       }
 
-      const record = getSessionData(req, ['createPlan', id], {})
       deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
-      // Handle edit, no changes
-      if (mode === 'edit' && hopingToGetWork === record.hopingToGetWork) {
-        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
+      const record = getSessionData(req, ['createPlan', id], {})
+      // Handle no changes
+      if (mode !== 'new' && hopingToGetWork === record.hopingToGetWork) {
+        res.redirect(getHubPageByMode(mode, id))
         return
       }
 
@@ -83,5 +97,73 @@ export default class HopingToGetWorkController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { plan } = req.context
+    const { hopingToGetWork } = req.body
+
+    // Handle no flow change changes
+    const desireToWork = hopingToGetWork === HopingToGetWorkValue.YES
+    if (desireToWork === plan.desireToWork) {
+      deleteSessionData(req, ['createPlan', id])
+
+      // Update simple field value change
+      if (hopingToGetWork !== plan.hopingToGetWork) {
+        // Update data model
+        const updatedPlan = {
+          ...plan,
+          hopingToGetWork,
+          desireToWork: hopingToGetWork === HopingToGetWorkValue.YES,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+        }
+
+        // Call api
+        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+      }
+
+      res.redirect(addressLookup.learningPlan.profile(id))
+      return
+    }
+
+    // Handle update with full flow change
+    setSessionData(req, ['isUpdateFlow', id], true)
+
+    // Setup record with existing values
+    setSessionData(req, ['createPlan', id], {
+      hopingToGetWork,
+      reasonToNotGetWork: plan.reasonToNotGetWork,
+      reasonToNotGetWorkOther: plan.reasonToNotGetWorkOther,
+      abilityToWork: plan.abilityToWork,
+      abilityToWorkOther: plan.abilityToWorkOther,
+      hasWorkedBefore: plan.workExperience?.hasWorkedBefore,
+      typeOfWorkExperience: plan.workExperience?.typeOfWorkExperience,
+      typeOfWorkExperienceOther: plan.workExperience?.typeOfWorkExperienceOther,
+      workExperience: plan.workExperience?.workExperience,
+      workInterests: plan.workExperience?.workInterests?.workInterests,
+      workInterestsOther: plan.workExperience?.workInterests?.workInterestsOther,
+      particularJobInterests: plan.workExperience?.workInterests?.particularJobInterests,
+      skills: plan.skillsAndInterests?.skills,
+      skillsOther: plan.skillsAndInterests?.skillsOther,
+      personalInterests: plan.skillsAndInterests?.personalInterests,
+      personalInterestsOther: plan.skillsAndInterests?.personalInterestsOther,
+      educationLevel: plan.qualificationsAndTraining?.educationLevel,
+      qualifications: plan.qualificationsAndTraining?.qualifications,
+      additionalTraining: plan.qualificationsAndTraining?.additionalTraining,
+      additionalTrainingOther: plan.qualificationsAndTraining?.additionalTrainingOther,
+      inPrisonWork: plan.inPrisonInterests?.inPrisonWork,
+      inPrisonWorkOther: plan.inPrisonInterests?.inPrisonWorkOther,
+      inPrisonEducation: plan.inPrisonInterests?.inPrisonEducation,
+      inPrisonEducationOther: plan.inPrisonInterests?.inPrisonEducationOther,
+    })
+
+    // Redirect to the correct page based on value
+    res.redirect(
+      hopingToGetWork === HopingToGetWorkValue.YES
+        ? `${addressLookup.createPlan.qualifications(id, 'new')}?from=${encryptUrlParameter(req.originalUrl)}`
+        : `${addressLookup.createPlan.reasonToNotGetWork(id, 'new')}?from=${encryptUrlParameter(req.originalUrl)}`,
+    )
   }
 }

@@ -2,7 +2,7 @@ import Page from './page'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
-export default class TypeOfWorkExperiencePage extends Page {
+export default class ReasonToNotGetWorkPage extends Page {
   checkboxField = (): PageElement => cy.get('#reasonToNotGetWork')
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)

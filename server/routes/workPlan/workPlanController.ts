@@ -37,6 +37,6 @@ export default class WorkPlanController {
 
     await this.ciagService.deleteCiagPlan(res.locals.user.token, id)
 
-    res.redirect(addressLookup.prisonerSearch())
+    res.redirect(addressLookup.workPlan(id))
   }
 }

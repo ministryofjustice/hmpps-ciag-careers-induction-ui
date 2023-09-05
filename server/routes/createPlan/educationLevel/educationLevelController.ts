@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import type { RequestHandler } from 'express'
+import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
+import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,8 +13,13 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
+import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import CiagService from '../../../services/ciagService'
 
 export default class EducationLevelController {
+  constructor(private readonly ciagService: CiagService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, plan } = req.context
@@ -21,14 +27,13 @@ export default class EducationLevelController {
     try {
       // If no record return to hopeToGetWork
       const record = getSessionData(req, ['createPlan', id])
-      if (!record || !record.hopingToGetWork) {
+      if (!plan && !record) {
         res.redirect(addressLookup.createPlan.hopingToGetWork(id))
         return
       }
 
       // Setup back location
-      const backLocation =
-        mode !== 'edit' ? addressLookup.createPlan.qualifications(id) : addressLookup.createPlan.checkYourAnswers(id)
+      const backLocation = mode === 'new' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -36,7 +41,8 @@ export default class EducationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel,
+        educationLevel:
+          mode === 'update' ? _.get(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
       }
 
       // Store page data for use if validation fails
@@ -65,13 +71,25 @@ export default class EducationLevelController {
         return
       }
 
+      deleteSessionData(req, ['educationLevel', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        this.handleUpdate(req, res)
+        return
+      }
+
       // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createPlan', id])
-      deleteSessionData(req, ['educationLevel', id, 'data'])
 
       // If edit and existing qualifications, goto checkYourAnswers
       if (mode === 'edit' && (record.qualifications || []).length) {
+        setSessionData(req, ['createPlan', id], {
+          ...record,
+          educationLevel,
+        })
+
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }
@@ -120,7 +138,11 @@ export default class EducationLevelController {
           educationLevel,
         )
       ) {
-        res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode))
+        res.redirect(
+          `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), mode)}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`,
+        )
         return
       }
 
@@ -133,5 +155,37 @@ export default class EducationLevelController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private handleUpdate = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params
+    const { educationLevel } = req.body
+    const { plan } = req.context
+
+    // Update data model
+    const updatedPlan = {
+      ...plan,
+      qualificationsAndTraining: {
+        ...plan.qualificationsAndTraining,
+        educationLevel,
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      },
+    }
+
+    // Call api
+    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+
+    res.redirect(
+      ![
+        EducationLevelValue.NOT_SURE,
+        EducationLevelValue.PRIMARY_SCHOOL,
+        EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS,
+      ].includes(educationLevel) && (plan.qualificationsAndTraining.qualifications || []).length === 0
+        ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update')}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`
+        : addressLookup.learningPlan.profile(id),
+    )
   }
 }

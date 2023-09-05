@@ -55,7 +55,11 @@ describe('ParticularJobInterestsController', () => {
 
   res.locals.user = {}
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateCiagPlan: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -93,7 +97,7 @@ describe('ParticularJobInterestsController', () => {
         hopingToGetWork: HopingToGetWorkValue.YES,
         workInterests: [WorkInterestsValue.OTHER],
         workInterestsOther: 'Other job',
-        particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
+        particularJobInterests: [{ workInterest: WorkInterestsValue.OTHER, role: 'Some job' }],
       })
       req.params.mode = 'edit'
 
@@ -159,7 +163,7 @@ describe('ParticularJobInterestsController', () => {
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
+        particularJobInterests: [{ workInterest: WorkInterestsValue.OTHER, role: 'Some job' }],
       })
       expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.skills(id))
@@ -173,10 +177,22 @@ describe('ParticularJobInterestsController', () => {
 
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hopingToGetWork: 'YES',
-        particularJobInterests: [{ interestKey: WorkInterestsValue.OTHER, jobDetails: 'Some job' }],
+        particularJobInterests: [{ workInterest: WorkInterestsValue.OTHER, role: 'Some job' }],
       })
       expect(getSessionData(req, ['particularJobInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to redirect', async () => {
+      req.context.plan = { workExperience: { workInterests: {} } }
+      req.body.OTHER = 'Some job'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })
 })

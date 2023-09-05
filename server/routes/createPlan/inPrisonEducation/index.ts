@@ -7,7 +7,7 @@ import InPrisonEducationController from './inPrisonEducationController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new InPrisonEducationController()
+  const controller = new InPrisonEducationController(services.ciagService)
 
   router.get(
     '/plan/create/:id/in-prison-education/:mode',
