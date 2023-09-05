@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
-import { deleteSessionData } from '../../utils/session'
 import config from '../../config'
 import PaginationService from '../../services/paginationServices'
 import { filterCiagList, getPaginatedCiagList, sortOffenderProfile } from '../../data/prisonerSearch/utils'
@@ -17,8 +16,6 @@ export default class CiagListController {
     const { paginationPageSize } = config
 
     try {
-      deleteSessionData(req, ['ciagList', 'cachedValues'])
-
       // Handle pagination where necessary
       // 1. Build uri
       let paginationData = {}

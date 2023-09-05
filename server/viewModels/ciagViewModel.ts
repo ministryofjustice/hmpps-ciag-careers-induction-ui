@@ -34,6 +34,12 @@ export default class CiagViewModel {
   @Expose()
   @Transform(formatDateStringToddMMMyyyy)
   receptionDate: string
+
+  @Expose()
+  cellLocation: string
+
+  @Expose()
+  status: string
 }
 
 export type PagedCiagResponse = PageableResponse<CiagViewModel>
