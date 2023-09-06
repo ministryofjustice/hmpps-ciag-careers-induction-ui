@@ -12,7 +12,6 @@
         <table id="view-offender" class="govuk-table view-offender">
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-
                 {{ sortableTableHeader({
                     sort: sort,
                     order: order,
@@ -24,7 +23,7 @@
                     sort: sort,
                     order: order,
                     formName: "prisoner-search-form",
-                    fieldName: "location",
+                    fieldName: "cellLocation",
                     headerText: "Location"
                 }) }}
                 {{ sortableTableHeader({
@@ -56,24 +55,24 @@
 
                 {% for key, offender in ciagOffenders %}
                     <tr class="govuk-table__row {{ rowClass.next() }}">
-                        <td class="govuk-table__cell">
-                            <a href="{{ addressLookup.workPlan(offender.prisonerNumber) }}"
+                        <td class="govuk-table__cell" width="30%">
+                            <a href="{{ addressLookup.workPlan(offender.prisonerNumber) if offender.status === "NEEDS_PLAN" else addressLookup.learningPlan.profile(offender.prisonerNumber) }}"
                             rel="noopener noreferrer"
                             data-qa="quick-look-link"
                             aria-label="Profile link for {{ offender.lastName | trim }}, {{ offender.firstName }}"
                             class="govuk-link govuk-link--no-visited-state">{{ offender.lastName | trim }}, {{ offender.firstName }}</a>
                             </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell" width="15%">
                             {{ offender.cellLocation }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell" width="20%">
                             <p>{{ offender.releaseDate or 'N/A' }}</p>
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell" width="20%">
                             {{ offender.receptionDate or 'N/A' }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell" width="15%">
                             {% if offender.status === 'NEEDS_PLAN' %}
                                 <strong class="govuk-tag govuk-tag--red">Needs plan</strong>            
                             {% elif offender.status === 'NEEDS_REVIEW'%}

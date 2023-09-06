@@ -54,7 +54,7 @@ export default class PaginationService {
       return url.href
     }
 
-    const previousPage = pageData.pageable.pageNumber <= 0 ? null : pageData.pageable.pageNumber - 1
+    const previousPage = pageData.pageable.pageNumber <= 0 ? null : pageData.pageable.pageNumber
     const zeroBasedPage = pageData.pageable.pageNumber
     const resultsBeforeNow = zeroBasedPage * this.paginationPageSize
 
@@ -62,7 +62,7 @@ export default class PaginationService {
     const nextPage =
       resultsBeforeNow + this.paginationPageSize >= pageData.totalElements ? null : pageData.pageable.pageNumber + 2
 
-    // calculate the range of 20 items to display in pagination
+    // calculate the range of 10 items to display in pagination
     const maxPageNumber =
       pageData.pageable.pageNumber < 11
         ? this.paginationPageSize

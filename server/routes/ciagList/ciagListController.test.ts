@@ -28,12 +28,12 @@ describe('CiagListController', () => {
         receptionDate: '04 Nov 2020',
       },
     ],
-    params: { sort: '', order: '', searchTerm: '' },
+    params: { sort: '', order: '', searchTerm: '', statusFilter: '' },
     query: {},
     get: jest.fn(),
   }
 
-  const { sort = '', order = '', searchTerm = '' } = req.params
+  const { sort = '', order = '', searchTerm = '', statusFilter = '' } = req.params
 
   req.query = { sort, order }
   req.get = jest.fn()
@@ -59,6 +59,7 @@ describe('CiagListController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
+      mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
     it('Should create a new instance', () => {
@@ -84,6 +85,7 @@ describe('CiagListController', () => {
         order,
         paginationData,
         searchTerm: decodeURIComponent(searchTerm as string),
+        statusFilter: decodeURIComponent(statusFilter as string),
       })
 
       expect(next).toHaveBeenCalledTimes(0)

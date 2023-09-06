@@ -25,6 +25,7 @@ generic-service:
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk"
     CIAG_API_URL: "https://ciag-induction-api-dev.hmpps.service.justice.gov.uk"
     LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-ui-dev.hmpps.service.justice.gov.uk"
+    EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
 
 generic-prometheus-alerts:
