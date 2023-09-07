@@ -39,8 +39,10 @@ export default class CiagListPage extends Page {
           return {
             viewLink: Cypress.$(tds[0]).find('a').attr('href'),
             lastName: Cypress.$(tds[0]).text(),
-            releaseDate: Cypress.$(tds[1]).text(),
-            receptionDate: Cypress.$(tds[2]).text(),
+            location: Cypress.$(tds[1]).text(),
+            releaseDate: Cypress.$(tds[2]).text(),
+            receptionDate: Cypress.$(tds[3]).text(),
+            status: Cypress.$(tds[4]).text(),
           }
         }),
       )

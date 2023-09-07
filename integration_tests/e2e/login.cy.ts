@@ -10,6 +10,7 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('getPrisonersByCaseloadId', 'MDI')
+    cy.task('getActionPlanList')
   })
 
   it('Unauthenticated user directed to auth', () => {

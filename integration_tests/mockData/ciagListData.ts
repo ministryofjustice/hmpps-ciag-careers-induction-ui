@@ -8,6 +8,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-01-24',
+      cellLocation: '101-1',
     },
     {
       prisonerNumber: 'G0000CD',
@@ -17,6 +18,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-01-27',
+      cellLocation: '101-2',
     },
     {
       prisonerNumber: 'G0000EF',
@@ -26,6 +28,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-10',
+      cellLocation: '101-3',
     },
     {
       prisonerNumber: 'G0000GH',
@@ -35,6 +38,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-01',
+      cellLocation: '101-8',
     },
     {
       prisonerNumber: 'G0000IJ',
@@ -44,6 +48,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-05',
+      cellLocation: '101-12',
     },
     {
       prisonerNumber: 'G0000KL',
@@ -53,6 +58,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-10',
+      cellLocation: '101-23',
     },
     {
       prisonerNumber: 'G0000MN',
@@ -62,6 +68,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-15',
+      cellLocation: '101-13',
     },
     {
       prisonerNumber: 'G0000OP',
@@ -71,6 +78,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-20',
+      cellLocation: '101-14',
     },
     {
       prisonerNumber: 'G0000QR',
@@ -80,6 +88,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-25',
+      cellLocation: '101-19',
     },
     {
       prisonerNumber: 'G0000ST',
@@ -89,6 +98,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-01',
+      cellLocation: '101-4',
     },
     {
       prisonerNumber: 'G0000AB',
@@ -98,6 +108,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-01-24',
+      cellLocation: '101-6',
     },
     {
       prisonerNumber: 'G0000CD',
@@ -107,6 +118,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-01-27',
+      cellLocation: '101-12',
     },
     {
       prisonerNumber: 'G0000EF',
@@ -116,6 +128,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-10',
+      cellLocation: '101-15',
     },
     {
       prisonerNumber: 'G0000GH',
@@ -125,6 +138,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-01',
+      cellLocation: '101-7',
     },
     {
       prisonerNumber: 'G0000IJ',
@@ -134,6 +148,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-05',
+      cellLocation: '101-8',
     },
     {
       prisonerNumber: 'G0000KL',
@@ -143,6 +158,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-02-10',
+      cellLocation: '101-10',
     },
     {
       prisonerNumber: 'G0000AB',
@@ -152,6 +168,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-01-24',
+      cellLocation: '101-1',
     },
     {
       prisonerNumber: 'G0000UV',
@@ -161,6 +178,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-19',
+      cellLocation: '101-2',
     },
     {
       prisonerNumber: 'G0000WX',
@@ -170,6 +188,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-22',
+      cellLocation: '101-19',
     },
     {
       prisonerNumber: 'G0000AB',
@@ -179,6 +198,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-25',
+      cellLocation: '101-18',
     },
     {
       prisonerNumber: 'G0000YZ',
@@ -188,6 +208,7 @@ const ciagPrisoners = {
       nonDtoReleaseDate: '2023-05-13',
       nonDtoReleaseDateType: 'ARD',
       receptionDate: '2023-03-28',
+      cellLocation: '101-3',
     },
   ],
 }
