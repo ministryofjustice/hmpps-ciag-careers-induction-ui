@@ -4,15 +4,17 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Create an education and work plan' %}
+{% set title = 'Manage learning and work progress' %}
 
 {#
   Data supplied to this template:
     * ciagOffenders  - list of prisoners, comprising prisonerNumber,
-                       first and last names, releaseDate and receptionDate
+                       first and last names, cellLocation, releaseDate, receptionDate and status
     * paginationData - mojPagination object
     * searchTerm     - text for searching
+    * statusFilter   - status for filtering
     * sort, order
 #}
 
@@ -24,10 +26,6 @@
             {
                 text: "Digital prison services",
                 href: dpsUrl
-            },
-            {
-                text: "Create an education and work plan",
-                href: "/"
             }
         ],
         classes: 'govuk-!-display-none-print'
@@ -38,8 +36,8 @@
 {% block content %}
 
     <div class="govuk-grid-row govuk-!-display-none-print">
-        {#                     This whole section has a grey background colour #}
         <div class="govuk-grid-column-full">
+             {{ errorSummary(errors) }}
             <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
             <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
                 {% include './partials/_searchBox.njk' %}

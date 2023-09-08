@@ -2,7 +2,6 @@ import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
-import { deleteSessionData } from '../../utils/session'
 import addressLookup from '../addressLookup'
 import CiagService from '../../services/ciagService'
 
@@ -14,8 +13,6 @@ export default class WorkPlanController {
     const { prisoner, plan } = req.context
 
     try {
-      deleteSessionData(req, ['editAction', id, 'cachedValues'])
-
       const data = {
         id,
         prisoner: {

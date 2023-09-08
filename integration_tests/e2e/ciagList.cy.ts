@@ -1,7 +1,7 @@
 import CiagListPage from '../pages/ciagList'
 
 const ciagListUrl = '/'
-const ciagHomePageTitle = 'Create an education and work plan'
+const ciagHomePageTitle = 'Manage learning and work progress'
 
 context('Ciag list page', () => {
   beforeEach(() => {
@@ -11,6 +11,7 @@ context('Ciag list page', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getPrisonersByCaseloadId', 'MDI')
+    cy.task('getActionPlanList')
     cy.signIn()
   })
 
@@ -19,15 +20,17 @@ context('Ciag list page', () => {
 
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
     ciagListPage.tableData().then(offenders => {
-      expect(offenders.length).equal(20)
+      expect(offenders.length).equal(21)
     })
   })
 
   it('should display the table headers correctly', () => {
     cy.get('#view-offender thead tr.govuk-table__row')
       .should('contain', 'Prisoner')
-      .and('contain', 'Release type and date')
+      .and('contain', 'Location')
+      .and('contain', 'Release date')
       .and('contain', 'Entered prison on')
+      .and('contain', 'Status')
   })
 
   it('Should have correct number of columns to display', () => {
@@ -50,7 +53,7 @@ context('Ciag list page', () => {
 
     ciagListPage.paginationResult().should('contain', 'Showing')
     ciagListPage.paginationResult().then(page => {
-      expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 results')
+      expect(page[0].innerText).to.deep.equal('Showing 1 to 21 of 21 results')
     })
   })
 
@@ -94,8 +97,10 @@ context('Ciag list page', () => {
     ciagListPage.tableData().then(offenders => {
       expect(offenders[0].viewLink).to.contain('/plan/G0000UV/view/overview')
       expect(offenders[0].lastName).to.contain('Bell')
+      // expect(offenders[0].location).to.contain('Bell')
       expect(offenders[0].releaseDate).to.contain('28 May 2023')
       expect(offenders[0].receptionDate).to.contain('19 Mar 2023')
+      expect(offenders[0].status).to.contain('Needs plan')
     })
     cy.url().should('include', '?sort=lastName&order=ascending')
   })
