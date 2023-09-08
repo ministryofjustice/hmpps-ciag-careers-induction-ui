@@ -61,7 +61,7 @@ export function getPaginatedCiagList(ciagList: PrisonerViewModel[], page: number
     },
     totalElements: contents.length ? ciagList.length : 0,
     last: page === (contents.length ? contents.length - 1 : 0),
-    totalPages: contents ? contents.length - 1 : 0,
+    totalPages: contents ? contents.length : 0,
     size: maxPerPage,
     number: 0,
     sort: { empty: true, sorted: false, unsorted: true },
@@ -101,6 +101,16 @@ export function sortOffenderProfile(
       if (new Date(a.receptionDate) > new Date(b.receptionDate)) return orderBy === 'ascending' ? 1 : -1
       if (new Date(b.receptionDate) > new Date(a.receptionDate)) return orderBy === 'ascending' ? -1 : 1
     }
+
+    if (sortBy === 'cellLocation') {
+      if (a.cellLocation > b.cellLocation) return orderBy === 'ascending' ? 1 : -1
+      if (b.cellLocation > a.cellLocation) return orderBy === 'ascending' ? -1 : 1
+    }
+
+    if (sortBy === 'status') {
+      if (a.status > b.status) return orderBy === 'ascending' ? 1 : -1
+      if (b.status > a.status) return orderBy === 'ascending' ? -1 : 1
+    }
     return 0 // Add a default return value for cases where sortBy doesn't match any condition
   })
 
@@ -108,7 +118,11 @@ export function sortOffenderProfile(
 }
 
 // Filter dataset
-export function filterCiagList(profiles: PrisonerViewModel[], searchTerm: string): PrisonerViewModel[] {
+export function filterCiagList(
+  profiles: PrisonerViewModel[],
+  searchTerm: string,
+  statusFilter: string,
+): PrisonerViewModel[] {
   // Find matching profiles
   const filteredCiagList = profiles.map(p => ({
     ...p,
@@ -125,13 +139,18 @@ export function filterCiagList(profiles: PrisonerViewModel[], searchTerm: string
   }))
 
   const filteredSearch: () => PrisonerViewModel[] = () => {
+    let filteredList = filteredCiagList
     if (searchTerm) {
-      const filteredByName: PrisonerViewModel[] = filteredCiagList.filter(x =>
+      filteredList = filteredList.filter(x =>
         x.searchTerms.split('|').some(term => term.includes(searchTerm.toLowerCase())),
       )
-      return filteredByName
     }
-    return filteredCiagList
+
+    if (statusFilter) {
+      filteredList = filteredList.filter(x => x.status === statusFilter)
+    }
+
+    return filteredList
   }
 
   return filteredSearch()

@@ -34,9 +34,9 @@ export default {
   https: production,
   staticResourceCacheDuration: '1h',
   displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
-  paginationPageSize: 20,
+  paginationPageSize: 50,
   recordingLifetimeDays: 90,
-  maximumNumberOfRecordsToReturn: 2000,
+  maximumNumberOfRecordsToReturn: 9999,
   redis: {
     host: get('REDIS_HOST', 'localhost', requiredInProduction),
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
@@ -143,8 +143,8 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    plpFrontEnd: {
-      url: get('LEARNING_AND_WORK_PROGRESS_URL', 'http://localhost:8083', requiredInProduction),
+    educationAndWorkPlanApi: {
+      url: get('EDUCATION_AND_WORK_PLAN_API', 'http://localhost:8083', requiredInProduction),
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),

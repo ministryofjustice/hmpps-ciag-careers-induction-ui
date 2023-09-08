@@ -16,8 +16,6 @@ export default class PrisonerSearchClient {
 
   constructor(token: string) {
     this.restClient = new RestClient('Prisoner Search', config.apis.prisonerSearch, token)
-
-    this.newToken = token
   }
 
   async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
@@ -26,8 +24,8 @@ export default class PrisonerSearchClient {
     })
   }
 
-  async getPrisonersByCaseloadId(caseloadId: string): Promise<GetCiagListResult[]> {
-    return this.restClient.get<GetCiagListResult[]>({
+  async getPrisonersByCaseloadId(caseloadId: string): Promise<GetCiagListResult> {
+    return this.restClient.get<GetCiagListResult>({
       path: `${PRISONER_SEARCH_BY_CASELOAD_ID}/${caseloadId}?page=0&size=${config.maximumNumberOfRecordsToReturn}`,
       headers: {
         'content-type': 'application/json',
