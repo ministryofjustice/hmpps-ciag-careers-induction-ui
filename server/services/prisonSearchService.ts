@@ -27,7 +27,7 @@ export default class PrisonerSearchService {
     return new PrisonerSearchClient(systemToken).getPrisonerById(id)
   }
 
-  async getPrisonersByCaseloadID(username: string, caseloadId: string): Promise<GetCiagListResult[]> {
+  async getPrisonersByCaseloadID(username: string, caseloadId: string): Promise<GetCiagListResult> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
     return new PrisonerSearchClient(systemToken).getPrisonersByCaseloadId(caseloadId)
   }

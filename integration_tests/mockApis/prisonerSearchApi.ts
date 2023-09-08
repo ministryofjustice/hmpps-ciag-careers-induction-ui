@@ -8,7 +8,7 @@ const getPrisonersByCaseloadId = (caseloadId: string) =>
   stubFor({
     request: {
       method: 'GET',
-      url: `/prisoner-search/prison/${caseloadId}?page=0&size=2000`,
+      url: `/prisoner-search/prison/${caseloadId}?page=0&size=9999`,
     },
     response: {
       status: 200,

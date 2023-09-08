@@ -3,25 +3,36 @@
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
         <div class="govuk-grid-column-one-third">
+            <div class="govuk-form-group">
+                <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
+                    Search by prisoner's name
+                </label>
+                <input class="govuk-input moj-search__input"
+                        id="searchTerm"
+                        name="searchTerm"
+                        type="search"
+                        value="{{ searchTerm }}"
+                        maxlength="200"
+                />
+            </div>
+        </div>
+        <div class="govuk-grid-column-one-third">
             <div class="moj-search">
                 <div class="govuk-form-group">
                     <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
                         Search by prisoner's name
                     </label>
-                    <input class="govuk-input moj-search__input"
-                           id="searchTerm"
-                           name="searchTerm"
-                           type="search"
-                           value="{{ searchTerm }}"
-                           maxlength="20"
-                    />
+                    <select class="govuk-select" id="statusFilter" name="statusFilter">
+                        <option value="" {{ 'selected' if statusFilter === ''}}>All statuses</option>
+                        <option value="NEEDS_PLAN" {{ 'selected' if statusFilter === 'NEEDS_PLAN'}}>Needs plan</option>
+                     </select>
                 </div>
                 <button class="govuk-button moj-search__button" data-module="govuk-button" id="searchButton">
-                    Search
+                    Apply filters
                 </button>
             </div>
         </div>
-        {% if searchTerm %}
+        {% if searchTerm or statusFilter %}
             <div class="govuk-grid-column-one-third" style="padding-left: 0px">
                 <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-7">
                     <a class="govuk-link" href="{{ addressLookup.prisonerSearch() }}"
