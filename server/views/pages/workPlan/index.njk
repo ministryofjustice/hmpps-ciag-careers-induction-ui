@@ -6,7 +6,7 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 
-{% set title = prisoner.firstName + " " + prisoner.lastName %}
+{% set title = prisoner.firstName + " " + prisoner.lastName + "'s learning and work progress" %}
 
 {#
   Data supplied to this template:
@@ -23,7 +23,7 @@
                 href: dpsUrl
             },
             {
-                text: "Create an education and work plan",
+                text: "Learning and work progress",
                 href: "/"
             }
         ],
@@ -34,23 +34,34 @@
 
 {% block content %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-quarter">
+     <div class="govuk-grid-column-one-quarter" style="width:22%;">
       <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Prison number: <span class="govuk-body" data-qa="prison-number">{{ prisoner.prisonerNumber }}</span></p>
     </div>
-    <div class="govuk-grid-column-three-quarters">
-      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Release date: <span class="govuk-body" data-qa="release-date">{{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}</span></p>
+    <div class="govuk-grid-column-one-quarter" style="width:30%;">
+      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Entered this prison on: <span class="govuk-body" data-qa="entered-prison-date">{{ prisoner.receptionDate }}</span></p>
+    </div>
+    <div class="govuk-grid-column-one-quarter" style="width:22%;">
+      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Release date: <span class="govuk-body" data-qa="release-date">{{ prisoner.releaseDate }}</span></p>
+    </div>
+    <div class="govuk-grid-column-one-quarter" style="width:22%;">
+      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">DOB: <span class="govuk-body" data-qa="date-of-birth">{{ prisoner.dateOfBirth }}</span></p>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Learning and work progress</span>
       <h1 class="govuk-heading-l">{{ title }}</h1>
     </div>
   </div>
 
   {% include './partials/_navigation.njk' %}
 
-  {% if tab === 'overview' %}
+  {% include './partials/_overviewTabContents.njk' %}
+
+  {# Tabs to add back in when agreed #}
+
+  {# {% if tab === 'overview' %}
     {% include './partials/_overviewTabContents.njk' %}
   {% endif %}
 
@@ -68,5 +79,5 @@
 
   {% if tab === 'contacts' %}
     {% include './partials/_contactsTabContents.njk' %}
-  {% endif %}
+  {% endif %} #}
 {% endblock %}

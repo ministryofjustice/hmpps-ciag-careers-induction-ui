@@ -54,6 +54,7 @@ describe('WantsToAddQualificationsController', () => {
       firstName: 'Mock_firstname',
       lastName: 'Mock_lastname',
       releaseDate: 'N/A',
+      receptionDate: 'N/A',
     },
   }
 

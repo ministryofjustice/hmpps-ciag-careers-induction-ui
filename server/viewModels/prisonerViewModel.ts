@@ -2,7 +2,7 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
 
-import { convertToTitleCase, formatDateStringToddMMMyyyy } from '../utils/utils'
+import { convertToTitleCase, formatDateStringTodMMMyyyy } from '../utils/utils'
 
 // Exclude all by default expose properties when needed
 @Exclude()
@@ -35,7 +35,7 @@ export default class PrisonerViewModel {
 
   @Type(() => Date)
   @Expose()
-  @Transform(formatDateStringToddMMMyyyy)
+  @Transform(formatDateStringTodMMMyyyy)
   dateOfBirth: string
 
   gender: string
@@ -106,7 +106,7 @@ export default class PrisonerViewModel {
 
   @Type(() => Date)
   @Expose()
-  @Transform(formatDateStringToddMMMyyyy)
+  @Transform(formatDateStringTodMMMyyyy)
   releaseDate: string
 
   confirmedReleaseDate: string
@@ -132,6 +132,9 @@ export default class PrisonerViewModel {
   @Expose()
   nonDtoReleaseDateType: string
 
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringTodMMMyyyy)
   receptionDate: string
 
   paroleEligibilityDate: string
