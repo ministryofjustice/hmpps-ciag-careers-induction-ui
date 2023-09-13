@@ -60,9 +60,6 @@
   <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workInterests(id, 'update') }}">
       Change workInterests
   </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workDetails(id, 'update') }}">
-      Change workDetails
-  </a><br/>
   <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.particularJobInterests(id, 'update') }}">
       Change particularJobInterests
   </a><br/>
@@ -102,8 +99,7 @@
     </div>
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
-        {{ prisoner.firstName }} {{ prisoner.lastName }} has not created an education and work plan.
-        <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}"><br>Create plan now</a>.
+        Create goals and add education, work, skills and interests to <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}">make a progress plan now</a>.
       </p>
     </div>
   </div>

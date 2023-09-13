@@ -5,7 +5,9 @@
         <li class="moj-sub-navigation__item">
           <a class="moj-sub-navigation__link" data-qa="tab-overview" {% if tab === 'overview' %}aria-current="page" {% endif %}href="{{ addressLookup.workPlan(prisoner.prisonerNumber, 'overview') }}">Overview</a>
         </li>
-        <li class="moj-sub-navigation__item">
+        {# Tabs to add back in when agreed #}
+
+        {# <li class="moj-sub-navigation__item">
           <a class="moj-sub-navigation__link" data-qa="tab-details" {% if tab === 'details' %}aria-current="page" {% endif %}href="{{ addressLookup.workPlan(prisoner.prisonerNumber, 'details') }}">Personal details</a>
         </li>
         <li class="moj-sub-navigation__item">
@@ -13,7 +15,7 @@
         </li>
         <li class="moj-sub-navigation__item">
           <a class="moj-sub-navigation__link" data-qa="tab-contacts" {% if tab === 'contacts' %}aria-current="page" {% endif %} href="{{ addressLookup.workPlan(prisoner.prisonerNumber, 'contacts') }}">Contacts</a>
-        </li>
+        </li> #}
       </ul>
     </nav>
   </div>
