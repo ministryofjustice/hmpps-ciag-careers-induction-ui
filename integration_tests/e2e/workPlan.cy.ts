@@ -18,8 +18,8 @@ context('Work plan page', () => {
     cy.task('getCiagPlan', 'A00001A')
 
     cy.visit('/plan/A00001A/view/overview')
-    const workProfilePage = new WorkPlanPage('Paris Jones')
+    const workProfilePage = new WorkPlanPage("Paris Jones's learning and work progress")
 
-    workProfilePage.overviewCreatePlanLink().contains('Create plan now')
+    workProfilePage.overviewCreatePlanLink().contains('make a progress plan now')
   })
 })
