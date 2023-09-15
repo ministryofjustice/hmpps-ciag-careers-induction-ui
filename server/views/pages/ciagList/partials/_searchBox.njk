@@ -1,11 +1,14 @@
 <div class="govuk-form-group filter-box govuk-!-margin-top-4" style="padding-left: 0px">
     <form class="form" method="post" novalidate="">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-bottom-2" style="padding-left:16px">
+            Filter by 
+        </legend>
         <div class="govuk-grid-column-one-third">
             <div class="govuk-form-group">
-                <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
-                    Search by prisoner's name
+
+                <label class="govuk-label moj-search__label" for="searchTerm">
+                   Prisoner's name
                 </label>
                 <input class="govuk-input moj-search__input"
                         id="searchTerm"
@@ -19,8 +22,8 @@
         <div class="govuk-grid-column-one-third">
             <div class="moj-search">
                 <div class="govuk-form-group">
-                    <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
-                        Search by prisoner's name
+                    <label class="govuk-label moj-search__label" for="statusFilter">
+                        Status
                     </label>
                     <select class="govuk-select" id="statusFilter" name="statusFilter">
                         <option value="" {{ 'selected' if statusFilter === ''}}>All statuses</option>
