@@ -26,6 +26,8 @@ generic-service:
     CIAG_API_URL: "https://ciag-induction-api.hmpps.service.justice.gov.uk"
     LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress.hmpps.service.justice.gov.uk"
     EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api.hmpps.service.justice.gov.uk"
+    COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
+    SUPPORT_URL: "https://support.hmpps.service.justice.gov.uk/feedback-and-support"
     SYSTEM_PHASE: PROD
 
 generic-prometheus-alerts:
