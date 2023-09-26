@@ -9,6 +9,7 @@ generic-service:
 
   env:
     ENVIRONMENT: dev
+    ENVIRONMENT_NAME: 'DEV'
     S3_REGION: eu-west-2
     INGRESS_URL: "https://ciag-induction-dev.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
@@ -26,6 +27,8 @@ generic-service:
     CIAG_API_URL: "https://ciag-induction-api-dev.hmpps.service.justice.gov.uk"
     LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-dev.hmpps.service.justice.gov.uk"
     EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk"
+    COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
+    SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk/feedback-and-support"
     SYSTEM_PHASE: DEV
 
 generic-prometheus-alerts:
