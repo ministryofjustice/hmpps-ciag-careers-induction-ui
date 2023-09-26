@@ -10,6 +10,7 @@ import AllocationManagerService from './allocationManagerService'
 import CommunityService from './communityService'
 import CiagService from './ciagService'
 import EducationAndWorkPlanService from './educationAndWorkPlanService'
+import ComponentService from './componentService'
 
 export const services = () => {
   const { hmppsAuthClient } = dataAccess()
@@ -25,6 +26,7 @@ export const services = () => {
   const communityService = new CommunityService(hmppsAuthClient)
   const ciagService = new CiagService()
   const educationAndWorkPlanService = new EducationAndWorkPlanService()
+  const componentService = new ComponentService()
 
   return {
     userService,
@@ -38,6 +40,7 @@ export const services = () => {
     communityService,
     ciagService,
     educationAndWorkPlanService,
+    componentService,
   }
 }
 

@@ -56,7 +56,7 @@
                 {% for key, offender in ciagOffenders %}
                     <tr class="govuk-table__row {{ rowClass.next() }}">
                         <td class="govuk-table__cell" width="30%">
-                            <a href="{{ addressLookup.workPlan(offender.prisonerNumber) if offender.status === "NEEDS_PLAN" else addressLookup.learningPlan.profile(offender.prisonerNumber) }}"
+                            <a href="{{ addressLookup.workPlan(offender.prisonerNumber) if offender.status === "NEEDS_PLAN" else addressLookup.learningPlan.profile(offender.prisonerNumber, 'overview') }}"
                             rel="noopener noreferrer"
                             data-qa="quick-look-link"
                             aria-label="Profile link for {{ offender.lastName | trim }}, {{ offender.firstName }}"

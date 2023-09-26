@@ -1,15 +1,5 @@
-{% from "govuk/components/footer/macro.njk" import govukFooter %}
-
-{{ 
-  govukFooter({
-    meta: {
-      items: [
-        {
-          href: "/accessibility",
-          text: "Accessibility statement"
-        }
-      ]
-    },
-    classes: "govuk-!-display-none-print"
-  }) 
-}}
+{% if isPrisonUser %}
+    {% include "../partials/dpsFooter.njk" %}
+{% else %}
+    {% include "../partials/externalFooter.njk" %}
+{% endif %}

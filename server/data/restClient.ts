@@ -48,7 +48,7 @@ export default class RestClient {
 
   async get<T>({ path = null, query = '', headers = {}, responseType = '' }: GetDeleteRequest = {}): Promise<T> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path} ${query}`)
-    return this.getOrDelete('GET', superagent.get, { path, headers, responseType })
+    return this.getOrDelete('GET', superagent.get, { path, query, headers, responseType })
   }
 
   async put<T>({ path = null, headers = {}, responseType = '', data = {} }: PutPostRequest = {}): Promise<T> {
