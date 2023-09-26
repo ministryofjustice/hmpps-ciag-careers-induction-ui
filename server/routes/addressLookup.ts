@@ -29,7 +29,7 @@ export default {
     wantsToAddQualifications: (id: string, mode = 'new') => `/plan/create/${id}/wants-to-add-qualifications/${mode}`,
   },
   learningPlan: {
-    profile: (id: string) => `${config.learningPlanUrl}/plan/${id}/view/overview`,
+    profile: (id: string, tab = 'work-and-interests') => `${config.learningPlanUrl}/plan/${id}/view/${tab}`,
     addGoals: (id: string) => `${config.learningPlanUrl}/plan/${id}/goals/create`,
   },
 }

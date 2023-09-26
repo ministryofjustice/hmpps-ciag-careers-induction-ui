@@ -1,4 +1,4 @@
-.connect-dps-common-header {
+.hmpps-header {
   @include govuk-responsive-padding(3, 'top');
   @include govuk-responsive-padding(3, 'bottom');
   background-color: govuk-colour('black');
@@ -12,7 +12,7 @@
   }
 
   &__logo {
-    @include govuk-responsive-margin(3, 'right');
+    @include govuk-responsive-margin(2, 'right');
     position: relative;
     top: -2px;
     fill: govuk-colour('white');
@@ -31,11 +31,13 @@
     }
 
     &__service-name {
-      display: none;
+      @include govuk-responsive-margin(2, 'right');
       @include govuk-font(24);
+      display: none;
 
       @include govuk-media-query($from: desktop) {
-        display: inline-block;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -44,12 +46,13 @@
     @include govuk-link-common;
     @include govuk-link-style-default;
 
+    text-underline-offset: 0.1em;
+
     &:link,
     &:visited,
     &:active {
       color: govuk-colour('white');
       text-decoration: none;
-      font-weight: normal;
     }
 
     &:hover {
@@ -88,38 +91,36 @@
     }
 
     &__item {
-      display: flex;
-      @include govuk-font(16);
+      @include govuk-font(19);
       margin-bottom: govuk-spacing(1);
       text-align: right;
-      min-height: 45px;
 
       @include govuk-media-query($from: tablet) {
-        @include govuk-responsive-margin(3, 'left');
-        @include govuk-responsive-padding(3, 'left');
+        @include govuk-responsive-margin(4, 'right');
+        @include govuk-responsive-padding(4, 'right');
         margin-bottom: 0;
-
-        &:not(:only-of-type) {
-          border-left: 1px solid govuk-colour('white');
-        }
+        border-right: 1px solid govuk-colour('white');
       }
 
       a {
         display: inline-block;
-        margin: auto 0;
       }
 
       &:last-child {
         margin-right: 0;
         border-right: 0;
         padding-right: 0;
-
-        @include govuk-font(19);
       }
+
     }
   }
 
   @media print {
     display: none;
   }
+}
+
+.govuk-phase-banner {
+  @include govuk-width-container;
+  border: none;
 }
