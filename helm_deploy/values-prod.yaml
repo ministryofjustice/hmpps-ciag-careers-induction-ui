@@ -28,6 +28,7 @@ generic-service:
     EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api.hmpps.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
     SUPPORT_URL: "https://support.hmpps.service.justice.gov.uk/feedback-and-support"
+    MANAGE_USERS_API: "https://manage-users-api.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: PROD
 
 generic-prometheus-alerts:
