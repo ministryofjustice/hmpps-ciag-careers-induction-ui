@@ -59,4 +59,5 @@ const stubUserRoles = () =>
 export default {
   stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserRoles()]),
   stubGetUser,
+  stubUserRoles,
 }
