@@ -151,6 +151,14 @@ export default {
       },
       agent: new AgentConfig(),
     },
+    manageUsersApi: {
+      url: get('MANAGE_USERS_API', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
     frontendComponents: {
       url: get('COMPONENT_API_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
