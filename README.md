@@ -1,71 +1,71 @@
-# hmpps-ciag-careers-induction-ui
-[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fhmpps-ciag-careers-induction-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-ciag-careers-induction-ui "Link to report")
-[![CircleCI](https://circleci.com/gh/ministryofjustice/hmpps-ciag-careers-induction-ui/tree/main.svg?style=svg)](https://circleci.com/gh/ministryofjustice/hmpps-ciag-careers-induction-ui)
+[![CircleCI](https://circleci.com/gh/ministryofjustice/hmpps-ciag-careers-induction-ui/tree/main.svg?style=svg)](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-ciag-careers-induction-ui?branch=main)
+[![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/hmpps-ciag-careers-induction-ui/badge.svg)](https://snyk.io/test/github/ministryofjustice/hmpps-ciag-careers-induction-ui)
+[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fhmpps-ciag-careers-induction-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-report/hmpps-ciag-careers-induction-ui "Link to report")
 
-Template github repo used for new Typescript based projects.
+[![JS](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=fff)](http://www.typescriptlang.org/)
+[![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com)
+[![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=Node.js&logoColor=fff)](https://nodejs.org/en/)
+[![ExpressJS](https://img.shields.io/badge/Express.js-404D59?style=flat&logo=express)](https://expressjs.com/)
+[![Jest](https://img.shields.io/badge/-Jest-C21325?style=postgres&logo=Jest&logoColor=fff)](https://jestjs.io/)
+[![ESLint](https://img.shields.io/badge/-ESLint-4B32C3?logo=ESLint&logoColor=fff)](https://eslint.org/)
 
-# Instructions
+[![Docker](https://img.shields.io/badge/-Docker-000?logo=docker)](https://www.docker.com)
+[![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=flat&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=postgres&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 
-If this is a HMPPS project then the project will be created as part of bootstrapping - 
-see https://github.com/ministryofjustice/dps-project-bootstrap.
+# HMPPS Ciag careers induction
 
-This bootstrap is community managed by the mojdt `#typescript` slack channel. 
-Please raise any questions or queries there. Contributions welcome!
+This is a front-end application used by staff in HMPPS to record someone’s education, skills and work experience; create goals for their time in prison and future employment.
 
-Our security policy is located [here](https://github.com/ministryofjustice/hmpps-ciag-careers-induction-ui/security/policy). 
+It is a nodeJS application which by default starts up and listens on URL http://localhost:3000
 
-More information about the template project including features can be found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
-## Creating a CloudPlatform namespace
+# Running locally
 
-When deploying to a new namespace, you may wish to use this template typescript project namespace as the basis for your new namespace:
+The UI application needs a suite of services to work:
 
-<https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-ciag-careers-induction-ui>
+|       Dependency       | Description                                                                                | Default                                                            | Override Env Var                                          |
+|:----------------------:|:-------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|:----------------------------------------------------------|
+|       prison-api       | Nomis API providing prisons/offender information                                           | http://localhost:8080                                              | HMPPS_PRISON_API_URL                                      |
+|       hmpps-auth       | OAuth2 API server for authenticating requests                                              | http://localhost:9090/auth                                         | HMPPS_AUTH_URL                                            |
+|        ciag-api        | API to access offender profile details                                                     | http://localhost:8083                                              | CIAG_API_URL                                              |
+|    offender-search     | OpenSearch API to find probation offenders                                                 | No default                                                         | PRISONER_SEARCH_URL                                       |
+|        postgres        | PostgreSQL database server for storing profiles                                            | psql://localhost:5432                                              | None - required locally                                   |
+|         redis          | Redis cache for user 'session' data (roles)                                                | localhost:6379/tcp                                                 | None - required locally                                   |
+|  nomis-user-roles-api  | Authenticate and retrieve user name & email                                                | http://localhost:8097                                              | NOMIS_USER_ROLES_API_URL                                  |
+|       curiousApi       | Offenders employment, skills and neurodivergence data (3rd party API managed by MegaNexus) | http://localhost:8083                                              | CURIOUS_API_URL                                           |
+|     keyworker-api      | Key worker information                                                                     | http://localhost:8083                                              | KEYWORKER_API_URL                                         |
+|    whereabouts-api     | Offenders location inc. absence figures from activities in prison                          | http://localhost:8083                                              | WHEREABOUTS_API_URL                                       |
+| allocation-manager-api | Allocated POM for offenders                                                                | http://localhost:8083                                              | ALLOCATION_MANAGER_ENDPOINT_URL                           |
 
-This template namespace includes an AWS elasticache setup - which is required by this template project.
+More information about the template project including features can be
+found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
-Copy this folder, update all the existing namespace references, and submit a PR to the CloudPlatform team. Further instructions from the CloudPlatform team can be found here: <https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide>
+## Roles
 
-## Renaming from HMPPS Template Typescript - github Actions
+The following roles need to be assigned to the account used for querying offender data and handling profile data:
 
-Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
-Click the link to `Enable Actions on this repository`.
+* ROLE_COMMUNITY
+* ROLE_PRISON_EDUCATION_AND_DELIUS
+* ROLE_VIEW_PRISONER_DATA
+* ROLE_MAINTAIN_ACCESS_ROLES
+* ROLE_CURIOUS_API
+* ROLE_PRISONER_SEARCH
 
-Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will
-execute the `rename-project.bash` and create Pull Request for you to review.  Review the PR and merge.
-
-Note: ideally this workflow would run automatically however due to a recent change github Actions are not
-enabled by default on newly created repos. There is no way to enable Actions other then to click the button in the UI.
-If this situation changes we will update this project so that the workflow is triggered during the bootstrap project.
-Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-generated-from-template/136421>
-
-## Manually branding from template app
-Run the `rename-project.bash` and create a PR.
-
-The rename-project.bash script takes a single argument - the name of the project and calculates from it the project description
-It then performs a search and replace and directory renames so the project is ready to be used.
-
-## Ensuring slack notifications are raised correctly
-
-To ensure notifications are routed to the correct slack channels, update the `alerts-slack-channel` and `releases-slack-channel` parameters in `.circle/config.yml` to an appropriate channel.
-
-## Running the app
+## Running the app for development
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
 
-`docker-compose pull`
+`docker-compose pull` (as and when required)
 
-`docker-compose up`
+`docker-compose up --scale=app=0`
 
 ### Dependencies
 The app requires: 
 * hmpps-auth - for authentication
 * redis - session store and token caching
 
-### Running the app for development
-
-To start the main services excluding the example typescript template app: 
-
-`docker-compose up --scale=app=0`
 
 Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
 
