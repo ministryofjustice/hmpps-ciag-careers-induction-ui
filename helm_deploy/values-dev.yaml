@@ -17,7 +17,7 @@ generic-service:
     HMPPS_PRISON_API_URL: "https://prison-api-dev.prison.service.justice.gov.uk"
     DPS_URL: "https://digital-dev.prison.service.justice.gov.uk"
     SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk"
-    NOMIS_USER_ROLES_API_URL: "https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk"
+    NOMIS_USER_ROLES_API_URL: "https://nomis-user-roles-api-dev.prison.service.justice.gov.uk"
     COMMUNITY_API_URL: "https://community-api-public.dev.probation.service.justice.gov.uk"
     CURIOUS_API_URL: "https://testservices.sequation.net/sequation-virtual-campus2-api/"
     PRISONER_SEARCH_URL: "https://prisoner-search-dev.prison.service.justice.gov.uk"
