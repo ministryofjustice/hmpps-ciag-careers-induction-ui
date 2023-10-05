@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -38,7 +39,7 @@ export default class SkillsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        skills: mode === 'update' ? plan.skillsAndInterests.skills : record.skills || [],
+        skills: mode === 'update' ? _.get(plan, 'skillsAndInterests.skills', []) : record.skills || [],
         skillsOther: mode === 'update' ? plan.skillsAndInterests.skillsOther : record.skillsOther,
       }
 
