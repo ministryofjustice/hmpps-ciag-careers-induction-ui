@@ -14,15 +14,6 @@ export default function validationSchema(data: QualificationDetailsData): Object
   } = data
 
   return joi.object({
-    qualificationGrade: joi
-      .string()
-      .required()
-      .max(200)
-      .messages({
-        'any.required': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
-        'string.empty': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
-        'string.max': 'Grade must be 200 characters or less',
-      }),
     qualificationSubject: joi
       .string()
       .required()
@@ -31,6 +22,15 @@ export default function validationSchema(data: QualificationDetailsData): Object
         'any.required': `Enter the subject of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
         'string.empty': `Enter the subject of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
         'string.max': 'Subject must be 200 characters or less',
+      }),
+    qualificationGrade: joi
+      .string()
+      .required()
+      .max(200)
+      .messages({
+        'any.required': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.empty': `Enter the grade of ${firstName} ${lastName}'s ${contentLookup.pages.qualificationDetails.level[qualificationLevel]} qualification`,
+        'string.max': 'Grade must be 200 characters or less',
       }),
   })
 }

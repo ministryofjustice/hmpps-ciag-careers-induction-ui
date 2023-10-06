@@ -18,51 +18,51 @@
 {# Setup page based on education level #}
 {% set title = "What level of secondary school qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
 {% set options = [
-    {
-      value: "ENTRY_LEVEL",
-      text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
-      hint: {
-        text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
-      },
-      checked: qualificationLevel === "ENTRY_LEVEL"
+  {
+    value: "ENTRY_LEVEL",
+    text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
     },
-    {
-      value: "LEVEL_1",
-      text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
-      hint: {
-        text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
-      },
-      checked: qualificationLevel === "LEVEL_1"
+    checked: qualificationLevel === "ENTRY_LEVEL"
+  },
+  {
+    value: "LEVEL_1",
+    text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
     },
-    {
-      value: "LEVEL_2",
-      text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
-      hint: {
-        text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
-      },
-      checked: qualificationLevel === "LEVEL_2"
+    checked: qualificationLevel === "LEVEL_1"
+  },
+  {
+    value: "LEVEL_2",
+    text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
     },
-    {
-      value: "LEVEL_3",
-      text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
-      hint: {
-        text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
-      },
-      checked: qualificationLevel === "LEVEL_3"
+    checked: qualificationLevel === "LEVEL_2"
+  },
+  {
+    value: "LEVEL_3",
+    text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
     },
-    {
-      value: "LEVEL_4",
-      text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
-      hint: {
-        text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
-      },
-      checked: qualificationLevel === "LEVEL_4"
-    }
-    ]
-  %}
+    checked: qualificationLevel === "LEVEL_3"
+  },
+  {
+    value: "LEVEL_4",
+    text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
+    },
+    checked: qualificationLevel === "LEVEL_4"
+  }
+  ]
+%}
 
 
-{% if educationLevel ===  'FURTHER_EDUCATION_COLLEGE' %}
+{% if ['FURTHER_EDUCATION_COLLEGE', 'UNDERGRADUATE_DEGREE_AT_UNIVERSITY', 'POSTGRADUATE_DEGREE_AT_UNIVERSITY'].includes(educationLevel) or educationLevel === '' %}
   {% set title = "What level of further education college qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
   {% set level5 = {
         value: "LEVEL_5",
@@ -76,7 +76,7 @@
   {% set options = options.concat(level5) %}
 {% endif %}
 
-{% if educationLevel === 'UNDERGRADUATE_DEGREE_AT_UNIVERSITY' or educationLevel === 'POSTGRADUATE_DEGREE_AT_UNIVERSITY' or educationLevel === '' %}
+{% if ['UNDERGRADUATE_DEGREE_AT_UNIVERSITY', 'POSTGRADUATE_DEGREE_AT_UNIVERSITY'].includes(educationLevel) or educationLevel === '' %}
   {% set title = "What level of qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
   {% set level6 = {
         value: "LEVEL_6",
@@ -140,7 +140,7 @@
               },
               hint: {
                 text: 'Add their highest level of qualification first. You can add any others afterwards.'
-              },
+              }
             },
             items: options,
             errorMessage: errors.qualificationLevel

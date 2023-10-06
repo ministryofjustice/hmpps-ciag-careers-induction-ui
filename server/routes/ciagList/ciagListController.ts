@@ -28,7 +28,7 @@ export default class CiagListController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
-        statusFilter && `searchTerm=${decodeURIComponent(statusFilter as string)}`,
+        statusFilter && `statusFilter=${decodeURIComponent(statusFilter as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
