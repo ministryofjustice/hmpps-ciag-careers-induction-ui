@@ -30,6 +30,8 @@ const getCiagListResolver =
 
         return {
           ...p,
+          firstName: p.firstName.trim(),
+          lastName: p.lastName.trim(),
           status: !plan ? 'NEEDS_PLAN' : '',
         }
       })

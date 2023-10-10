@@ -158,6 +158,9 @@ describe('HasWorkedBeforeController', () => {
       expect(getSessionData(req, ['hasWorkedBefore', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
         hasWorkedBefore: YesNoValue.NO,
+        typeOfWorkExperience: [],
+        typeOfWorkExperienceOther: '',
+        workExperience: [],
       })
     })
   })

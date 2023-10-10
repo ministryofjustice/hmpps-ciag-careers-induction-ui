@@ -150,7 +150,7 @@ export default class EducationLevelController {
       res.redirect(
         mode === 'edit'
           ? addressLookup.createPlan.checkYourAnswers(id)
-          : addressLookup.createPlan.additionalTraining(id),
+          : `${addressLookup.createPlan.additionalTraining(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
     } catch (err) {
       next(err)

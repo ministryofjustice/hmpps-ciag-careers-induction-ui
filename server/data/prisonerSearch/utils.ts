@@ -93,8 +93,11 @@ export function sortOffenderProfile(
     }
 
     if (sortBy === 'releaseDate') {
-      if (new Date(a.releaseDate) > new Date(b.releaseDate)) return orderBy === 'ascending' ? 1 : -1
-      if (new Date(b.releaseDate) > new Date(a.releaseDate)) return orderBy === 'ascending' ? -1 : 1
+      // Put all undefined dates at the end with temp high date for sort
+      const releaseDateA = a.releaseDate || '2999-01-01'
+      const releaseDateB = b.releaseDate || '2999-01-01'
+      if (new Date(releaseDateA) > new Date(releaseDateB)) return orderBy === 'ascending' ? 1 : -1
+      if (new Date(releaseDateB) > new Date(releaseDateA)) return orderBy === 'ascending' ? -1 : 1
     }
 
     if (sortBy === 'receptionDate') {

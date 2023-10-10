@@ -20,7 +20,7 @@ context('Ciag list page', () => {
 
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
     ciagListPage.tableData().then(offenders => {
-      expect(offenders.length).equal(21)
+      expect(offenders.length).equal(50)
     })
   })
 
@@ -47,13 +47,13 @@ context('Ciag list page', () => {
     })
   })
 
-  it('Should display the correct pagination when result set has more than 20 records ', () => {
+  it('Should display the correct pagination when result set has more than 50 records ', () => {
     cy.visit(ciagListUrl)
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
 
     ciagListPage.paginationResult().should('contain', 'Showing')
     ciagListPage.paginationResult().then(page => {
-      expect(page[0].innerText).to.deep.equal('Showing 1 to 21 of 21 results')
+      expect(page[0].innerText).to.deep.equal('Showing 1 to 50 of 63 results')
     })
   })
 
@@ -61,11 +61,11 @@ context('Ciag list page', () => {
     cy.visit(ciagListUrl)
     const ciagListPage = new CiagListPage(ciagHomePageTitle)
 
-    ciagListPage.searchText().clear().type('ward')
+    ciagListPage.searchText().clear().type('wardel')
     ciagListPage.searchButton().click()
-    cy.visit(`${ciagListUrl}?searchTerm=ward`)
+    cy.visit(`${ciagListUrl}?searchTerm=wardel`)
 
-    cy.url().should('include', '?searchTerm=ward')
+    cy.url().should('include', '?searchTerm=wardel')
     ciagListPage.tableData().then(offenders => {
       expect(offenders.length).equal(1)
     })
