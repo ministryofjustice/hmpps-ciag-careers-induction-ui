@@ -9,9 +9,9 @@
     {% 
       set errorList = []
     %}
-
-    {% for err in (errors | dictsort) %}
-      {% set errorList = ( errorList.push(err[1]), errorList) %}
+    
+    {% for key, value in errors %}
+      {% set errorList = ( errorList.push(value), errorList) %}
     {% endfor %}
 
     {{ govukErrorSummary({

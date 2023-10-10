@@ -24,7 +24,7 @@ describe('validationSchema', () => {
   it('On validation error - Required - Returns the correct error message', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
-    expect(error.details[1]).toEqual({
+    expect(error.details[0]).toEqual({
       context: {
         key: 'qualificationSubject',
         label: 'qualificationSubject',
@@ -33,7 +33,7 @@ describe('validationSchema', () => {
       path: ['qualificationSubject'],
       type: 'any.required',
     })
-    expect(error.details[0]).toEqual({
+    expect(error.details[1]).toEqual({
       context: {
         key: 'qualificationGrade',
         label: 'qualificationGrade',

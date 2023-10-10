@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWorkExperience[typeOfWorkExperienceKey] + " job?" %}
+{% set title = "What did " +  prisoner.firstName + " " + prisoner.lastName + " do in their " + contentLookup.fields.typeOfWorkExperience[typeOfWorkExperienceKey].toLowerCase() + " job?" %}
 
 {#
   Data supplied to this template:
