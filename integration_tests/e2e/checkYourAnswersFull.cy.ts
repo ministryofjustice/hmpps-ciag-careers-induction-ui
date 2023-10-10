@@ -80,13 +80,13 @@ context('Check your answers - Full flow', () => {
 
     typeOfWorkExperiencePage.submitButton().click()
 
-    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
+    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their hospitality and catering job?')
     jobDetailsPage.roleField().type('Mock Hospitality Role')
     jobDetailsPage.detailsField().type('Mock Hospitality Details')
 
     jobDetailsPage.submitButton().click()
 
-    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Other job?')
+    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their other job?')
 
     jobDetailsPage.roleField().type('Mock Other Role')
     jobDetailsPage.detailsField().type('Mock Other Details')
@@ -180,13 +180,13 @@ context('Check your answers - Full flow', () => {
     checkYourAnswersPage.workExperienceItemRole(1).contains('Mock Hospitality Role')
     checkYourAnswersPage.workExperienceItemDetails(1).contains('Mock Hospitality Detail')
     checkYourAnswersPage.workExperienceItemLink(1).click()
-    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
+    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their hospitality and catering job?')
     jobDetailsPage.backLink().click()
 
     checkYourAnswersPage.workExperienceItemRole(2).contains('Mock Other Role')
     checkYourAnswersPage.workExperienceItemDetails(2).contains('Mock Other Detail')
     checkYourAnswersPage.workExperienceItemLink(2).click()
-    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Other job?')
+    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their other job?')
     jobDetailsPage.backLink().click()
 
     checkYourAnswersPage.workInterests().contains('Hospitality and catering')

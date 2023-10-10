@@ -86,6 +86,9 @@ export default class HasWorkedBeforeController {
       setSessionData(req, ['createPlan', id], {
         ...record,
         hasWorkedBefore,
+        workExperience: hasWorkedBefore === YesNoValue.YES ? record.workExperience : [],
+        typeOfWorkExperience: hasWorkedBefore === YesNoValue.YES ? record.typeOfWorkExperience : [],
+        typeOfWorkExperienceOther: hasWorkedBefore === YesNoValue.YES ? record.typeOfWorkExperienceOther : '',
       })
 
       // Default flow
@@ -110,6 +113,10 @@ export default class HasWorkedBeforeController {
       workExperience: {
         ...plan.workExperience,
         hasWorkedBefore: hasWorkedBefore === YesNoValue.YES,
+        workExperience: hasWorkedBefore === YesNoValue.YES ? plan.workExperience.workExperience : [],
+        typeOfWorkExperience: hasWorkedBefore === YesNoValue.YES ? plan.workExperience.typeOfWorkExperience : [],
+        typeOfWorkExperienceOther:
+          hasWorkedBefore === YesNoValue.YES ? plan.workExperience.typeOfWorkExperienceOther : '',
         modifiedBy: res.locals.user.username,
         modifiedDateTime: new Date().toISOString(),
       },
