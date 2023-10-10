@@ -28,6 +28,7 @@ export default interface CiagPlan {
 
   modifiedBy: string
   modifiedDateTime: string
+  prisonName?: string
 
   workExperience?: {
     id?: number
