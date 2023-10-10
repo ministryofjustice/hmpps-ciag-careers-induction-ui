@@ -84,7 +84,9 @@
             </tbody>
         </table>
 
-        {{ pagination( paginationData ) }}
+        {% if (paginationData.items.length > 1) %}
+            {{ pagination( paginationData ) }}
+        {% endif %}
 
     {% else %}
         {% include './_notFoundMessages.njk' %}

@@ -56,7 +56,7 @@ context('Job details page', () => {
   })
 
   it('New record - Validation messages display when no value selected', () => {
-    const jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
+    const jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their hospitality and catering job?')
     jobDetailsPage.submitButton().click()
 
     jobDetailsPage.roleFieldErrorMessage().contains('Enter the job role Daniel Craig wants to add')
@@ -67,13 +67,13 @@ context('Job details page', () => {
   })
 
   it('New record - Navigates through each job - navigates to work-interests page', () => {
-    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Hospitality and catering job?')
+    let jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their hospitality and catering job?')
     jobDetailsPage.roleField().type('Mock Role')
     jobDetailsPage.detailsField().type('Mock Details')
 
     jobDetailsPage.submitButton().click()
 
-    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their Other job?')
+    jobDetailsPage = new JobDetailsPage('What did Daniel Craig do in their other job?')
 
     jobDetailsPage.roleField().type('Mock Role')
     jobDetailsPage.detailsField().type('Mock Details')
