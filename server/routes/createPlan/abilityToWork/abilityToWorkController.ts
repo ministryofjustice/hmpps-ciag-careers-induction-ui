@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class AbilityToWorkController {
   constructor(private readonly ciagService: CiagService) {}
@@ -38,7 +38,8 @@ export default class AbilityToWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        abilityToWork: mode === 'update' ? _.get(plan, 'abilityToWork', []) : _.get(record, 'abilityToWork', []),
+        abilityToWork:
+          mode === 'update' ? getValueSafely(plan, 'abilityToWork', []) : getValueSafely(record, 'abilityToWork', []),
         abilityToWorkOther: mode === 'update' ? plan.abilityToWorkOther : record.abilityToWorkOther,
       }
 

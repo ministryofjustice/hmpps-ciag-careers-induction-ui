@@ -23,11 +23,10 @@ describe('getCiagListResolver', () => {
       ],
     },
     getActionPlanListResults: {
-      actionPlanSummaries: [
+      ciagPlans: [
         {
-          reference: '814ade0a-a3b2-46a3-862f-79211ba13f7b',
-          prisonNumber: 'A1234BC',
-          reviewDate: '2024-12-19',
+          offenderId: 'A1234BC',
+          createdDateTime: '2024-12-19',
         },
       ],
     },
@@ -37,7 +36,7 @@ describe('getCiagListResolver', () => {
     getPrisonersByCaseloadID: jest.fn(),
   }
   const serviceMock2 = {
-    getActionPlanList: jest.fn(),
+    getCiagPlanList: jest.fn(),
   }
   const error = new Error('mock_error')
 
@@ -53,7 +52,7 @@ describe('getCiagListResolver', () => {
 
   it('On success - attaches data to context and clls next', async () => {
     serviceMock1.getPrisonersByCaseloadID.mockResolvedValue(mockData.prisonerSearchResults)
-    serviceMock2.getActionPlanList.mockResolvedValue(mockData.getActionPlanListResults)
+    serviceMock2.getCiagPlanList.mockResolvedValue(mockData.getActionPlanListResults)
 
     await resolver(req, res, next)
 

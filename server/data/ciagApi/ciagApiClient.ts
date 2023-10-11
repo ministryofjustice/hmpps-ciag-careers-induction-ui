@@ -1,6 +1,7 @@
 import config from '../../config'
 import RestClient from '../restClient'
 import CiagPlan from './interfaces/ciagPlan'
+import CiagPlanListResult from './interfaces/ciagPlanListResult'
 import CreateCiagPlanArgs from './interfaces/createCiagPlanArgs'
 import CreateCiagPlanRequest from './models/createCiagPlanRequest'
 import UpdateCiagPlanRequest from './models/updateCiagPlanRequest'
@@ -42,6 +43,17 @@ export default class CiagApiClient {
   async deleteCiagPlan(offenderId: string) {
     const result = await this.restClient.delete<CiagPlan>({
       path: `${BASE_URL}/${offenderId}`,
+    })
+
+    return result
+  }
+
+  async getCiagPlanList(offenderIds: Array<string>) {
+    const result = await this.restClient.post<CiagPlanListResult>({
+      path: `/ciag-plans`,
+      data: {
+        offenderIds,
+      },
     })
 
     return result

@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -13,6 +12,7 @@ import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class ReasonToNotGetWorkController {
   constructor(private readonly ciagService: CiagService) {}
@@ -40,7 +40,9 @@ export default class ReasonToNotGetWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         reasonToNotGetWork:
-          mode === 'update' ? _.get(plan, 'reasonToNotGetWork', []) : _.get(record, 'reasonToNotGetWork', []),
+          mode === 'update'
+            ? getValueSafely(plan, 'reasonToNotGetWork', [])
+            : getValueSafely(record, 'reasonToNotGetWork', []),
         reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 

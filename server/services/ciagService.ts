@@ -1,6 +1,7 @@
 import CiagPlan from '../data/ciagApi/interfaces/ciagPlan'
 import CiagApiClient from '../data/ciagApi/ciagApiClient'
 import CreateCiagPlanArgs from '../data/ciagApi/interfaces/createCiagPlanArgs'
+import CiagPlanListResult from '../data/ciagApi/interfaces/ciagPlanListResult'
 
 export default class CiagService {
   async getCiagPlan(userToken: string, offenderId: string): Promise<CiagPlan> {
@@ -17,5 +18,9 @@ export default class CiagService {
 
   async deleteCiagPlan(userToken: string, offenderId: string): Promise<CiagPlan> {
     return new CiagApiClient(userToken).deleteCiagPlan(offenderId)
+  }
+
+  async getCiagPlanList(userToken: string, offenderIds: Array<string>): Promise<CiagPlanListResult> {
+    return new CiagApiClient(userToken).getCiagPlanList(offenderIds)
   }
 }

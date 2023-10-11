@@ -11,6 +11,7 @@ context('SignIn', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.task('getActionPlanList')
+    cy.task('getCiagPlanList')
   })
 
   it('Unauthenticated user directed to auth', () => {
