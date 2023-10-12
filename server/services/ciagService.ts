@@ -2,10 +2,12 @@ import CiagPlan from '../data/ciagApi/interfaces/ciagPlan'
 import CiagApiClient from '../data/ciagApi/ciagApiClient'
 import CreateCiagPlanArgs from '../data/ciagApi/interfaces/createCiagPlanArgs'
 import CiagPlanListResult from '../data/ciagApi/interfaces/ciagPlanListResult'
+import { orderCiagPlanArrays } from '../utils/orderCiagPlanArrays'
 
 export default class CiagService {
   async getCiagPlan(userToken: string, offenderId: string): Promise<CiagPlan> {
-    return new CiagApiClient(userToken).getCiagPlan(offenderId)
+    const ciagPlan = await new CiagApiClient(userToken).getCiagPlan(offenderId)
+    return orderCiagPlanArrays(ciagPlan)
   }
 
   async createCiagPlan(userToken: string, offenderId: string, newPlan: CreateCiagPlanArgs): Promise<CiagPlan> {
