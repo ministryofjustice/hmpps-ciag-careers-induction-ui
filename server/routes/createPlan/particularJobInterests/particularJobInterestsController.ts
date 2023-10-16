@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class ParticularJobInterestsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -36,7 +36,7 @@ export default class ParticularJobInterestsController {
       // Build field value
       const particularJobInterests =
         mode === 'update'
-          ? _.get(plan, 'workExperience.workInterests.particularJobInterests')
+          ? getValueSafely(plan, 'workExperience.workInterests.particularJobInterests')
           : record.particularJobInterests
 
       // Setup page data
@@ -46,11 +46,11 @@ export default class ParticularJobInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests:
           mode === 'update'
-            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
-            : _.get(record, 'workInterests', []),
+            ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
+            : getValueSafely(record, 'workInterests', []),
         workInterestsOther:
           mode === 'update'
-            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
             : record.workInterestsOther,
         particularJobInterests: (particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { workInterest: string; role: string }) => {

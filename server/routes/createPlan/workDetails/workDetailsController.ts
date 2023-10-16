@@ -15,6 +15,7 @@ import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class WorkDetailsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -41,8 +42,8 @@ export default class WorkDetailsController {
       // Calculate last page
       const typeOfWorkExperience =
         mode === 'update'
-          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
-          : _.get(record, 'typeOfWorkExperience', [])
+          ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+          : getValueSafely(record, 'typeOfWorkExperience', [])
       const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 

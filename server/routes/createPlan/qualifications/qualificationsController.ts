@@ -13,6 +13,7 @@ import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import getBackLocation from '../../../utils/getBackLocation'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class QualificationsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -51,11 +52,11 @@ export default class QualificationsController {
         backLocation,
         backLocationAriaText,
         educationLevel:
-          mode === 'update' ? _.get(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
+          mode === 'update' ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
         qualifications:
           mode === 'update'
-            ? _.get(plan, 'qualificationsAndTraining.qualifications', [])
-            : _.get(record, 'qualifications', []),
+            ? getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
+            : getValueSafely(record, 'qualifications', []),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }
@@ -151,7 +152,7 @@ export default class QualificationsController {
     if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
       // Setup temporary record for multi page add qualification flow
       setSessionData(req, ['createPlan', id], {
-        qualifications: _.get(plan, 'qualificationsAndTraining.qualifications', []),
+        qualifications: getValueSafely(plan, 'qualificationsAndTraining.qualifications', []),
       })
 
       res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update'))

@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class TypeOfWorkExperienceController {
   constructor(private readonly ciagService: CiagService) {}
@@ -40,11 +40,11 @@ export default class TypeOfWorkExperienceController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         typeOfWorkExperience:
           mode === 'update'
-            ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
-            : _.get(record, 'typeOfWorkExperience', []),
+            ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+            : getValueSafely(record, 'typeOfWorkExperience', []),
         typeOfWorkExperienceOther:
           mode === 'update'
-            ? _.get(plan, 'workExperience.typeOfWorkExperienceOther')
+            ? getValueSafely(plan, 'workExperience.typeOfWorkExperienceOther')
             : record.typeOfWorkExperienceOther,
       }
 

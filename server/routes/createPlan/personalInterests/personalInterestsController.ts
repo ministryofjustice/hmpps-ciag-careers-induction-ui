@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class PersonalInterestsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -39,10 +39,12 @@ export default class PersonalInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         personalInterests:
           mode === 'update'
-            ? _.get(plan, 'skillsAndInterests.personalInterests', [])
-            : _.get(record, 'personalInterests', []),
+            ? getValueSafely(plan, 'skillsAndInterests.personalInterests', [])
+            : getValueSafely(record, 'personalInterests', []),
         personalInterestsOther:
-          mode === 'update' ? _.get(plan, 'skillsAndInterests.personalInterestsOther') : record.personalInterestsOther,
+          mode === 'update'
+            ? getValueSafely(plan, 'skillsAndInterests.personalInterestsOther')
+            : record.personalInterestsOther,
       }
 
       // Store page data for use if validation fails
