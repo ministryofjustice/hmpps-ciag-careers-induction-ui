@@ -11,6 +11,7 @@ context('In prison work page', () => {
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
     cy.task('getActionPlanList')
+    cy.task('getCiagPlanList')
     cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)

@@ -22,12 +22,18 @@ describe('getCiagListResolver', () => {
         },
       ],
     },
+    getCiagListResults: {
+      ciagProfileList: [
+        {
+          offenderId: 'A1234BC',
+          createdDateTime: '2024-12-19',
+        },
+      ],
+    },
     getActionPlanListResults: {
       actionPlanSummaries: [
         {
-          reference: '814ade0a-a3b2-46a3-862f-79211ba13f7b',
           prisonNumber: 'A1234BC',
-          reviewDate: '2024-12-19',
         },
       ],
     },
@@ -37,11 +43,14 @@ describe('getCiagListResolver', () => {
     getPrisonersByCaseloadID: jest.fn(),
   }
   const serviceMock2 = {
+    getCiagPlanList: jest.fn(),
+  }
+  const serviceMock3 = {
     getActionPlanList: jest.fn(),
   }
   const error = new Error('mock_error')
 
-  const resolver = middleware(serviceMock1 as any, serviceMock2 as any)
+  const resolver = middleware(serviceMock1 as any, serviceMock2 as any, serviceMock3 as any)
 
   it('On error - calls next with error', async () => {
     serviceMock1.getPrisonersByCaseloadID.mockRejectedValue(error)
@@ -53,7 +62,8 @@ describe('getCiagListResolver', () => {
 
   it('On success - attaches data to context and clls next', async () => {
     serviceMock1.getPrisonersByCaseloadID.mockResolvedValue(mockData.prisonerSearchResults)
-    serviceMock2.getActionPlanList.mockResolvedValue(mockData.getActionPlanListResults)
+    serviceMock2.getCiagPlanList.mockResolvedValue(mockData.getCiagListResults)
+    serviceMock3.getActionPlanList.mockResolvedValue(mockData.getActionPlanListResults)
 
     await resolver(req, res, next)
 
@@ -67,7 +77,8 @@ describe('getCiagListResolver', () => {
           nonDtoReleaseDate: 'mock_nonDtoReleaseDate',
           nonDtoReleaseDateType: 'mock_nonDtoReleaseType',
           receptionDate: 'mock_receptionDate',
-          status: 'NEEDS_PLAN',
+          ciagStatus: 'NEEDS_PLAN',
+          ciagPlanComplete: false,
         },
       ],
     })

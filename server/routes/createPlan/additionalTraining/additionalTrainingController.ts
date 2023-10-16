@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -14,6 +13,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class AdditionalTrainingController {
   constructor(private readonly ciagService: CiagService) {}
@@ -46,11 +46,11 @@ export default class AdditionalTrainingController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         additionalTraining:
           mode === 'update'
-            ? _.get(plan, 'qualificationsAndTraining.additionalTraining', [])
-            : _.get(record, 'additionalTraining', []),
+            ? getValueSafely(plan, 'qualificationsAndTraining.additionalTraining', [])
+            : getValueSafely(record, 'additionalTraining', []),
         additionalTrainingOther:
           mode === 'update'
-            ? _.get(plan, 'qualificationsAndTraining.additionalTrainingOther')
+            ? getValueSafely(plan, 'qualificationsAndTraining.additionalTrainingOther')
             : record.additionalTrainingOther,
       }
 

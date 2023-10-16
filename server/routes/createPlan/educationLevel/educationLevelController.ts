@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -16,6 +15,7 @@ import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class EducationLevelController {
   constructor(private readonly ciagService: CiagService) {}
@@ -42,7 +42,7 @@ export default class EducationLevelController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         educationLevel:
-          mode === 'update' ? _.get(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
+          mode === 'update' ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
       }
 
       // Store page data for use if validation fails

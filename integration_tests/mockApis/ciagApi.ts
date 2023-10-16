@@ -34,8 +34,41 @@ const updateCiagPlan = (id = 'G6115VJ') =>
     },
   })
 
+const getCiagPlanList = () =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: `/ciag/induction/list`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        ciagProfileList: [
+          {
+            offenderId: 'G0000OP',
+            createdDateTime: '2023-02-20',
+          },
+          {
+            offenderId: 'G0000QR',
+            createdDateTime: '2023-02-25',
+          },
+          {
+            offenderId: 'G0000ST',
+            createdDateTime: '2023-03-01',
+          },
+          {
+            offenderId: 'G0000AB',
+            createdDateTime: '2023-01-24',
+          },
+        ],
+      },
+    },
+  })
+
 export default {
   getCiagPlan,
   createCiagPlan,
   updateCiagPlan,
+  getCiagPlanList,
 }

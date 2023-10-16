@@ -10,6 +10,7 @@ context('Work plan page', () => {
     cy.task('stubVerifyToken', true)
     cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.task('getActionPlanList')
+    cy.task('getCiagPlanList')
     cy.signIn()
   })
 
