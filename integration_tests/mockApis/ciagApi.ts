@@ -38,13 +38,13 @@ const getCiagPlanList = () =>
   stubFor({
     request: {
       method: 'POST',
-      urlPattern: `/ciag-plans`,
+      urlPattern: `/ciag/induction/list`,
     },
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        ciagPlans: [
+        ciagProfileList: [
           {
             offenderId: 'G0000OP',
             createdDateTime: '2023-02-20',

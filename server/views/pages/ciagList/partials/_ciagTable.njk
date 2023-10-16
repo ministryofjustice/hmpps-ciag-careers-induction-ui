@@ -56,7 +56,7 @@
                 {% for key, offender in ciagOffenders %}
                     <tr class="govuk-table__row {{ rowClass.next() }}">
                         <td class="govuk-table__cell" width="30%">
-                            <a href="{{ addressLookup.learningPlan.profile(offender.prisonerNumber, 'overview') if offender.planComplete === true else addressLookup.workPlan(offender.prisonerNumber) }}"
+                            <a href="{{ addressLookup.learningPlan.profile(offender.prisonerNumber, 'overview') if offender.ciagPlanComplete === true else addressLookup.workPlan(offender.prisonerNumber) }}"
                             rel="noopener noreferrer"
                             data-qa="quick-look-link"
                             aria-label="Profile link for {{ offender.lastName | trim }}, {{ offender.firstName }}"
@@ -73,9 +73,9 @@
                             {{ offender.receptionDate or 'N/A' }}
                         </td>
                         <td class="govuk-table__cell" width="15%">
-                            {% if offender.status === 'NEEDS_PLAN' %}
+                            {% if offender.ciagStatus === 'NEEDS_PLAN' %}
                                 <strong class="govuk-tag govuk-tag--red">Needs plan</strong>            
-                            {% elif offender.status === 'NEEDS_REVIEW'%}
+                            {% elif offender.ciagStatus === 'NEEDS_REVIEW'%}
                                 <strong class="govuk-tag govuk-tag--yellow">Needs review</strong>
                             {% endif %}
                         </td>

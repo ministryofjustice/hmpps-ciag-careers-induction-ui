@@ -23,7 +23,7 @@ describe('getCiagListResolver', () => {
       ],
     },
     getCiagListResults: {
-      ciagPlans: [
+      ciagProfileList: [
         {
           offenderId: 'A1234BC',
           createdDateTime: '2024-12-19',
@@ -77,8 +77,8 @@ describe('getCiagListResolver', () => {
           nonDtoReleaseDate: 'mock_nonDtoReleaseDate',
           nonDtoReleaseDateType: 'mock_nonDtoReleaseType',
           receptionDate: 'mock_receptionDate',
-          status: 'NEEDS_PLAN',
-          planComplete: false,
+          ciagStatus: 'NEEDS_PLAN',
+          ciagPlanComplete: false,
         },
       ],
     })

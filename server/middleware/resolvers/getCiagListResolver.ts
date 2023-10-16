@@ -29,7 +29,9 @@ const getCiagListResolver =
 
       // Set statuses
       const ciagList = prisoners.content.map((p: Prisoner) => {
-        const ciagPlan = ciagPlans?.ciagPlans.find((a: { offenderId: string }) => a.offenderId === p.prisonerNumber)
+        const ciagPlan = ciagPlans?.ciagProfileList.find(
+          (a: { offenderId: string }) => a.offenderId === p.prisonerNumber,
+        )
         const workPlan = workPlans?.actionPlanSummaries.find(
           (a: { prisonNumber: string }) => a.prisonNumber === p.prisonerNumber,
         )
@@ -38,8 +40,8 @@ const getCiagListResolver =
           ...p,
           firstName: p.firstName.trim(),
           lastName: p.lastName.trim(),
-          status: !ciagPlan || !workPlan ? 'NEEDS_PLAN' : '',
-          planComplete: !!ciagPlan,
+          ciagStatus: !ciagPlan || !workPlan ? 'NEEDS_PLAN' : '',
+          ciagPlanComplete: !!ciagPlan,
         }
       })
 

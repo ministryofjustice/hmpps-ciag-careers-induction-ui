@@ -50,7 +50,7 @@ export default class CiagApiClient {
 
   async getCiagPlanList(offenderIds: Array<string>) {
     const result = await this.restClient.post<CiagPlanListResult>({
-      path: `/ciag-plans`,
+      path: `${BASE_URL}/list`,
       data: {
         offenderIds,
       },

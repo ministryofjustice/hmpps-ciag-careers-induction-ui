@@ -1,5 +1,5 @@
 export default interface CiagPlanListResult {
-  ciagPlans: [
+  ciagProfileList: [
     {
       offenderId: string
       createdDateTime: string
