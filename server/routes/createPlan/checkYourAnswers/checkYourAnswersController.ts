@@ -71,7 +71,8 @@ export default class CheckYourAnswersController {
         inPrisonWorkOther: record.inPrisonWorkOther,
         inPrisonEducation: record.inPrisonEducation,
         inPrisonEducationOther: record.inPrisonEducationOther,
-        prisonName: prisoner.prisonId,
+        prisonId: prisoner.prisonId,
+        prisonName: prisoner.prisonName,
       }
 
       // Handle flow update, an update when hopingToGetWork was changed

@@ -15,6 +15,7 @@ import CiagPlan from '../interfaces/ciagPlan'
 export default class UpdateCiagPlanRequest {
   constructor(data: CiagPlan) {
     this.offenderId = data.offenderId
+    this.prisonId = data.prisonId
     this.prisonName = data.prisonName
 
     this.desireToWork = data.desireToWork
@@ -60,6 +61,8 @@ export default class UpdateCiagPlanRequest {
   modifiedBy: string
 
   modifiedDateTime: string
+
+  prisonId: string
 
   prisonName: string
 
