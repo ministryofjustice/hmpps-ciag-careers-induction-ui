@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
@@ -11,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class SkillsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -39,7 +39,7 @@ export default class SkillsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        skills: mode === 'update' ? _.get(plan, 'skillsAndInterests.skills', []) : record.skills || [],
+        skills: mode === 'update' ? getValueSafely(plan, 'skillsAndInterests.skills', []) : record.skills || [],
         skillsOther: mode === 'update' ? plan.skillsAndInterests.skillsOther : record.skillsOther,
       }
 

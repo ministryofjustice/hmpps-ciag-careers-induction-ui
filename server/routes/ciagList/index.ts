@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/',
-    [getCiagListResolver(services.prisonerSearchService, services.educationAndWorkPlanService)],
+    [getCiagListResolver(services.prisonerSearchService, services.ciagService, services.educationAndWorkPlanService)],
     controller.get,
   )
 

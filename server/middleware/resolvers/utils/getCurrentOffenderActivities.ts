@@ -1,11 +1,10 @@
-import _ from 'lodash'
-
 import PrisonService from '../../../services/prisonService'
+import { getValueSafely } from '../../../utils/utils'
 
 const getCurrentOffenderActivities = async (prisonService: PrisonService, username: string, id: string) => {
   try {
     const activitiesResult = await prisonService.getAllOffenderActivities(username, id)
-    return _.get(activitiesResult, 'content', []).filter(
+    return getValueSafely(activitiesResult, 'content', []).filter(
       (a: { isCurrentActivity: boolean }) => a.isCurrentActivity === true,
     )
   } catch (err) {

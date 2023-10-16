@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -13,6 +12,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class WorkInterestsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -32,8 +32,8 @@ export default class WorkInterestsController {
       // Get last key
       const typeOfWorkExperience =
         mode === 'update'
-          ? _.get(plan, 'workExperience.typeOfWorkExperience', [])
-          : _.get(record, 'typeOfWorkExperience', [])
+          ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+          : getValueSafely(record, 'typeOfWorkExperience', [])
       const lastKey = typeOfWorkExperience ? typeOfWorkExperience.at(-1) : ''
 
       // Setup back location
@@ -52,11 +52,11 @@ export default class WorkInterestsController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         workInterests:
           mode === 'update'
-            ? _.get(plan, 'workExperience.workInterests.workInterests', [])
-            : _.get(record, 'workInterests', []),
+            ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
+            : getValueSafely(record, 'workInterests', []),
         workInterestsOther:
           mode === 'update'
-            ? _.get(plan, 'workExperience.workInterests.workInterestsOther')
+            ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
             : record.workInterestsOther,
       }
 

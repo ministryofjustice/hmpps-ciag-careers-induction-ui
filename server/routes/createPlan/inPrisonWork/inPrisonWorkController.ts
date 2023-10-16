@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -12,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class InPrisonWorkController {
   constructor(private readonly ciagService: CiagService) {}
@@ -39,9 +39,13 @@ export default class InPrisonWorkController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         inPrisonWork:
-          mode === 'update' ? _.get(plan, 'inPrisonInterests.inPrisonWork', []) : _.get(record, 'inPrisonWork', []),
+          mode === 'update'
+            ? getValueSafely(plan, 'inPrisonInterests.inPrisonWork', [])
+            : getValueSafely(record, 'inPrisonWork', []),
         inPrisonWorkOther:
-          mode === 'update' ? _.get(plan, 'inPrisonInterests.inPrisonWorkOther', []) : record.inPrisonWorkOther,
+          mode === 'update'
+            ? getValueSafely(plan, 'inPrisonInterests.inPrisonWorkOther', [])
+            : record.inPrisonWorkOther,
       }
 
       // Store page data for use if validation fails
