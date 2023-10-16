@@ -13,6 +13,25 @@ export default function setUpWebSecurity(): Router {
     res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
     next()
   })
+
+  const scriptSrc = [
+    "'self'",
+    '*.google-analytics.com',
+    '*.googletagmanager.com',
+    (req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
+  ]
+  const styleSrc = ["'self'", 'code.jquery.com', "'unsafe-inline'"]
+  const imgSrc = ["'self'", 'data:']
+  const fontSrc = ["'self'"]
+  const connectSrc = ['*.google-analytics.com', '*.googletagmanager.com', '*.analytics.google.com']
+
+  if (config.apis.frontendComponents.url) {
+    scriptSrc.push(config.apis.frontendComponents.url)
+    styleSrc.push(config.apis.frontendComponents.url)
+    imgSrc.push(config.apis.frontendComponents.url)
+    fontSrc.push(config.apis.frontendComponents.url)
+  }
+
   router.use(
     helmet({
       contentSecurityPolicy: {
@@ -20,16 +39,11 @@ export default function setUpWebSecurity(): Router {
           defaultSrc: ["'self'"],
           formAction: ["'self'", new URL(config.apis.hmppsAuth.url).hostname, new URL(config.learningPlanUrl).hostname],
           // Hash allows inline script pulled in from https://github.com/alphagov/govuk-frontend/blob/master/src/govuk/template.njk
-          scriptSrc: [
-            "'self'",
-            '*.google-analytics.com',
-            '*.googletagmanager.com',
-            (req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
-          ],
-          styleSrc: ["'self'", 'code.jquery.com', "'unsafe-inline'"],
-          fontSrc: ["'self'"],
-          connectSrc: ['*.google-analytics.com', '*.googletagmanager.com', '*.analytics.google.com'],
-          imgSrc: ["'self'", '*.google-analytics.com', '*.googletagmanager.com'],
+          scriptSrc,
+          styleSrc,
+          fontSrc,
+          imgSrc,
+          connectSrc,
         },
       },
       crossOriginEmbedderPolicy: true,

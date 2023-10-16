@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse, parseISO, format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
+import _ from 'lodash'
 
 function properCase(word: string): string {
   return word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -176,3 +177,8 @@ export const mapToQueryString = (params: Record<never, never>): string =>
       return `${key}=${encodeURIComponent(params[key])}`
     })
     .join('&')
+
+export const getValueSafely = (obj: NonNullable<unknown>, path: string, def: any = undefined) => {
+  const val = _.get(obj, path)
+  return _.isEmpty(val) ? def : val
+}

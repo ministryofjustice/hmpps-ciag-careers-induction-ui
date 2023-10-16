@@ -40,6 +40,12 @@ export default class CiagViewModel {
 
   @Expose()
   status: string
+
+  @Expose()
+  ciagStatus: string
+
+  @Expose()
+  ciagPlanComplete: string
 }
 
 export type PagedCiagResponse = PageableResponse<CiagViewModel>

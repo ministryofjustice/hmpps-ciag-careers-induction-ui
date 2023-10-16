@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-import _ from 'lodash'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -13,6 +12,7 @@ import YesNoValue from '../../../enums/yesNoValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class HasWorkedBeforeController {
   constructor(private readonly ciagService: CiagService) {}
@@ -41,7 +41,7 @@ export default class HasWorkedBeforeController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hasWorkedBefore:
           mode === 'update'
-            ? _.get(record, 'workExperience.hasWorkedBefore')
+            ? getValueSafely(record, 'workExperience.hasWorkedBefore')
               ? YesNoValue.YES
               : YesNoValue.NO
             : record.hasWorkedBefore,
