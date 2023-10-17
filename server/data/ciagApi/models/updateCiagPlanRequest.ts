@@ -11,6 +11,7 @@ import SkillsValue from '../../../enums/skillsValue'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import WorkInterestsValue from '../../../enums/workInterestsValue'
 import CiagPlan from '../interfaces/ciagPlan'
+import { getValueSafely } from '../../../utils/utils'
 
 export default class UpdateCiagPlanRequest {
   constructor(data: CiagPlan) {
@@ -33,10 +34,10 @@ export default class UpdateCiagPlanRequest {
     this.modifiedBy = data.modifiedBy
     this.modifiedDateTime = data.modifiedDateTime
 
-    this.workExperience = data.workExperience || null
-    this.skillsAndInterests = data.skillsAndInterests || null
-    this.qualificationsAndTraining = data.qualificationsAndTraining || null
-    this.inPrisonInterests = data.inPrisonInterests || null
+    this.workExperience = getValueSafely(data, 'workExperience', null)
+    this.skillsAndInterests = getValueSafely(data, 'skillsAndInterests', null)
+    this.qualificationsAndTraining = getValueSafely(data, 'qualificationsAndTraining', null)
+    this.inPrisonInterests = getValueSafely(data, 'inPrisonInterests', null)
   }
 
   // Properties
