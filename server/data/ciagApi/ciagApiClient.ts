@@ -56,6 +56,8 @@ export default class CiagApiClient {
       },
     })
 
+    console.log(result)
+
     return result
   }
 }
