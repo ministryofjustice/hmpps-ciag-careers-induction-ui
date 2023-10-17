@@ -36,6 +36,5 @@ export const buildSortUrl = ({
       ? `${redirectUrl}?${key}=${queryStringItems[key]}`
       : `${redirectUrl}&${key}=${queryStringItems[key]}`
   })
-  // console.log(`redirectUrl: ${redirectUrl}`)
   return redirectUrl
 }
