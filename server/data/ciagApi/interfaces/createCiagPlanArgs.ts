@@ -14,6 +14,8 @@ import YesNoValue from '../../../enums/yesNoValue'
 
 export default interface CreateCiagPlanArgs {
   currentUser: string
+  prisonId?: string
+  prisonName?: string
 
   hopingToGetWork: HopingToGetWorkValue
 
