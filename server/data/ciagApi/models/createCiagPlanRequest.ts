@@ -35,6 +35,9 @@ export default class CreateCiagPlanRequest {
     this.modifiedBy = data.currentUser
     this.modifiedDateTime = isoString
 
+    this.prisonId = data.prisonId
+    this.prisonName = data.prisonName
+
     this.workExperience =
       data.hopingToGetWork === HopingToGetWorkValue.YES
         ? {
@@ -110,6 +113,10 @@ export default class CreateCiagPlanRequest {
   modifiedBy: string
 
   modifiedDateTime: string
+
+  prisonId: string
+
+  prisonName: string
 
   workExperience?: {
     hasWorkedBefore: boolean
