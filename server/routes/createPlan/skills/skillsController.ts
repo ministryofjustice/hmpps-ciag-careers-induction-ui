@@ -11,6 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils/utils'
+import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class SkillsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -29,9 +30,7 @@ export default class SkillsController {
 
       // Setup back location
       const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.particularJobInterests(id, mode)
-          : addressLookup.createPlan.checkYourAnswers(id)
+        mode === 'new' ? addressLookup.createPlan.particularJobInterests(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
