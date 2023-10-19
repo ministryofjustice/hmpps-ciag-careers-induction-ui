@@ -3,7 +3,15 @@ import { plainToClass } from 'class-transformer'
 import expressMocks from '../../testutils/expressMocks'
 import Controller from './ciagListController'
 import CiagViewModel from '../../viewModels/ciagViewModel'
+import validateFormSchema from '../../utils/validateFormSchema'
+import { getSessionData, setSessionData } from '../../utils/session'
+import addressLookup from '../addressLookup'
 
+jest.mock('../../utils/validateFormSchema', () => ({
+  ...jest.requireActual('../../utils/validateFormSchema'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 describe('CiagListController', () => {
   const { res, req, next } = expressMocks()
 
@@ -89,6 +97,58 @@ describe('CiagListController', () => {
       })
 
       expect(next).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('#post(req, res)', () => {
+    const errors = { details: 'mock_error' }
+    const validationMock = validateFormSchema as jest.Mock
+
+    beforeEach(() => {
+      res.render.mockReset()
+      res.redirect.mockReset()
+      next.mockReset()
+      validationMock.mockReset()
+      setSessionData(req, ['ciagList', 'data'], mockData)
+      mockPaginationService.getPagination.mockReturnValue(paginationData)
+    })
+
+    it('Should create a new instance', () => {
+      expect(controller).toBeDefined()
+    })
+
+    it('On error - Calls next with error', async () => {
+      validationMock.mockImplementation(() => {
+        throw new Error('mock_error')
+      })
+
+      controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(1)
+      expect(res.render).toHaveBeenCalledTimes(0)
+    })
+
+    it('On validation error - Calls render with correct data', async () => {
+      validationMock.mockImplementation(() => errors)
+
+      controller.post(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith('pages/ciagList/index', {
+        ...mockData,
+        errors,
+      })
+    })
+
+    it('On successful POST - call renders with the correct data', async () => {
+      req.body.searchTerm = 'name1'
+      req.body.statusFilter = 'NEEDS_PLAN'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.prisonerSearch()}${'?searchTerm=name1&statusFilter=NEEDS_PLAN'}`,
+      )
     })
   })
 })
