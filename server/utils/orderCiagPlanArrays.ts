@@ -71,7 +71,7 @@ export const orderCiagPlanArrays = (ciagPlan: CiagPlan) => {
   return ciagPlan
 }
 
-export const orderCheckboxValue = (values: string[]) =>
+export const orderCheckboxValue = <T>(values: T[]): T[] =>
   _.isEmpty(values) ? values : [...values.filter(v => v !== 'OTHER').sort(), ...values.filter(v => v === 'OTHER')]
 
 export const orderObjectValue = (values: Record<string, unknown>[], sortKey: string, direction = 'asc') =>
