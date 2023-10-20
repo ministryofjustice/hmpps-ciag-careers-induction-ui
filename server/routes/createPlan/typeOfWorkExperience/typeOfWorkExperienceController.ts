@@ -12,6 +12,7 @@ import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils/utils'
+import { orderCheckboxValue } from '../../../utils/orderCiagPlanArrays'
 
 export default class TypeOfWorkExperienceController {
   constructor(private readonly ciagService: CiagService) {}
@@ -88,7 +89,7 @@ export default class TypeOfWorkExperienceController {
       const record = getSessionData(req, ['createPlan', id])
       setSessionData(req, ['createPlan', id], {
         ...record,
-        typeOfWorkExperience,
+        typeOfWorkExperience: orderCheckboxValue(typeOfWorkExperience),
         typeOfWorkExperienceOther: typeOfWorkExperience.includes(TypeOfWorkExperienceValue.OTHER)
           ? typeOfWorkExperienceOther
           : '',
@@ -98,7 +99,13 @@ export default class TypeOfWorkExperienceController {
       })
 
       // Redirect to the correct page based on hopingToGetWork
-      res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], mode))
+      res.redirect(
+        addressLookup.createPlan.workDetails(
+          id,
+          orderCheckboxValue(typeOfWorkExperience)[0] as TypeOfWorkExperienceValue,
+          mode,
+        ),
+      )
     } catch (err) {
       next(err)
     }
@@ -129,6 +136,12 @@ export default class TypeOfWorkExperienceController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    res.redirect(addressLookup.createPlan.workDetails(id, typeOfWorkExperience.sort()[0], 'update'))
+    res.redirect(
+      addressLookup.createPlan.workDetails(
+        id,
+        orderCheckboxValue(typeOfWorkExperience)[0] as TypeOfWorkExperienceValue,
+        'update',
+      ),
+    )
   }
 }
