@@ -78,6 +78,7 @@ describe('WorkDetailsController', () => {
           },
         ],
       })
+      req.params.typeOfWorkExperienceKey = 'OTHER'
     })
 
     it('On error - Calls next with error', async () => {
@@ -129,6 +130,7 @@ describe('WorkDetailsController', () => {
         typeOfWorkExperience: [typeOfWorkExperienceKey],
         workExperience: [],
       })
+      req.params.typeOfWorkExperienceKey = 'OTHER'
     })
 
     it('On error - Calls next with error', async () => {
@@ -189,11 +191,12 @@ describe('WorkDetailsController', () => {
 
       req.body.jobRole = 'mock_role'
       req.body.jobDetails = 'mock_details'
+      req.params.typeOfWorkExperienceKey = TypeOfWorkExperienceValue.RETAIL
 
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.RETAIL, mode),
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.OTHER, mode),
       )
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
@@ -201,9 +204,10 @@ describe('WorkDetailsController', () => {
         typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [
           {
-            typeOfWorkExperience: typeOfWorkExperienceKey,
+            typeOfWorkExperience: TypeOfWorkExperienceValue.RETAIL,
             role: 'mock_role',
             details: 'mock_details',
+            otherWork: '',
           },
         ],
       })
@@ -219,11 +223,12 @@ describe('WorkDetailsController', () => {
       req.body.jobRole = 'mock_role'
       req.body.jobDetails = 'mock_details'
       req.params.mode = 'edit'
+      req.params.typeOfWorkExperienceKey = TypeOfWorkExperienceValue.RETAIL
 
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.RETAIL, 'edit'),
+        addressLookup.createPlan.workDetails(id, TypeOfWorkExperienceValue.OTHER, 'edit'),
       )
       expect(getSessionData(req, ['workDetails', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({
@@ -231,9 +236,10 @@ describe('WorkDetailsController', () => {
         typeOfWorkExperience: [typeOfWorkExperienceKey, TypeOfWorkExperienceValue.RETAIL],
         workExperience: [
           {
-            typeOfWorkExperience: typeOfWorkExperienceKey,
+            typeOfWorkExperience: TypeOfWorkExperienceValue.RETAIL,
             role: 'mock_role',
             details: 'mock_details',
+            otherWork: '',
           },
         ],
       })

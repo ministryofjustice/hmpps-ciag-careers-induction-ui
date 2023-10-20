@@ -16,6 +16,7 @@ import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRe
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { getValueSafely } from '../../../utils/utils'
+import { orderCheckboxValue, orderObjectValue } from '../../../utils/orderCiagPlanArrays'
 
 export default class WorkDetailsController {
   constructor(private readonly ciagService: CiagService) {}
@@ -109,31 +110,31 @@ export default class WorkDetailsController {
 
       // Calculate next page
       const record = getSessionData(req, ['createPlan', id])
-      const position = record.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+      const position = orderCheckboxValue(record.typeOfWorkExperience).indexOf(typeOfWorkExperienceKey.toUpperCase())
       const nextKey =
-        position < record.typeOfWorkExperience.length ? record.typeOfWorkExperience.sort()[position + 1] : ''
+        position < record.typeOfWorkExperience.length
+          ? orderCheckboxValue(record.typeOfWorkExperience)[position + 1]
+          : ''
+
+      const newValue = [
+        ...(record.workExperience || []).filter(
+          (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
+        ),
+        {
+          typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
+          role: jobRole,
+          details: jobDetails,
+          otherWork:
+            typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
+              ? record.typeOfWorkExperienceOther
+              : '',
+        },
+      ]
 
       // Update record in session
       setSessionData(req, ['createPlan', id], {
         ...record,
-        workExperience: _.orderBy(
-          [
-            ...(record.workExperience || []).filter(
-              (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience !== typeOfWorkExperienceKey.toUpperCase(),
-            ),
-            {
-              typeOfWorkExperience: typeOfWorkExperienceKey.toUpperCase(),
-              role: jobRole,
-              details: jobDetails,
-              otherWork:
-                typeOfWorkExperienceKey.toUpperCase() === TypeOfWorkExperienceValue.OTHER
-                  ? record.typeOfWorkExperienceOther
-                  : '',
-            },
-          ],
-          ['typeOfWorkExperience'],
-          ['asc'],
-        ),
+        workExperience: orderObjectValue(newValue, 'typeOfWorkExperience'),
       })
 
       // Handle edit
@@ -145,7 +146,7 @@ export default class WorkDetailsController {
       // Default flow
       res.redirect(
         nextKey
-          ? addressLookup.createPlan.workDetails(id, nextKey, mode)
+          ? addressLookup.createPlan.workDetails(id, nextKey as TypeOfWorkExperienceValue, mode)
           : addressLookup.createPlan.workInterests(id, mode),
       )
     } catch (err) {
@@ -158,10 +159,10 @@ export default class WorkDetailsController {
     const { plan } = req.context
     const { jobRole, jobDetails } = req.body
 
-    const position = plan.workExperience.typeOfWorkExperience.sort().indexOf(typeOfWorkExperienceKey.toUpperCase())
+    const position = plan.workExperience.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
     const nextKey =
       position < plan.workExperience.typeOfWorkExperience.length
-        ? plan.workExperience.typeOfWorkExperience.sort()[position + 1]
+        ? plan.workExperience.typeOfWorkExperience[position + 1]
         : ''
 
     // Update data model
