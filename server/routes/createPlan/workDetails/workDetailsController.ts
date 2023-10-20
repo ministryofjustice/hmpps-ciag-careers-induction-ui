@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import _ from 'lodash'
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
