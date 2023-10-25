@@ -4,6 +4,7 @@ import { plainToClass } from 'class-transformer'
 import expressMocks from '../../testutils/expressMocks'
 import Controller from './workPlanController'
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
+import addressLookup from '../addressLookup'
 
 describe('WorkPlanController', () => {
   const { req, res, next } = expressMocks()
@@ -13,16 +14,13 @@ describe('WorkPlanController', () => {
     lastName: 'mock_lastName',
   }
 
-  req.context.plan = {}
-
   req.params.id = 'mock_ref'
   req.params.tab = 'overview'
-  const { tab } = req.params
+  const { tab, id } = req.params
 
   const mockData = {
     id: 'mock_ref',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    plan: {},
     tab,
   }
 
@@ -53,6 +51,14 @@ describe('WorkPlanController', () => {
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/workPlan/index', { ...mockData })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - Plan found - Redirect to the learning profile', async () => {
+      req.context.plan = {}
+      controller.get(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

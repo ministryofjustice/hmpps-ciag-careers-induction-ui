@@ -1,106 +1,12 @@
-{% if plan %}
-  {#
-    Temporary fix to make testing easy
-  #}
-  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-        Important
-      </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-      <p class="govuk-notification-banner__heading">
-        {{ prisoner.firstName }} {{ prisoner.lastName }} has an education and work plan.
-      </p>
-    </div>
+<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Important
+    </h2>
   </div>
-
-  <p>Change Links</p>
-
-  <h3>Lite flow</h3>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.hopingToGetWork(id, 'update') }}">
-      Change hopingToGetWork
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'update') }}">
-      Change reasonToNotGetWork
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.qualifications(id, 'update') }}">
-      Change qualifications
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'update') }}">
-      Change additionalTraining
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.inPrisonWork(id, 'update') }}">
-      Change inPrisonWork
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.inPrisonEducation(id, 'update') }}">
-      Change inPrisonEducation
-  </a><br/><br/>
-
-
-  <h3>Full flow</h3>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.hopingToGetWork(id, 'update') }}">
-      Change hopingToGetWork
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.qualifications(id, 'update') }}">
-      Change qualifications
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.educationLevel(id, 'update') }}">
-      Change educationLevel
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'update') }}">
-      Change additionalTraining
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.hasWorkedBefore(id, 'update') }}">
-      Change hasWorkedBefore
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.typeOfWorkExperience(id, 'update') }}">
-      Change typeOfWorkExperience
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.workInterests(id, 'update') }}">
-      Change workInterests
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.particularJobInterests(id, 'update') }}">
-      Change particularJobInterests
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.skills(id, 'update') }}">
-      Change skills
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.personalInterests(id, 'update') }}">
-      Change personalInterests
-  </a><br/>
-  <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.abilityToWork(id, 'update') }}">
-      Change abilityToWork
-  </a><br/><br/>
-
-
-
-  <p>Development message: Data dump</p>
-
-  {{ plan | dump | safe }}
-
-<form class="form" method="post" novalidate="">
-  <div class="govuk-form-group">
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      Create goals and add education, work, skills and interests to <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}">make a progress plan now</a>.
+    </p>
   </div>
-
-  {{ govukButton({
-      text: "Delete plan",
-      type: "submit",
-      attributes: {"data-qa": "submit-button"}
-    }) }}
-</form>
-{% else %}
-  <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-        Important
-      </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-      <p class="govuk-notification-banner__heading">
-        Create goals and add education, work, skills and interests to <a class="govuk-notification-banner__link" id="overview-create-plan-link" href="{{ addressLookup.createPlan.hopingToGetWork(prisoner.prisonerNumber) }}">make a progress plan now</a>.
-      </p>
-    </div>
-  </div>
-{% endif %}
+</div>

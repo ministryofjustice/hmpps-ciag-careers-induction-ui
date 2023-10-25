@@ -13,11 +13,4 @@ export default (router: Router, services: Services) => {
     [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
     controller.get,
   )
-
-  // TODO: Remove when dev is complete
-  router.post(
-    '/plan/:id/view/:tab',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
-    controller.post,
-  )
 }

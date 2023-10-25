@@ -77,16 +77,18 @@ export default class HopingToGetWorkController {
       }
 
       const record = getSessionData(req, ['createPlan', id], {})
-      // Handle no changes
-      if (mode !== 'new' && hopingToGetWork === record.hopingToGetWork) {
-        res.redirect(getHubPageByMode(mode, id))
-        return
-      }
-
+      const desireToWorkExisting = record.hopingToGetWork === HopingToGetWorkValue.YES
+      const desireToWorkNew = hopingToGetWork === HopingToGetWorkValue.YES
       // Create new record in sessionData
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork,
       })
+
+      // Handle no changes
+      if (mode !== 'new' && desireToWorkExisting === desireToWorkNew) {
+        res.redirect(addressLookup.createPlan.checkYourAnswers(id))
+        return
+      }
 
       // Redirect to the correct page based on value
       res.redirect(

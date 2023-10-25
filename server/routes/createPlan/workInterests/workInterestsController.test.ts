@@ -156,6 +156,7 @@ describe('WorkInterestsController', () => {
         hopingToGetWork: 'YES',
         workInterests: [WorkInterestsValue.OTHER],
         workInterestsOther: 'mock_details',
+        particularJobInterests: [],
       })
       expect(getSessionData(req, ['workInterests', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.particularJobInterests(id))

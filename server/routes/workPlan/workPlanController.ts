@@ -13,12 +13,17 @@ export default class WorkPlanController {
     const { prisoner, plan } = req.context
 
     try {
+      // Redirect to completed profile if plan found
+      if (plan) {
+        res.redirect(addressLookup.learningPlan.profile(id))
+        return
+      }
+
       const data = {
         id,
         prisoner: {
           ...plainToClass(PrisonerViewModel, prisoner),
         },
-        plan,
         tab,
       }
 
@@ -26,14 +31,5 @@ export default class WorkPlanController {
     } catch (err) {
       next(err)
     }
-  }
-
-  // TODO: Remove when dev is complete
-  public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
-
-    await this.ciagService.deleteCiagPlan(res.locals.user.token, id)
-
-    res.redirect(addressLookup.workPlan(id))
   }
 }
