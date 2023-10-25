@@ -135,5 +135,47 @@ describe('HopingToGetWorkController', () => {
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
     })
+
+    it('On success - EDIT - hopingToGetWork no logic change - Sets session record then redirects to checkYourAnswers', async () => {
+      req.params.mode = 'edit'
+      req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.NO,
+      })
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NOT_SURE })
+    })
+
+    it('On success - EDIT - hopingToGetWork change to POSITIVE - Sets session record then redirects to checkYourAnswers', async () => {
+      req.params.mode = 'edit'
+      req.body.hopingToGetWork = HopingToGetWorkValue.YES
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.NOT_SURE,
+      })
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'new'))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.YES })
+    })
+
+    it('On success - EDIT - hopingToGetWork change to NEGATIVE - Sets session record then redirects to checkYourAnswers', async () => {
+      req.params.mode = 'edit'
+      req.body.hopingToGetWork = HopingToGetWorkValue.NO
+      setSessionData(req, ['createPlan', id], {
+        hopingToGetWork: HopingToGetWorkValue.YES,
+      })
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.reasonToNotGetWork(id, 'new'))
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
+    })
   })
 })

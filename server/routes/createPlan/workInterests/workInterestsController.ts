@@ -102,6 +102,9 @@ export default class WorkInterestsController {
         ...record,
         workInterests,
         workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
+        particularJobInterests: getValueSafely(record, 'particularJobInterests', []).filter(
+          (p: { workInterest: string }) => workInterests.includes(p.workInterest),
+        ),
       })
 
       // Handle edit and update
@@ -131,6 +134,11 @@ export default class WorkInterestsController {
           ...plan.workExperience.workInterests,
           workInterests,
           workInterestsOther: workInterests.includes(WorkInterestsValue.OTHER) ? workInterestsOther : '',
+          particularJobInterests: getValueSafely(
+            plan,
+            'workExperience.workInterests.particularJobInterests',
+            [],
+          ).filter((p: { workInterest: string }) => workInterests.includes(p.workInterest)),
           modifiedBy: res.locals.user.username,
           modifiedDateTime: new Date().toISOString(),
         },
