@@ -4,6 +4,8 @@ import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 const pageTitle = "Why is Daniel Craig not hoping to get work when they're released?"
 
 context('Not hoping to get work page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -34,6 +36,7 @@ context('Not hoping to get work page', () => {
     reasonToNotGetWork.submitButton().click()
 
     reasonToNotGetWork.pageErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
+    reasonToNotGetWork.checkboxFieldErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
   })
 
   it('Select OTHER - no details given, display appropriate message', () => {

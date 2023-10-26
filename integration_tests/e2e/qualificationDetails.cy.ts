@@ -5,6 +5,8 @@ import QualificationLevelPage from '../pages/qualificationLevel'
 import QualificationsPage from '../pages/qualifications'
 
 context('Qualification details page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -56,6 +58,16 @@ context('Qualification details page', () => {
     qualificationDetailsPage
       .gradeFieldErrorMessage()
       .contains("Enter the grade of Daniel Craig's level 1 qualification")
+
+    qualificationDetailsPage.subjectField().type(longStr)
+    qualificationDetailsPage.gradeField().type(longStr)
+    qualificationDetailsPage.submitButton().click()
+
+    qualificationDetailsPage.subjectPageErrorMessage().contains('Subject must be 200 characters or less')
+    qualificationDetailsPage.subjectPageErrorMessage().contains('Subject must be 200 characters or less')
+
+    qualificationDetailsPage.gradePageErrorMessage().contains('Grade must be 200 characters or less')
+    qualificationDetailsPage.gradePageErrorMessage().contains('Grade must be 200 characters or less')
   })
 
   it('New record - Select NOT_SURE - Continue navigates to qualification details page', () => {

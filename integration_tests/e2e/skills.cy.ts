@@ -8,6 +8,8 @@ import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
 context('Skills page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -77,6 +79,12 @@ context('Skills page', () => {
 
     skillsPage.detailsPageErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
     skillsPage.detailsFieldErrorMessage().contains('Enter the skill that Daniel Craig feels they have')
+
+    skillsPage.textareaField().type(longStr)
+    skillsPage.submitButton().click()
+
+    skillsPage.detailsPageErrorMessage().contains('Skill must be 200 characters or less')
+    skillsPage.detailsFieldErrorMessage().contains('Skill must be 200 characters or less')
   })
 
   it('New record - Select COMMUNICATION - navigates to interests page', () => {

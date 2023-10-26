@@ -6,6 +6,8 @@ import QualificationsPage from '../pages/qualifications'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
 context('Type of work page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -62,6 +64,16 @@ context('Type of work page', () => {
 
     typeOfWorkExperiencePage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig has done before')
     typeOfWorkExperiencePage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig has done before')
+
+    typeOfWorkExperiencePage.textareaField().type(longStr)
+    typeOfWorkExperiencePage.submitButton().click()
+
+    typeOfWorkExperiencePage
+      .detailsPageErrorMessage()
+      .contains('Type of work experience must be 200 characters or less')
+    typeOfWorkExperiencePage
+      .detailsFieldErrorMessage()
+      .contains('Type of work experience must be 200 characters or less')
   })
 
   it('New record - Select HOSPITALITY - navigates to work-details page', () => {
