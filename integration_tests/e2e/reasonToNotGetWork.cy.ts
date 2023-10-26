@@ -4,8 +4,6 @@ import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 const pageTitle = "Why is Daniel Craig not hoping to get work when they're released?"
 
 context('Not hoping to get work page', () => {
-  const longStr = 'x'.repeat(201)
-
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
