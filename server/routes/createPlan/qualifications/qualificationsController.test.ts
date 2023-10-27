@@ -169,8 +169,13 @@ describe('QualificationsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - mode = update - redirects to redirect', async () => {
+    it('On success - mode = update - redirects to learning profile', async () => {
       req.params.mode = 'update'
+      req.context.plan = {
+        qualificationsAndTraining: {
+          qualifications: [{}],
+        },
+      }
 
       await controller.post(req, res, next)
 

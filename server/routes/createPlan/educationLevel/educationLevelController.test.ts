@@ -267,7 +267,7 @@ describe('EducationLevelController', () => {
       })
     })
 
-    it('On success - mode = update - calls api and redirects to redirect', async () => {
+    it('On success - mode = update - calls api and redirects to learning profile', async () => {
       req.context.plan = { qualificationsAndTraining: {} }
       req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
       req.params.mode = 'update'

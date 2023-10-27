@@ -178,7 +178,7 @@ describe('AdditionalTrainingController', () => {
     })
   })
 
-  it('On success - mode = update - calls api and redirects to redirect', async () => {
+  it('On success - mode = update - calls api and redirects to learning profile', async () => {
     req.context.plan = { qualificationsAndTraining: {} }
     req.body.additionalTraining = AdditionalTrainingValue.OTHER
     req.body.additionalTrainingOther = 'mock_details'

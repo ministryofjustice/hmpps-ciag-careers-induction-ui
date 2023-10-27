@@ -161,7 +161,7 @@ describe('InPrisonEducationController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - mode = update - calls api and redirects to redirect', async () => {
+    it('On success - mode = update - calls api and redirects to learning profile', async () => {
       req.context.plan = { inPrisonInterests: {} }
       req.body.inPrisonEducation = [InPrisonEducationValue.OTHER]
       req.body.inPrisonEducationOther = 'mock_details'
