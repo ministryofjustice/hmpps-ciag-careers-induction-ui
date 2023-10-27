@@ -123,7 +123,7 @@ export default class QualificationsController {
     const { plan } = req.context
     const { removeQualification } = req.body
 
-    const record = getSessionData(req, ['createPlan', id])
+    const existingQualifications = getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
 
     // Handle remove qualification
     if (removeQualification) {
@@ -132,7 +132,7 @@ export default class QualificationsController {
         ...plan,
         qualificationsAndTraining: {
           ...plan.qualificationsAndTraining,
-          qualifications: plan.qualificationsAndTraining.qualifications.filter(
+          qualifications: existingQualifications.filter(
             (item: { level: any; subject: any; grade: any }) =>
               removeQualification !== `${item.level}-${item.subject}-${item.grade}`,
           ),
@@ -152,7 +152,7 @@ export default class QualificationsController {
     if (Object.prototype.hasOwnProperty.call(req.body, 'addQualification')) {
       // Setup temporary record for multi page add qualification flow
       setSessionData(req, ['createPlan', id], {
-        qualifications: getValueSafely(plan, 'qualificationsAndTraining.qualifications', []),
+        qualifications: existingQualifications,
       })
 
       res.redirect(addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update'))
@@ -160,7 +160,7 @@ export default class QualificationsController {
     }
 
     // Redirect to profile if qualifications aleady added
-    if (record.qualifications && record.qualifications.length) {
+    if (existingQualifications.length) {
       res.redirect(addressLookup.learningPlan.profile(id))
       return
     }

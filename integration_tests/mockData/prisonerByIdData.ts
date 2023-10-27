@@ -67,6 +67,23 @@ const prisoners = {
       },
     },
   },
+  A3260DZ: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/A3260DZ',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'A3260DZ',
+        firstName: 'Joe',
+        lastName: 'Bloggs',
+        releaseDate: new Date().toISOString(),
+        nonDtoReleaseDateType: 'HDC',
+      },
+    },
+  },
 }
 
 export default prisoners

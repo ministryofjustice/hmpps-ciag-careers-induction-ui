@@ -29,7 +29,7 @@ const plans = {
   A3260DZ: {
     request: {
       method: 'GET',
-      urlPattern: '/ciag/induction/G6115VJ',
+      urlPattern: '/ciag/induction/A3260DZ',
     },
     response: {
       status: 200,
