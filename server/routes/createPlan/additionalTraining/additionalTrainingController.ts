@@ -33,7 +33,10 @@ export default class AdditionalTrainingController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.createPlan.qualifications(id, mode) : getHubPageByMode(mode, id),
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createPlan.qualifications(id, mode)
+            : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'additionalTraining',
         uid: id,
       })
