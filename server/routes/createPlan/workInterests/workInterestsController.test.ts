@@ -162,7 +162,7 @@ describe('WorkInterestsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.particularJobInterests(id))
     })
 
-    it('On success - mode = update - calls api and redirects to redirect', async () => {
+    it('On success - mode = update - calls api and redirects to learning profile', async () => {
       req.context.plan = { workExperience: { workInterests: {} } }
       req.body.workInterests = [WorkInterestsValue.OTHER]
       req.body.workInterestsOther = 'mock_details'
