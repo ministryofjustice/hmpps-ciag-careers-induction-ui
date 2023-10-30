@@ -4,7 +4,7 @@ import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import addressLookup from '../../addressLookup'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
@@ -161,7 +161,9 @@ export default class QualificationsController {
 
     // Redirect to profile if qualifications aleady added
     if (existingQualifications.length) {
-      res.redirect(addressLookup.learningPlan.profile(id))
+      deleteSessionData(req, ['createPlan', id])
+
+      res.redirect(addressLookup.learningPlan.profile(id, 'education-and-training'))
       return
     }
 

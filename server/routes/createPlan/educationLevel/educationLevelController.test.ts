@@ -276,7 +276,7 @@ describe('EducationLevelController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
     })
 
     it('On success - mode = update - higher level - calls api and redirects to qualificationLevel', async () => {

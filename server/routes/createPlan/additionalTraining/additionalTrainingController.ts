@@ -139,6 +139,6 @@ export default class AdditionalTrainingController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    res.redirect(addressLookup.learningPlan.profile(id))
+    res.redirect(addressLookup.learningPlan.profile(id, 'education-and-training'))
   }
 }
