@@ -176,6 +176,11 @@ export default class EducationLevelController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
+    // Setup temporary record for multi page add qualification flow
+    setSessionData(req, ['createPlan', id], {
+      qualifications: getValueSafely(plan, 'qualificationsAndTraining.qualifications', []),
+    })
+
     res.redirect(
       ![
         EducationLevelValue.NOT_SURE,
@@ -185,7 +190,7 @@ export default class EducationLevelController {
         ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update')}?from=${encryptUrlParameter(
             req.originalUrl,
           )}`
-        : addressLookup.learningPlan.profile(id),
+        : addressLookup.learningPlan.profile(id, 'education-and-training'),
     )
   }
 }
