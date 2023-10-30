@@ -161,7 +161,7 @@ describe('SkillsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.personalInterests(id))
     })
 
-    it('On success - mode = update - calls api and redirects to redirect', async () => {
+    it('On success - mode = update - calls api and redirects to learning profile', async () => {
       req.context.plan = {
         skillsAndInterests: {},
       }
