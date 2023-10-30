@@ -41,7 +41,10 @@ export default class QualificationsController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createPlan.hopingToGetWork(id)
+            : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'qualifications',
         uid: id,
       })

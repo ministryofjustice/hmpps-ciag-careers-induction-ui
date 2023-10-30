@@ -33,7 +33,10 @@ export default class EducationLevelController {
       }
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
+      const backLocation =
+        mode === 'new'
+          ? addressLookup.createPlan.qualifications(id)
+          : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
