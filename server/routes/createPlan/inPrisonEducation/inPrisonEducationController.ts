@@ -30,7 +30,9 @@ export default class InPrisonEducationController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
+        mode === 'new'
+          ? addressLookup.createPlan.additionalTraining(id, mode)
+          : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
