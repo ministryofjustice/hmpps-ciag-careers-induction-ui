@@ -123,11 +123,12 @@ export default class AdditionalTrainingController {
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { additionalTraining = [], additionalTrainingOther } = req.body
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       qualificationsAndTraining: {
         ...plan.qualificationsAndTraining,
         additionalTraining,

@@ -106,12 +106,13 @@ export default class PersonalInterestsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { personalInterests = [], personalInterestsOther } = req.body
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       skillsAndInterests: {
         ...plan.skillsAndInterests,
         personalInterests,
