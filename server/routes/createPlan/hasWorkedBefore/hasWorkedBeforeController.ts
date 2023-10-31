@@ -104,12 +104,13 @@ export default class HasWorkedBeforeController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { hasWorkedBefore } = req.body
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       workExperience: {
         ...plan.workExperience,
         hasWorkedBefore: hasWorkedBefore === YesNoValue.YES,

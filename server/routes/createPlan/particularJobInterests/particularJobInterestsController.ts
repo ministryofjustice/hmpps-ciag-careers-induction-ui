@@ -122,7 +122,7 @@ export default class ParticularJobInterestsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Get dynamic form values
     const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
@@ -130,6 +130,7 @@ export default class ParticularJobInterestsController {
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       workExperience: {
         ...plan.workExperience,
         workInterests: {

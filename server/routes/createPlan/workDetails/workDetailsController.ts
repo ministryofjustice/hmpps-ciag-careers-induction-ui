@@ -155,7 +155,7 @@ export default class WorkDetailsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id, typeOfWorkExperienceKey } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { jobRole, jobDetails } = req.body
 
     const position = plan.workExperience.typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
@@ -167,6 +167,7 @@ export default class WorkDetailsController {
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       workExperience: {
         ...plan.workExperience,
         workExperience: [
