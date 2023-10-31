@@ -103,7 +103,7 @@ export default class HopingToGetWorkController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { hopingToGetWork } = req.body
 
     // Handle no flow change changes
@@ -115,6 +115,7 @@ export default class HopingToGetWorkController {
       if (hopingToGetWork !== plan.hopingToGetWork) {
         // Update data model
         const updatedPlan = {
+          prisonId: prisoner.prisonId,
           ...plan,
           hopingToGetWork,
           desireToWork: hopingToGetWork === HopingToGetWorkValue.YES,

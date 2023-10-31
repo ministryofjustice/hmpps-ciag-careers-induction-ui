@@ -163,11 +163,12 @@ export default class EducationLevelController {
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { educationLevel } = req.body
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       qualificationsAndTraining: {
         ...plan.qualificationsAndTraining,
         educationLevel,

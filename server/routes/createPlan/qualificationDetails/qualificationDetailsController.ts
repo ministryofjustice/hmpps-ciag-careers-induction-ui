@@ -113,7 +113,7 @@ export default class QualificationDetailsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id, qualificationId } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { qualificationSubject, qualificationGrade } = req.body
 
     // Update record in session
@@ -123,6 +123,7 @@ export default class QualificationDetailsController {
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       qualificationsAndTraining: {
         ...plan.qualificationsAndTraining,
         qualifications: [

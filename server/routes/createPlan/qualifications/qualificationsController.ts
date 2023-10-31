@@ -123,7 +123,7 @@ export default class QualificationsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { removeQualification } = req.body
 
     const existingQualifications = getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
@@ -132,6 +132,7 @@ export default class QualificationsController {
     if (removeQualification) {
       // Update data model
       const updatedPlan = {
+        prisonId: prisoner.prisonId,
         ...plan,
         qualificationsAndTraining: {
           ...plan.qualificationsAndTraining,
