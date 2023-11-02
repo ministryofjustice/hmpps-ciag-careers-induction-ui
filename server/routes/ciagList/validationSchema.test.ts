@@ -1,15 +1,9 @@
-import exp from 'constants'
 import expressMocks from '../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
 describe('validationSchema', () => {
   const { req } = expressMocks()
 
-  const mockData = {
-    prisoner: {
-      searchTerm: '',
-    },
-  }
   const longStr = 'x'.repeat(201)
   const schema = validationSchema()
 
