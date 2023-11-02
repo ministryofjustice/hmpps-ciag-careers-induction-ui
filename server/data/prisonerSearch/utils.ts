@@ -150,7 +150,7 @@ export function filterCiagList(
     }
 
     if (statusFilter) {
-      filteredList = filteredList.filter(x => x.status === statusFilter)
+      filteredList = filteredList.filter(x => x.ciagStatus.toLowerCase() === statusFilter.toLowerCase())
     }
 
     return filteredList

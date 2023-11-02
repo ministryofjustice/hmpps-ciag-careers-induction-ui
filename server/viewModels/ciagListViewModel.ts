@@ -156,4 +156,6 @@ export default class PrisonerViewModel {
   dischargeDate: string
 
   dischargeDetails: string
+
+  ciagStatus?: string
 }
