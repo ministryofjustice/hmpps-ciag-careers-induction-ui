@@ -41,7 +41,7 @@ export default class HasWorkedBeforeController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hasWorkedBefore:
           mode === 'update'
-            ? getValueSafely(record, 'workExperience.hasWorkedBefore')
+            ? getValueSafely(plan, 'workExperience.hasWorkedBefore')
               ? YesNoValue.YES
               : YesNoValue.NO
             : record.hasWorkedBefore,

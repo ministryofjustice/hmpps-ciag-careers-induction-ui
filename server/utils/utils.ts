@@ -2,6 +2,7 @@
 import { parse, parseISO, format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
 import _ from 'lodash'
+import { boolean } from 'joi'
 
 function properCase(word: string): string {
   return word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -180,5 +181,10 @@ export const mapToQueryString = (params: Record<never, never>): string =>
 
 export const getValueSafely = (obj: NonNullable<unknown>, path: string, def: any = undefined) => {
   const val = _.get(obj, path)
+
+  if (typeof val === 'boolean' || typeof val === 'number') {
+    return val
+  }
+
   return _.isEmpty(val) ? def : val
 }
