@@ -180,5 +180,10 @@ export const mapToQueryString = (params: Record<never, never>): string =>
 
 export const getValueSafely = (obj: NonNullable<unknown>, path: string, def: any = undefined) => {
   const val = _.get(obj, path)
+
+  if (typeof val === 'boolean' || typeof val === 'number') {
+    return val
+  }
+
   return _.isEmpty(val) ? def : val
 }
