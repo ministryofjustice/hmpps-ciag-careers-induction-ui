@@ -2,7 +2,6 @@
 import { parse, parseISO, format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
 import _ from 'lodash'
-import { boolean } from 'joi'
 
 function properCase(word: string): string {
   return word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
