@@ -24,7 +24,7 @@
     <dd class="govuk-summary-list__value" data-qa="particularJobInterests">
       {% for item in record.particularJobInterests %}
         <p class="govuk-body"  data-qa="particularJobInterests-{{ loop.index }}">
-          {{ contentLookup.fields.workInterests[item.workInterest] }}:<br>
+          {{ record.workInterestsOther if item.workInterest === 'OTHER' else contentLookup.fields.workInterests[item.workInterest] }}:<br>
           {{ item.role if item.role else 'Not entered'}}
         </p>
       {% endfor %}
