@@ -30,7 +30,7 @@ context('Qualification level page', () => {
 
   it('New record - Validation messages display when no value selected', () => {
     const educationLevelPage = new EducationLevelPage(
-      "What's the highest level of education Daniel Craig has completed?",
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
 
     educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
@@ -48,7 +48,7 @@ context('Qualification level page', () => {
 
   it('New record - SECONDARY_SCHOOL_TOOK_EXAMS - Select a value - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
-      "What's the highest level of education Daniel Craig has completed?",
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
 
     educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
@@ -67,7 +67,7 @@ context('Qualification level page', () => {
 
   it('New record - FURTHER_EDUCATION_COLLEGE - Select a value - Continue navigates to qualification details page', () => {
     const educationLevelPage = new EducationLevelPage(
-      "What's the highest level of education Daniel Craig has completed?",
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
 
     educationLevelPage.radioFieldValue('FURTHER_EDUCATION_COLLEGE').click()

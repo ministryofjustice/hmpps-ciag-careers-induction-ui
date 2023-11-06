@@ -17,7 +17,7 @@
   {% if record.hopingToGetWork !== 'YES' %}
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
-        Reasons why not hoping to work
+        What could stop work on release
       </dt>
       <dd class="govuk-summary-list__value" data-qa="reasonToNotGetWork">
         {% for item in record.reasonToNotGetWork %}
@@ -26,7 +26,7 @@
       </dd>
       <dd class="govuk-summary-list__actions">
         <a class="govuk-link" href="{{ addressLookup.createPlan.reasonToNotGetWork(id, 'edit') }}" data-qa="reasonToNotGetWorkLink">
-          Change<span class="govuk-visually-hidden"> the reasons why they're not hoping to work</span>
+          Change<span class="govuk-visually-hidden"> what could stop work on release</span>
         </a>
       </dd>
     </div>
