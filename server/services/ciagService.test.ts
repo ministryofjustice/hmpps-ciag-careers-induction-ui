@@ -9,8 +9,6 @@ import personalInterestsValue from '../enums/personalInterestsValue'
 import additionalTrainingValue from '../enums/additionalTrainingValue'
 import inPrisonWorkValue from '../enums/inPrisonWorkValue'
 import inPrisonEducationValue from '../enums/inPrisonEducationValue'
-import reasonToNotGetWorkValue from '../enums/reasonToNotGetWorkValue'
-import typeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
 
 jest.mock('../data/ciagApi/ciagApiClient')
 
@@ -47,13 +45,6 @@ describe('CiagService', () => {
       modifiedBy: 'MOCK_USER',
       prisonerNumber: 'mock_prisonerNumber',
     },
-    // workExperience: [
-    //   {
-    //     typeOfWorkExperience: typeOfWorkExperienceValue.BEAUTY,
-    //     role: 'ROLE-1',
-    //     details: 'details',
-    //   },
-    // ],
   }
 
   beforeEach(() => {
@@ -77,7 +68,7 @@ describe('CiagService', () => {
     const result = await ciagService.getCiagPlan(userToken, offenderId)
 
     expect(ciagApiClientMock.getCiagPlan).toHaveBeenCalledTimes(1)
-    // expect(result).toContain(ciagPlan)
+    expect(result).toBeTruthy()
   })
 
   it('should create a CiagPlan', async () => {
