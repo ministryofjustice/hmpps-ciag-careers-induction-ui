@@ -13,7 +13,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     skills: `What skills does ${prisonerName} feel they have?`,
     'check-your-answers': `Check your answers before saving them to ${prisonerName}'s plan`,
     'hoping-to-get-work': `Is ${prisonerName} hoping to get work when they're released?`,
-    'education-level': `What's the highest level of education ${prisonerName} has completed?`,
+    'education-level': `What's the highest level of education ${prisonerName} completed before entering prison?`,
     'qualification-level': `What level of qualification does ${prisonerName} want to add`,
     'qualification-details': 'Add a degree qualification',
     'additional-training': `Does ${prisonerName} have any other training or vocational qualifications?`,
@@ -26,7 +26,7 @@ const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
     'in-prison-education': `What type of training and education activities would ${prisonerName} like to do in prison?`,
     'personal-interests': `What are ${prisonerName}'s interests?`,
     'does-not-want-work': `Why does ${prisonerName} not want work after release?`,
-    'reason-to-not-get-work': `Why is ${prisonerName} not hoping to get work when they're released?`,
+    'reason-to-not-get-work': `What could stop ${prisonerName} working when they are released?`,
     'wants-to-add-qualifications': `Does ${prisonerName} have any other educational qualifications they want to be recorded?`,
   }
 

@@ -1,7 +1,7 @@
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 
-const pageTitle = "Why is Daniel Craig not hoping to get work when they're released?"
+const pageTitle = 'What could stop Daniel Craig working when they are released?'
 
 context('Not hoping to get work page', () => {
   beforeEach(() => {
@@ -27,9 +27,7 @@ context('Not hoping to get work page', () => {
   })
 
   it('Validation messages display when no value selected', () => {
-    const reasonToNotGetWork = new ReasonToNotGetWork(
-      `Why is Daniel Craig not hoping to get work when they're released?`,
-    )
+    const reasonToNotGetWork = new ReasonToNotGetWork(`What could stop Daniel Craig working when they are released?`)
 
     reasonToNotGetWork.submitButton().click()
 
