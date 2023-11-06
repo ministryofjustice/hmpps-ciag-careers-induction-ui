@@ -32,7 +32,7 @@ context('Skills page', () => {
     qualificationsPage.submitButton().click()
 
     const educationLevelPage = new EducationLevelPage(
-      'What’s the highest level of education Daniel Craig completed before entering prison?',
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
     educationLevelPage.radioFieldValue('PRIMARY_SCHOOL').click()
     educationLevelPage.submitButton().click()

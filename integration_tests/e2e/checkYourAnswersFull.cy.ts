@@ -39,7 +39,7 @@ context('Check your answers - Full flow', () => {
     qualificationsPage.submitButton().click()
 
     const educationLevelPage = new EducationLevelPage(
-      'What’s the highest level of education Daniel Craig completed before entering prison?',
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
     educationLevelPage.radioFieldValue('SECONDARY_SCHOOL_TOOK_EXAMS').click()
     educationLevelPage.submitButton().click()
@@ -155,7 +155,7 @@ context('Check your answers - Full flow', () => {
     checkYourAnswersPage.educationLevel().contains('Secondary school, took exams')
     checkYourAnswersPage.educationLevelLink().click()
     const educationLevelPage = new EducationLevelPage(
-      'What’s the highest level of education Daniel Craig completed before entering prison?',
+      "What's the highest level of education Daniel Craig completed before entering prison?",
     )
     educationLevelPage.backLink().click()
 
