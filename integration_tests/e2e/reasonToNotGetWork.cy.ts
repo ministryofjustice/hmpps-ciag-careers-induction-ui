@@ -31,7 +31,7 @@ context('Not hoping to get work page', () => {
 
     reasonToNotGetWork.submitButton().click()
 
-    reasonToNotGetWork.pageErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
+    reasonToNotGetWork.pageErrorMessage().contains('Select what could stop Daniel Craig working when they are released')
   })
 
   it('Select OTHER - no details given, display appropriate message', () => {
@@ -43,7 +43,7 @@ context('Not hoping to get work page', () => {
 
     reasonToNotGetWork
       .detailsFieldErrorMessage()
-      .should('contain', "Enter why Daniel Craig is not hoping to get work when they're released")
+      .should('contain', 'Enter what could stop Daniel Craig working when they are released')
   })
 
   it('Select OTHER - enter text with more characters than allowed', () => {

@@ -12,8 +12,8 @@ export default function validationSchema(data: ReasonToNotGetWorkData): ObjectSc
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select why ${firstName} ${lastName} is not hoping to get work`
-  const msgOther = `Enter why ${firstName} ${lastName} is not hoping to get work when they're released`
+  const msg = `Select what could stop ${firstName} ${lastName} working when they are released`
+  const msgOther = `Enter what could stop ${firstName} ${lastName} working when they are released`
 
   const schema = joi
     .object({
