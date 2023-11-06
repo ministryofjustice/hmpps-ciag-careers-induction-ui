@@ -47,13 +47,13 @@ describe('CiagService', () => {
       modifiedBy: 'MOCK_USER',
       prisonerNumber: 'mock_prisonerNumber',
     },
-    workExperience: [
-      {
-        typeOfWorkExperience: typeOfWorkExperienceValue.BEAUTY,
-        role: 'ROLE-1',
-        details: 'details',
-      },
-    ],
+    // workExperience: [
+    //   {
+    //     typeOfWorkExperience: typeOfWorkExperienceValue.BEAUTY,
+    //     role: 'ROLE-1',
+    //     details: 'details',
+    //   },
+    // ],
   }
 
   beforeEach(() => {
