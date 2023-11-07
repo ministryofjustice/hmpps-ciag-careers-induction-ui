@@ -97,11 +97,12 @@ export default class AbilityToWorkController {
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { abilityToWork = [], abilityToWorkOther } = req.body
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       abilityToWork,
       abilityToWorkOther: abilityToWork.includes(AbilityToWorkValue.OTHER) ? abilityToWorkOther : '',
       modifiedBy: res.locals.user.username,

@@ -33,7 +33,10 @@ export default class AdditionalTrainingController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.createPlan.qualifications(id, mode) : getHubPageByMode(mode, id),
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createPlan.qualifications(id, mode)
+            : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'additionalTraining',
         uid: id,
       })
@@ -120,11 +123,12 @@ export default class AdditionalTrainingController {
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { additionalTraining = [], additionalTrainingOther } = req.body
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       qualificationsAndTraining: {
         ...plan.qualificationsAndTraining,
         additionalTraining,
@@ -139,6 +143,6 @@ export default class AdditionalTrainingController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    res.redirect(addressLookup.learningPlan.profile(id))
+    res.redirect(addressLookup.learningPlan.profile(id, 'education-and-training'))
   }
 }

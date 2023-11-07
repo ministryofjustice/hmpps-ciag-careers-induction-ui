@@ -26,9 +26,7 @@ context('In prison work page', () => {
     hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()
     hopingToGetWorkPage.submitButton().click()
 
-    const reasonToNotGetWork = new ReasonToNotGetWork(
-      "Why is Daniel Craig not hoping to get work when they're released?",
-    )
+    const reasonToNotGetWork = new ReasonToNotGetWork('What could stop Daniel Craig working when they are released?')
 
     reasonToNotGetWork.checkboxFieldValue('OTHER').click()
     reasonToNotGetWork.textareaField().clear().type('other details')

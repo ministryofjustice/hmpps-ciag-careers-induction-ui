@@ -95,7 +95,7 @@ export default class ParticularJobInterestsController {
       }
 
       // Get dynamic form values
-      const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+      const values = Object.keys(req.body).filter(v => v !== '_csrf' && v !== 'particularJobInterests')
 
       // Handle edit and new
       // Update record in sessionData and tidy
@@ -104,7 +104,7 @@ export default class ParticularJobInterestsController {
       // Get keys of entered job details
       setSessionData(req, ['createPlan', id], {
         ...record,
-        particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
+        particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] || '' })),
       })
 
       // Handle edit
@@ -122,19 +122,20 @@ export default class ParticularJobInterestsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Get dynamic form values
-    const values = Object.keys(req.body).filter(v => !!req.body[v] && v !== '_csrf')
+    const values = Object.keys(req.body).filter(v => v !== '_csrf' && v !== 'particularJobInterests')
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       workExperience: {
         ...plan.workExperience,
         workInterests: {
           ...plan.workExperience.workInterests,
-          particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] })),
+          particularJobInterests: values.map(v => ({ workInterest: v, role: req.body[v] || '' })),
           modifiedBy: res.locals.user.username,
           modifiedDateTime: new Date().toISOString(),
         },

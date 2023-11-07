@@ -30,7 +30,9 @@ export default class InPrisonEducationController {
 
       // Setup back location
       const backLocation =
-        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
+        mode === 'new'
+          ? addressLookup.createPlan.additionalTraining(id, mode)
+          : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -101,12 +103,13 @@ export default class InPrisonEducationController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { inPrisonEducation = [], inPrisonEducationOther } = req.body
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       inPrisonInterests: {
         ...plan.inPrisonInterests,
         inPrisonEducation,
@@ -119,6 +122,6 @@ export default class InPrisonEducationController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
-    res.redirect(addressLookup.learningPlan.profile(id))
+    res.redirect(addressLookup.learningPlan.profile(id, 'education-and-training'))
   }
 }

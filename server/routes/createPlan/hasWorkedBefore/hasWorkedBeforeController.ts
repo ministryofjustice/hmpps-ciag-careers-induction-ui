@@ -41,7 +41,7 @@ export default class HasWorkedBeforeController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         hasWorkedBefore:
           mode === 'update'
-            ? getValueSafely(record, 'workExperience.hasWorkedBefore')
+            ? getValueSafely(plan, 'workExperience.hasWorkedBefore')
               ? YesNoValue.YES
               : YesNoValue.NO
             : record.hasWorkedBefore,
@@ -104,12 +104,13 @@ export default class HasWorkedBeforeController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { hasWorkedBefore } = req.body
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       workExperience: {
         ...plan.workExperience,
         hasWorkedBefore: hasWorkedBefore === YesNoValue.YES,

@@ -48,7 +48,7 @@ describe('WantsToAddQualificationsController', () => {
   const mockData: any = {
     wantsToAddQualifications: undefined,
     backLocation: '/plan/create/mock_ref/reason-to-not-get-work/new',
-    backLocationAriaText: "Back to Why is Mock_firstname Mock_lastname not hoping to get work when they're released?",
+    backLocationAriaText: 'Back to What could stop Mock_firstname Mock_lastname working when they are released?',
     prisoner: {
       dateOfBirth: 'N/A',
       firstName: 'Mock_firstname',

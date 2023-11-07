@@ -178,7 +178,7 @@ describe('AdditionalTrainingController', () => {
     })
   })
 
-  it('On success - mode = update - calls api and redirects to redirect', async () => {
+  it('On success - mode = update - calls api and redirects to learning profile', async () => {
     req.context.plan = { qualificationsAndTraining: {} }
     req.body.additionalTraining = AdditionalTrainingValue.OTHER
     req.body.additionalTrainingOther = 'mock_details'
@@ -188,6 +188,6 @@ describe('AdditionalTrainingController', () => {
 
     expect(next).toHaveBeenCalledTimes(0)
     expect(mockService.updateCiagPlan).toBeCalledTimes(1)
-    expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
+    expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
   })
 })

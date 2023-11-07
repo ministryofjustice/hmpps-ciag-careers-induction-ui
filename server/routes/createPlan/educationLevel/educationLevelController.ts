@@ -33,7 +33,10 @@ export default class EducationLevelController {
       }
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.createPlan.qualifications(id) : getHubPageByMode(mode, id)
+      const backLocation =
+        mode === 'new'
+          ? addressLookup.createPlan.qualifications(id)
+          : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -160,11 +163,12 @@ export default class EducationLevelController {
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
     const { educationLevel } = req.body
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
 
     // Update data model
     const updatedPlan = {
       ...plan,
+      prisonId: prisoner.prisonId,
       qualificationsAndTraining: {
         ...plan.qualificationsAndTraining,
         educationLevel,
@@ -176,6 +180,11 @@ export default class EducationLevelController {
     // Call api
     await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
 
+    // Setup temporary record for multi page add qualification flow
+    setSessionData(req, ['createPlan', id], {
+      qualifications: getValueSafely(plan, 'qualificationsAndTraining.qualifications', []),
+    })
+
     res.redirect(
       ![
         EducationLevelValue.NOT_SURE,
@@ -185,7 +194,7 @@ export default class EducationLevelController {
         ? `${addressLookup.createPlan.qualificationLevel(id, uuidv4(), 'update')}?from=${encryptUrlParameter(
             req.originalUrl,
           )}`
-        : addressLookup.learningPlan.profile(id),
+        : addressLookup.learningPlan.profile(id, 'education-and-training'),
     )
   }
 }

@@ -4,7 +4,7 @@ import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
 
 import addressLookup from '../../addressLookup'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
@@ -41,7 +41,10 @@ export default class QualificationsController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createPlan.hopingToGetWork(id)
+            : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'qualifications',
         uid: id,
       })
@@ -120,7 +123,7 @@ export default class QualificationsController {
 
   private handleUpdate = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
+    const { plan, prisoner } = req.context
     const { removeQualification } = req.body
 
     const existingQualifications = getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
@@ -129,6 +132,7 @@ export default class QualificationsController {
     if (removeQualification) {
       // Update data model
       const updatedPlan = {
+        prisonId: prisoner.prisonId,
         ...plan,
         qualificationsAndTraining: {
           ...plan.qualificationsAndTraining,
@@ -161,7 +165,9 @@ export default class QualificationsController {
 
     // Redirect to profile if qualifications aleady added
     if (existingQualifications.length) {
-      res.redirect(addressLookup.learningPlan.profile(id))
+      deleteSessionData(req, ['createPlan', id])
+
+      res.redirect(addressLookup.learningPlan.profile(id, 'education-and-training'))
       return
     }
 

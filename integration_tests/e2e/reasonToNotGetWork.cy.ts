@@ -1,7 +1,7 @@
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 
-const pageTitle = "Why is Daniel Craig not hoping to get work when they're released?"
+const pageTitle = 'What could stop Daniel Craig working when they are released?'
 
 context('Not hoping to get work page', () => {
   beforeEach(() => {
@@ -27,14 +27,14 @@ context('Not hoping to get work page', () => {
   })
 
   it('Validation messages display when no value selected', () => {
-    const reasonToNotGetWork = new ReasonToNotGetWork(
-      `Why is Daniel Craig not hoping to get work when they're released?`,
-    )
+    const reasonToNotGetWork = new ReasonToNotGetWork(`What could stop Daniel Craig working when they are released?`)
 
     reasonToNotGetWork.submitButton().click()
 
-    reasonToNotGetWork.pageErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
-    reasonToNotGetWork.checkboxFieldErrorMessage().contains('Select why Daniel Craig is not hoping to get work')
+    reasonToNotGetWork
+      .checkboxFieldErrorMessage()
+      .contains('Select what could stop Daniel Craig working when they are released')
+    reasonToNotGetWork.pageErrorMessage().contains('Select what could stop Daniel Craig working when they are released')
   })
 
   it('Select OTHER - no details given, display appropriate message', () => {
@@ -46,7 +46,7 @@ context('Not hoping to get work page', () => {
 
     reasonToNotGetWork
       .detailsFieldErrorMessage()
-      .should('contain', "Enter why Daniel Craig is not hoping to get work when they're released")
+      .should('contain', 'Enter what could stop Daniel Craig working when they are released')
   })
 
   it('Select OTHER - enter text with more characters than allowed', () => {

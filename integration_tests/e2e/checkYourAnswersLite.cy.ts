@@ -31,7 +31,7 @@ context('Check your answers - Lite flow', () => {
     hopingToGetWorkPage.submitButton().click()
 
     const reasonToNotGetWorkPage = new ReasonToNotGetWorkPage(
-      "Why is Daniel Craig not hoping to get work when they're released?",
+      'What could stop Daniel Craig working when they are released?',
     )
     reasonToNotGetWorkPage.checkboxFieldValue('FULL_TIME_CARER').click()
     reasonToNotGetWorkPage.checkboxFieldValue('OTHER').click()
@@ -96,7 +96,7 @@ context('Check your answers - Lite flow', () => {
     checkYourAnswersPage.reasonToNotGetWork().contains('Other - Some other reason')
     checkYourAnswersPage.reasonToNotGetWorkLink().click()
     const reasonToNotGetWorkPage = new ReasonToNotGetWorkPage(
-      "Why is Daniel Craig not hoping to get work when they're released?",
+      'What could stop Daniel Craig working when they are released?',
     )
     reasonToNotGetWorkPage.backLink().click()
 
