@@ -34,7 +34,14 @@ export default defineConfig({
         ...curiousApi,
         ...ciagApi,
         ...educationAndWorkPlanApi,
-      })
+      }),
+        on('before:browser:launch', (browser = {} as any, launchOptions) => {
+          if (browser.name === 'chrome') {
+            launchOptions.args.push('--disable-site-isolation-trials')
+
+            return launchOptions
+          }
+        })
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',

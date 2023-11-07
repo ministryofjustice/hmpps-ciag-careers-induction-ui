@@ -2,12 +2,11 @@ import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import QualificationsPage from '../pages/qualifications'
 
 context('Update functionality', () => {
-  const longStr = 'x'.repeat(201)
-
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getPrisonerById')
     cy.task('getActionPlanList')
     cy.task('getCiagPlanList')
     cy.task('getCiagPlan')
@@ -47,6 +46,6 @@ context('Update functionality', () => {
     qualificationsPage.submitButton().click()
 
     // check destination, change to new
-    cy.url().should('include', '/plan/A3260DZ/view/overview')
+    cy.url().should('include', '/plan/A3260DZ/view/education-and-training')
   })
 })
