@@ -1,0 +1,1286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="507" failures="0" errors="0" time="5.818">
+  <testsuite name="InPrisonEducationController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.78" tests="7">
+    <testcase classname="InPrisonEducationController #get(req, res) On error - Calls next with error" name="InPrisonEducationController #get(req, res) On error - Calls next with error" time="0.019">
+    </testcase>
+    <testcase classname="InPrisonEducationController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="InPrisonEducationController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.003">
+    </testcase>
+    <testcase classname="InPrisonEducationController #get(req, res) On success - Record found - Calls render with the correct data" name="InPrisonEducationController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="InPrisonEducationController #post(req, res) On error - Calls next with error" name="InPrisonEducationController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="InPrisonEducationController #post(req, res) On validation error - Calls render with the correct data" name="InPrisonEducationController #post(req, res) On validation error - Calls render with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="InPrisonEducationController #post(req, res) On success - mode = new - Sets session record then redirects to checkYourAnswers" name="InPrisonEducationController #post(req, res) On success - mode = new - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="InPrisonEducationController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="InPrisonEducationController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="InPrisonWorkController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.789" tests="8">
+    <testcase classname="InPrisonWorkController #get(req, res) On error - Calls next with error" name="InPrisonWorkController #get(req, res) On error - Calls next with error" time="0.012">
+    </testcase>
+    <testcase classname="InPrisonWorkController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="InPrisonWorkController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="InPrisonWorkController #get(req, res) On success - Record found - Calls render with the correct data" name="InPrisonWorkController #get(req, res) On success - Record found - Calls render with the correct data" time="0.004">
+    </testcase>
+    <testcase classname="InPrisonWorkController #post(req, res) On error - Calls next with error" name="InPrisonWorkController #post(req, res) On error - Calls next with error" time="0.002">
+    </testcase>
+    <testcase classname="InPrisonWorkController #post(req, res) On validation error - Calls render with the correct data" name="InPrisonWorkController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="InPrisonWorkController #post(req, res) On success - mode = new - Sets session record then redirects to inPrisonEducation" name="InPrisonWorkController #post(req, res) On success - mode = new - Sets session record then redirects to inPrisonEducation" time="0.002">
+    </testcase>
+    <testcase classname="InPrisonWorkController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" name="InPrisonWorkController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="InPrisonWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="InPrisonWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ParticularJobInterestsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.804" tests="8">
+    <testcase classname="ParticularJobInterestsController #get(req, res) On error - Calls next with error" name="ParticularJobInterestsController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="ParticularJobInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #get(req, res) On success - Record found - Calls render with the correct data" name="ParticularJobInterestsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #post(req, res) On error - Calls next with error" name="ParticularJobInterestsController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #post(req, res) On validation error - Calls render with the correct data" name="ParticularJobInterestsController #post(req, res) On validation error - Calls render with the correct data" time="0">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to skills" name="ParticularJobInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to skills" time="0.002">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" name="ParticularJobInterestsController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="ParticularJobInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="ParticularJobInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="WorkDetailsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.815" tests="10">
+    <testcase classname="WorkDetailsController #get(req, res) On error - Calls next with error" name="WorkDetailsController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="WorkDetailsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="WorkDetailsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="WorkDetailsController #get(req, res) On success - Record found - Calls render with the correct data" name="WorkDetailsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On error - Calls next with error" name="WorkDetailsController #post(req, res) On error - Calls next with error" time="0.002">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On validation error - Calls render with the correct data" name="WorkDetailsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On success - Last typeOfWorkExperience - Sets session record then redirects to workInterests" name="WorkDetailsController #post(req, res) On success - Last typeOfWorkExperience - Sets session record then redirects to workInterests" time="0.002">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On success - Not last typeOfWorkExperience - Sets session record then redirects to workDetails" name="WorkDetailsController #post(req, res) On success - Not last typeOfWorkExperience - Sets session record then redirects to workDetails" time="0.002">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On success - Not last typeOfWorkExperience - mode === edit - Sets session record then redirects to workDetails" name="WorkDetailsController #post(req, res) On success - Not last typeOfWorkExperience - mode === edit - Sets session record then redirects to workDetails" time="0.001">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On success - Last typeOfWorkExperience - mode === edit - Sets session record then redirects to checkYourAnswers" name="WorkDetailsController #post(req, res) On success - Last typeOfWorkExperience - mode === edit - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="WorkDetailsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="WorkDetailsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="AdditionalTrainingController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.827" tests="8">
+    <testcase classname="AdditionalTrainingController #get(req, res) On error - Calls next with error" name="AdditionalTrainingController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="AdditionalTrainingController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #get(req, res) On success - Record found - Calls render with the correct data" name="AdditionalTrainingController #get(req, res) On success - Record found - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #post(req, res) On error - Calls next with error" name="AdditionalTrainingController #post(req, res) On error - Calls next with error" time="0">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #post(req, res) On validation error - Calls render with the correct data" name="AdditionalTrainingController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #post(req, res) On success - mode = new - Sets session record then redirects to hasWorkedBefore" name="AdditionalTrainingController #post(req, res) On success - mode = new - Sets session record then redirects to hasWorkedBefore" time="0.002">
+    </testcase>
+    <testcase classname="AdditionalTrainingController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" name="AdditionalTrainingController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="AdditionalTrainingController On success - mode = update - calls api and redirects to learning profile" name="AdditionalTrainingController On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="QualificationDetailsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.842" tests="7">
+    <testcase classname="QualificationDetailsController #get(req, res) On error - Calls next with error" name="QualificationDetailsController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="QualificationDetailsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="QualificationDetailsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="QualificationDetailsController #get(req, res) On success - Record found - Calls render with the correct data" name="QualificationDetailsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="QualificationDetailsController #post(req, res) On error - Calls next with error" name="QualificationDetailsController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="QualificationDetailsController #post(req, res) On validation error - Calls render with the correct data" name="QualificationDetailsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="QualificationDetailsController #post(req, res) On success - Sets session record then redirects to qualificationDetails" name="QualificationDetailsController #post(req, res) On success - Sets session record then redirects to qualificationDetails" time="0.002">
+    </testcase>
+    <testcase classname="QualificationDetailsController #post(req, res) On success - mode = update - Calls API then redirects to qualificationDetails" name="QualificationDetailsController #post(req, res) On success - mode = update - Calls API then redirects to qualificationDetails" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="HopingToGetWorkController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.836" tests="10">
+    <testcase classname="HopingToGetWorkController #get(req, res) On error - Calls next with error" name="HopingToGetWorkController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #get(req, res) On success - Calls render with the correct data" name="HopingToGetWorkController #get(req, res) On success - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On error - Calls next with error" name="HopingToGetWorkController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On validation error - Calls render with the correct data" name="HopingToGetWorkController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = YES - Sets session record then redirects to supportOptIn" name="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = YES - Sets session record then redirects to supportOptIn" time="0.002">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = NO - Sets session record then redirects to ineligableToWork" name="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = NO - Sets session record then redirects to ineligableToWork" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkYourAnswers" name="HopingToGetWorkController #post(req, res) On success - hopingToGetWork = NOT_SURE - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork no logic change - Sets session record then redirects to checkYourAnswers" name="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork no logic change - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork change to POSITIVE - Sets session record then redirects to checkYourAnswers" name="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork change to POSITIVE - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork change to NEGATIVE - Sets session record then redirects to checkYourAnswers" name="HopingToGetWorkController #post(req, res) On success - EDIT - hopingToGetWork change to NEGATIVE - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="QualificationLevelController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.824" tests="7">
+    <testcase classname="QualificationLevelController #get(req, res) On error - Calls next with error" name="QualificationLevelController #get(req, res) On error - Calls next with error" time="0.01">
+    </testcase>
+    <testcase classname="QualificationLevelController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="QualificationLevelController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="QualificationLevelController #get(req, res) On success - Record found - Calls render with the correct data" name="QualificationLevelController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="QualificationLevelController #post(req, res) On error - Calls next with error" name="QualificationLevelController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="QualificationLevelController #post(req, res) On validation error - Calls render with the correct data" name="QualificationLevelController #post(req, res) On validation error - Calls render with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="QualificationLevelController #post(req, res) On success - Sets session record then redirects to qualificationDetails" name="QualificationLevelController #post(req, res) On success - Sets session record then redirects to qualificationDetails" time="0.001">
+    </testcase>
+    <testcase classname="QualificationLevelController #post(req, res) On success - Sets session record then redirects to qualificationDetails" name="QualificationLevelController #post(req, res) On success - Sets session record then redirects to qualificationDetails" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationLevelController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.846" tests="15">
+    <testcase classname="EducationLevelController #get(req, res) On error - Calls next with error" name="EducationLevelController #get(req, res) On error - Calls next with error" time="0.01">
+    </testcase>
+    <testcase classname="EducationLevelController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="EducationLevelController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="EducationLevelController #get(req, res) On success - Record found - Calls render with the correct data" name="EducationLevelController #get(req, res) On success - Record found - Calls render with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On error - Calls next with error" name="EducationLevelController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On validation error - Calls render with the correct data" name="EducationLevelController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = NOT_SURE - Sets session record then redirects to additionalTraining" name="EducationLevelController #post(req, res) On success - educationLevel = NOT_SURE - Sets session record then redirects to additionalTraining" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to additionalTraining" name="EducationLevelController #post(req, res) On success - educationLevel = PRIMARY_SCHOOL - Sets session record then redirects to additionalTraining" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - Sets session record then redirects to additionalTraining" name="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - Sets session record then redirects to additionalTraining" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_TOOK_EXAMS - Sets session record then redirects to qualificationLevel" name="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_TOOK_EXAMS - Sets session record then redirects to qualificationLevel" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = FURTHER_EDUCATION_COLLEGE - Sets session record then redirects to qualificationLevel" name="EducationLevelController #post(req, res) On success - educationLevel = FURTHER_EDUCATION_COLLEGE - Sets session record then redirects to qualificationLevel" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = UNDERGRADUATE_DEGREE_AT_UNIVERSITY - Sets session record then redirects to qualificationDetails" name="EducationLevelController #post(req, res) On success - educationLevel = UNDERGRADUATE_DEGREE_AT_UNIVERSITY - Sets session record then redirects to qualificationDetails" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = POSTGRADUATE_DEGREE_AT_UNIVERSITY - Sets session record then redirects to qualificationDetails" name="EducationLevelController #post(req, res) On success - educationLevel = POSTGRADUATE_DEGREE_AT_UNIVERSITY - Sets session record then redirects to qualificationDetails" time="0.001">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - mode === edit - Sets session record then redirects to checkYourAnswers" name="EducationLevelController #post(req, res) On success - educationLevel = SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS - mode === edit - Sets session record then redirects to checkYourAnswers" time="0">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="EducationLevelController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+    <testcase classname="EducationLevelController #post(req, res) On success - mode = update - higher level - calls api and redirects to qualificationLevel" name="EducationLevelController #post(req, res) On success - mode = update - higher level - calls api and redirects to qualificationLevel" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="WantsToAddQualificationsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.851" tests="11">
+    <testcase classname="WantsToAddQualificationsController #get(req, res) On error - Calls next with error" name="WantsToAddQualificationsController #get(req, res) On error - Calls next with error" time="0.012">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #get(req, res) On success - No Record - Redirects to hopingToGetWork" name="WantsToAddQualificationsController #get(req, res) On success - No Record - Redirects to hopingToGetWork" time="0.003">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #get(req, res) On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork" name="WantsToAddQualificationsController #get(req, res) On success - Record found - not hopingTooGetWork - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #get(req, res) On success - Record found - YES - Calls render with the correct data" name="WantsToAddQualificationsController #get(req, res) On success - Record found - YES - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On error - Calls next with error" name="WantsToAddQualificationsController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On validation error - Calls render with the correct data" name="WantsToAddQualificationsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On success - new - wantsToAddQualifications === YES - Redirects to educationLevel" name="WantsToAddQualificationsController #post(req, res) On success - new - wantsToAddQualifications === YES - Redirects to educationLevel" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On success - new - wantsToAddQualifications === NO - Redirects to additionalTraining" name="WantsToAddQualificationsController #post(req, res) On success - new - wantsToAddQualifications === NO - Redirects to additionalTraining" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On success - edit - no change - Redirects to checkYourAnswers" name="WantsToAddQualificationsController #post(req, res) On success - edit - no change - Redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On success - edit - change to wantsToAddQualifications === NO - Redirects to checkYourAnswers" name="WantsToAddQualificationsController #post(req, res) On success - edit - change to wantsToAddQualifications === NO - Redirects to checkYourAnswers" time="0">
+    </testcase>
+    <testcase classname="WantsToAddQualificationsController #post(req, res) On success - edit - change to wantsToAddQualifications === YES - Redirects to qualificationLevel" name="WantsToAddQualificationsController #post(req, res) On success - edit - change to wantsToAddQualifications === YES - Redirects to qualificationLevel" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Service healthcheck" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="1.975" tests="5">
+    <testcase classname="Service healthcheck Check healthy Should return data from api" name="Service healthcheck Check healthy Should return data from api" time="0.034">
+    </testcase>
+    <testcase classname="Service healthcheck Check unhealthy Should throw error from api" name="Service healthcheck Check unhealthy Should throw error from api" time="0.077">
+    </testcase>
+    <testcase classname="Service healthcheck Check healthy retry test Should retry twice if request fails" name="Service healthcheck Check healthy retry test Should retry twice if request fails" time="0.019">
+    </testcase>
+    <testcase classname="Service healthcheck Check healthy retry test Should retry twice if request times out" name="Service healthcheck Check healthy retry test Should retry twice if request times out" time="0.222">
+    </testcase>
+    <testcase classname="Service healthcheck Check healthy retry test Should fail if request times out three times" name="Service healthcheck Check healthy retry test Should fail if request times out three times" time="0.316">
+    </testcase>
+  </testsuite>
+  <testsuite name="curiousApi" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="2.028" tests="5">
+    <testcase classname="curiousApi getLearnerEducation should return the expected response data" name="curiousApi getLearnerEducation should return the expected response data" time="0.049">
+    </testcase>
+    <testcase classname="curiousApi getLearnerLatestAssessments should return the expected response data" name="curiousApi getLearnerLatestAssessments should return the expected response data" time="0.007">
+    </testcase>
+    <testcase classname="curiousApi getLearnerEmployabilitySkills should return the expected employability skills data" name="curiousApi getLearnerEmployabilitySkills should return the expected employability skills data" time="0.009">
+    </testcase>
+    <testcase classname="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data" name="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data" time="0.005">
+    </testcase>
+    <testcase classname="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data for a given establishment" name="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data for a given establishment" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="curiousApi" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="2.073" tests="9">
+    <testcase classname="curiousApi getLearnerProfiles should return the expected response data" name="curiousApi getLearnerProfiles should return the expected response data" time="0.048">
+    </testcase>
+    <testcase classname="curiousApi getLearnerProfiles should return the expected response data with establishmentid in query" name="curiousApi getLearnerProfiles should return the expected response data with establishmentid in query" time="0.009">
+    </testcase>
+    <testcase classname="curiousApi getLearnerEducation should return the expected response data" name="curiousApi getLearnerEducation should return the expected response data" time="0.015">
+    </testcase>
+    <testcase classname="curiousApi getLearnerEducation should call the api with the correct parameters" name="curiousApi getLearnerEducation should call the api with the correct parameters" time="0.006">
+    </testcase>
+    <testcase classname="curiousApi getLearnerLatestAssessments should return the expected response data" name="curiousApi getLearnerLatestAssessments should return the expected response data" time="0.004">
+    </testcase>
+    <testcase classname="curiousApi getLearnerGoals should return the expected response data" name="curiousApi getLearnerGoals should return the expected response data" time="0.005">
+    </testcase>
+    <testcase classname="curiousApi getLearnerEmployabilitySkills should return the expected response data" name="curiousApi getLearnerEmployabilitySkills should return the expected response data" time="0.004">
+    </testcase>
+    <testcase classname="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data" name="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data" time="0.005">
+    </testcase>
+    <testcase classname="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data with establishment id in the query" name="curiousApi getLearnerNeurodivergence should return the expected neurodivergence data with establishment id in the query" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.299" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.003">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="wantsToAddQualifications routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.556" tests="2">
+    <testcase classname="wantsToAddQualifications routes should register GET route for the page" name="wantsToAddQualifications routes should register GET route for the page" time="0.007">
+    </testcase>
+    <testcase classname="wantsToAddQualifications routes should register POST route for the page" name="wantsToAddQualifications routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Education level routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.542" tests="2">
+    <testcase classname="Education level routes should register GET route for the page" name="Education level routes should register GET route for the page" time="0.006">
+    </testcase>
+    <testcase classname="Education level routes should register POST route for the page" name="Education level routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="KeyworkerService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.463" tests="1">
+    <testcase classname="KeyworkerService should return the keyworker details for the given offender" name="KeyworkerService should return the keyworker details for the given offender" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="ReasonToNotGetWorkController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.621" tests="7">
+    <testcase classname="ReasonToNotGetWorkController #get(req, res) On error - Calls next with error" name="ReasonToNotGetWorkController #get(req, res) On error - Calls next with error" time="0.009">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #get(req, res) On success - Calls render with the correct data" name="ReasonToNotGetWorkController #get(req, res) On success - Calls render with the correct data" time="0.01">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #post(req, res) On error - Calls next with error" name="ReasonToNotGetWorkController #post(req, res) On error - Calls next with error" time="0.032">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #post(req, res) On validation error - Calls render with the correct data" name="ReasonToNotGetWorkController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #post(req, res) On success - mode = new - Sets session record then redirects to wantsToAddQualifications" name="ReasonToNotGetWorkController #post(req, res) On success - mode = new - Sets session record then redirects to wantsToAddQualifications" time="0.001">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" name="ReasonToNotGetWorkController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" time="0.011">
+    </testcase>
+    <testcase classname="ReasonToNotGetWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="ReasonToNotGetWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="PrisonService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.452" tests="1">
+    <testcase classname="PrisonService should return all offender activities for the given offender" name="PrisonService should return all offender activities for the given offender" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="CiagService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.773" tests="4">
+    <testcase classname="CiagService should return CIAG plan for the offender" name="CiagService should return CIAG plan for the offender" time="0.006">
+    </testcase>
+    <testcase classname="CiagService should create a CiagPlan" name="CiagService should create a CiagPlan" time="0.004">
+    </testcase>
+    <testcase classname="CiagService should update a CiagPlan with given values" name="CiagService should update a CiagPlan with given values" time="0.001">
+    </testcase>
+    <testcase classname="CiagService should delete the ciagPlan for a given offenderId" name="CiagService should delete the ciagPlan for a given offenderId" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AllocationManagerService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.758" tests="1">
+    <testcase classname="AllocationManagerService should return the POM details for the given offender" name="AllocationManagerService should return the POM details for the given offender" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="CommunityService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.765" tests="3">
+    <testcase classname="CommunityService getComForOffender returns undefined if no community manager found" name="CommunityService getComForOffender returns undefined if no community manager found" time="0.005">
+    </testcase>
+    <testcase classname="CommunityService getComForOffender returns staff details if community manager found" name="CommunityService getComForOffender returns staff details if community manager found" time="0.002">
+    </testcase>
+    <testcase classname="CommunityService getComForOffender returns fallback details if staff details not found" name="CommunityService getComForOffender returns fallback details if staff details not found" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="populateCurrentUser middleware" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.785" tests="3">
+    <testcase classname="populateCurrentUser middleware should call next function when no user is provided" name="populateCurrentUser middleware should call next function when no user is provided" time="0.003">
+    </testcase>
+    <testcase classname="populateCurrentUser middleware should populate user when valid token is provided" name="populateCurrentUser middleware should populate user when valid token is provided" time="0.002">
+    </testcase>
+    <testcase classname="populateCurrentUser middleware should log error and call next function when failed to retrieve user" name="populateCurrentUser middleware should log error and call next function when failed to retrieve user" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="populateUserDetails middleware" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.795" tests="4">
+    <testcase classname="populateUserDetails middleware should call next if userDetails is already populated" name="populateUserDetails middleware should call next if userDetails is already populated" time="0.002">
+    </testcase>
+    <testcase classname="populateUserDetails middleware should set userDetails in res.locals and call next if user is found" name="populateUserDetails middleware should set userDetails in res.locals and call next if user is found" time="0.002">
+    </testcase>
+    <testcase classname="populateUserDetails middleware should log an error and redirect to /autherror if user details could not be retrieved" name="populateUserDetails middleware should log an error and redirect to /autherror if user details could not be retrieved" time="0.001">
+    </testcase>
+    <testcase classname="populateUserDetails middleware should log an error and call next if an error occurs" name="populateUserDetails middleware should log an error and call next if an error occurs" time="0.012">
+    </testcase>
+  </testsuite>
+  <testsuite name="User service" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.835" tests="4">
+    <testcase classname="User service getUser Retrieves and formats user name" name="User service getUser Retrieves and formats user name" time="0.006">
+    </testcase>
+    <testcase classname="User service getUser Propagates error" name="User service getUser Propagates error" time="0.001">
+    </testcase>
+    <testcase classname="User service getUserByUsername Retrieves and formats user name" name="User service getUserByUsername Retrieves and formats user name" time="0.001">
+    </testcase>
+    <testcase classname="User service getUserByUsername Propagates error" name="User service getUserByUsername Propagates error" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Qualification level routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.655" tests="2">
+    <testcase classname="Qualification level routes should register GET route for the page" name="Qualification level routes should register GET route for the page" time="0.006">
+    </testcase>
+    <testcase classname="Qualification level routes should register POST route for the page" name="Qualification level routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="HasWorkedBeforeController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:02" time="0.573" tests="7">
+    <testcase classname="HasWorkedBeforeController #get(req, res) On error - Calls next with error" name="HasWorkedBeforeController #get(req, res) On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="HasWorkedBeforeController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #get(req, res) On success - Record found - Calls render with the correct data" name="HasWorkedBeforeController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #post(req, res) On error - Calls next with error" name="HasWorkedBeforeController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #post(req, res) On validation error - Calls render with the correct data" name="HasWorkedBeforeController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #post(req, res) On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWorkExperience" name="HasWorkedBeforeController #post(req, res) On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWorkExperience" time="0.004">
+    </testcase>
+    <testcase classname="HasWorkedBeforeController #post(req, res) On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests" name="HasWorkedBeforeController #post(req, res) On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="GET 404" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="2.869" tests="2">
+    <testcase classname="GET 404 should render content with stack in dev mode" name="GET 404 should render content with stack in dev mode" time="0.174">
+    </testcase>
+    <testcase classname="GET 404 should render content without stack in production mode" name="GET 404 should render content without stack in production mode" time="0.07">
+    </testcase>
+  </testsuite>
+  <testsuite name="Qualification details routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.612" tests="2">
+    <testcase classname="Qualification details routes should register GET route for the page" name="Qualification details routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Qualification details routes should register POST route for the page" name="Qualification details routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CiagListController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.602" tests="7">
+    <testcase classname="CiagListController #get(req, res) Should create a new instance" name="CiagListController #get(req, res) Should create a new instance" time="0.004">
+    </testcase>
+    <testcase classname="CiagListController #get(req, res) On error - Calls next with error" name="CiagListController #get(req, res) On error - Calls next with error" time="0.006">
+    </testcase>
+    <testcase classname="CiagListController #get(req, res) On success - records found - call renders with the correct data" name="CiagListController #get(req, res) On success - records found - call renders with the correct data" time="0.004">
+    </testcase>
+    <testcase classname="CiagListController #post(req, res) Should create a new instance" name="CiagListController #post(req, res) Should create a new instance" time="0">
+    </testcase>
+    <testcase classname="CiagListController #post(req, res) On error - Calls next with error" name="CiagListController #post(req, res) On error - Calls next with error" time="0.04">
+    </testcase>
+    <testcase classname="CiagListController #post(req, res) On validation error - Calls render with correct data" name="CiagListController #post(req, res) On validation error - Calls render with correct data" time="0.003">
+    </testcase>
+    <testcase classname="CiagListController #post(req, res) On successful POST - call renders with the correct data" name="CiagListController #post(req, res) On successful POST - call renders with the correct data" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Work details routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.545" tests="2">
+    <testcase classname="Work details routes should register GET route for the page" name="Work details routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Work details routes should register POST route for the page" name="Work details routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="prisonApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.438" tests="2">
+    <testcase classname="prisonApiClient getImage should return image data from api" name="prisonApiClient getImage should return image data from api" time="0.024">
+    </testcase>
+    <testcase classname="prisonApiClient getImage should log at only info level for 404s" name="prisonApiClient getImage should log at only info level for 404s" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="Hope to get work routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.541" tests="2">
+    <testcase classname="Hope to get work routes should register GET route for the page" name="Hope to get work routes should register GET route for the page" time="0.004">
+    </testcase>
+    <testcase classname="Hope to get work routes should register POST route for the page" name="Hope to get work routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PersonalInterestsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.484" tests="8">
+    <testcase classname="PersonalInterestsController #get(req, res) On error - Calls next with error" name="PersonalInterestsController #get(req, res) On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="PersonalInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="PersonalInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="PersonalInterestsController #get(req, res) On success - Record found - Calls render with the correct data" name="PersonalInterestsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="PersonalInterestsController #post(req, res) On error - Calls next with error" name="PersonalInterestsController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="PersonalInterestsController #post(req, res) On validation error - Calls render with the correct data" name="PersonalInterestsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="PersonalInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to abilityToWork" name="PersonalInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to abilityToWork" time="0.002">
+    </testcase>
+    <testcase classname="PersonalInterestsController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" name="PersonalInterestsController #post(req, res) On success - mode = edit - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="PersonalInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="PersonalInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="TypeOfWorkExperienceController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.49" tests="7">
+    <testcase classname="TypeOfWorkExperienceController #get(req, res) On error - Calls next with error" name="TypeOfWorkExperienceController #get(req, res) On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="TypeOfWorkExperienceController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #get(req, res) On success - Record found - Calls render with the correct data" name="TypeOfWorkExperienceController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #post(req, res) On error - Calls next with error" name="TypeOfWorkExperienceController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #post(req, res) On validation error - Calls render with the correct data" name="TypeOfWorkExperienceController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #post(req, res) On success - mode = new - Sets session record then redirects to workDetails" name="TypeOfWorkExperienceController #post(req, res) On success - mode = new - Sets session record then redirects to workDetails" time="0.002">
+    </testcase>
+    <testcase classname="TypeOfWorkExperienceController #post(req, res) On success - mode = update - calls api and redirects to workDetails" name="TypeOfWorkExperienceController #post(req, res) On success - mode = update - calls api and redirects to workDetails" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Particular interests routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.513" tests="2">
+    <testcase classname="Particular interests routes should register GET route for the page" name="Particular interests routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Particular interests routes should register POST route for the page" name="Particular interests routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Other qualifications routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.612" tests="2">
+    <testcase classname="Other qualifications routes should register GET route for the page" name="Other qualifications routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Other qualifications routes should register POST route for the page" name="Other qualifications routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="SkillsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.502" tests="7">
+    <testcase classname="SkillsController #get(req, res) On error - Calls next with error" name="SkillsController #get(req, res) On error - Calls next with error" time="0.006">
+    </testcase>
+    <testcase classname="SkillsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="SkillsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.001">
+    </testcase>
+    <testcase classname="SkillsController #get(req, res) On success - Record found - Calls render with the correct data" name="SkillsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="SkillsController #post(req, res) On error - Calls next with error" name="SkillsController #post(req, res) On error - Calls next with error" time="0">
+    </testcase>
+    <testcase classname="SkillsController #post(req, res) On validation error - Calls render with the correct data" name="SkillsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="SkillsController #post(req, res) On success - mode = new - Sets session record then redirects to personalInterests" name="SkillsController #post(req, res) On success - mode = new - Sets session record then redirects to personalInterests" time="0.003">
+    </testcase>
+    <testcase classname="SkillsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="SkillsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="WorkInterestsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.482" tests="7">
+    <testcase classname="WorkInterestsController #get(req, res) On error - Calls next with error" name="WorkInterestsController #get(req, res) On error - Calls next with error" time="0.005">
+    </testcase>
+    <testcase classname="WorkInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="WorkInterestsController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="WorkInterestsController #get(req, res) On success - Record found - Calls render with the correct data" name="WorkInterestsController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="WorkInterestsController #post(req, res) On error - Calls next with error" name="WorkInterestsController #post(req, res) On error - Calls next with error" time="0.002">
+    </testcase>
+    <testcase classname="WorkInterestsController #post(req, res) On validation error - Calls render with the correct data" name="WorkInterestsController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="WorkInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to particularJobInterests" name="WorkInterestsController #post(req, res) On success - mode = new - Sets session record then redirects to particularJobInterests" time="0.001">
+    </testcase>
+    <testcase classname="WorkInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="WorkInterestsController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Work interests routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.477" tests="2">
+    <testcase classname="Work interests routes should register GET route for the page" name="Work interests routes should register GET route for the page" time="0.007">
+    </testcase>
+    <testcase classname="Work interests routes should register POST route for the page" name="Work interests routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Skills routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.467" tests="2">
+    <testcase classname="Skills routes should register GET route for the page" name="Skills routes should register GET route for the page" time="0.004">
+    </testcase>
+    <testcase classname="Skills routes should register POST route for the page" name="Skills routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="EducationAndWorkPlanApi" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.245" tests="1">
+    <testcase classname="EducationAndWorkPlanApi getActionPlanList should make a POST request to the correct endpoint with the correct parameters" name="EducationAndWorkPlanApi getActionPlanList should make a POST request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="AbilityToWork routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.463" tests="2">
+    <testcase classname="AbilityToWork routes should register GET route for the page" name="AbilityToWork routes should register GET route for the page" time="0.004">
+    </testcase>
+    <testcase classname="AbilityToWork routes should register POST route for the page" name="AbilityToWork routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AbilityToWorkController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.46" tests="7">
+    <testcase classname="AbilityToWorkController #get(req, res) On error - Calls next with error" name="AbilityToWorkController #get(req, res) On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="AbilityToWorkController #get(req, res) On success - No record found - Redirects to hopingToGetWork" name="AbilityToWorkController #get(req, res) On success - No record found - Redirects to hopingToGetWork" time="0.002">
+    </testcase>
+    <testcase classname="AbilityToWorkController #get(req, res) On success - Record found - Calls render with the correct data" name="AbilityToWorkController #get(req, res) On success - Record found - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="AbilityToWorkController #post(req, res) On error - Calls next with error" name="AbilityToWorkController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="AbilityToWorkController #post(req, res) On validation error - Calls render with the correct data" name="AbilityToWorkController #post(req, res) On validation error - Calls render with the correct data" time="0.001">
+    </testcase>
+    <testcase classname="AbilityToWorkController #post(req, res) On success - mode = new - Sets session record then redirects to checkYourAnswers" name="AbilityToWorkController #post(req, res) On success - mode = new - Sets session record then redirects to checkYourAnswers" time="0.001">
+    </testcase>
+    <testcase classname="AbilityToWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" name="AbilityToWorkController #post(req, res) On success - mode = update - calls api and redirects to learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="QualificationsController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.419" tests="10">
+    <testcase classname="QualificationsController #get(req, res) On error - Calls next with error" name="QualificationsController #get(req, res) On error - Calls next with error" time="0.008">
+    </testcase>
+    <testcase classname="QualificationsController #get(req, res) On success - No Record - Redirects to hopingToGetWork" name="QualificationsController #get(req, res) On success - No Record - Redirects to hopingToGetWork" time="0.003">
+    </testcase>
+    <testcase classname="QualificationsController #get(req, res) On success - Record found - YES - Calls render with the correct data" name="QualificationsController #get(req, res) On success - Record found - YES - Calls render with the correct data" time="0.014">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On error - Calls next with error" name="QualificationsController #post(req, res) On error - Calls next with error" time="0.001">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - addQualification - Redirects to educationLevel" name="QualificationsController #post(req, res) On success - addQualification - Redirects to educationLevel" time="0.001">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - removeQualification - Redirects to educationLevel" name="QualificationsController #post(req, res) On success - removeQualification - Redirects to educationLevel" time="0.001">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - Continue - No qualifications - Redirects to educationLevel" name="QualificationsController #post(req, res) On success - Continue - No qualifications - Redirects to educationLevel" time="0">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - Continue - qualifications - Redirects to educationLevel" name="QualificationsController #post(req, res) On success - Continue - qualifications - Redirects to educationLevel" time="0.001">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - Edit - Continue - educationLevel - Redirects to checkYourAnswers" name="QualificationsController #post(req, res) On success - Edit - Continue - educationLevel - Redirects to checkYourAnswers" time="0">
+    </testcase>
+    <testcase classname="QualificationsController #post(req, res) On success - mode = update - redirects to learning profile" name="QualificationsController #post(req, res) On success - mode = update - redirects to learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Not hoping to get work routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="1.017" tests="2">
+    <testcase classname="Not hoping to get work routes should register GET route for the page" name="Not hoping to get work routes should register GET route for the page" time="0.006">
+    </testcase>
+    <testcase classname="Not hoping to get work routes should register POST route for the page" name="Not hoping to get work routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="In prison education routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.452" tests="2">
+    <testcase classname="In prison education routes should register GET route for the page" name="In prison education routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="In prison education routes should register POST route for the page" name="In prison education routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PersonalInterests routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.433" tests="2">
+    <testcase classname="PersonalInterests routes should register GET route for the page" name="PersonalInterests routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="PersonalInterests routes should register POST route for the page" name="PersonalInterests routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="azureAppinsights" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.362" tests="5">
+    <testcase classname="azureAppinsights addUserDataToRequests adds user data to properties when present" name="azureAppinsights addUserDataToRequests adds user data to properties when present" time="0.003">
+    </testcase>
+    <testcase classname="azureAppinsights addUserDataToRequests handles absent user data" name="azureAppinsights addUserDataToRequests handles absent user data" time="0">
+    </testcase>
+    <testcase classname="azureAppinsights addUserDataToRequests returns true when not RequestData type" name="azureAppinsights addUserDataToRequests returns true when not RequestData type" time="0">
+    </testcase>
+    <testcase classname="azureAppinsights addUserDataToRequests handles when no properties have been set" name="azureAppinsights addUserDataToRequests handles when no properties have been set" time="0.001">
+    </testcase>
+    <testcase classname="azureAppinsights addUserDataToRequests handles missing user details" name="azureAppinsights addUserDataToRequests handles missing user details" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Education level routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.434" tests="2">
+    <testcase classname="Education level routes should register GET route for the page" name="Education level routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Education level routes should register POST route for the page" name="Education level routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Ciag data routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.437" tests="2">
+    <testcase classname="Ciag data routes should register GET route for Ciag list page" name="Ciag data routes should register GET route for Ciag list page" time="0.004">
+    </testcase>
+    <testcase classname="Ciag data routes should register POST route for Ciag list page" name="Ciag data routes should register POST route for Ciag list page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="In prison work routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.453" tests="2">
+    <testcase classname="In prison work routes should register GET route for the page" name="In prison work routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="In prison work routes should register POST route for the page" name="In prison work routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Type of work routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:03" time="0.443" tests="2">
+    <testcase classname="Type of work routes should register GET route for the page" name="Type of work routes should register GET route for the page" time="0.005">
+    </testcase>
+    <testcase classname="Type of work routes should register POST route for the page" name="Type of work routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="hmppsAuthClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.524" tests="4">
+    <testcase classname="hmppsAuthClient getSystemClientToken should instantiate the redis client" name="hmppsAuthClient getSystemClientToken should instantiate the redis client" time="0.002">
+    </testcase>
+    <testcase classname="hmppsAuthClient getSystemClientToken should return token from redis if one exists" name="hmppsAuthClient getSystemClientToken should return token from redis if one exists" time="0.003">
+    </testcase>
+    <testcase classname="hmppsAuthClient getSystemClientToken should return token from HMPPS Auth with username" name="hmppsAuthClient getSystemClientToken should return token from HMPPS Auth with username" time="0.022">
+    </testcase>
+    <testcase classname="hmppsAuthClient getSystemClientToken should return token from HMPPS Auth without username" name="hmppsAuthClient getSystemClientToken should return token from HMPPS Auth without username" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="Qualifications routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.404" tests="2">
+    <testcase classname="Qualifications routes should register GET route for the page" name="Qualifications routes should register GET route for the page" time="0.011">
+    </testcase>
+    <testcase classname="Qualifications routes should register POST route for the page" name="Qualifications routes should register POST route for the page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="restClientMetricsMiddleware" errors="0" failures="0" skipped="1" timestamp="2023-11-07T08:21:04" time="0.373" tests="5">
+    <testcase classname="restClientMetricsMiddleware normalizePath removes the query params from the URL path" name="restClientMetricsMiddleware normalizePath removes the query params from the URL path" time="0.004">
+    </testcase>
+    <testcase classname="restClientMetricsMiddleware normalizePath normalises recall ids" name="restClientMetricsMiddleware normalizePath normalises recall ids" time="0.001">
+    </testcase>
+    <testcase classname="restClientMetricsMiddleware normalizePath normalises nomis ids" name="restClientMetricsMiddleware normalizePath normalises nomis ids" time="0">
+    </testcase>
+    <testcase classname="restClientMetricsMiddleware request timers times the whole request" name="restClientMetricsMiddleware request timers times the whole request" time="0.021">
+    </testcase>
+    <testcase classname="restClientMetricsMiddleware timeout errors increment the timeoutCounter" name="restClientMetricsMiddleware timeout errors increment the timeoutCounter" time="0">
+      <skipped/>
+    </testcase>
+  </testsuite>
+  <testsuite name="CheckYourAnswersController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.368" tests="2">
+    <testcase classname="CheckYourAnswersController #get(req, res) On error - Calls next with error" name="CheckYourAnswersController #get(req, res) On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="CheckYourAnswersController #get(req, res) On success - Calls render with the correct data" name="CheckYourAnswersController #get(req, res) On success - Calls render with the correct data" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Check your answers routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.371" tests="2">
+    <testcase classname="Check your answers routes should register GET route for new status page" name="Check your answers routes should register GET route for new status page" time="0.004">
+    </testcase>
+    <testcase classname="Check your answers routes should register POST route for new status page" name="Check your answers routes should register POST route for new status page" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="WorkPlanController" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.367" tests="3">
+    <testcase classname="WorkPlanController #get(req, res) On error - Calls next with error" name="WorkPlanController #get(req, res) On error - Calls next with error" time="0.005">
+    </testcase>
+    <testcase classname="WorkPlanController #get(req, res) On success - Calls render with the correct data" name="WorkPlanController #get(req, res) On success - Calls render with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="WorkPlanController #get(req, res) On success - Plan found - Redirect to the learning profile" name="WorkPlanController #get(req, res) On success - Plan found - Redirect to the learning profile" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="NeurodivergenceViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.361" tests="1">
+    <testcase classname="NeurodivergenceViewModel transforms JSON to NeurodivergenceViewModel instance" name="NeurodivergenceViewModel transforms JSON to NeurodivergenceViewModel instance" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="getCurrentOffenderActivitiesResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.363" tests="2">
+    <testcase classname="getCurrentOffenderActivitiesResolver On error - Calls next with error" name="getCurrentOffenderActivitiesResolver On error - Calls next with error" time="0.005">
+    </testcase>
+    <testcase classname="getCurrentOffenderActivitiesResolver On success - Attaches data to context and calls next" name="getCurrentOffenderActivitiesResolver On success - Attaches data to context and calls next" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Work plan routes" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.376" tests="1">
+    <testcase classname="Work plan routes should register GET route for the page" name="Work plan routes should register GET route for the page" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="AssessmentViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.38" tests="1">
+    <testcase classname="AssessmentViewModel transforms JSON to AssessmentViewModel instance" name="AssessmentViewModel transforms JSON to AssessmentViewModel instance" time="0.012">
+    </testcase>
+  </testsuite>
+  <testsuite name="PrisonerViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.371" tests="1">
+    <testcase classname="PrisonerViewModel transforms JSON to PrisonerViewModel instance" name="PrisonerViewModel transforms JSON to PrisonerViewModel instance" time="0.018">
+    </testcase>
+  </testsuite>
+  <testsuite name="WorkExperienceViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.364" tests="1">
+    <testcase classname="WorkExperienceViewModel transforms JSON to WorkExperienceViewModel instance" name="WorkExperienceViewModel transforms JSON to WorkExperienceViewModel instance" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="ActivityViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.368" tests="1">
+    <testcase classname="ActivityViewModel transforms JSON to ActivityViewModel instance" name="ActivityViewModel transforms JSON to ActivityViewModel instance" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="LearnerEducationViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.364" tests="1">
+    <testcase classname="LearnerEducationViewModel transforms JSON to LearnerEducationViewModel instance" name="LearnerEducationViewModel transforms JSON to LearnerEducationViewModel instance" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="Convert to title case" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.356" tests="9">
+    <testcase classname="Convert to title case null string" name="Convert to title case null string" time="0.003">
+    </testcase>
+    <testcase classname="Convert to title case empty string" name="Convert to title case empty string" time="0.001">
+    </testcase>
+    <testcase classname="Convert to title case Lower Case" name="Convert to title case Lower Case" time="0">
+    </testcase>
+    <testcase classname="Convert to title case Upper Case" name="Convert to title case Upper Case" time="0">
+    </testcase>
+    <testcase classname="Convert to title case Mixed Case" name="Convert to title case Mixed Case" time="0.002">
+    </testcase>
+    <testcase classname="Convert to title case Multiple words" name="Convert to title case Multiple words" time="0">
+    </testcase>
+    <testcase classname="Convert to title case Leading spaces" name="Convert to title case Leading spaces" time="0.001">
+    </testcase>
+    <testcase classname="Convert to title case Trailing spaces" name="Convert to title case Trailing spaces" time="0">
+    </testcase>
+    <testcase classname="Convert to title case Hyphenated" name="Convert to title case Hyphenated" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="QualificationDetailsViewModel" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.366" tests="1">
+    <testcase classname="QualificationDetailsViewModel transforms JSON to QualificationDetailsViewModel instance" name="QualificationDetailsViewModel transforms JSON to QualificationDetailsViewModel instance" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="token verification api tests" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.359" tests="5">
+    <testcase classname="token verification api tests POST requests Token verification disabled Token always considered valid" name="token verification api tests POST requests Token verification disabled Token always considered valid" time="0.007">
+    </testcase>
+    <testcase classname="token verification api tests POST requests Token Verification enabled Calls verify and parses response" name="token verification api tests POST requests Token Verification enabled Calls verify and parses response" time="0.017">
+    </testcase>
+    <testcase classname="token verification api tests POST requests Token Verification enabled Calls verify and parses inactive response" name="token verification api tests POST requests Token Verification enabled Calls verify and parses inactive response" time="0.004">
+    </testcase>
+    <testcase classname="token verification api tests POST requests Token Verification enabled Calls verify and parses no response" name="token verification api tests POST requests Token Verification enabled Calls verify and parses no response" time="0.004">
+    </testcase>
+    <testcase classname="token verification api tests POST requests Token Verification enabled Already verified" name="token verification api tests POST requests Token Verification enabled Already verified" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="KeyworkerApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.273" tests="1">
+    <testcase classname="KeyworkerApiClient getKeyworkerForOffender should make a GET request to the correct endpoint with the correct parameters" name="KeyworkerApiClient getKeyworkerForOffender should make a GET request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="getComByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.336" tests="2">
+    <testcase classname="getComByIdResolver On error - Calls next with error" name="getComByIdResolver On error - Calls next with error" time="0.005">
+    </testcase>
+    <testcase classname="getComByIdResolver On success - Attaches data to context and calls next" name="getComByIdResolver On success - Attaches data to context and calls next" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="getCurrentOffenderActivities" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.322" tests="3">
+    <testcase classname="getCurrentOffenderActivities On error - Throws error" name="getCurrentOffenderActivities On error - Throws error" time="0.003">
+    </testcase>
+    <testcase classname="getCurrentOffenderActivities On error - 404 - Calls next without error" name="getCurrentOffenderActivities On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getCurrentOffenderActivities On success - Returns correct data" name="getCurrentOffenderActivities On success - Returns correct data" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.248" tests="3">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.238" tests="2">
+    <testcase classname="validationSchema On validation success - should allow a searchTerm with 200 characters" name="validationSchema On validation success - should allow a searchTerm with 200 characters" time="0.003">
+    </testcase>
+    <testcase classname="validationSchema On validation error - should disallow a searchTerm longer than 200 characters" name="validationSchema On validation error - should disallow a searchTerm longer than 200 characters" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.252" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.003">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.252" tests="3">
+    <testcase classname="validationSchema On validation error - Max length - Returns the correct error message" name="validationSchema On validation error - Max length - Returns the correct error message" time="0.006">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Optional - Returns no errors" name="validationSchema On validation success - Optional - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Valid values - Returns no errors" name="validationSchema On validation success - Valid values - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.244" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.003">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="AllocationManagerApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.246" tests="1">
+    <testcase classname="AllocationManagerApiClient getPomForOffender should make a GET request to the correct endpoint with the correct parameters" name="AllocationManagerApiClient getPomForOffender should make a GET request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.25" tests="3">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Healthcheck" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.422" tests="2">
+    <testcase classname="Healthcheck Healthcheck reports healthy" name="Healthcheck Healthcheck reports healthy" time="0.007">
+    </testcase>
+    <testcase classname="Healthcheck Healthcheck reports unhealthy" name="Healthcheck Healthcheck reports unhealthy" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="PrisonerSearchClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.251" tests="2">
+    <testcase classname="PrisonerSearchClient #getPrisonersByCaseloadId should make a GET request to the correct endpoint with the correct parameters" name="PrisonerSearchClient #getPrisonersByCaseloadId should make a GET request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+    <testcase classname="PrisonerSearchClient #getPrisonerById should make a GET request to the correct endpoint with the correct parameters" name="PrisonerSearchClient #getPrisonerById should make a GET request to the correct endpoint with the correct parameters" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.244" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.243" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Required role only - Returns the correct error message" name="validationSchema On validation error - Required role only - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Required details only - Returns the correct error message" name="validationSchema On validation error - Required details only - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Max role - Returns the correct error message" name="validationSchema On validation error - Max role - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Max job details - Returns the correct error message" name="validationSchema On validation error - Max job details - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.243" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.239" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.235" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.248" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.264" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.006">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Required subject only - Returns the correct error message" name="validationSchema On validation error - Required subject only - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Required grade only - Returns the correct error message" name="validationSchema On validation error - Required grade only - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Max subject - Returns the correct error message" name="validationSchema On validation error - Max subject - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Max grade - Returns the correct error message" name="validationSchema On validation error - Max grade - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.244" tests="6">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.003">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with no value - Returns the correct error message" name="validationSchema On validation error - OTHER with no value - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" name="validationSchema On validation error - OTHER with value length &gt; 200 - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - OTHER with value - Returns no errors" name="validationSchema On validation success - OTHER with value - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.238" tests="3">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="WhereaboutsService" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.244" tests="1">
+    <testcase classname="WhereaboutsService getUnacceptibleAbsenceCount calls WhereaboutsApiClient with correct parameters" name="WhereaboutsService getUnacceptibleAbsenceCount calls WhereaboutsApiClient with correct parameters" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.242" tests="3">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="WhereaboutsApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:04" time="0.36" tests="1">
+    <testcase classname="WhereaboutsApiClient getUnacceptibleAbsenceCount should make a GET request to the correct endpoint with the correct parameters" name="WhereaboutsApiClient getUnacceptibleAbsenceCount should make a GET request to the correct endpoint with the correct parameters" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="NomisUserRolesApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.25" tests="4">
+    <testcase classname="NomisUserRolesApiClient #getUserCaseLoads should make a GET request to the correct endpoint with the correct parameters" name="NomisUserRolesApiClient #getUserCaseLoads should make a GET request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+    <testcase classname="NomisUserRolesApiClient #getUserRoles should make a GET request to the correct endpoint with the correct parameters" name="NomisUserRolesApiClient #getUserRoles should make a GET request to the correct endpoint with the correct parameters" time="0.007">
+    </testcase>
+    <testcase classname="NomisUserRolesApiClient #getUserActiveCaseLoad should make a GET request to the correct endpoint with the correct parameters" name="NomisUserRolesApiClient #getUserActiveCaseLoad should make a GET request to the correct endpoint with the correct parameters" time="0.002">
+    </testcase>
+    <testcase classname="NomisUserRolesApiClient #getStaffDetails should make a GET request to the correct endpoint with the correct parameters" name="NomisUserRolesApiClient #getStaffDetails should make a GET request to the correct endpoint with the correct parameters" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="getPomByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.132" tests="2">
+    <testcase classname="getPomByIdResolver On error - Calls next with error" name="getPomByIdResolver On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getPomByIdResolver On success - Attaches data to context and calls next" name="getPomByIdResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getKeyworkerById" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.126" tests="3">
+    <testcase classname="getKeyworkerById On error - Throws error" name="getKeyworkerById On error - Throws error" time="0.004">
+    </testcase>
+    <testcase classname="getKeyworkerById On error - 404 - Calls next without error" name="getKeyworkerById On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getKeyworkerById On success - Returns correct data" name="getKeyworkerById On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="expressContext middleware" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.125" tests="1">
+    <testcase classname="expressContext middleware should set an empty context object on request and response objects" name="expressContext middleware should set an empty context object on request and response objects" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="buildSortUrl" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.125" tests="7">
+    <testcase classname="buildSortUrl should return the correct URL when called with no query parameters" name="buildSortUrl should return the correct URL when called with no query parameters" time="0.003">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with existing query parameters" name="buildSortUrl should return the correct URL when called with existing query parameters" time="0">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with sortField already in query" name="buildSortUrl should return the correct URL when called with sortField already in query" time="0.001">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with sortField already in query and order is none" name="buildSortUrl should return the correct URL when called with sortField already in query and order is none" time="0">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with sortField already in query and order is ascending" name="buildSortUrl should return the correct URL when called with sortField already in query and order is ascending" time="0.001">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with sortField already in query and order is descending" name="buildSortUrl should return the correct URL when called with sortField already in query and order is descending" time="0">
+    </testcase>
+    <testcase classname="buildSortUrl should return the correct URL when called with sortField equal to defaultSort" name="buildSortUrl should return the correct URL when called with sortField equal to defaultSort" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getKeyworkerByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.129" tests="2">
+    <testcase classname="getKeyworkerByIdResolver On error - Calls next with error" name="getKeyworkerByIdResolver On error - Calls next with error" time="0.003">
+    </testcase>
+    <testcase classname="getKeyworkerByIdResolver On success - Attaches data to context and calls next" name="getKeyworkerByIdResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="#validateFormSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.209" tests="2">
+    <testcase classname="#validateFormSchema should return undefined when there are no validation errors" name="#validateFormSchema should return undefined when there are no validation errors" time="0.008">
+    </testcase>
+    <testcase classname="#validateFormSchema should return validation errors when they exist" name="#validateFormSchema should return validation errors when they exist" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="getCiagListResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.13" tests="2">
+    <testcase classname="getCiagListResolver On error - calls next with error" name="getCiagListResolver On error - calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getCiagListResolver On success - attaches data to context and clls next" name="getCiagListResolver On success - attaches data to context and clls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="authorisationMiddleware" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.24" tests="3">
+    <testcase classname="authorisationMiddleware should return next when no required roles" name="authorisationMiddleware should return next when no required roles" time="0.009">
+    </testcase>
+    <testcase classname="authorisationMiddleware should redirect when user has no authorised roles" name="authorisationMiddleware should redirect when user has no authorised roles" time="0.005">
+    </testcase>
+    <testcase classname="authorisationMiddleware should return next when user has authorised role" name="authorisationMiddleware should return next when user has authorised role" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="session data functions" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.133" tests="3">
+    <testcase classname="session data functions should set session data" name="session data functions should set session data" time="0.003">
+    </testcase>
+    <testcase classname="session data functions should get session data" name="session data functions should get session data" time="0.001">
+    </testcase>
+    <testcase classname="session data functions should delete session data" name="session data functions should delete session data" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getEmployabilitySkills" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.132" tests="3">
+    <testcase classname="getEmployabilitySkills On error - Throws error" name="getEmployabilitySkills On error - Throws error" time="0.006">
+    </testcase>
+    <testcase classname="getEmployabilitySkills On error - 404 - Calls next without error" name="getEmployabilitySkills On error - 404 - Calls next without error" time="0">
+    </testcase>
+    <testcase classname="getEmployabilitySkills On success - Returns correct data" name="getEmployabilitySkills On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.235" tests="3">
+    <testcase classname="validationSchema On validation error - Required - Returns the correct error message" name="validationSchema On validation error - Required - Returns the correct error message" time="0.005">
+    </testcase>
+    <testcase classname="validationSchema On validation error - Valid - Returns the correct error message" name="validationSchema On validation error - Valid - Returns the correct error message" time="0.002">
+    </testcase>
+    <testcase classname="validationSchema On validation success - Returns no errors" name="validationSchema On validation success - Returns no errors" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="CommunityApiClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.254" tests="1">
+    <testcase classname="CommunityApiClient getAllOffenderManagers should make a GET request to the correct endpoint with the correct parameters" name="CommunityApiClient getAllOffenderManagers should make a GET request to the correct endpoint with the correct parameters" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="getLatestAssessmentResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.141" tests="2">
+    <testcase classname="getLatestAssessmentResolver On error - Calls next with error" name="getLatestAssessmentResolver On error - Calls next with error" time="0.003">
+    </testcase>
+    <testcase classname="getLatestAssessmentResolver On success - Attaches data to context and calls next" name="getLatestAssessmentResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getComById" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.136" tests="3">
+    <testcase classname="getComById On error - Throws error" name="getComById On error - Throws error" time="0.004">
+    </testcase>
+    <testcase classname="getComById On error - 404 - Calls next without error" name="getComById On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getComById On success - Returns correct data" name="getComById On success - Returns correct data" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getUnacceptableAbsencesCountResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.147" tests="2">
+    <testcase classname="getUnacceptableAbsencesCountResolver On error - Calls next with error" name="getUnacceptableAbsencesCountResolver On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getUnacceptableAbsencesCountResolver On success - Attaches data to context and calls next" name="getUnacceptableAbsencesCountResolver On success - Attaches data to context and calls next" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="getUserActiveCaseLoadResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.149" tests="2">
+    <testcase classname="getUserActiveCaseLoadResolver On error - Calls next with error" name="getUserActiveCaseLoadResolver On error - Calls next with error" time="0.003">
+    </testcase>
+    <testcase classname="getUserActiveCaseLoadResolver On success - Attaches data to locales and call next" name="getUserActiveCaseLoadResolver On success - Attaches data to locales and call next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="generateOauthClientToken" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.139" tests="2">
+    <testcase classname="generateOauthClientToken Token can be generated" name="generateOauthClientToken Token can be generated" time="0.003">
+    </testcase>
+    <testcase classname="generateOauthClientToken Token can be generated with special characters" name="generateOauthClientToken Token can be generated with special characters" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="#findValue" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.135" tests="4">
+    <testcase classname="#findValue should return the value for the first matching key in the lookup object" name="#findValue should return the value for the first matching key in the lookup object" time="0.003">
+    </testcase>
+    <testcase classname="#findValue should return undefined if no matching key is found" name="#findValue should return undefined if no matching key is found" time="0.001">
+    </testcase>
+    <testcase classname="#findValue should handle empty string input" name="#findValue should handle empty string input" time="0">
+    </testcase>
+    <testcase classname="#findValue should handle empty lookup object" name="#findValue should handle empty lookup object" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="#handleSortMiddleware" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.157" tests="2">
+    <testcase classname="#handleSortMiddleware success - should call next() if formFieldName is not in req.body" name="#handleSortMiddleware success - should call next() if formFieldName is not in req.body" time="0.003">
+    </testcase>
+    <testcase classname="#handleSortMiddleware success - should redirect to sorted URL if formFieldName is in req.body" name="#handleSortMiddleware success - should redirect to sorted URL if formFieldName is in req.body" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="validationSchema" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.152" tests="3">
+    <testcase classname="validationSchema On success - test_field is not an array - Changes field to be an array and calls next" name="validationSchema On success - test_field is not an array - Changes field to be an array and calls next" time="0.004">
+    </testcase>
+    <testcase classname="validationSchema On success - test_field is an array - Does not change field and calls next" name="validationSchema On success - test_field is an array - Does not change field and calls next" time="0.001">
+    </testcase>
+    <testcase classname="validationSchema On success - test_field is undefined - Does not change field and calls next" name="validationSchema On success - test_field is undefined - Does not change field and calls next" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="getLearnerEducationResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.147" tests="2">
+    <testcase classname="getLearnerEducationResolver On error - Calls next with error" name="getLearnerEducationResolver On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getLearnerEducationResolver On success - Attaches data to context and calls next" name="getLearnerEducationResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getNeurodivergenceResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.162" tests="2">
+    <testcase classname="getNeurodivergenceResolver On error - Calls next with error" name="getNeurodivergenceResolver On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getNeurodivergenceResolver On success - Attaches data to context and calls next" name="getNeurodivergenceResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="app insights compatibility" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.154" tests="1">
+    <testcase classname="app insights compatibility uses bunyan v1" name="app insights compatibility uses bunyan v1" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test clients built by oauthEnabledClient" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:00" time="4.812" tests="17">
+    <testcase classname="Test clients built by oauthEnabledClient should build something" name="Test clients built by oauthEnabledClient should build something" time="0.013">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Assert client behaviour Should set the authorization header with &quot;Bearer &lt;access token&gt;&quot;" name="Test clients built by oauthEnabledClient Assert client behaviour Should set the authorization header with &quot;Bearer &lt;access token&gt;&quot;" time="0.024">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Assert client behaviour Should succeed when there are no authorization headers" name="Test clients built by oauthEnabledClient Assert client behaviour Should succeed when there are no authorization headers" time="0.006">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Assert client behaviour Should set the pagination headers on requests" name="Test clients built by oauthEnabledClient Assert client behaviour Should set the pagination headers on requests" time="0.006">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Assert client behaviour Should set the results limit header override on requests" name="Test clients built by oauthEnabledClient Assert client behaviour Should set the results limit header override on requests" time="0.006">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Assert client behaviour Should set custom headers on requests" name="Test clients built by oauthEnabledClient Assert client behaviour Should set custom headers on requests" time="0.005">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour get Should retry twice if request fails" name="Test clients built by oauthEnabledClient retry and timeout behaviour get Should retry twice if request fails" time="0.012">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour get Should retry twice if request times out" name="Test clients built by oauthEnabledClient retry and timeout behaviour get Should retry twice if request times out" time="0.609">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour get Should fail if request times out three times" name="Test clients built by oauthEnabledClient retry and timeout behaviour get Should fail if request times out three times" time="0.931">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour get Should fail if request times out three with custom time out" name="Test clients built by oauthEnabledClient retry and timeout behaviour get Should fail if request times out three with custom time out" time="0.306">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should retry twice if request fails" name="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should retry twice if request fails" time="0.021">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should retry twice if request times out" name="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should retry twice if request times out" time="0.606">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should fail if request times out three times" name="Test clients built by oauthEnabledClient retry and timeout behaviour getStream Should fail if request times out three times" time="0.911">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Normalise base url behaviour Should set the url correctly if ends with a /" name="Test clients built by oauthEnabledClient Normalise base url behaviour Should set the url correctly if ends with a /" time="0.005">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Normalise base url behaviour Should set the url correctly if doesn&apos;t end with a /" name="Test clients built by oauthEnabledClient Normalise base url behaviour Should set the url correctly if doesn&apos;t end with a /" time="0.005">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Logging Should log 404 correctly" name="Test clients built by oauthEnabledClient Logging Should log 404 correctly" time="0.036">
+    </testcase>
+    <testcase classname="Test clients built by oauthEnabledClient Logging Should log 500 correctly" name="Test clients built by oauthEnabledClient Logging Should log 500 correctly" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="urlParameterEncryption" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.194" tests="3">
+    <testcase classname="urlParameterEncryption encryptUrlParameter should encrypt the url parameter" name="urlParameterEncryption encryptUrlParameter should encrypt the url parameter" time="0.008">
+    </testcase>
+    <testcase classname="urlParameterEncryption decryptUrlParameter should decrypt the encrypted url parameter" name="urlParameterEncryption decryptUrlParameter should decrypt the encrypted url parameter" time="0.004">
+    </testcase>
+    <testcase classname="urlParameterEncryption decryptUrlParameter should return an empty string if the parameter is not a string" name="urlParameterEncryption decryptUrlParameter should return an empty string if the parameter is not a string" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="#getBackLocation" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.194" tests="3">
+    <testcase classname="#getBackLocation should return default route if &quot;from&quot; query param is not set" name="#getBackLocation should return default route if &quot;from&quot; query param is not set" time="0.005">
+    </testcase>
+    <testcase classname="#getBackLocation should return &quot;from&quot; query param value if it is set" name="#getBackLocation should return &quot;from&quot; query param value if it is set" time="0.008">
+    </testcase>
+    <testcase classname="#getBackLocation should decode URI component of &quot;from&quot; value before returning it" name="#getBackLocation should decode URI component of &quot;from&quot; value before returning it" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="tokenStore" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.186" tests="4">
+    <testcase classname="tokenStore get token Can retrieve token" name="tokenStore get token Can retrieve token" time="0.005">
+    </testcase>
+    <testcase classname="tokenStore get token Connects when no connection calling getToken" name="tokenStore get token Connects when no connection calling getToken" time="0.001">
+    </testcase>
+    <testcase classname="tokenStore set token Can set token" name="tokenStore set token Can set token" time="0.001">
+    </testcase>
+    <testcase classname="tokenStore set token Connects when no connection calling set token" name="tokenStore set token Connects when no connection calling set token" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getUnacceptableAbsenceCount" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.144" tests="2">
+    <testcase classname="getUnacceptableAbsenceCount On error - Throws error" name="getUnacceptableAbsenceCount On error - Throws error" time="0.003">
+    </testcase>
+    <testcase classname="getUnacceptableAbsenceCount On success - Returns correct data" name="getUnacceptableAbsenceCount On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="orderCiagPlanArrays" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.179" tests="6">
+    <testcase classname="orderCiagPlanArrays should correctly order CiagPlan arrays and objects" name="orderCiagPlanArrays should correctly order CiagPlan arrays and objects" time="0.006">
+    </testcase>
+    <testcase classname="orderCiagPlanArrays should handle null arrays" name="orderCiagPlanArrays should handle null arrays" time="0.001">
+    </testcase>
+    <testcase classname="orderCheckboxValue should correctly order checkbox values" name="orderCheckboxValue should correctly order checkbox values" time="0">
+    </testcase>
+    <testcase classname="orderCheckboxValue should handle empty arrays" name="orderCheckboxValue should handle empty arrays" time="0.001">
+    </testcase>
+    <testcase classname="orderObjectValue should correctly order objects by a specified key" name="orderObjectValue should correctly order objects by a specified key" time="0.002">
+    </testcase>
+    <testcase classname="orderObjectValue should handle empty arrays" name="orderObjectValue should handle empty arrays" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getLearnerEducation" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.126" tests="3">
+    <testcase classname="getLearnerEducation On error - Throws error" name="getLearnerEducation On error - Throws error" time="0.002">
+    </testcase>
+    <testcase classname="getLearnerEducation On error - 404 - Calls next without error" name="getLearnerEducation On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getLearnerEducation On success - Returns correct data" name="getLearnerEducation On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getLatestAssessment" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.132" tests="3">
+    <testcase classname="getLatestAssessment On error - Throws error" name="getLatestAssessment On error - Throws error" time="0.004">
+    </testcase>
+    <testcase classname="getLatestAssessment On error - 404 - Calls next without error" name="getLatestAssessment On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getLatestAssessment On success - Returns correct data" name="getLatestAssessment On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getEmployabilitySkillsResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.137" tests="2">
+    <testcase classname="getEmployabilitySkillsResolver On error - Calls next with error" name="getEmployabilitySkillsResolver On error - Calls next with error" time="0.002">
+    </testcase>
+    <testcase classname="getEmployabilitySkillsResolver On success - Attaches data to context and calls next" name="getEmployabilitySkillsResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getPomById" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.132" tests="3">
+    <testcase classname="getPomById On error - Throws error" name="getPomById On error - Throws error" time="0.004">
+    </testcase>
+    <testcase classname="getPomById On error - 404 - Calls next without error" name="getPomById On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getPomById On success - Returns correct data" name="getPomById On success - Returns correct data" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getNeurodivergence" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.13" tests="3">
+    <testcase classname="getNeurodivergence On error - Throws error" name="getNeurodivergence On error - Throws error" time="0.003">
+    </testcase>
+    <testcase classname="getNeurodivergence On error - 404 - Calls next without error" name="getNeurodivergence On error - 404 - Calls next without error" time="0.001">
+    </testcase>
+    <testcase classname="getNeurodivergence On success - Returns correct data" name="getNeurodivergence On success - Returns correct data" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="getComByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.132" tests="2">
+    <testcase classname="getComByIdResolver On error - Calls next with error" name="getComByIdResolver On error - Calls next with error" time="0.004">
+    </testcase>
+    <testcase classname="getComByIdResolver On success - Attaches data to context and calls next" name="getComByIdResolver On success - Attaches data to context and calls next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="sanitised error" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.119" tests="3">
+    <testcase classname="sanitised error it should omit the request headers from the error object " name="sanitised error it should omit the request headers from the error object " time="0.003">
+    </testcase>
+    <testcase classname="sanitised error it should return the error message " name="sanitised error it should return the error message " time="0">
+    </testcase>
+    <testcase classname="sanitised error it should return an empty object for an unknown error structure" name="sanitised error it should return an empty object for an unknown error structure" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getPrisonerByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.118" tests="2">
+    <testcase classname="getPrisonerByIdResolver On error - Calls next with error" name="getPrisonerByIdResolver On error - Calls next with error" time="0.002">
+    </testcase>
+    <testcase classname="getPrisonerByIdResolver On success - Attaches data to context and call next" name="getPrisonerByIdResolver On success - Attaches data to context and call next" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Axios request configuration decorator tests" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.119" tests="5">
+    <testcase classname="Axios request configuration decorator tests should return paging and auth headers" name="Axios request configuration decorator tests should return paging and auth headers" time="0.003">
+    </testcase>
+    <testcase classname="Axios request configuration decorator tests should override page limit header" name="Axios request configuration decorator tests should override page limit header" time="0.001">
+    </testcase>
+    <testcase classname="Axios request configuration decorator tests should exclude authorization header if not required" name="Axios request configuration decorator tests should exclude authorization header if not required" time="0">
+    </testcase>
+    <testcase classname="Axios request configuration decorator tests should include custom headers" name="Axios request configuration decorator tests should include custom headers" time="0">
+    </testcase>
+    <testcase classname="Axios request configuration decorator tests should not override other headers with custom headers" name="Axios request configuration decorator tests should not override other headers with custom headers" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="getCiagPlanByIdResolver" errors="0" failures="0" skipped="0" timestamp="2023-11-07T08:21:05" time="0.125" tests="3">
+    <testcase classname="getCiagPlanByIdResolver On error - Calls next with error" name="getCiagPlanByIdResolver On error - Calls next with error" time="0.003">
+    </testcase>
+    <testcase classname="getCiagPlanByIdResolver On error - 404 error - Calls next without error" name="getCiagPlanByIdResolver On error - 404 error - Calls next without error" time="0">
+    </testcase>
+    <testcase classname="getCiagPlanByIdResolver On success - Attaches data to context and call next" name="getCiagPlanByIdResolver On success - Attaches data to context and call next" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>
