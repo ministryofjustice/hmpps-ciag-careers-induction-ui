@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CiagService from './ciagService'
 import CiagApiClient from '../data/ciagApi/ciagApiClient'
 import hopingToGetWorkValue from '../enums/hopingToGetWorkValue'

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
 import RestClient from '../restClient'
 import ActionPlanSummaryResult from './interfaces/actionPlanSummaryResult'
@@ -22,7 +23,6 @@ describe('EducationAndWorkPlanApi', () => {
 
   describe('getActionPlanList', () => {
     it('should make a POST request to the correct endpoint with the correct parameters', async () => {
-      const expectedPath = `/action-plans`
       const expectedResult: ActionPlanSummaryResult = {
         actionPlanSummaries: [
           {

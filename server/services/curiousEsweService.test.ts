@@ -70,7 +70,6 @@ describe('curiousApi', () => {
   describe('getLearnerNeurodivergence', () => {
     const dummyLearnerNeurodivergence = getDummyLearnerneurodivergence()
     const id = dummyLearnerNeurodivergence[0].prn
-    const context = { accessToken }
 
     it('should return the expected neurodivergence data', async () => {
       mock
