@@ -31,6 +31,9 @@ context('Not hoping to get work page', () => {
 
     reasonToNotGetWork.submitButton().click()
 
+    reasonToNotGetWork
+      .checkboxFieldErrorMessage()
+      .contains('Select what could stop Daniel Craig working when they are released')
     reasonToNotGetWork.pageErrorMessage().contains('Select what could stop Daniel Craig working when they are released')
   })
 

@@ -10,6 +10,8 @@ import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
 context('Ability to work page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -97,6 +99,12 @@ context('Ability to work page', () => {
     abilityToWorkPage
       .detailsFieldErrorMessage()
       .contains('Enter what Daniel Craig feels may affect their ability to work')
+
+    abilityToWorkPage.textareaField().type(longStr)
+    abilityToWorkPage.submitButton().click()
+
+    abilityToWorkPage.detailsPageErrorMessage().contains('Reason must be 200 characters or less')
+    abilityToWorkPage.detailsFieldErrorMessage().contains('Reason must be 200 characters or less')
   })
 
   it('New record - Select LIMITED_BY_OFFENSE - navigates to check-your-answers page', () => {
