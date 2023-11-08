@@ -4,6 +4,8 @@ import AdditionalTrainingPage from '../pages/additionalTraining'
 import QualificationsPage from '../pages/qualifications'
 
 context('Other qualifications level page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -58,6 +60,12 @@ context('Other qualifications level page', () => {
     additionalTraining
       .detailsFieldErrorMessage()
       .contains('Enter the type of training or vocational qualification Daniel Craig has')
+
+    additionalTraining.textareaField().type(longStr)
+    additionalTraining.submitButton().click()
+
+    additionalTraining.detailsPageErrorMessage().contains('Other qualification must be 200 characters or less')
+    additionalTraining.detailsFieldErrorMessage().contains('Other qualification must be 200 characters or less')
   })
 
   it('New record - Select FULL_UK_DRIVING_LICENCE and OTHER - navigates to has-worked-before page', () => {
