@@ -7,6 +7,9 @@ import QualificationsPage from '../pages/qualifications'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 
 context('Job details page', () => {
+  const longStr = 'x'.repeat(201)
+  const veryLongStr = 'x'.repeat(4001)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -65,6 +68,20 @@ context('Job details page', () => {
 
     jobDetailsPage.detailsPageErrorMessage().contains('Enter details of what Daniel Craig did in their job')
     jobDetailsPage.detailsFieldErrorMessage().contains('Enter details of what Daniel Craig did in their job')
+
+    jobDetailsPage.roleField().type(longStr)
+    jobDetailsPage.detailsField().type(veryLongStr)
+    jobDetailsPage.submitButton().click()
+
+    jobDetailsPage.roleFieldErrorMessage().contains('Job role must be 200 characters or less')
+    jobDetailsPage.rolePageErrorMessage().contains('Job role must be 200 characters or less')
+
+    jobDetailsPage
+      .detailsFieldErrorMessage()
+      .contains('Main tasks and responsibilities must be 4000 characters or less')
+    jobDetailsPage
+      .detailsFieldErrorMessage()
+      .contains('Main tasks and responsibilities must be 4000 characters or less')
   })
 
   it('New record - Navigates through each job - navigates to work-interests page', () => {

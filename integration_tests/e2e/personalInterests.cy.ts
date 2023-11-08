@@ -9,6 +9,8 @@ import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
 
 context('Personal Interests page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -80,6 +82,12 @@ context('Personal Interests page', () => {
 
     personalInterests.detailsPageErrorMessage().contains("Enter Daniel Craig's interests")
     personalInterests.detailsFieldErrorMessage().contains("Enter Daniel Craig's interests")
+
+    personalInterests.textareaField().type(longStr)
+    personalInterests.submitButton().click()
+
+    personalInterests.detailsPageErrorMessage().contains('Interest must be 200 characters or less')
+    personalInterests.detailsFieldErrorMessage().contains('Interest must be 200 characters or less')
   })
 
   it('New record - Select COMMUNITY - navigates to ability-to-work page', () => {
