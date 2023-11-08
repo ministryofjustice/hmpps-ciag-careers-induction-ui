@@ -84,6 +84,23 @@ const prisoners = {
       },
     },
   },
+  B79237A: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/B79237A',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'B79237A',
+        firstName: 'Jane',
+        lastName: 'Doe',
+        releaseDate: new Date().toISOString(),
+        nonDtoReleaseDateType: 'HDC',
+      },
+    },
+  },
 }
 
 export default prisoners

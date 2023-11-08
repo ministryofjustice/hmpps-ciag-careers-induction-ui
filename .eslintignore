@@ -2,6 +2,5 @@ node_modules
 public
 assets
 cypress.json
-cypress.config.ts
 reporter-config.json
 dist/
