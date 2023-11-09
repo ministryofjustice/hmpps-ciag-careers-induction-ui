@@ -12,13 +12,11 @@ context('Hoping to get work page', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getPrisonersByCaseloadId', 'MDI')
+    cy.signIn()
+    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
   })
 
   it('Validation messages display when no value selected', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
-
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
 
     hopingToGetWorkPage.submitButton().click()
@@ -28,10 +26,6 @@ context('Hoping to get work page', () => {
   })
 
   it('New record - Select YES - navigates to qualifications page', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
-
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
 
     hopingToGetWorkPage.radioFieldValue('YES').click()
@@ -41,10 +35,6 @@ context('Hoping to get work page', () => {
   })
 
   it('New record - Select NO - navigates to why-no-work page', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
-
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
 
     hopingToGetWorkPage.radioFieldValue('NO').click()
@@ -54,10 +44,6 @@ context('Hoping to get work page', () => {
   })
 
   it('New record - Select NO_SURE - navigates to why-no-work page', () => {
-    cy.signIn()
-
-    cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
-
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Daniel Craig hoping to get work when they're released?")
 
     hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()

@@ -67,6 +67,40 @@ const prisoners = {
       },
     },
   },
+  A3260DZ: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/A3260DZ',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'A3260DZ',
+        firstName: 'Joe',
+        lastName: 'Bloggs',
+        releaseDate: new Date().toISOString(),
+        nonDtoReleaseDateType: 'HDC',
+      },
+    },
+  },
+  B79237A: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/B79237A',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'B79237A',
+        firstName: 'Jane',
+        lastName: 'Doe',
+        releaseDate: new Date().toISOString(),
+        nonDtoReleaseDateType: 'HDC',
+      },
+    },
+  },
 }
 
 export default prisoners

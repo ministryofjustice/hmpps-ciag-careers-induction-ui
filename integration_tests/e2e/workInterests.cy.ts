@@ -6,6 +6,8 @@ import QualificationsPage from '../pages/qualifications'
 import WorkInterestsPage from '../pages/workInterests'
 
 context('Work interests page', () => {
+  const longStr = 'x'.repeat(201)
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -60,6 +62,12 @@ context('Work interests page', () => {
 
     workInterestsPage.detailsPageErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
     workInterestsPage.detailsFieldErrorMessage().contains('Enter the type of work Daniel Craig is interested in')
+
+    workInterestsPage.textareaField().type(longStr)
+    workInterestsPage.submitButton().click()
+
+    workInterestsPage.detailsPageErrorMessage().contains('Type of work interest must be 200 characters or less')
+    workInterestsPage.detailsFieldErrorMessage().contains('Type of work interest must be 200 characters or less')
   })
 
   it('New record - Select HOSPITALITY - navigates to particular-job-interests page', () => {

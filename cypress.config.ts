@@ -8,6 +8,7 @@ import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import curiousApi from './integration_tests/mockApis/curiousApi'
 import ciagApi from './integration_tests/mockApis/ciagApi'
 import educationAndWorkPlanApi from './integration_tests/mockApis/educationAndWorkPlanApi'
+import learningPlanUi from './integration_tests/mockApis/learningPlanUi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -34,6 +35,7 @@ export default defineConfig({
         ...curiousApi,
         ...ciagApi,
         ...educationAndWorkPlanApi,
+        ...learningPlanUi,
       })
     },
     baseUrl: 'http://localhost:3007',
