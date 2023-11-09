@@ -37,7 +37,7 @@ describe('HopingToGetWorkController', () => {
 
   const mockData = {
     backLocation: addressLookup.workPlan(id),
-    backLocationAriaText: 'Back to Mock_firstname Mock_lastname',
+    backLocationAriaText: "Back to Mock_firstname Mock_lastname's learning and work progress",
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
