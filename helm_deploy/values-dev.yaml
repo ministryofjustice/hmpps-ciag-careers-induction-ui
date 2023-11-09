@@ -32,12 +32,7 @@ generic-service:
     SYSTEM_PHASE: DEV
 
   allowlist:
-    sscl-blackpool: 31.121.5.27/32
-    sscl-azure: 51.142.106.199/32
-    sscl-york: 62.6.61.29/32
-    sscl-newcastle: 62.172.79.105/32
-    sscl-newport: 217.38.237.212/32
-    undefined: 5.181.59.114/32
+    uservision-accessibility-testers: 5.181.59.114/32
     cymulate-1: 54.217.50.18/32
     cymulate-2: 52.208.202.111/32
     cymulate-3: 52.49.144.209/32
@@ -45,7 +40,6 @@ generic-service:
       - internal
       - prisons
       - private_prisons
-      - police
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
