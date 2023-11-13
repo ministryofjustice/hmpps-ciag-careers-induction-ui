@@ -28,3 +28,12 @@ $govuk-page-width: $moj-page-width;
   font-size: 1.1875rem;
   line-height: 1.3157894737;
 }
+
+.clear-link {
+  display: inline-block;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+  margin-left: 16px;
+  position: relative;
+  top: -16px;
+}
