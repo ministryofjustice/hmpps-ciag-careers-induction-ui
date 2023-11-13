@@ -175,4 +175,7 @@ export default {
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
+  isBeta: get('IS_BETA', 'false'),
+  betaHelpLink: get('BETA_HELP_LINK', ''),
+  betaFeedbackLink: get('BETA_FEEDBACK_LINK', ''),
 }

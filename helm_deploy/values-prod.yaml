@@ -29,6 +29,7 @@ generic-service:
     COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
     SUPPORT_URL: "https://support.hmpps.service.justice.gov.uk/feedback-and-support"
     MANAGE_USERS_API: "https://manage-users-api.hmpps.service.justice.gov.uk"
+    IS_BETA: true
     SYSTEM_PHASE: PROD
 
 generic-prometheus-alerts:
