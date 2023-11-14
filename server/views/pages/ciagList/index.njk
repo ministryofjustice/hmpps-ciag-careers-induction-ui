@@ -21,6 +21,7 @@
 {% set ciagOffenders = prisonerSearchResults %}
 
 {% block beforeContent %}
+    {{ super() }}
     {{ govukBreadcrumbs({
         items: [
             {

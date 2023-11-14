@@ -23,6 +23,7 @@ import expressContext from './middleware/expressContext'
 import setUpLocals from './middleware/setUpLocals'
 import getFrontendComponents from './middleware/getFrontendComponents'
 import setUpEnvironmentName from './middleware/setUpEnvironmentName'
+import setUpBetaBanner from './middleware/setUpBetaBanner'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -42,6 +43,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
   app.use(setUpLocals())
+  app.use(setUpBetaBanner())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(expressContext())

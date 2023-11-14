@@ -29,6 +29,8 @@ generic-service:
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
     SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk/feedback-and-support"
     MANAGE_USERS_API: "https://manage-users-api-dev.hmpps.service.justice.gov.uk"
+    IS_BETA: true
+    BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
     SYSTEM_PHASE: DEV
 
   allowlist:

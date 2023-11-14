@@ -1,0 +1,26 @@
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{% if isBeta %}
+  {% set betaHtml %}
+    <span>This is a new service – 
+      {% if betaHelpUrl %}
+        <a href="{{ betaHelpUrl }}" target="_blank">get help</a>
+      {% else %}
+        get help 
+      {% endif %}
+      or 
+      {% if betaFeedbackUrl %}
+        <a href="{{ betaFeedbackUrl }}" target="_blank">give your feedback</a>
+      {% else %}
+        give your feedback
+      {% endif %} to help us to improve it.</span>
+  {% endset -%}
+
+
+  {{ govukPhaseBanner({
+    tag: {
+      text: 'BETA'
+      },
+    html: betaHtml if (betaHelpUrl or betaFeedbackUrl) else ''
+  }) }}
+{% endif %}

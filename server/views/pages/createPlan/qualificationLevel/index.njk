@@ -116,6 +116,7 @@
 
 
 {% block beforeContent %}
+  {{ super() }}
   {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
 {% endblock %}
 
