@@ -58,8 +58,10 @@
   {% else %}
     {% include "./header.njk" %}
   {% endif %}
+{% endblock %}
 
-  {% include "./betaBanner.njk"%}
+{% block beforeContent %}
+  {% include "./betaBanner.njk"%} 
 {% endblock %}
 
 {% block bodyStart %}

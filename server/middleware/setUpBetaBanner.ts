@@ -7,8 +7,8 @@ export default function setUpBetaBanner(): Router {
 
   router.use((req, res, next) => {
     res.locals.isBeta = config.isBeta === 'true'
-    res.locals.betaHelpLink = config.betaHelpLink
-    res.locals.betaFeedbackLink = config.betaFeedbackLink
+    res.locals.betaHelpUrl = config.betaHelpUrl
+    res.locals.betaFeedbackUrl = config.betaFeedbackUrl
 
     next()
   })

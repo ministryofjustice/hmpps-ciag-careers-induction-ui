@@ -30,6 +30,7 @@ generic-service:
     SUPPORT_URL: "https://support-preprod.hmpps.service.justice.gov.uk/feedback-and-support"
     MANAGE_USERS_API: "https://manage-users-api-preprod.hmpps.service.justice.gov.uk"
     IS_BETA: true
+    BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
     SYSTEM_PHASE: PREPROD
 
 generic-prometheus-alerts:

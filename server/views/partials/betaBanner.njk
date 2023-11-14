@@ -2,18 +2,18 @@
 
 {% if isBeta %}
   {% set betaHtml %}
-    <span>This is a new service - 
-      {% if betaHelpLink %}
-        <a href="{{ betaHelpLink }}" target="_blank">get help</a>
+    <span>This is a new service – 
+      {% if betaHelpUrl %}
+        <a href="{{ betaHelpUrl }}" target="_blank">get help</a>
       {% else %}
         get help 
       {% endif %}
       or 
-      {% if betaFeedbackLink %}
-        <a href="{{ betaFeedbackLink }}" target="_blank">give your feedback</a>
+      {% if betaFeedbackUrl %}
+        <a href="{{ betaFeedbackUrl }}" target="_blank">give your feedback</a>
       {% else %}
         give your feedback
-      {% endif %} to help us improve it.</span>
+      {% endif %} to help us to improve it.</span>
   {% endset -%}
 
 
@@ -21,6 +21,6 @@
     tag: {
       text: 'BETA'
       },
-    html: betaHtml if (betaHelpLink or betaFeedbackLink) else ''
+    html: betaHtml if (betaHelpUrl or betaFeedbackUrl) else ''
   }) }}
 {% endif %}
