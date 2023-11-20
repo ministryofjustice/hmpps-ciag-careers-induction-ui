@@ -1,5 +1,9 @@
 const production = process.env.NODE_ENV === 'production'
 
+const toBoolean = (value: unknown): boolean => {
+  return value === 'true'
+}
+
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
     return process.env[name]
@@ -178,4 +182,7 @@ export default {
   isBeta: get('IS_BETA', 'false'),
   betaHelpUrl: get('BETA_HELP_URL', ''),
   betaFeedbackUrl: get('BETA_FEEDBACK_URL', ''),
+  featureToggles: {
+    someToggleEnabled: toBoolean(get('SOME_TOGGLE_ENABLED', false)),
+  },
 }

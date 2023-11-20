@@ -75,4 +75,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('phaseName', config.phaseName)
   njkEnv.addGlobal('encryptUrlParameter', encryptUrlParameter)
   njkEnv.addGlobal('decryptUrlParameter', decryptUrlParameter)
+  njkEnv.addGlobal('featureToggles', config.featureToggles)
 }
