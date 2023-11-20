@@ -107,3 +107,10 @@ Or run tests with the cypress UI:
 The template project has implemented some scheduled checks to ensure that key dependencies are kept up to date.
 If these are not desired in the cloned project, remove references to `check_outdated` job from `.circleci/config.yml`
 
+
+## Feature Toggles
+Features can be toggled by setting the relevant environment variable.
+
+| Name                | Default Value | Type    | Description                                         |
+|---------------------|---------------|---------|-----------------------------------------------------|
+| SOME_TOGGLE_ENABLED | false         | Boolean | Example feature toggle, for demonstration purposes. |
