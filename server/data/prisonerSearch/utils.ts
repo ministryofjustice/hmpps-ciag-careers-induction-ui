@@ -111,8 +111,8 @@ export function sortOffenderProfile(
     }
 
     if (sortBy === 'status') {
-      if (a.status > b.status) return orderBy === 'ascending' ? 1 : -1
-      if (b.status > a.status) return orderBy === 'ascending' ? -1 : 1
+      if (a.ciagStatus > b.ciagStatus) return orderBy === 'ascending' ? 1 : -1
+      if (b.ciagStatus > a.ciagStatus) return orderBy === 'ascending' ? -1 : 1
     }
     return 0 // Add a default return value for cases where sortBy doesn't match any condition
   })
