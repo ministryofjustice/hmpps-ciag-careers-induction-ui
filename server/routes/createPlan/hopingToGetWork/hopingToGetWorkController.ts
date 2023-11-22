@@ -103,6 +103,7 @@ export default class HopingToGetWorkController {
           : addressLookup.createPlan.reasonToNotGetWork(id, 'new'),
       )
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }
