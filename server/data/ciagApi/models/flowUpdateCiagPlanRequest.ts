@@ -20,6 +20,7 @@ export default class FlowUpdateCiagPlanRequest {
     const isoString = now.toISOString()
 
     this.offenderId = existingPlan.offenderId
+    this.prisonId = data.prisonId
 
     this.desireToWork = data.hopingToGetWork === HopingToGetWorkValue.YES
     this.hopingToGetWork = data.hopingToGetWork
@@ -96,6 +97,8 @@ export default class FlowUpdateCiagPlanRequest {
 
   // Properties
   offenderId: string
+
+  prisonId: string
 
   desireToWork: boolean
 

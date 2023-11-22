@@ -5,7 +5,7 @@
             Filter by 
         </legend>
         <div class="govuk-grid-column-one-third">
-            <div class="govuk-form-group">
+            <div class="govuk-form-group govuk-!-margin-bottom-2">
 
                 <label class="govuk-label moj-search__label" for="searchTerm">
                    Prisoner's name
@@ -19,9 +19,9 @@
                 />
             </div>
         </div>
-        <div class="govuk-grid-column-one-third">
+        <div class="govuk-grid-column-two-thirds">
             <div class="moj-search">
-                <div class="govuk-form-group">
+                <div class="govuk-form-group govuk-!-margin-bottom-2 govuk-!-margin-right-2">
                     <label class="govuk-label moj-search__label" for="statusFilter">
                         Status
                     </label>
@@ -30,18 +30,17 @@
                         <option value="NEEDS_PLAN" {{ 'selected' if statusFilter === 'NEEDS_PLAN'}}>Needs plan</option>
                      </select>
                 </div>
-                <button class="govuk-button moj-search__button" data-module="govuk-button" id="searchButton">
-                    Apply filters
-                </button>
+                <span style="display: inline-block; margin-top: 32px;">
+                    <button class="govuk-button moj-search__button govuk-!-margin-bottom-2 govuk-!-margin-left-0" data-module="govuk-button" id="searchButton" >
+                        Apply filters
+                    </button>
+                    {% if searchTerm or statusFilter %}
+                        <a class="govuk-link clear-link" href="{{ addressLookup.prisonerSearch() }}"
+                        aria-label="Clear prisoner name filter option">Clear</a>
+                    {% endif %}
+                </span>
             </div>
+
         </div>
-        {% if searchTerm or statusFilter %}
-            <div class="govuk-grid-column-one-third" style="padding-left: 0px">
-                <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-7">
-                    <a class="govuk-link" href="{{ addressLookup.prisonerSearch() }}"
-                       aria-label="Clear prisoner name filter option">Clear</a>
-                </p>
-            </div>
-        {% endif %}
     </form>
 </div>
