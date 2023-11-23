@@ -6,7 +6,7 @@ import { convertToTitleCase, formatDateStringToddMMMyyyy } from '../utils/utils'
 
 // Exclude all by default expose properties when needed
 @Exclude()
-export default class PrisonerViewModel {
+export default class CiagListViewModel {
   @Expose()
   prisonerNumber: string
 

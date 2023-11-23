@@ -2,7 +2,7 @@
 import { plainToClass } from 'class-transformer'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import CiagViewModel from '../../viewModels/ciagViewModel'
-import PrisonerViewModel from '../../viewModels/ciagListViewModel'
+import CiagListViewModel from '../../viewModels/ciagListViewModel'
 import config from '../../config'
 
 const maxPerPage = config.paginationPageSize
@@ -38,7 +38,7 @@ export default function getActionsRequired(offenderProfile: any) {
   }
 }
 
-export function getPaginatedCiagList(ciagList: PrisonerViewModel[], page: number) {
+export function getPaginatedCiagList(ciagList: CiagListViewModel[], page: number) {
   const contents = ciagList.reduce((resultArray, item, index) => {
     const chunkIndex = Math.floor(index / maxPerPage)
     const updatedResultArray = [...resultArray] // Create a new array instead of modifying resultArray directly
@@ -80,10 +80,10 @@ export function getPaginatedCiagList(ciagList: PrisonerViewModel[], page: number
 
 // Sort dataset, given criteria
 export function sortOffenderProfile(
-  profiles: PrisonerViewModel[],
+  profiles: CiagListViewModel[],
   sortBy: string,
   orderBy: string,
-): PrisonerViewModel[] {
+): CiagListViewModel[] {
   const sortedProfiles = [...profiles]
 
   sortedProfiles.sort((a, b) => {
@@ -122,10 +122,10 @@ export function sortOffenderProfile(
 
 // Filter dataset
 export function filterCiagList(
-  profiles: PrisonerViewModel[],
+  profiles: CiagListViewModel[],
   searchTerm: string,
   statusFilter: string,
-): PrisonerViewModel[] {
+): CiagListViewModel[] {
   // Find matching profiles
   const filteredCiagList = profiles.map(p => ({
     ...p,
@@ -141,7 +141,7 @@ export function filterCiagList(
     ].join('|'),
   }))
 
-  const filteredSearch: () => PrisonerViewModel[] = () => {
+  const filteredSearch: () => CiagListViewModel[] = () => {
     let filteredList = filteredCiagList
     if (searchTerm) {
       filteredList = filteredList.filter(x =>
