@@ -42,7 +42,29 @@
       ]
     },
     "collectCoverageFrom": [
-      "server/**/*.{ts,js,jsx,mjs}"
+      "server/**/*.{ts,js,jsx,mjs}",
+      "!server/app.ts",
+      "!server/index.ts",
+      "!server/data/restClient.ts",
+      "!server/data/redisClient.ts",
+      "!server/data/token/tokenStore.ts",
+      "!server/authentication/auth.ts",
+      "!server/data/index.ts",
+      "!server/monitoring/metricsApp.ts",
+      "!server/testutils/appSetup.ts",
+      "!server/routes/testutils/appSetup.ts",
+      "!server/data/auth/authUser.ts",
+      "!server/middleware/setUpAuthentication.ts",
+      "!server/middleware/setUpBetaBanner.ts",
+      "!server/middleware/setUpCsrf.ts",
+      "!server/middleware/setUpCurrentUser.ts",
+      "!server/middleware/setUpEnvironmentName.ts",
+      "!server/middleware/setUpHealthChecks.ts",
+      "!server/middleware/setUpLocals.ts",
+      "!server/middleware/setupRequestParsing.ts",
+      "!server/middleware/setUpStaticResources.ts",
+      "!server/middleware/setUpWebSecurity.ts",
+      "!server/middleware/setUpWebSession.ts"
     ],
     "testMatch": [
       "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
