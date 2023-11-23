@@ -69,8 +69,6 @@ describe('CheckYourAnswersController', () => {
   })
 
   describe('#post(req, res)', () => {
-    const errors = { details: 'mock_error' }
-
     beforeEach(() => {
       res.render.mockReset()
       res.redirect.mockReset()

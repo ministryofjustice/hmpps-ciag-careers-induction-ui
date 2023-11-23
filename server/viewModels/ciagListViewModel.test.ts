@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import CiagListViewModel from './ciagListViewModel'
 
