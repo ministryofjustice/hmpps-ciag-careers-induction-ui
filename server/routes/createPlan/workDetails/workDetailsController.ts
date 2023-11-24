@@ -14,7 +14,7 @@ import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 import { orderCheckboxValue, orderObjectValue } from '../../../utils/orderCiagPlanArrays'
 
 export default class WorkDetailsController {

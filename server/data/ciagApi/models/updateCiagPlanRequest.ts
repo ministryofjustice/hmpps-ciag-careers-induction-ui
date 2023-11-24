@@ -11,7 +11,7 @@ import SkillsValue from '../../../enums/skillsValue'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import WorkInterestsValue from '../../../enums/workInterestsValue'
 import CiagPlan from '../interfaces/ciagPlan'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 
 export default class UpdateCiagPlanRequest {
   constructor(data: CiagPlan) {

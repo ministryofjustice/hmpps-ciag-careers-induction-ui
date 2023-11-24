@@ -1,7 +1,7 @@
 // Required import for jest
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
-import { convertToTitleCase, formatDateStringToddMMMyyyy } from '../utils/utils'
+import { convertToTitleCase, formatDateStringToddMMMyyyy } from '../utils'
 import PageableResponse from '../data/domain/types/pagedResponse'
 
 // Exclude all by default expose properties when needed

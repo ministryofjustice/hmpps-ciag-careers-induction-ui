@@ -1,4 +1,3 @@
-import PrisonerViewModel from '../viewModels/prisonerViewModel'
 import findValue from './findValue'
 
 const toSentenceCase = (str: string) => {
@@ -6,7 +5,7 @@ const toSentenceCase = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
-const pageTitleLookup = (prisoner: PrisonerViewModel, url: string) => {
+const pageTitleLookup = (prisoner: { firstName: string; lastName: string }, url: string) => {
   const prisonerName = `${toSentenceCase(prisoner.firstName)} ${toSentenceCase(prisoner.lastName)}`
   const lookup = {
     view: `${prisonerName}'s learning and work progress`,

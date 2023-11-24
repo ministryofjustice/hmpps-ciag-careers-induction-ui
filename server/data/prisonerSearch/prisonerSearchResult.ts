@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer'
-import { formatDateStringToddMMMyyyy } from '../../utils/utils'
+import { formatDateStringToddMMMyyyy } from '../../utils'
 
 export default class PrisonerSearchResult {
   @Expose()

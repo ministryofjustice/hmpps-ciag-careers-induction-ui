@@ -1,5 +1,5 @@
 import PrisonService from '../../../services/prisonService'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 
 const getCurrentOffenderActivities = async (prisonService: PrisonService, username: string, id: string) => {
   try {
