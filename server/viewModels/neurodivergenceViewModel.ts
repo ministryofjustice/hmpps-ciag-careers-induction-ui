@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
-import { formatDateStringToddMMMyyyy } from '../utils/utils'
+import { formatDateStringToddMMMyyyy } from '../utils'
 
 @Exclude()
 export default class NeurodivergenceViewModel {
