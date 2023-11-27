@@ -12,7 +12,7 @@ import YesNoValue from '../../../enums/yesNoValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 
 export default class HasWorkedBeforeController {
   constructor(private readonly ciagService: CiagService) {}
