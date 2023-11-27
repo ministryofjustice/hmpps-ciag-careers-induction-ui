@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer'
-import { formatDateStringTodMMMM } from '../utils/utils'
+import { formatDateStringTodMMMM } from '../utils'
 
 export default class WorkExperienceViewModel {
   modifiedBy: string

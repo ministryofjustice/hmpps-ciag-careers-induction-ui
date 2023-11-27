@@ -13,7 +13,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 
 export default class AdditionalTrainingController {
   constructor(private readonly ciagService: CiagService) {}

@@ -10,7 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 
 export default class SkillsController {
