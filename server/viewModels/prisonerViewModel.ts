@@ -2,7 +2,7 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
 
-import { convertToTitleCase, formatDateStringTodMMMyyyy } from '../utils/utils'
+import { convertToTitleCase, formatDateStringTodMMMyyyy } from '../utils'
 
 // Exclude all by default expose properties when needed
 @Exclude()

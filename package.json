@@ -64,7 +64,8 @@
       "!server/middleware/setupRequestParsing.ts",
       "!server/middleware/setUpStaticResources.ts",
       "!server/middleware/setUpWebSecurity.ts",
-      "!server/middleware/setUpWebSession.ts"
+      "!server/middleware/setUpWebSession.ts",
+      "!server/utils/nunjucksSetup.ts"
     ],
     "testMatch": [
       "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"

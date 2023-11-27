@@ -13,7 +13,7 @@ import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import getBackLocation from '../../../utils/getBackLocation'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 
 export default class QualificationsController {
   constructor(private readonly ciagService: CiagService) {}

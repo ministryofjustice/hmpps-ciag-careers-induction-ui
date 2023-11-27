@@ -11,7 +11,7 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
-import { getValueSafely } from '../../../utils/utils'
+import { getValueSafely } from '../../../utils'
 import { orderCheckboxValue } from '../../../utils/orderCiagPlanArrays'
 
 export default class TypeOfWorkExperienceController {
