@@ -18,7 +18,7 @@ generic-service:
     NOMIS_USER_ROLES_API_URL: "https://nomis-user-roles-api-dev.prison.service.justice.gov.uk"
     CURIOUS_API_URL: "https://testservices.sequation.net/sequation-virtual-campus2-api/"
     PRISONER_SEARCH_URL: "https://prisoner-search-dev.prison.service.justice.gov.uk"
-    CIAG_API_URL: "https://ciag-induction-api-dev.hmpps.service.justice.gov.uk"
+    CIAG_API_URL: "https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk"
     LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-dev.hmpps.service.justice.gov.uk"
     EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
