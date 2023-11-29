@@ -65,7 +65,10 @@
       "!server/middleware/setUpStaticResources.ts",
       "!server/middleware/setUpWebSecurity.ts",
       "!server/middleware/setUpWebSession.ts",
-      "!server/utils/nunjucksSetup.ts"
+      "!server/utils/nunjucksSetup.ts",
+      "!server/utils/azureAppInsights.ts",
+      "!server/data/contextProperties.ts",
+      "!server/data/oauthEnabledClient.ts"
     ],
     "testMatch": [
       "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
