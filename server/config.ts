@@ -74,15 +74,6 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
-    hmppsPrisonApi: {
-      url: get('HMPPS_PRISON_API_URL', 'http://localhost:8080', requiredInProduction),
-      externalUrl: get('HMPPS_PRISON_API_EXTERNAL_URL', get('HMPPS_PRISON_API_URL', 'http://localhost:8080')),
-      timeout: {
-        response: Number(get('HMPPS_PRISON_API_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('HMPPS_PRISON_API_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(Number(get('HMPPS_PRISON_API_TIMEOUT_RESPONSE', 10000))),
-    },
     prisonerSearch: {
       url: get('PRISONER_SEARCH_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
@@ -101,38 +92,6 @@ export default {
     },
     curiousApi: {
       url: get('CURIOUS_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
-    keyworkerApi: {
-      url: get('KEYWORKER_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
-    whereaboutsApi: {
-      url: get('WHEREABOUTS_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
-    allocationManagerApi: {
-      url: get('ALLOCATION_MANAGER_ENDPOINT_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
-    communityApi: {
-      url: get('ALLOCATION_MANAGER_ENDPOINT_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
