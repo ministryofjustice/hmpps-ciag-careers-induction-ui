@@ -2,8 +2,11 @@ import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
 import config from '../config'
 
 export default {
-  prisonerSearch: () => '/',
-  workPlan: (id: string, tab = 'overview') => `/plan/${id}/view/${tab}`,
+  ciagList: () => (config.featureToggles.plpHomePageEnabled ? config.learningPlanUrl : '/'),
+  workPlan: (id: string, tab = 'overview') =>
+    config.featureToggles.plpHomePageEnabled
+      ? `${config.learningPlanUrl}/plan/${id}/view/${tab}`
+      : `/plan/${id}/view/${tab}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,

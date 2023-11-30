@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import Controller from './ciagListController'
 import getCiagListResolver from '../../middleware/resolvers/getCiagListResolver'
+import plpFrontendRedirect from '../../middleware/plpFrontendRedirect'
 import { Services } from '../../services'
 import routes from './index'
 
 jest.mock('./ciagListController')
 jest.mock('../../middleware/resolvers/getCiagListResolver')
+jest.mock('../../middleware/plpFrontendRedirect')
 
 describe('Ciag data routes', () => {
   let router: Router
@@ -22,6 +24,7 @@ describe('Ciag data routes', () => {
       post: jest.fn(),
     }))
     ;(getCiagListResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(plpFrontendRedirect as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for Ciag list page', () => {
@@ -30,6 +33,7 @@ describe('Ciag data routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/',
       [
+        expect.any(Function), // plpFrontendRedirect,
         expect.any(Function), // getCiagListResolver
       ],
       expect.any(Function), // controller.get
@@ -42,6 +46,7 @@ describe('Ciag data routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/',
       [
+        expect.any(Function), // plpFrontendRedirect,
         expect.any(Function), // getCiagListResolver
       ],
       expect.any(Function), // controller.post

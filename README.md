@@ -113,4 +113,4 @@ Features can be toggled by setting the relevant environment variable.
 
 | Name                | Default Value | Type    | Description                                         |
 |---------------------|---------------|---------|-----------------------------------------------------|
-| SOME_TOGGLE_ENABLED | false         | Boolean | Example feature toggle, for demonstration purposes. |
+|PLP_HOMEPAGE_ENABLED | false         | Boolean | Toggles to switch supported pages to PLP frontend   |
