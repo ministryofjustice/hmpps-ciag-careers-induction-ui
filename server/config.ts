@@ -143,5 +143,6 @@ export default {
   betaFeedbackUrl: get('BETA_FEEDBACK_URL', ''),
   featureToggles: {
     someToggleEnabled: toBoolean(get('SOME_TOGGLE_ENABLED', false)),
+    plpPagesEnabled: toBoolean(get('PLP_PAGES_ENABLED', false)),
   },
 }

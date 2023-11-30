@@ -2,12 +2,14 @@ import { Router } from 'express'
 import Controller from './workPlanController'
 import getPrisonerByIdResolver from '../../middleware/resolvers/getPrisonerByIdResolver'
 import getCiagPlanByIdResolver from '../../middleware/resolvers/getCiagPlanByIdResolver'
+import plpFrontendRedirect from '../../middleware/plpFrontendRedirect'
 import { Services } from '../../services'
 import routes from './index'
 
 jest.mock('./workPlanController')
 jest.mock('../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../middleware/resolvers/getCiagPlanByIdResolver')
+jest.mock('../../middleware/plpFrontendRedirect')
 
 describe('Work plan routes', () => {
   let router: Router
@@ -25,6 +27,7 @@ describe('Work plan routes', () => {
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(plpFrontendRedirect as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for the page', () => {
@@ -33,6 +36,7 @@ describe('Work plan routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/plan/:id/view/:tab',
       [
+        expect.any(Function), // plpFrontendRedirect
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getCiagPlanByIdResolver
       ],
