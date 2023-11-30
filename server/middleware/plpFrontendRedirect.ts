@@ -7,13 +7,13 @@ export enum AddressLookupKey {
   workPlan = 'workPlan',
 }
 
-// Redirect to the plp equivilent URL if plpHomePageEnabled toggle is enabled
+// Redirect to the plp equivilent URL if plpPagesEnabled toggle is enabled
 const plpFrontendRedirect =
   (address: AddressLookupKey): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
 
-    if (config.featureToggles.plpHomePageEnabled) {
+    if (config.featureToggles.plpPagesEnabled) {
       // Get the addresses that are valid
       const addresses = {
         ciagList: addressLookup.ciagList(),

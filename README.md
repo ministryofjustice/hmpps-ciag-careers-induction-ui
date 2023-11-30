@@ -111,6 +111,7 @@ If these are not desired in the cloned project, remove references to `check_outd
 ## Feature Toggles
 Features can be toggled by setting the relevant environment variable.
 
-| Name                | Default Value | Type    | Description                                         |
-|---------------------|---------------|---------|-----------------------------------------------------|
-|PLP_HOMEPAGE_ENABLED | false         | Boolean | Toggles to switch supported pages to PLP frontend   |
+| Name                | Default Value | Type    | Description                                              |
+|---------------------|---------------|---------|----------------------------------------------------------|
+| SOME_TOGGLE_ENABLED | false         | Boolean | Example feature toggle, for demonstration purposes.      |
+| PLP_PAGES_ENABLED   | false         | Boolean | Set as true to switch supported pages to PLP frontend    |

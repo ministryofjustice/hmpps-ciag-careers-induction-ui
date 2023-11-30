@@ -24,9 +24,9 @@ describe('plpFrontendRedirect', () => {
     jest.resetAllMocks()
   })
 
-  it('should redirect to ciagList if plpHomePageEnabled is true', async () => {
+  it('should redirect to ciagList if plpPagesEnabled is true', async () => {
     // Mock the featureToggles
-    ;(config.featureToggles as any).plpHomePageEnabled = true
+    ;(config.featureToggles as any).plpPagesEnabled = true
 
     const middleware = plpFrontendRedirect(AddressLookupKey.ciagList)
     await middleware(req as Request, res as Response, next)
@@ -35,9 +35,9 @@ describe('plpFrontendRedirect', () => {
     expect(next).not.toHaveBeenCalled()
   })
 
-  it('should redirect to workPlan if plpHomePageEnabled is true', async () => {
+  it('should redirect to workPlan if plpPagesEnabled is true', async () => {
     // Mock the featureToggles
-    ;(config.featureToggles as any).plpHomePageEnabled = true
+    ;(config.featureToggles as any).plpPagesEnabled = true
 
     const middleware = plpFrontendRedirect(AddressLookupKey.workPlan)
     await middleware(req as Request, res as Response, next)
@@ -46,9 +46,9 @@ describe('plpFrontendRedirect', () => {
     expect(next).not.toHaveBeenCalled()
   })
 
-  it('should not redirect if plpHomePageEnabled is false', async () => {
+  it('should not redirect if plpPagesEnabled is false', async () => {
     // Mock the featureToggles
-    ;(config.featureToggles as any).plpHomePageEnabled = false
+    ;(config.featureToggles as any).plpPagesEnabled = false
 
     const middleware = plpFrontendRedirect(AddressLookupKey.ciagList)
     await middleware(req as Request, res as Response, next)
