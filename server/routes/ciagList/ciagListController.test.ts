@@ -147,7 +147,7 @@ describe('CiagListController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.prisonerSearch()}${'?searchTerm=name1&statusFilter=NEEDS_PLAN'}`,
+        `${addressLookup.ciagList()}${'?searchTerm=name1&statusFilter=NEEDS_PLAN'}`,
       )
     })
   })
