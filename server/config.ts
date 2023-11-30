@@ -143,5 +143,8 @@ export default {
   betaFeedbackUrl: get('BETA_FEEDBACK_URL', ''),
   featureToggles: {
     someToggleEnabled: toBoolean(get('SOME_TOGGLE_ENABLED', false)),
+    plpPrisonerListAndOverviewPagesEnabled: toBoolean(
+      get('PLP_PRISONER_LIST_AND_OVERVIEW_PAGES_ENABLED', false, requiredInProduction),
+    ),
   },
 }
