@@ -27,6 +27,7 @@ generic-service:
     IS_BETA: true
     BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
     SYSTEM_PHASE: PROD
+    WEB_SESSION_TIMEOUT_IN_MINUTES: 720
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service
