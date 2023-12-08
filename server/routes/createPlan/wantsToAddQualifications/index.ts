@@ -5,6 +5,7 @@ import type { Services } from '../../../services'
 import WantsToAddQualificationsController from './wantsToAddQualificationsController'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
   const controller = new WantsToAddQualificationsController()
@@ -20,7 +21,11 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/plan/create/:id/wants-to-add-qualifications/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [
+      checkSessionPageData('wantsToAddQualifications'),
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getCiagPlanByIdResolver(services.ciagService),
+    ],
     controller.post,
   )
 }
