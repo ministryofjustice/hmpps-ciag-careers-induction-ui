@@ -1,5 +1,4 @@
 import type { RequestHandler } from 'express'
-import addressLookup from '../routes/addressLookup'
 import { getSessionData } from '../utils'
 
 // Checks required values are set for creation and update process, designed for page POSTS
@@ -8,7 +7,6 @@ const checkSessionPageData =
   (sessionPageKey: string): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { plan } = req.context
 
     // If no pageDate redirect to get
     const data = getSessionData(req, [sessionPageKey, id, 'data'])
