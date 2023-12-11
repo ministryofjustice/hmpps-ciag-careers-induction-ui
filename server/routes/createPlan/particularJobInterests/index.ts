@@ -5,6 +5,7 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import ParticularJobInterestsController from './particularJobInterestsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
   const controller = new ParticularJobInterestsController(services.ciagService)
@@ -17,6 +18,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/plan/create/:id/particular-job-interests/:mode',
     [
+      checkSessionPageData('particularJobInterests'),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getCiagPlanByIdResolver(services.ciagService),
       parseCheckBoxValue('particularJobInterests'),

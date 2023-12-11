@@ -4,6 +4,7 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import EducationLevelController from './educationLevelController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
   const controller = new EducationLevelController(services.ciagService)
@@ -15,7 +16,11 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/plan/create/:id/education-level/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [
+      checkSessionPageData('educationLevel'),
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getCiagPlanByIdResolver(services.ciagService),
+    ],
     controller.post,
   )
 }
