@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Response, NextFunction } from 'express'
 import checkSessionPageData from './checkSessionPageData'
 import * as utils from '../utils'
 
