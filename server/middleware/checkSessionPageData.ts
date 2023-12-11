@@ -10,8 +10,10 @@ const checkSessionPageData =
 
     // If no pageDate redirect to get
     const data = getSessionData(req, [sessionPageKey, id, 'data'])
+
     if (!data) {
       res.redirect(req.originalUrl)
+      return
     }
 
     next()
