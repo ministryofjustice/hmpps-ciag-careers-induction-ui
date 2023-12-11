@@ -4,6 +4,7 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import QualificationLevelController from './qualificationLevelController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
   const controller = new QualificationLevelController()
@@ -15,7 +16,11 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/plan/create/:id/qualification-level/:qualificationId/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [
+      checkSessionPageData('qualificationLevel'),
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getCiagPlanByIdResolver(services.ciagService),
+    ],
     controller.post,
   )
 }

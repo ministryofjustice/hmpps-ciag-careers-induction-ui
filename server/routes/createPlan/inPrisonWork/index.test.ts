@@ -5,11 +5,13 @@ import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanBy
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 jest.mock('./inPrisonWorkController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
+jest.mock('../../../middleware/checkSessionPageData')
 
 describe('In prison work routes', () => {
   let router: Router
@@ -28,6 +30,7 @@ describe('In prison work routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkSessionPageData as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for the page', () => {
@@ -49,6 +52,7 @@ describe('In prison work routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/plan/create/:id/in-prison-work/:mode',
       [
+        expect.any(Function), // checkSessionPageData
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getCiagPlanByIdResolver
         expect.any(Function), // parseCheckBoxValue

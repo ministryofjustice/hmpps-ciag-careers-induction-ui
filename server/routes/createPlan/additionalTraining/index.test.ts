@@ -5,11 +5,13 @@ import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanBy
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 jest.mock('./additionalTrainingController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
+jest.mock('../../../middleware/checkSessionPageData')
 
 describe('Other qualifications routes', () => {
   let router: Router
@@ -28,6 +30,7 @@ describe('Other qualifications routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkSessionPageData as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for the page', () => {
@@ -49,6 +52,7 @@ describe('Other qualifications routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/plan/create/:id/additional-training/:mode',
       [
+        expect.any(Function), // checkSessionPageData
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getCiagPlanByIdResolver
         expect.any(Function), // parseCheckBoxValue

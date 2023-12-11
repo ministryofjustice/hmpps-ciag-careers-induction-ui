@@ -4,6 +4,7 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import WorkDetailsController from './workDetailsController'
 import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
+import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
   const controller = new WorkDetailsController(services.ciagService)
@@ -15,7 +16,11 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [
+      checkSessionPageData('workDetails'),
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getCiagPlanByIdResolver(services.ciagService),
+    ],
     controller.post,
   )
 }
