@@ -6,6 +6,11 @@ generic-service:
   ingress:
     host: ciag-induction-dev.hmpps.service.justice.gov.uk
 
+  scheduledDowntime:
+    enabled: true
+    startup: '30 6 * * 1-5' # Start at 6.30am UTC Monday-Friday
+    shutdown: '00 21 * * 1-5' # Stop at 9.00pm UTC Monday-Friday
+
   env:
     ENVIRONMENT: dev
     ENVIRONMENT_NAME: 'DEV'
@@ -27,7 +32,6 @@ generic-service:
     IS_BETA: true
     BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
     SYSTEM_PHASE: DEV
-    PLP_PAGES_ENABLED: "true"
 
   allowlist:
     uservision-accessibility-testers: 5.181.59.114/32
