@@ -9,6 +9,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import YesNoValue from '../../../enums/yesNoValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -234,7 +235,11 @@ describe('HopingToGetWorkController', () => {
         `${addressLookup.createPlan.qualifications(id, 'new')}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.YES })
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: HopingToGetWorkValue.YES,
+        wantsToAddQualifications: YesNoValue.NO,
+        qualifications: [],
+      })
     })
 
     it('On success - UPDATE - hopingToGetWork change to NEGATIVE - Sets session record then redirects to reasonToNotGetWork', async () => {
@@ -248,7 +253,11 @@ describe('HopingToGetWorkController', () => {
         `${addressLookup.createPlan.reasonToNotGetWork(id, 'new')}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
+      expect(getSessionData(req, ['createPlan', id])).toEqual({
+        hopingToGetWork: HopingToGetWorkValue.NO,
+        wantsToAddQualifications: YesNoValue.NO,
+        qualifications: [],
+      })
     })
   })
 })

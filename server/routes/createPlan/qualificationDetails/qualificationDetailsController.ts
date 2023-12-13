@@ -129,7 +129,7 @@ export default class QualificationDetailsController {
         qualifications: [
           ...(plan.qualificationsAndTraining.qualifications || []),
           {
-            ...qualification,
+            level: qualification.level,
             subject: qualificationSubject,
             grade: qualificationGrade,
           },
