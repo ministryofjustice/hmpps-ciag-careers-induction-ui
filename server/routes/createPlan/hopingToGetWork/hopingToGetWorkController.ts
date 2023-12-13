@@ -13,6 +13,9 @@ import getHubPageByMode from '../../../utils/getHubPageByMode'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import uuidv4 from '../../../utils/guid'
+import QualificationLevelValue from '../../../enums/qualificationLevelValue'
+import YesNoValue from '../../../enums/yesNoValue'
 
 export default class HopingToGetWorkController {
   constructor(private readonly ciagService: CiagService) {}
@@ -159,7 +162,14 @@ export default class HopingToGetWorkController {
       personalInterests: plan.skillsAndInterests?.personalInterests,
       personalInterestsOther: plan.skillsAndInterests?.personalInterestsOther,
       educationLevel: plan.qualificationsAndTraining?.educationLevel,
-      qualifications: plan.qualificationsAndTraining?.qualifications,
+      qualifications: (plan.qualificationsAndTraining?.qualifications || []).map(
+        (q: { subject: string; grade: string; level: QualificationLevelValue }) => ({
+          ...q,
+          id: uuidv4(),
+        }),
+      ),
+      wantsToAddQualifications:
+        (plan.qualificationsAndTraining?.qualifications || []).length > 0 ? YesNoValue.YES : YesNoValue.NO,
       additionalTraining: plan.qualificationsAndTraining?.additionalTraining,
       additionalTrainingOther: plan.qualificationsAndTraining?.additionalTrainingOther,
       inPrisonWork: plan.inPrisonInterests?.inPrisonWork,
