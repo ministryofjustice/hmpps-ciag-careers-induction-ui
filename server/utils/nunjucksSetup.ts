@@ -10,7 +10,6 @@ const production = process.env.NODE_ENV === 'production'
 export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): void {
   app.set('view engine', 'njk')
 
-  app.locals.dpsHomeUrl = config.dpsHomeUrl
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Digital prison services'
   app.locals.googleAnalyticsId = config.googleAnalyticsId
