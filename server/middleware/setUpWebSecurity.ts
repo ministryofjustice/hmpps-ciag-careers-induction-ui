@@ -37,13 +37,7 @@ export default function setUpWebSecurity(): Router {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          formAction: [
-            "'self'",
-            new URL(config.apis.hmppsAuth.url).hostname,
-            new URL(config.learningPlanUrl).hostname,
-            new URL(config.dpsHomeUrl).hostname,
-          ],
-          // Hash allows inline script pulled in from https://github.com/alphagov/govuk-frontend/blob/master/src/govuk/template.njk
+          formAction: [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.dpsHomeUrl} ${config.learningPlanUrl}`],
           scriptSrc,
           styleSrc,
           fontSrc,

@@ -7,6 +7,7 @@ import { setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import config from '../../../config'
 
 describe('CheckYourAnswersController', () => {
   const { req, res, next } = expressMocks()
@@ -16,12 +17,12 @@ describe('CheckYourAnswersController', () => {
     lastName: 'mock_lastName',
   }
 
-  req.params.id = 'mock_ref'
+  req.params.id = 'A1234BC'
   req.params.mode = 'new'
   const { id } = req.params
 
   const mockData = {
-    id: 'mock_ref',
+    id: 'A1234BC',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     record: { hopingToGetWork: 'YES' },
     statusChange: false,
@@ -34,6 +35,16 @@ describe('CheckYourAnswersController', () => {
     updateCiagPlan: jest.fn(),
   }
 
+  let learningPlanUrl: string
+  beforeAll(() => {
+    learningPlanUrl = config.learningPlanUrl
+    config.learningPlanUrl = 'http://plp-ui-url'
+  })
+
+  afterAll(() => {
+    config.learningPlanUrl = learningPlanUrl
+  })
+
   const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
@@ -44,25 +55,36 @@ describe('CheckYourAnswersController', () => {
     })
 
     it('On error - Calls next with error', async () => {
+      // Given
       res.render.mockImplementation(() => {
         throw new Error('mock_error')
       })
-      controller.get(req, res, next)
 
+      // Given
+      await controller.get(req, res, next)
+
+      // Then
       expect(next).toHaveBeenCalledTimes(1)
     })
 
     it('On success - No record - Redirects to hopingToGetWork', async () => {
+      // Given
       setSessionData(req, ['createPlan', id], undefined)
 
-      controller.get(req, res, next)
+      // When
+      await controller.get(req, res, next)
 
+      // Then
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.hopingToGetWork(id))
     })
 
     it('On success - Calls render with the correct data', async () => {
-      controller.get(req, res, next)
+      // Given
 
+      // When
+      await controller.get(req, res, next)
+
+      // Then
       expect(res.render).toHaveBeenCalledWith('pages/createPlan/checkYourAnswers/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -80,31 +102,44 @@ describe('CheckYourAnswersController', () => {
     })
 
     it('On error - Calls next with error', async () => {
+      // Given
       mockService.createCiagPlan.mockImplementation(() => {
         throw new Error('mock_error')
       })
 
-      controller.post(req, res, next)
+      // When
+      await controller.post(req, res, next)
 
+      // Then
       expect(next).toHaveBeenCalledTimes(1)
       expect(res.render).toHaveBeenCalledTimes(0)
     })
 
     it('On success - UPDATE - Calls api update', async () => {
+      // Given
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NOT_SURE, desireToWork: false }
       setSessionData(req, ['isUpdateFlow', id], true)
       mockService.updateCiagPlan.mockReturnValue({})
-      controller.post(req, res, next)
 
-      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      // When
+      await controller.post(req, res, next)
+
+      // Then
+      expect(mockService.updateCiagPlan).toHaveBeenCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/view/work-and-interests')
     })
 
-    it('On success - NEW - Calls api acreate', async () => {
+    it('On success - NEW - Calls api create', async () => {
+      // Given
       setSessionData(req, ['isUpdateFlow', id], undefined)
       mockService.updateCiagPlan.mockReturnValue({})
-      controller.post(req, res, next)
 
-      expect(mockService.createCiagPlan).toBeCalledTimes(1)
+      // When
+      await controller.post(req, res, next)
+
+      // Then
+      expect(mockService.createCiagPlan).toHaveBeenCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/induction-created')
     })
   })
 })

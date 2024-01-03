@@ -33,6 +33,5 @@ export default {
   },
   learningPlan: {
     profile: (id: string, tab = 'work-and-interests') => `${config.learningPlanUrl}/plan/${id}/view/${tab}`,
-    addGoals: (id: string) => `${config.learningPlanUrl}/plan/${id}/goals/create`,
   },
 }

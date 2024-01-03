@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
+import config from '../../../config'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import CiagService from '../../../services/ciagService'
@@ -93,7 +94,7 @@ export default class CheckYourAnswersController {
       deleteSessionData(req, ['createPlan', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      res.redirect(addressLookup.learningPlan.addGoals(id))
+      res.redirect(`${config.learningPlanUrl}/plan/${id}/induction-created`)
     } catch (err) {
       next(err)
     }
