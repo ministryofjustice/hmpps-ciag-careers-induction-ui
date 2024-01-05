@@ -160,7 +160,6 @@
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.7.5",
     "@types/connect-flash": "0.0.40",
-    "@types/connect-redis": "^0.0.23",
     "@types/cookie-session": "^2.0.48",
     "@types/crypto-js": "^4.2.1",
     "@types/csurf": "^1.11.5",

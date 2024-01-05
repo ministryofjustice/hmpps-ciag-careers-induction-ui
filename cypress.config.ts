@@ -51,6 +51,7 @@ export default defineConfig({
         }
       })
     },
+    experimentalInteractiveRunEvents: true,
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
     specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
