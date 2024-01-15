@@ -3,7 +3,6 @@ import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
 import GetPrisonerByIdResult from '../data/prisonerSearch/getPrisonerByIdResult'
-import GetCiagListResult from '../data/prisonerSearch/getCiagListResult'
 
 export interface UserActiveCaseLoad {
   caseLoadId: string
@@ -25,10 +24,5 @@ export default class PrisonerSearchService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new PrisonerSearchClient(systemToken).getPrisonerById(id)
-  }
-
-  async getPrisonersByCaseloadID(username: string, caseloadId: string): Promise<GetCiagListResult> {
-    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
-    return new PrisonerSearchClient(systemToken).getPrisonersByCaseloadId(caseloadId)
   }
 }

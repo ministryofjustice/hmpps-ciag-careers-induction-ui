@@ -6,14 +6,13 @@ context('Qualifications page', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
-    cy.task('getActionPlanList')
-    cy.task('getCiagPlanList')
     cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
-    cy.task('getPrisonersByCaseloadId', 'MDI')
   })
 
   it('New record - Continue navigates to education level page', () => {

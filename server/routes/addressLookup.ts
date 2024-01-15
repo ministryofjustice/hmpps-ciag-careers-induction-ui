@@ -2,11 +2,6 @@ import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
 import config from '../config'
 
 export default {
-  ciagList: () => (config.featureToggles.plpPagesEnabled ? config.learningPlanUrl : '/'),
-  workPlan: (id: string, tab = 'overview') =>
-    config.featureToggles.plpPagesEnabled
-      ? `${config.learningPlanUrl}/plan/${id}/view/${tab}`
-      : `/plan/${id}/view/${tab}`,
   createPlan: {
     checkYourAnswers: (id: string) => `/plan/create/${id}/check-your-answers`,
     hopingToGetWork: (id: string, mode = 'new') => `/plan/create/${id}/hoping-to-get-work/${mode}`,

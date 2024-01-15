@@ -98,14 +98,6 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    ciagApi: {
-      url: get('CIAG_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
     educationAndWorkPlanApi: {
       url: get('EDUCATION_AND_WORK_PLAN_API', 'http://localhost:8083', requiredInProduction),
       timeout: {
@@ -143,6 +135,5 @@ export default {
   betaFeedbackUrl: get('BETA_FEEDBACK_URL', ''),
   featureToggles: {
     someToggleEnabled: toBoolean(get('SOME_TOGGLE_ENABLED', false)),
-    plpPagesEnabled: toBoolean(get('PLP_PAGES_ENABLED', false)),
   },
 }

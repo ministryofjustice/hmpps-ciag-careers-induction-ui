@@ -7,8 +7,9 @@ import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import curiousApi from './integration_tests/mockApis/curiousApi'
 import ciagApi from './integration_tests/mockApis/ciagApi'
-import educationAndWorkPlanApi from './integration_tests/mockApis/educationAndWorkPlanApi'
 import learningPlanUi from './integration_tests/mockApis/learningPlanUi'
+import frontendComponentApi from './integration_tests/mockApis/frontendComponentApi'
+import plpUi from './integration_tests/mockApis/plpUi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -34,8 +35,9 @@ export default defineConfig({
         ...prisonerSearchApi,
         ...curiousApi,
         ...ciagApi,
-        ...educationAndWorkPlanApi,
         ...learningPlanUi,
+        ...frontendComponentApi,
+        ...plpUi,
       })
     },
     baseUrl: 'http://localhost:3007',

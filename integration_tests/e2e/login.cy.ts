@@ -1,7 +1,6 @@
-import IndexPage from '../pages/index'
-import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
-import AuthManageDetailsPage from '../pages/authManageDetails'
+import AuthSignInPage from '../pages/authSignIn'
+import PlpPrisonerListPage from '../pages/plpPrisonerListPage'
 
 context('SignIn', () => {
   beforeEach(() => {
@@ -9,9 +8,6 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
-    cy.task('getPrisonersByCaseloadId', 'MDI')
-    cy.task('getActionPlanList')
-    cy.task('getCiagPlanList')
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -24,49 +20,15 @@ context('SignIn', () => {
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('User name visible in header', () => {
-    cy.signIn()
-    const indexPage = new IndexPage()
-    indexPage.headerUserName().should('contain.text', 'J. Smith')
-  })
+  it('Signed in user is redirected to PLPs Prisoner List page', () => {
+    // Given
+    cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubGetFrontEndComponents')
 
-  it('User can log out', () => {
-    cy.signIn()
-    const indexPage = new IndexPage()
-    indexPage.signOut().click()
-    Page.verifyOnPage(AuthSignInPage)
-  })
-
-  it('User can manage their details', () => {
-    cy.signIn()
-    const indexPage = new IndexPage()
-
-    indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
-    indexPage.manageDetails().click()
-    Page.verifyOnPage(AuthManageDetailsPage)
-  })
-
-  it('Token verification failure takes user to sign in page', () => {
-    cy.signIn()
-    Page.verifyOnPage(IndexPage)
-    cy.task('stubVerifyToken', false)
-
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
-  })
-
-  it('Token verification failure clears user session', () => {
-    cy.signIn()
-    const indexPage = new IndexPage()
-    cy.task('stubVerifyToken', false)
-
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
-
-    cy.task('stubVerifyToken', true)
-    cy.task('stubAuthUser', 'bobby brown')
+    // When
     cy.signIn()
 
-    indexPage.headerUserName().contains('B. Brown')
+    // Then
+    Page.verifyOnPage(PlpPrisonerListPage)
   })
 })

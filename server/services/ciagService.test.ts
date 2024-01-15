@@ -94,10 +94,4 @@ describe('CiagService', () => {
 
     expect(ciagApiClientMock.updateCiagPlan).toHaveBeenCalledWith(offenderId, updateCiagData)
   })
-
-  it('should delete the ciagPlan for a given offenderId', async () => {
-    await ciagService.deleteCiagPlan(userToken, offenderId)
-
-    expect(ciagApiClientMock.deleteCiagPlan).toHaveBeenCalledWith(offenderId)
-  })
 })
