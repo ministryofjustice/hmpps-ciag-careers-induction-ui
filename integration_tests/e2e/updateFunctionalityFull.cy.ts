@@ -11,6 +11,9 @@ import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 import WorkInterestsPage from '../pages/workInterests'
+import PlpWorkAndInterestsPage from '../pages/plpWorkAndInterestsPage'
+import Page from '../pages/page'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('Update functionality - Full flow', () => {
   beforeEach(() => {
@@ -27,7 +30,6 @@ context('Update functionality - Full flow', () => {
     cy.task('getPrisonerById', 'A3260DZ')
     cy.task('getCiagPlan', 'A3260DZ')
     cy.task('updateCiagPlan', 'A3260DZ')
-    cy.task('learningPlanPage', 'A3260DZ')
     cy.signIn()
   })
 
@@ -46,16 +48,24 @@ context('Update functionality - Full flow', () => {
   })
 
   it('Existing plan - Qualifications page - Submit', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/qualifications-list/update')
 
     const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
 
+    // When
     qualificationsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/education-and-training')
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - Qualifications page - Add qualification flow', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/qualifications-list/update')
 
     const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
@@ -76,11 +86,17 @@ context('Update functionality - Full flow', () => {
 
     qualificationDetailsPage.submitButton().click()
 
+    // When
     qualificationsPage.submitButton().click()
-    cy.url().should('include', '/plan/A3260DZ/view/education-and-training')
+
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - Additional training page', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/additional-training/update')
 
     const additionalTraining = new AdditionalTrainingPage(
@@ -89,20 +105,28 @@ context('Update functionality - Full flow', () => {
 
     additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
 
+    // When
     additionalTraining.submitButton().click()
-    cy.url().should('include', '/plan/A3260DZ/view/education-and-training')
+
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - Has worked before page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/has-worked-before/update')
 
     const hasWorkedBefore = new HasWorkedBeforePage('Has Joe Bloggs worked before?')
 
     hasWorkedBefore.radioFieldValue('NO').click()
 
+    // When
     hasWorkedBefore.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Work experience page', () => {
@@ -129,66 +153,94 @@ context('Update functionality - Full flow', () => {
   })
 
   it('Existing plan - Work details page - last job', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/work-details/other/update')
 
     const jobDetailsPage = new JobDetailsPage('What did Joe Bloggs do in their other job?')
 
+    // When
     jobDetailsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Work interests page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/work-interests/update')
 
     const workInterestsPage = new WorkInterestsPage('What type of work is Joe Bloggs interested in?')
 
     workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
 
+    // When
     workInterestsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Jobs of particular interests page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/particular-job-interests/update')
 
     const particularJobInterestsPage = new ParticularJobInterestsPage(
       'Is Joe Bloggs interested in any particular jobs?',
     )
 
+    // When
     particularJobInterestsPage.textField('OFFICE').type('A valid value')
 
     particularJobInterestsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Personal interests page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/personal-interests/update')
 
     const personalInterests = new PersonalInterestsPage("What are Joe Bloggs's interests?")
 
     personalInterests.checkboxFieldValue('COMMUNITY').click()
 
+    // When
     personalInterests.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Skills page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/skills/update')
 
     const skillsPage = new SkillsPage('What skills does Joe Bloggs feel they have?')
 
     skillsPage.checkboxFieldValue('COMMUNICATION').click()
 
+    // When
     skillsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Ability to work page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+
     cy.visit('/plan/create/A3260DZ/ability-to-work/update')
 
     const abilityToWorkPage = new AbilityToWorkPage(
@@ -197,8 +249,10 @@ context('Update functionality - Full flow', () => {
 
     abilityToWorkPage.checkboxFieldValue('LIMITED_BY_OFFENSE').click()
 
+    // When
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', '/plan/A3260DZ/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 })
