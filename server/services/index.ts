@@ -5,15 +5,17 @@ import PaginationService from './paginationServices'
 import CuriousEsweService from './curiousEsweService'
 import CiagService from './ciagService'
 import ComponentService from './componentService'
+import InductionService from './inductionService'
 
 export const services = () => {
-  const { hmppsAuthClient } = dataAccess()
+  const { hmppsAuthClient, educationAndWorkPlanClient } = dataAccess()
 
   const userService = new UserService(hmppsAuthClient)
   const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient)
   const paginationService = new PaginationService()
   const curiousEsweService = new CuriousEsweService(hmppsAuthClient)
   const ciagService = new CiagService()
+  const inductionService = new InductionService(educationAndWorkPlanClient)
   const componentService = new ComponentService()
 
   return {
@@ -22,10 +24,19 @@ export const services = () => {
     paginationService,
     curiousEsweService,
     ciagService,
+    inductionService,
     componentService,
   }
 }
 
 export type Services = ReturnType<typeof services>
 
-export { UserService }
+export {
+  UserService,
+  PrisonerSearchService,
+  PaginationService,
+  CuriousEsweService,
+  CiagService,
+  InductionService,
+  ComponentService,
+}
