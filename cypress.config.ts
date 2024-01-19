@@ -9,6 +9,7 @@ import curiousApi from './integration_tests/mockApis/curiousApi'
 import ciagApi from './integration_tests/mockApis/ciagApi'
 import frontendComponentApi from './integration_tests/mockApis/frontendComponentApi'
 import plpUi from './integration_tests/mockApis/plpUi'
+import educationAndWorkPlanApi from './integration_tests/mockApis/educationAndWorkPlanApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -34,6 +35,7 @@ export default defineConfig({
         ...prisonerSearchApi,
         ...curiousApi,
         ...ciagApi,
+        ...educationAndWorkPlanApi,
         ...frontendComponentApi,
         ...plpUi,
       })
