@@ -4,7 +4,6 @@ import PrisonerSearchService from './prisonSearchService'
 import PaginationService from './paginationServices'
 import CuriousEsweService from './curiousEsweService'
 import CiagService from './ciagService'
-import EducationAndWorkPlanService from './educationAndWorkPlanService'
 import ComponentService from './componentService'
 
 export const services = () => {
@@ -15,7 +14,6 @@ export const services = () => {
   const paginationService = new PaginationService()
   const curiousEsweService = new CuriousEsweService(hmppsAuthClient)
   const ciagService = new CiagService()
-  const educationAndWorkPlanService = new EducationAndWorkPlanService()
   const componentService = new ComponentService()
 
   return {
@@ -24,7 +22,6 @@ export const services = () => {
     paginationService,
     curiousEsweService,
     ciagService,
-    educationAndWorkPlanService,
     componentService,
   }
 }

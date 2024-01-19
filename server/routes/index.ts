@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express'
 import type { Services } from '../services'
-import ciagListRoutes from './ciagList'
-import workPlanRoutes from './workPlan'
 import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
 import qualificationsRoutes from './createPlan/qualifications'
 import educationLevelRoutes from './createPlan/educationLevel'
@@ -22,15 +20,19 @@ import inPrisonEducationRoutes from './createPlan/inPrisonEducation'
 import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
+import config from '../config'
 
 export default function routes(services: Services): Router {
   // Append page routes
 
   const router = Router()
 
+  // Redirect the root route to PLP UI's root (Prisoner List Page)
+  router.get('/', (req, res, next) => {
+    res.redirect(config.learningPlanUrl)
+  })
+
   checkYourAnswersRoutes(router, services)
-  ciagListRoutes(router, services)
-  workPlanRoutes(router, services)
   hopingToGetWorkRoutes(router, services)
   qualificationsRoutes(router, services)
   educationLevelRoutes(router, services)

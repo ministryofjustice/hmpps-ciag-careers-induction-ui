@@ -26,33 +26,25 @@ It is a nodeJS application which by default starts up and listens on URL http://
 
 The UI application needs a suite of services to work:
 
-|       Dependency       | Description                                                                                | Default                                                            | Override Env Var                                          |
-|:----------------------:|:-------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|:----------------------------------------------------------|
-|       prison-api       | Nomis API providing prisons/offender information                                           | http://localhost:8080                                              | HMPPS_PRISON_API_URL                                      |
-|       hmpps-auth       | OAuth2 API server for authenticating requests                                              | http://localhost:9090/auth                                         | HMPPS_AUTH_URL                                            |
-|        ciag-api        | API to access offender profile details                                                     | http://localhost:8083                                              | CIAG_API_URL                                              |
-|    offender-search     | OpenSearch API to find probation offenders                                                 | No default                                                         | PRISONER_SEARCH_URL                                       |
-|        postgres        | PostgreSQL database server for storing profiles                                            | psql://localhost:5432                                              | None - required locally                                   |
-|         redis          | Redis cache for user 'session' data (roles)                                                | localhost:6379/tcp                                                 | None - required locally                                   |
-|  nomis-user-roles-api  | Authenticate and retrieve user name & email                                                | http://localhost:8097                                              | NOMIS_USER_ROLES_API_URL                                  |
-|       curiousApi       | Offenders employment, skills and neurodivergence data (3rd party API managed by MegaNexus) | http://localhost:8083                                              | CURIOUS_API_URL                                           |
-|     keyworker-api      | Key worker information                                                                     | http://localhost:8083                                              | KEYWORKER_API_URL                                         |
-|    whereabouts-api     | Offenders location inc. absence figures from activities in prison                          | http://localhost:8083                                              | WHEREABOUTS_API_URL                                       |
-| allocation-manager-api | Allocated POM for offenders                                                                | http://localhost:8083                                              | ALLOCATION_MANAGER_ENDPOINT_URL                           |
+|         Dependency          | Description                                                                                | Default                    | Override Env Var             |
+|:---------------------------:|:-------------------------------------------------------------------------------------------|:---------------------------|:-----------------------------|
+|         hmpps-auth          | OAuth2 API server for authenticating requests                                              | http://localhost:9090/auth | HMPPS_AUTH_URL               |
+| education-and-work-plan-api | API to access offender profile details                                                     | http://localhost:8083      | EDUCATION_AND_WORK_PLAN_API  |
+|       offender-search       | OpenSearch API to find probation offenders                                                 | No default                 | PRISONER_SEARCH_URL          |
+|          postgres           | PostgreSQL database server for storing profiles                                            | psql://localhost:5432      | None - required locally      |
+|            redis            | Redis cache for user 'session' data (roles)                                                | localhost:6379/tcp         | None - required locally      |
+|    nomis-user-roles-api     | Authenticate and retrieve user name & email                                                | http://localhost:8097      | NOMIS_USER_ROLES_API_URL     |
+|         curiousApi          | Offenders employment, skills and neurodivergence data (3rd party API managed by MegaNexus) | http://localhost:8083      | CURIOUS_API_URL              |
 
 More information about the template project including features can be
 found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
-## Roles
+## User Roles
+Once the UI is running users will need to authenticate with `hmpps-auth` using a valid DPS username. The DPS user needs to have the followings roles
+dependent on the access/functionality required:
 
-The following roles need to be assigned to the account used for querying offender data and handling profile data:
-
-* ROLE_COMMUNITY
-* ROLE_PRISON_EDUCATION_AND_DELIUS
-* ROLE_VIEW_PRISONER_DATA
-* ROLE_MAINTAIN_ACCESS_ROLES
-* ROLE_CURIOUS_API
-* ROLE_PRISONER_SEARCH
+* `ROLE_EDUCATION_WORK_PLAN_VIEWER` - required to be able to perform read only actions
+* `ROLE_EDUCATION_WORK_PLAN_EDITOR` - required to be able to perform actions that edit/create data
 
 ## Running the app for development
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
@@ -114,4 +106,3 @@ Features can be toggled by setting the relevant environment variable.
 | Name                | Default Value | Type    | Description                                              |
 |---------------------|---------------|---------|----------------------------------------------------------|
 | SOME_TOGGLE_ENABLED | false         | Boolean | Example feature toggle, for demonstration purposes.      |
-| PLP_PAGES_ENABLED   | false         | Boolean | Set as true to switch supported pages to PLP frontend    |

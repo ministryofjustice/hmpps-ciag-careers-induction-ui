@@ -5,24 +5,25 @@ import InPrisonEducationPage from '../pages/inPrisonEducation'
 import InPrisonWorkPage from '../pages/inPrisonWork'
 import QualificationDetailsPage from '../pages/qualificationDetails'
 import QualificationsPage from '../pages/qualifications'
+import Page from '../pages/page'
+import PlpWorkAndInterestsPage from '../pages/plpWorkAndInterestsPage'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('Update functionality - Lite flow', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
-    cy.task('getActionPlanList')
-    cy.task('getCiagPlanList')
     cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
-    cy.task('getPrisonersByCaseloadId', 'MDI')
     cy.task('getPrisonerById', 'B79237A')
     cy.task('getCiagPlan', 'B79237A')
     cy.task('updateCiagPlan', 'B79237A')
-    cy.task('learningPlanPage', 'B79237A')
     cy.signIn()
   })
 
@@ -41,6 +42,9 @@ context('Update functionality - Lite flow', () => {
   })
 
   it('Existing plan - Hoping to get work page - Change to other negative', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/hoping-to-get-work/update')
 
     const hopingToGetWorkPage = new HopingToGetWorkPage("Is Jane Doe hoping to get work when they're released?")
@@ -49,22 +53,32 @@ context('Update functionality - Lite flow', () => {
 
     hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()
 
+    // When
     hopingToGetWorkPage.submitButton().click()
 
-    cy.url().should('include', '/plan/B79237A/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - Qualifications page - Submit', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/qualifications-list/update')
 
     const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
 
+    // When
     qualificationsPage.submitButton().click()
 
-    cy.url().should('include', '/plan/B79237A/view/education-and-training')
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - Qualifications page - Add qualification flow', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/qualifications-list/update')
 
     const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
@@ -85,11 +99,17 @@ context('Update functionality - Lite flow', () => {
 
     qualificationDetailsPage.submitButton().click()
 
+    // When
     qualificationsPage.submitButton().click()
-    cy.url().should('include', '/plan/B79237A/view/education-and-training')
+
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - Additional training page', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/additional-training/update')
 
     const additionalTraining = new AdditionalTrainingPage(
@@ -98,22 +118,34 @@ context('Update functionality - Lite flow', () => {
 
     additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
 
+    // When
     additionalTraining.submitButton().click()
-    cy.url().should('include', '/plan/B79237A/view/education-and-training')
+
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
   it('Existing plan - In prison work page', () => {
+    // Given
+    cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/in-prison-work/update')
 
     const inPrisonWorkPage = new InPrisonWorkPage(`What type of work would Jane Doe like to do in prison?`)
 
     inPrisonWorkPage.checkboxFieldValue('TEXTILES_AND_SEWING').click()
+
+    // When
     inPrisonWorkPage.submitButton().click()
 
-    cy.url().should('include', '/plan/B79237A/view/work-and-interests')
+    // Then
+    Page.verifyOnPage(PlpWorkAndInterestsPage)
   })
 
   it('Existing plan - In prison education', () => {
+    // Given
+    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+
     cy.visit('/plan/create/B79237A/in-prison-education/update')
 
     const inPrisonEducation = new InPrisonEducationPage(
@@ -121,8 +153,11 @@ context('Update functionality - Lite flow', () => {
     )
 
     inPrisonEducation.checkboxFieldValue('WELDING_AND_METALWORK').click()
+
+    // When
     inPrisonEducation.submitButton().click()
 
-    cy.url().should('include', '/plan/B79237A/view/education-and-training')
+    // Then
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 })

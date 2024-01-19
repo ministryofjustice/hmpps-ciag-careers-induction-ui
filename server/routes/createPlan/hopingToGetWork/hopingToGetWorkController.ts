@@ -31,7 +31,7 @@ export default class HopingToGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.workPlan(id) : getHubPageByMode(mode, id),
+        defaultRoute: mode === 'new' ? addressLookup.learningPlan.profile(id, 'overview') : getHubPageByMode(mode, id),
         page: 'hopingToGetWork',
         uid: id,
       })
