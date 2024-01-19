@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import { UserDetails } from '../../services/userService'
 import GetStaffDetailsResponse from './getStaffDetailsResponse'
 
@@ -18,10 +18,10 @@ interface Role {
 }
 
 export default class NomisUserRolesApiClient {
-  restClient: RestClient
+  restClient: LegacyRestClient
 
   constructor(token: string) {
-    this.restClient = new RestClient('Nomis User Roles API', config.apis.nomisUserRolesApi, token)
+    this.restClient = new LegacyRestClient('Nomis User Roles API', config.apis.nomisUserRolesApi, token)
   }
 
   async getUserCaseLoads(user: UserDetails): Promise<string[]> {

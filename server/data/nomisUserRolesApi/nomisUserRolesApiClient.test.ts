@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import NomisUserRolesApiClient from './nomisUserRolesApiClient'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import config from '../../config'
 
-jest.mock('../restClient')
+jest.mock('../legacyRestClient')
 
 describe('NomisUserRolesApiClient', () => {
   let client: NomisUserRolesApiClient
-  let restClientMock: jest.Mocked<RestClient>
+  let restClientMock: jest.Mocked<LegacyRestClient>
 
   const staffId = 12345
 
@@ -16,12 +16,12 @@ describe('NomisUserRolesApiClient', () => {
   }
 
   beforeEach(() => {
-    restClientMock = new RestClient(
+    restClientMock = new LegacyRestClient(
       'Nomis User Roles API',
       config.apis.nomisUserRolesApi,
       'token',
-    ) as jest.Mocked<RestClient>
-    ;(RestClient as any).mockImplementation(() => restClientMock)
+    ) as jest.Mocked<LegacyRestClient>
+    ;(LegacyRestClient as any).mockImplementation(() => restClientMock)
     client = new NomisUserRolesApiClient('token')
 
     jest.clearAllMocks()
