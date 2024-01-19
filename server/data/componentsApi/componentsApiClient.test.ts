@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ComponentsApiClient from './componentsApiClient'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 
 // Mock the RestClient module
-jest.mock('../restClient')
+jest.mock('../legacyRestClient')
 
 describe('ComponentsApiClient', () => {
   let componentsApiClient: ComponentsApiClient
-  let restClientMock: jest.Mocked<RestClient>
+  let restClientMock: jest.Mocked<LegacyRestClient>
 
   beforeEach(() => {
-    restClientMock = new RestClient('mock_name', {} as any, 'mock_token') as jest.Mocked<RestClient>
+    restClientMock = new LegacyRestClient('mock_name', {} as any, 'mock_token') as jest.Mocked<LegacyRestClient>
     componentsApiClient = new ComponentsApiClient('dummyToken')
     componentsApiClient.restClient = restClientMock
   })

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CiagApiClient from './ciagApiClient'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 
 // Mock the RestClient module
-jest.mock('../restClient')
+jest.mock('../legacyRestClient')
 
 describe('CiagApiClient', () => {
   let ciagApiClient: CiagApiClient
-  let restClientMock: jest.Mocked<RestClient>
+  let restClientMock: jest.Mocked<LegacyRestClient>
 
   beforeEach(() => {
-    restClientMock = new RestClient('mock_name', {} as any, 'mock_token') as jest.Mocked<RestClient>
+    restClientMock = new LegacyRestClient('mock_name', {} as any, 'mock_token') as jest.Mocked<LegacyRestClient>
     ciagApiClient = new CiagApiClient('dummyToken')
     ciagApiClient.restClient = restClientMock
   })

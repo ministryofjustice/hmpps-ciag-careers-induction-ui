@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import GetPrisonerByIdResult from './getPrisonerByIdResult'
 
 const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 export default class PrisonerSearchClient {
-  restClient: RestClient
+  restClient: LegacyRestClient
 
   newToken: string
 
   constructor(token: string) {
-    this.restClient = new RestClient('Prisoner Search', config.apis.prisonerSearch, token)
+    this.restClient = new LegacyRestClient('Prisoner Search', config.apis.prisonerSearch, token)
   }
 
   async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {

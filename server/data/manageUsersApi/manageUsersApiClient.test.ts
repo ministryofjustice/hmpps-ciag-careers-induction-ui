@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import config from '../../config'
 import ManageUsersApiClient from './manageUsersApiClient'
 
@@ -7,15 +7,19 @@ const user = {
   username: 'MOCK_NAME',
 }
 
-jest.mock('../restClient')
+jest.mock('../legacyRestClient')
 
 describe('ManageUsersApiClient', () => {
   let manageUsersApiClientMock: ManageUsersApiClient
-  let restClientMock: jest.Mocked<RestClient>
+  let restClientMock: jest.Mocked<LegacyRestClient>
 
   beforeEach(() => {
-    restClientMock = new RestClient('Manage Users Api', config.apis.manageUsersApi, 'token') as jest.Mocked<RestClient>
-    ;(RestClient as any).mockImplementation(() => restClientMock)
+    restClientMock = new LegacyRestClient(
+      'Manage Users Api',
+      config.apis.manageUsersApi,
+      'token',
+    ) as jest.Mocked<LegacyRestClient>
+    ;(LegacyRestClient as any).mockImplementation(() => restClientMock)
 
     manageUsersApiClientMock = new ManageUsersApiClient()
 
