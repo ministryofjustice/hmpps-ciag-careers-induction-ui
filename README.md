@@ -39,6 +39,22 @@ The UI application needs a suite of services to work:
 More information about the template project including features can be
 found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
+## Imported Types
+Some types are imported from the Open API docs for hmpps-education-and-work-plan-api.  
+You will need to install the node module `openapi-typescript` globally with the following command:
+
+`npm install -g openapi-typescript`
+
+To update the types from the Open API docs run the following commands:
+
+`npx openapi-typescript https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk/v3/api-docs -o server/@types/educationAndWorkPlanApi/index.d.ts`
+
+Note that you will need to run prettier over the generated files and possibly handle other errors before compiling.
+
+The types are inherited for use in `server/@types/educationAndWorkPlanApi/index.d.ts` which may also need tweaking for use.
+
+Do not re-import the specs lightly! Reformatting the generated code with prettier is no small task, especially with large specs such as Prisoner Search.
+
 ## User Roles
 Once the UI is running users will need to authenticate with `hmpps-auth` using a valid DPS username. The DPS user needs to have the followings roles
 dependent on the access/functionality required:
@@ -103,6 +119,7 @@ If these are not desired in the cloned project, remove references to `check_outd
 ## Feature Toggles
 Features can be toggled by setting the relevant environment variable.
 
-| Name                | Default Value | Type    | Description                                              |
-|---------------------|---------------|---------|----------------------------------------------------------|
-| SOME_TOGGLE_ENABLED | false         | Boolean | Example feature toggle, for demonstration purposes.      |
+| Name                           | Default Value | Type    | Description                                                                                               |
+|--------------------------------|---------------|---------|-----------------------------------------------------------------------------------------------------------|
+| SOME_TOGGLE_ENABLED            | false         | Boolean | Example feature toggle, for demonstration purposes.                                                       |
+| USE_NEW_INDUCTION_API_ENABLED  | false         | Boolean | Set to true to use the new Induction API for retrieving Inductions (rather than the deprecated CIAG API). |
