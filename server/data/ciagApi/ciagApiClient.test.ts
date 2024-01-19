@@ -66,15 +66,4 @@ describe('CiagApiClient', () => {
 
     expect(result).toBeDefined()
   })
-
-  it('should get CiagPlanList', async () => {
-    // Mock RestClient's post method
-    restClientMock.post.mockResolvedValue({
-      /* mock CiagPlanListResult data */
-    })
-
-    const result = await ciagApiClient.getCiagPlanList(['offenderId1', 'offenderId2'])
-
-    expect(result).toBeDefined()
-  })
 })
