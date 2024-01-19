@@ -1,5 +1,5 @@
 import config from '../../config'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import logger from '../../../logger'
 
 export interface User {
@@ -12,8 +12,8 @@ export interface UserRole {
 }
 
 export default class ManageUsersApiClient {
-  private static restClient(token: string): RestClient {
-    return new RestClient('Manage users API', config.apis.manageUsersApi, token)
+  private static restClient(token: string): LegacyRestClient {
+    return new LegacyRestClient('Manage users API', config.apis.manageUsersApi, token)
   }
 
   getUser(token: string): Promise<User> {

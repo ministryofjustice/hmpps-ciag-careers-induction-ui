@@ -1,15 +1,15 @@
 import config from '../../config'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import Component from './interfaces/component'
 import AvailableComponent from './types/availableComponents'
 
 export default class ComponentsApiClient {
-  restClient: RestClient
+  restClient: LegacyRestClient
 
   userToken: string
 
   constructor(token: string) {
-    this.restClient = new RestClient('Frontend components API', config.apis.frontendComponents, token)
+    this.restClient = new LegacyRestClient('Frontend components API', config.apis.frontendComponents, token)
     this.userToken = token
   }
 
