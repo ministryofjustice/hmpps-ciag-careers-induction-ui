@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import PrisonerSearchClient from './prisonerSearchClient'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import config from '../../config'
 
-jest.mock('../restClient')
+jest.mock('../legacyRestClient')
 
 describe('PrisonerSearchClient', () => {
   let client: PrisonerSearchClient
-  let restClientMock: jest.Mocked<RestClient>
+  let restClientMock: jest.Mocked<LegacyRestClient>
   const offenderNo = 'A1234BC'
 
   beforeEach(() => {
-    restClientMock = new RestClient('Prisoner Search', config.apis.prisonerSearch, 'token') as jest.Mocked<RestClient>
-    ;(RestClient as any).mockImplementation(() => restClientMock)
+    restClientMock = new LegacyRestClient(
+      'Prisoner Search',
+      config.apis.prisonerSearch,
+      'token',
+    ) as jest.Mocked<LegacyRestClient>
+    ;(LegacyRestClient as any).mockImplementation(() => restClientMock)
     client = new PrisonerSearchClient('token')
   })
 

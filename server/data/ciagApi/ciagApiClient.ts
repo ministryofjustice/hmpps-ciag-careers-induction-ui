@@ -1,5 +1,5 @@
 import config from '../../config'
-import RestClient from '../restClient'
+import LegacyRestClient from '../legacyRestClient'
 import CiagPlan from './interfaces/ciagPlan'
 import CreateCiagPlanArgs from './interfaces/createCiagPlanArgs'
 import CreateCiagPlanRequest from './models/createCiagPlanRequest'
@@ -7,10 +7,10 @@ import UpdateCiagPlanRequest from './models/updateCiagPlanRequest'
 
 const BASE_URL = '/ciag/induction'
 export default class CiagApiClient {
-  restClient: RestClient
+  restClient: LegacyRestClient
 
   constructor(token: string) {
-    this.restClient = new RestClient('Ciag Plan API', config.apis.educationAndWorkPlanApi, token)
+    this.restClient = new LegacyRestClient('Ciag Plan API', config.apis.educationAndWorkPlanApi, token)
   }
 
   async getCiagPlan(offenderId: string) {
