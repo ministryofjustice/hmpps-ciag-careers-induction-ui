@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import Controller from './qualificationsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
@@ -9,7 +8,6 @@ import routes from './index'
 
 jest.mock('./qualificationsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/resolvers/getLatestAssessmentResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
@@ -29,7 +27,6 @@ describe('Qualifications routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
-    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getLatestAssessmentResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -41,7 +38,6 @@ describe('Qualifications routes', () => {
       '/plan/create/:id/qualifications-list/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
         expect.any(Function), // getLatestAssessmentResolver
       ],
       expect.any(Function), // controller.get
@@ -55,7 +51,6 @@ describe('Qualifications routes', () => {
       '/plan/create/:id/qualifications-list/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.post
     )

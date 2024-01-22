@@ -17,7 +17,6 @@ context('Update functionality - Lite flow', () => {
     cy.task('stubPlpPrisonListPageUi')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
-    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
@@ -27,137 +26,143 @@ context('Update functionality - Lite flow', () => {
     cy.signIn()
   })
 
-  it('Existing plan - Hoping to get work page - Change to positive', () => {
-    cy.visit('/plan/create/B79237A/hoping-to-get-work/update')
+  describe('Happy path scenarios', () => {
+    beforeEach(() => {
+      cy.task('getCiagPlan')
+    })
 
-    const hopingToGetWorkPage = new HopingToGetWorkPage("Is Jane Doe hoping to get work when they're released?")
+    it('Existing plan - Hoping to get work page - Change to positive', () => {
+      cy.visit('/plan/create/B79237A/hoping-to-get-work/update')
 
-    hopingToGetWorkPage.radioFieldValue('NO').should('be.checked')
+      const hopingToGetWorkPage = new HopingToGetWorkPage("Is Jane Doe hoping to get work when they're released?")
 
-    hopingToGetWorkPage.radioFieldValue('YES').click()
+      hopingToGetWorkPage.radioFieldValue('NO').should('be.checked')
 
-    hopingToGetWorkPage.submitButton().click()
+      hopingToGetWorkPage.radioFieldValue('YES').click()
 
-    cy.url().should('include', '/qualifications-list/new')
-  })
+      hopingToGetWorkPage.submitButton().click()
 
-  it('Existing plan - Hoping to get work page - Change to other negative', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
+      cy.url().should('include', '/qualifications-list/new')
+    })
 
-    cy.visit('/plan/create/B79237A/hoping-to-get-work/update')
+    it('Existing plan - Hoping to get work page - Change to other negative', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
 
-    const hopingToGetWorkPage = new HopingToGetWorkPage("Is Jane Doe hoping to get work when they're released?")
+      cy.visit('/plan/create/B79237A/hoping-to-get-work/update')
 
-    hopingToGetWorkPage.radioFieldValue('NO').should('be.checked')
+      const hopingToGetWorkPage = new HopingToGetWorkPage("Is Jane Doe hoping to get work when they're released?")
 
-    hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()
+      hopingToGetWorkPage.radioFieldValue('NO').should('be.checked')
 
-    // When
-    hopingToGetWorkPage.submitButton().click()
+      hopingToGetWorkPage.radioFieldValue('NOT_SURE').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      hopingToGetWorkPage.submitButton().click()
 
-  it('Existing plan - Qualifications page - Submit', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/B79237A/qualifications-list/update')
+    it('Existing plan - Qualifications page - Submit', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
 
-    const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
+      cy.visit('/plan/create/B79237A/qualifications-list/update')
 
-    // When
-    qualificationsPage.submitButton().click()
+      const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      qualificationsPage.submitButton().click()
 
-  it('Existing plan - Qualifications page - Add qualification flow', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/B79237A/qualifications-list/update')
+    it('Existing plan - Qualifications page - Add qualification flow', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
 
-    const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
+      cy.visit('/plan/create/B79237A/qualifications-list/update')
 
-    qualificationsPage.addQualificationButton().click()
+      const qualificationsPage = new QualificationsPage("Jane Doe's qualifications")
 
-    const educationLevelPage = new EducationLevelPage(
-      'What level of secondary school qualification does Jane Doe want to add?',
-    )
+      qualificationsPage.addQualificationButton().click()
 
-    educationLevelPage.radioFieldValue('LEVEL_4').click()
-    educationLevelPage.submitButton().click()
+      const educationLevelPage = new EducationLevelPage(
+        'What level of secondary school qualification does Jane Doe want to add?',
+      )
 
-    const qualificationDetailsPage = new QualificationDetailsPage('Add a level 4 qualification')
+      educationLevelPage.radioFieldValue('LEVEL_4').click()
+      educationLevelPage.submitButton().click()
 
-    qualificationDetailsPage.subjectField().type('Mathematics')
-    qualificationDetailsPage.gradeField().type('A')
+      const qualificationDetailsPage = new QualificationDetailsPage('Add a level 4 qualification')
 
-    qualificationDetailsPage.submitButton().click()
+      qualificationDetailsPage.subjectField().type('Mathematics')
+      qualificationDetailsPage.gradeField().type('A')
 
-    // When
-    qualificationsPage.submitButton().click()
+      qualificationDetailsPage.submitButton().click()
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      qualificationsPage.submitButton().click()
 
-  it('Existing plan - Additional training page', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/B79237A/additional-training/update')
+    it('Existing plan - Additional training page', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
 
-    const additionalTraining = new AdditionalTrainingPage(
-      'Does Jane Doe have any other training or vocational qualifications?',
-    )
+      cy.visit('/plan/create/B79237A/additional-training/update')
 
-    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
+      const additionalTraining = new AdditionalTrainingPage(
+        'Does Jane Doe have any other training or vocational qualifications?',
+      )
 
-    // When
-    additionalTraining.submitButton().click()
+      additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      additionalTraining.submitButton().click()
 
-  it('Existing plan - In prison work page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/B79237A/in-prison-work/update')
+    it('Existing plan - In prison work page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'B79237A')
 
-    const inPrisonWorkPage = new InPrisonWorkPage(`What type of work would Jane Doe like to do in prison?`)
+      cy.visit('/plan/create/B79237A/in-prison-work/update')
 
-    inPrisonWorkPage.checkboxFieldValue('TEXTILES_AND_SEWING').click()
+      const inPrisonWorkPage = new InPrisonWorkPage(`What type of work would Jane Doe like to do in prison?`)
 
-    // When
-    inPrisonWorkPage.submitButton().click()
+      inPrisonWorkPage.checkboxFieldValue('TEXTILES_AND_SEWING').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      inPrisonWorkPage.submitButton().click()
 
-  it('Existing plan - In prison education', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/B79237A/in-prison-education/update')
+    it('Existing plan - In prison education', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'B79237A')
 
-    const inPrisonEducation = new InPrisonEducationPage(
-      `What type of training and education activities would Jane Doe like to do in prison?`,
-    )
+      cy.visit('/plan/create/B79237A/in-prison-education/update')
 
-    inPrisonEducation.checkboxFieldValue('WELDING_AND_METALWORK').click()
+      const inPrisonEducation = new InPrisonEducationPage(
+        `What type of training and education activities would Jane Doe like to do in prison?`,
+      )
 
-    // When
-    inPrisonEducation.submitButton().click()
+      inPrisonEducation.checkboxFieldValue('WELDING_AND_METALWORK').click()
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
+      // When
+      inPrisonEducation.submitButton().click()
+
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
   })
 })

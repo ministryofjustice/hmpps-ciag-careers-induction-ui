@@ -2,7 +2,6 @@ import { Router } from 'express'
 import Controller from './wantsToAddQualificationsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
@@ -10,7 +9,6 @@ import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 jest.mock('./wantsToAddQualificationsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/resolvers/getLatestAssessmentResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 jest.mock('../../../middleware/checkSessionPageData')
@@ -32,7 +30,6 @@ describe('wantsToAddQualifications routes', () => {
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getLatestAssessmentResolver as jest.Mock).mockImplementation(() => jest.fn())
-    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
     ;(checkSessionPageData as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -45,7 +42,6 @@ describe('wantsToAddQualifications routes', () => {
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getLatestAssessmentResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -59,7 +55,6 @@ describe('wantsToAddQualifications routes', () => {
       [
         expect.any(Function), // checkSessionPageData
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.post
     )

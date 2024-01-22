@@ -1,14 +1,12 @@
 import { Router } from 'express'
 import Controller from './checkYourAnswersController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./checkYourAnswersController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
 describe('Check your answers routes', () => {
@@ -26,7 +24,6 @@ describe('Check your answers routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
-    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -49,7 +46,6 @@ describe('Check your answers routes', () => {
       '/plan/create/:id/check-your-answers',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.post
     )

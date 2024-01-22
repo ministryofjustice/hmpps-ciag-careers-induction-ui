@@ -23,236 +23,240 @@ context('Update functionality - Full flow', () => {
     cy.task('stubPlpPrisonListPageUi')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
-    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonerById', 'A3260DZ')
-    cy.task('getCiagPlan', 'A3260DZ')
     cy.task('updateCiagPlan', 'A3260DZ')
     cy.signIn()
   })
 
-  it('Existing plan - Hoping to get work page', () => {
-    cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update')
+  describe('Happy path scenarios', () => {
+    beforeEach(() => {
+      cy.task('getCiagPlan', 'A3260DZ')
+    })
 
-    const hopingToGetWorkPage = new HopingToGetWorkPage("Is Joe Bloggs hoping to get work when they're released?")
+    it('Existing plan - Hoping to get work page', () => {
+      cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update')
 
-    hopingToGetWorkPage.radioFieldValue('YES').should('be.checked')
+      const hopingToGetWorkPage = new HopingToGetWorkPage("Is Joe Bloggs hoping to get work when they're released?")
 
-    hopingToGetWorkPage.radioFieldValue('NO').click()
+      hopingToGetWorkPage.radioFieldValue('YES').should('be.checked')
 
-    hopingToGetWorkPage.submitButton().click()
+      hopingToGetWorkPage.radioFieldValue('NO').click()
 
-    cy.url().should('include', '/reason-to-not-get-work/new')
-  })
+      hopingToGetWorkPage.submitButton().click()
 
-  it('Existing plan - Qualifications page - Submit', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+      cy.url().should('include', '/reason-to-not-get-work/new')
+    })
 
-    cy.visit('/plan/create/A3260DZ/qualifications-list/update')
+    it('Existing plan - Qualifications page - Submit', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
 
-    const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
+      cy.visit('/plan/create/A3260DZ/qualifications-list/update')
 
-    // When
-    qualificationsPage.submitButton().click()
+      const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      qualificationsPage.submitButton().click()
 
-  it('Existing plan - Qualifications page - Add qualification flow', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/qualifications-list/update')
+    it('Existing plan - Qualifications page - Add qualification flow', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
 
-    const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
+      cy.visit('/plan/create/A3260DZ/qualifications-list/update')
 
-    qualificationsPage.addQualificationButton().click()
+      const qualificationsPage = new QualificationsPage("Joe Bloggs's qualifications")
 
-    const educationLevelPage = new EducationLevelPage(
-      'What level of secondary school qualification does Joe Bloggs want to add?',
-    )
+      qualificationsPage.addQualificationButton().click()
 
-    educationLevelPage.radioFieldValue('LEVEL_4').click()
-    educationLevelPage.submitButton().click()
+      const educationLevelPage = new EducationLevelPage(
+        'What level of secondary school qualification does Joe Bloggs want to add?',
+      )
 
-    const qualificationDetailsPage = new QualificationDetailsPage('Add a level 4 qualification')
+      educationLevelPage.radioFieldValue('LEVEL_4').click()
+      educationLevelPage.submitButton().click()
 
-    qualificationDetailsPage.subjectField().type('Mathematics')
-    qualificationDetailsPage.gradeField().type('A')
+      const qualificationDetailsPage = new QualificationDetailsPage('Add a level 4 qualification')
 
-    qualificationDetailsPage.submitButton().click()
+      qualificationDetailsPage.subjectField().type('Mathematics')
+      qualificationDetailsPage.gradeField().type('A')
 
-    // When
-    qualificationsPage.submitButton().click()
+      qualificationDetailsPage.submitButton().click()
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      qualificationsPage.submitButton().click()
 
-  it('Existing plan - Additional training page', () => {
-    // Given
-    cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/additional-training/update')
+    it('Existing plan - Additional training page', () => {
+      // Given
+      cy.task('stubPlpEducationAndTrainingPageUi', 'A3260DZ')
 
-    const additionalTraining = new AdditionalTrainingPage(
-      'Does Joe Bloggs have any other training or vocational qualifications?',
-    )
+      cy.visit('/plan/create/A3260DZ/additional-training/update')
 
-    additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
+      const additionalTraining = new AdditionalTrainingPage(
+        'Does Joe Bloggs have any other training or vocational qualifications?',
+      )
 
-    // When
-    additionalTraining.submitButton().click()
+      additionalTraining.checkboxFieldValue('FULL_UK_DRIVING_LICENCE').click()
 
-    // Then
-    Page.verifyOnPage(PlpEducationAndTrainingPage)
-  })
+      // When
+      additionalTraining.submitButton().click()
 
-  it('Existing plan - Has worked before page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpEducationAndTrainingPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/has-worked-before/update')
+    it('Existing plan - Has worked before page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const hasWorkedBefore = new HasWorkedBeforePage('Has Joe Bloggs worked before?')
+      cy.visit('/plan/create/A3260DZ/has-worked-before/update')
 
-    hasWorkedBefore.radioFieldValue('NO').click()
+      const hasWorkedBefore = new HasWorkedBeforePage('Has Joe Bloggs worked before?')
 
-    // When
-    hasWorkedBefore.submitButton().click()
+      hasWorkedBefore.radioFieldValue('NO').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      hasWorkedBefore.submitButton().click()
 
-  it('Existing plan - Work experience page', () => {
-    cy.visit('/plan/create/A3260DZ/type-of-work-experience/update')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Joe Bloggs done before?')
+    it('Existing plan - Work experience page', () => {
+      cy.visit('/plan/create/A3260DZ/type-of-work-experience/update')
 
-    typeOfWorkExperiencePage.checkboxFieldValue('HOSPITALITY').click()
+      const typeOfWorkExperiencePage = new TypeOfWorkExperiencePage('What type of work has Joe Bloggs done before?')
 
-    typeOfWorkExperiencePage.submitButton().click()
+      typeOfWorkExperiencePage.checkboxFieldValue('HOSPITALITY').click()
 
-    // Go to first details page
-    cy.url().should('include', 'work-details/beauty/update')
-  })
+      typeOfWorkExperiencePage.submitButton().click()
 
-  it('Existing plan - Work details page', () => {
-    cy.visit('/plan/create/A3260DZ/work-details/beauty/update')
+      // Go to first details page
+      cy.url().should('include', 'work-details/beauty/update')
+    })
 
-    const jobDetailsPage = new JobDetailsPage('What did Joe Bloggs do in their hair, beauty and wellbeing job?')
+    it('Existing plan - Work details page', () => {
+      cy.visit('/plan/create/A3260DZ/work-details/beauty/update')
 
-    jobDetailsPage.submitButton().click()
+      const jobDetailsPage = new JobDetailsPage('What did Joe Bloggs do in their hair, beauty and wellbeing job?')
 
-    cy.url().should('include', 'work-details/cleaning_and_maintenance/update')
-  })
+      jobDetailsPage.submitButton().click()
 
-  it('Existing plan - Work details page - last job', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      cy.url().should('include', 'work-details/cleaning_and_maintenance/update')
+    })
 
-    cy.visit('/plan/create/A3260DZ/work-details/other/update')
+    it('Existing plan - Work details page - last job', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const jobDetailsPage = new JobDetailsPage('What did Joe Bloggs do in their other job?')
+      cy.visit('/plan/create/A3260DZ/work-details/other/update')
 
-    // When
-    jobDetailsPage.submitButton().click()
+      const jobDetailsPage = new JobDetailsPage('What did Joe Bloggs do in their other job?')
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      jobDetailsPage.submitButton().click()
 
-  it('Existing plan - Work interests page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/work-interests/update')
+    it('Existing plan - Work interests page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const workInterestsPage = new WorkInterestsPage('What type of work is Joe Bloggs interested in?')
+      cy.visit('/plan/create/A3260DZ/work-interests/update')
 
-    workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
+      const workInterestsPage = new WorkInterestsPage('What type of work is Joe Bloggs interested in?')
 
-    // When
-    workInterestsPage.submitButton().click()
+      workInterestsPage.checkboxFieldValue('HOSPITALITY').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      workInterestsPage.submitButton().click()
 
-  it('Existing plan - Jobs of particular interests page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/particular-job-interests/update')
+    it('Existing plan - Jobs of particular interests page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const particularJobInterestsPage = new ParticularJobInterestsPage(
-      'Is Joe Bloggs interested in any particular jobs?',
-    )
+      cy.visit('/plan/create/A3260DZ/particular-job-interests/update')
 
-    // When
-    particularJobInterestsPage.textField('OFFICE').type('A valid value')
+      const particularJobInterestsPage = new ParticularJobInterestsPage(
+        'Is Joe Bloggs interested in any particular jobs?',
+      )
 
-    particularJobInterestsPage.submitButton().click()
+      // When
+      particularJobInterestsPage.textField('OFFICE').type('A valid value')
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      particularJobInterestsPage.submitButton().click()
 
-  it('Existing plan - Personal interests page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/personal-interests/update')
+    it('Existing plan - Personal interests page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const personalInterests = new PersonalInterestsPage("What are Joe Bloggs's interests?")
+      cy.visit('/plan/create/A3260DZ/personal-interests/update')
 
-    personalInterests.checkboxFieldValue('COMMUNITY').click()
+      const personalInterests = new PersonalInterestsPage("What are Joe Bloggs's interests?")
 
-    // When
-    personalInterests.submitButton().click()
+      personalInterests.checkboxFieldValue('COMMUNITY').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      personalInterests.submitButton().click()
 
-  it('Existing plan - Skills page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/skills/update')
+    it('Existing plan - Skills page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const skillsPage = new SkillsPage('What skills does Joe Bloggs feel they have?')
+      cy.visit('/plan/create/A3260DZ/skills/update')
 
-    skillsPage.checkboxFieldValue('COMMUNICATION').click()
+      const skillsPage = new SkillsPage('What skills does Joe Bloggs feel they have?')
 
-    // When
-    skillsPage.submitButton().click()
+      skillsPage.checkboxFieldValue('COMMUNICATION').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
-  })
+      // When
+      skillsPage.submitButton().click()
 
-  it('Existing plan - Ability to work page', () => {
-    // Given
-    cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
 
-    cy.visit('/plan/create/A3260DZ/ability-to-work/update')
+    it('Existing plan - Ability to work page', () => {
+      // Given
+      cy.task('stubPlpWorkAndInterestsPageUi', 'A3260DZ')
 
-    const abilityToWorkPage = new AbilityToWorkPage(
-      "Is there anything that Joe Bloggs feels may affect their ability to work after they're released?",
-    )
+      cy.visit('/plan/create/A3260DZ/ability-to-work/update')
 
-    abilityToWorkPage.checkboxFieldValue('LIMITED_BY_OFFENSE').click()
+      const abilityToWorkPage = new AbilityToWorkPage(
+        "Is there anything that Joe Bloggs feels may affect their ability to work after they're released?",
+      )
 
-    // When
-    abilityToWorkPage.submitButton().click()
+      abilityToWorkPage.checkboxFieldValue('LIMITED_BY_OFFENSE').click()
 
-    // Then
-    Page.verifyOnPage(PlpWorkAndInterestsPage)
+      // When
+      abilityToWorkPage.submitButton().click()
+
+      // Then
+      Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
   })
 })

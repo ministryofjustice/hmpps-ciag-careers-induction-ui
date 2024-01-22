@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import Controller from './qualificationDetailsController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
@@ -9,7 +8,6 @@ import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 jest.mock('./qualificationDetailsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getCiagPlanByIdResolver')
 jest.mock('../../../middleware/parseCheckBoxValue')
 jest.mock('../../../middleware/checkSessionPageData')
 
@@ -29,7 +27,6 @@ describe('Qualification details routes', () => {
       post: jest.fn(),
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
-    ;(getCiagPlanByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
     ;(checkSessionPageData as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -41,7 +38,6 @@ describe('Qualification details routes', () => {
       '/plan/create/:id/qualification-details/:qualificationId/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -55,7 +51,6 @@ describe('Qualification details routes', () => {
       [
         expect.any(Function), // checkSessionPageData
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getCiagPlanByIdResolver
       ],
       expect.any(Function), // controller.post
     )
