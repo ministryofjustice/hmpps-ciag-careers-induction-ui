@@ -1,23 +1,23 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class ParticularJobInterestsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -29,29 +29,27 @@ export default class ParticularJobInterestsController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new' ? addressLookup.createPlan.workInterests(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.workInterests(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Build field value
-      const particularJobInterests =
-        mode === 'update'
-          ? getValueSafely(plan, 'workExperience.workInterests.particularJobInterests')
-          : record.particularJobInterests
+      const particularJobInterests = isUpdateMode(mode)
+        ? getValueSafely(plan, 'workExperience.workInterests.particularJobInterests')
+        : record.particularJobInterests
 
       // Setup page data
       const data = {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
-            : getValueSafely(record, 'workInterests', []),
-        workInterestsOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
-            : record.workInterestsOther,
+        workInterests: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
+          : getValueSafely(record, 'workInterests', []),
+        workInterestsOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
+          : record.workInterestsOther,
         particularJobInterests: (particularJobInterests || []).reduce(
           (acc: { [x: string]: string }, curr: { workInterest: string; role: string }) => {
             acc[curr.workInterest] = curr.role
@@ -71,7 +69,8 @@ export default class ParticularJobInterestsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
 
     try {
       // If validation errors render errors
@@ -89,7 +88,7 @@ export default class ParticularJobInterestsController {
       deleteSessionData(req, ['particularJobInterests', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -108,7 +107,7 @@ export default class ParticularJobInterestsController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

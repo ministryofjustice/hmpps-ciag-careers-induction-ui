@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -10,16 +9,17 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class AdditionalTrainingController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -33,10 +33,9 @@ export default class AdditionalTrainingController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new'
-            ? addressLookup.createPlan.qualifications(id, mode)
-            : getHubPageByMode(mode, id, 'education-and-training'),
+        defaultRoute: isCreateMode(mode)
+          ? addressLookup.createPlan.qualifications(id, mode)
+          : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'additionalTraining',
         uid: id,
       })
@@ -47,14 +46,12 @@ export default class AdditionalTrainingController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        additionalTraining:
-          mode === 'update'
-            ? getValueSafely(plan, 'qualificationsAndTraining.additionalTraining', [])
-            : getValueSafely(record, 'additionalTraining', []),
-        additionalTrainingOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'qualificationsAndTraining.additionalTrainingOther')
-            : record.additionalTrainingOther,
+        additionalTraining: isUpdateMode(mode)
+          ? getValueSafely(plan, 'qualificationsAndTraining.additionalTraining', [])
+          : getValueSafely(record, 'additionalTraining', []),
+        additionalTrainingOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'qualificationsAndTraining.additionalTrainingOther')
+          : record.additionalTrainingOther,
       }
 
       // Store page data for use if validation fails
@@ -67,7 +64,8 @@ export default class AdditionalTrainingController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { additionalTraining = [], additionalTrainingOther } = req.body
 
     try {
@@ -87,7 +85,7 @@ export default class AdditionalTrainingController {
       deleteSessionData(req, ['additionalTraining', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -104,7 +102,7 @@ export default class AdditionalTrainingController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

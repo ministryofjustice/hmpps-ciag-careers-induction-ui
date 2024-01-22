@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -8,16 +7,18 @@ import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class AbilityToWorkController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
+
     const { prisoner, plan } = req.context
 
     try {
@@ -29,8 +30,9 @@ export default class AbilityToWorkController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new' ? addressLookup.createPlan.personalInterests(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.personalInterests(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -38,9 +40,10 @@ export default class AbilityToWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        abilityToWork:
-          mode === 'update' ? getValueSafely(plan, 'abilityToWork', []) : getValueSafely(record, 'abilityToWork', []),
-        abilityToWorkOther: mode === 'update' ? plan.abilityToWorkOther : record.abilityToWorkOther,
+        abilityToWork: isUpdateMode(mode)
+          ? getValueSafely(plan, 'abilityToWork', [])
+          : getValueSafely(record, 'abilityToWork', []),
+        abilityToWorkOther: isUpdateMode(mode) ? plan.abilityToWorkOther : record.abilityToWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -53,7 +56,8 @@ export default class AbilityToWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { abilityToWork = [], abilityToWorkOther } = req.body
 
     try {
@@ -73,7 +77,7 @@ export default class AbilityToWorkController {
       deleteSessionData(req, ['abilityToWork', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }

@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -11,12 +10,14 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
+import { isUpdateMode, Mode } from '../../routeModes'
 
 export default class QualificationDetailsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, qualificationId } = req.params
+    const { id, qualificationId } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -64,7 +65,8 @@ export default class QualificationDetailsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, qualificationId } = req.params
+    const { id, qualificationId } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { qualificationSubject, qualificationGrade } = req.body
 
     try {
@@ -84,7 +86,7 @@ export default class QualificationDetailsController {
       deleteSessionData(req, ['qualificationDetails', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }

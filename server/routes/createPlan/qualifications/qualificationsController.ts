@@ -2,24 +2,24 @@
 import _ from 'lodash'
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
 import uuidv4 from '../../../utils/guid'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import getBackLocation from '../../../utils/getBackLocation'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class QualificationsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, learnerLatestAssessment, plan } = req.context
 
     try {
@@ -41,10 +41,9 @@ export default class QualificationsController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new'
-            ? addressLookup.createPlan.hopingToGetWork(id)
-            : getHubPageByMode(mode, id, 'education-and-training'),
+        defaultRoute: isCreateMode(mode)
+          ? addressLookup.createPlan.hopingToGetWork(id)
+          : getHubPageByMode(mode, id, 'education-and-training'),
         page: 'qualifications',
         uid: id,
       })
@@ -54,12 +53,12 @@ export default class QualificationsController {
       const data = {
         backLocation,
         backLocationAriaText,
-        educationLevel:
-          mode === 'update' ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
-        qualifications:
-          mode === 'update'
-            ? getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
-            : getValueSafely(record, 'qualifications', []),
+        educationLevel: isUpdateMode(mode)
+          ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel')
+          : record.educationLevel,
+        qualifications: isUpdateMode(mode)
+          ? getValueSafely(plan, 'qualificationsAndTraining.qualifications', [])
+          : getValueSafely(record, 'qualifications', []),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
       }
@@ -71,12 +70,13 @@ export default class QualificationsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { removeQualification } = req.body
 
     try {
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -105,7 +105,7 @@ export default class QualificationsController {
       }
 
       // Handle edit and update
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

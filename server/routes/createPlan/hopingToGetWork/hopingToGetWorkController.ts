@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,19 +8,20 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import uuidv4 from '../../../utils/guid'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import YesNoValue from '../../../enums/yesNoValue'
+import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class HopingToGetWorkController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -31,7 +31,9 @@ export default class HopingToGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.learningPlan.profile(id, 'overview') : getHubPageByMode(mode, id),
+        defaultRoute: isCreateMode(mode)
+          ? addressLookup.learningPlan.profile(id, 'overview')
+          : getHubPageByMode(mode, id),
         page: 'hopingToGetWork',
         uid: id,
       })
@@ -42,7 +44,7 @@ export default class HopingToGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hopingToGetWork: mode === 'update' ? record.hopingToGetWork || plan.hopingToGetWork : record.hopingToGetWork,
+        hopingToGetWork: isUpdateMode(mode) ? record.hopingToGetWork || plan.hopingToGetWork : record.hopingToGetWork,
       }
 
       // Store page data for use if validation fails
@@ -56,7 +58,8 @@ export default class HopingToGetWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { hopingToGetWork } = req.body
 
     try {
@@ -74,7 +77,7 @@ export default class HopingToGetWorkController {
       deleteSessionData(req, ['hopingToGetWork', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
