@@ -2,15 +2,12 @@ import { ParsedQs } from 'qs'
 import { BuildSortUrlParams, buildSortUrl, SortOrder } from './columnSort'
 
 describe('buildSortUrl', () => {
-  const defaultSort = 'createdAt'
-  const defaultOrder = SortOrder.ascending
-
   const mockParams: BuildSortUrlParams = {
     query: {},
     sortField: 'updatedAt',
     currentUrl: '/users?page=2&sort=createdAt&order=desc',
-    defaultSort,
-    defaultOrder,
+    defaultSort: 'createdAt',
+    defaultOrder: SortOrder.ascending,
   }
 
   it('should return the correct URL when called with no query parameters', () => {
