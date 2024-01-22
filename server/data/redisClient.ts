@@ -10,11 +10,10 @@ const url =
     ? `rediss://${config.redis.host}:${config.redis.port}`
     : `redis://${config.redis.host}:${config.redis.port}`
 
-export const createRedisClient = ({ legacyMode }: { legacyMode: boolean }): RedisClient => {
-  const client = createClient({
+export const createRedisClient = (prefix?: string): RedisClient => {
+  const clientOptions = {
     url,
     password: config.redis.password,
-    legacyMode,
     socket: {
       reconnectStrategy: (attempts: number) => {
         // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
@@ -23,7 +22,9 @@ export const createRedisClient = ({ legacyMode }: { legacyMode: boolean }): Redi
         return nextDelay
       },
     },
-  })
+    prefix,
+  }
+  const client = createClient(clientOptions)
 
   client.on('error', (e: Error) => logger.error('Redis client error', e))
 
