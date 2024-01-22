@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -12,16 +11,17 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class EducationLevelController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -33,10 +33,9 @@ export default class EducationLevelController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.qualifications(id)
-          : getHubPageByMode(mode, id, 'education-and-training')
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.qualifications(id)
+        : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -44,8 +43,9 @@ export default class EducationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel:
-          mode === 'update' ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel') : record.educationLevel,
+        educationLevel: isUpdateMode(mode)
+          ? getValueSafely(plan, 'qualificationsAndTraining.educationLevel')
+          : record.educationLevel,
       }
 
       // Store page data for use if validation fails
@@ -58,7 +58,8 @@ export default class EducationLevelController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { educationLevel } = req.body
 
     try {
@@ -77,7 +78,7 @@ export default class EducationLevelController {
       deleteSessionData(req, ['educationLevel', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -87,7 +88,7 @@ export default class EducationLevelController {
       const record = getSessionData(req, ['createPlan', id])
 
       // If edit and existing qualifications, goto checkYourAnswers
-      if (mode === 'edit' && (record.qualifications || []).length) {
+      if (isEditMode(mode) && (record.qualifications || []).length) {
         setSessionData(req, ['createPlan', id], {
           ...record,
           educationLevel,
@@ -151,7 +152,7 @@ export default class EducationLevelController {
 
       // Default no qualifications
       res.redirect(
-        mode === 'edit'
+        isEditMode(mode)
           ? addressLookup.createPlan.checkYourAnswers(id)
           : `${addressLookup.createPlan.additionalTraining(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )

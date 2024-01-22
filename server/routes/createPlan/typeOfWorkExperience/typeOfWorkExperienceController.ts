@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -8,17 +7,18 @@ import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
 import { orderCheckboxValue } from '../../../utils/orderCiagPlanArrays'
+import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class TypeOfWorkExperienceController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -30,8 +30,9 @@ export default class TypeOfWorkExperienceController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new' ? addressLookup.createPlan.hasWorkedBefore(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.hasWorkedBefore(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,14 +40,12 @@ export default class TypeOfWorkExperienceController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWorkExperience:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
-            : getValueSafely(record, 'typeOfWorkExperience', []),
-        typeOfWorkExperienceOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.typeOfWorkExperienceOther')
-            : record.typeOfWorkExperienceOther,
+        typeOfWorkExperience: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+          : getValueSafely(record, 'typeOfWorkExperience', []),
+        typeOfWorkExperienceOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.typeOfWorkExperienceOther')
+          : record.typeOfWorkExperienceOther,
       }
 
       // Store page data for use if validation fails
@@ -59,7 +58,8 @@ export default class TypeOfWorkExperienceController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { typeOfWorkExperience = [], typeOfWorkExperienceOther } = req.body
 
     try {
@@ -79,7 +79,7 @@ export default class TypeOfWorkExperienceController {
       deleteSessionData(req, ['typeOfWorkExperience', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
