@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
@@ -12,11 +11,12 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import uuidv4 from '../../../utils/guid'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
+import { isCreateMode, isEditMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class WantsToAddQualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, learnerLatestAssessment, plan } = req.context
 
     try {
@@ -28,7 +28,9 @@ export default class WantsToAddQualificationsController {
       }
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.createPlan.reasonToNotGetWork(id) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.reasonToNotGetWork(id)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -50,7 +52,8 @@ export default class WantsToAddQualificationsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { wantsToAddQualifications } = req.body
 
     try {
@@ -77,7 +80,7 @@ export default class WantsToAddQualificationsController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         if (
           wantsToAddQualifications !== record.wantsToAddQualifications &&
           wantsToAddQualifications === YesNoValue.YES

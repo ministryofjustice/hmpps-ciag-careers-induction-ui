@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -8,16 +7,17 @@ import InPrisonEducationValue from '../../../enums/inPrisonEducationValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class InPrisonEducationController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -29,10 +29,9 @@ export default class InPrisonEducationController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new'
-          ? addressLookup.createPlan.additionalTraining(id, mode)
-          : getHubPageByMode(mode, id, 'education-and-training')
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.additionalTraining(id, mode)
+        : getHubPageByMode(mode, id, 'education-and-training')
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -40,14 +39,12 @@ export default class InPrisonEducationController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        inPrisonEducation:
-          mode === 'update'
-            ? getValueSafely(plan, 'inPrisonInterests.inPrisonEducation', [])
-            : getValueSafely(record, 'inPrisonEducation', []),
-        inPrisonEducationOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'inPrisonInterests.inPrisonEducationOther')
-            : record.inPrisonEducationOther,
+        inPrisonEducation: isUpdateMode(mode)
+          ? getValueSafely(plan, 'inPrisonInterests.inPrisonEducation', [])
+          : getValueSafely(record, 'inPrisonEducation', []),
+        inPrisonEducationOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'inPrisonInterests.inPrisonEducationOther')
+          : record.inPrisonEducationOther,
       }
 
       // Store page data for use if validation fails
@@ -60,7 +57,8 @@ export default class InPrisonEducationController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { inPrisonEducation = [], inPrisonEducationOther } = req.body
 
     try {
@@ -80,7 +78,7 @@ export default class InPrisonEducationController {
       deleteSessionData(req, ['inPrisonEducation', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }

@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,19 +8,20 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { getValueSafely } from '../../../utils'
 import { orderCheckboxValue, orderObjectValue } from '../../../utils/orderCiagPlanArrays'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class WorkDetailsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, typeOfWorkExperienceKey } = req.params
+    const { id, typeOfWorkExperienceKey } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -33,29 +33,27 @@ export default class WorkDetailsController {
       }
 
       // Get job details
-      const workExperience = mode === 'update' ? plan.workExperience.workExperience : record.workExperience
+      const workExperience = isUpdateMode(mode) ? plan.workExperience.workExperience : record.workExperience
       const job =
         (workExperience || []).find(
           (q: { typeOfWorkExperience: string }) => q.typeOfWorkExperience === typeOfWorkExperienceKey.toUpperCase(),
         ) || {}
 
       // Calculate last page
-      const typeOfWorkExperience =
-        mode === 'update'
-          ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
-          : getValueSafely(record, 'typeOfWorkExperience', [])
+      const typeOfWorkExperience = isUpdateMode(mode)
+        ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+        : getValueSafely(record, 'typeOfWorkExperience', [])
       const position = typeOfWorkExperience.indexOf(typeOfWorkExperienceKey.toUpperCase())
       const lastKey = position > 0 ? typeOfWorkExperience[position - 1] : ''
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute:
-          mode === 'new'
-            ? lastKey
-              ? addressLookup.createPlan.workDetails(id, lastKey, mode)
-              : addressLookup.createPlan.typeOfWorkExperience(id, mode)
-            : getHubPageByMode(mode, id),
+        defaultRoute: isCreateMode(mode)
+          ? lastKey
+            ? addressLookup.createPlan.workDetails(id, lastKey, mode)
+            : addressLookup.createPlan.typeOfWorkExperience(id, mode)
+          : getHubPageByMode(mode, id),
         page: 'workDetails',
         uid: `${id}-${typeOfWorkExperienceKey}`,
       })
@@ -81,7 +79,8 @@ export default class WorkDetailsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, typeOfWorkExperienceKey } = req.params
+    const { id, typeOfWorkExperienceKey } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { from } = req.query
     const { jobRole, jobDetails } = req.body
 
@@ -102,7 +101,7 @@ export default class WorkDetailsController {
       deleteSessionData(req, ['workDetails', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -137,7 +136,7 @@ export default class WorkDetailsController {
       })
 
       // Handle edit
-      if (mode === 'edit' && (!nextKey || from)) {
+      if (isEditMode(mode) && (!nextKey || from)) {
         res.redirect(from ? data.backLocation : addressLookup.createPlan.checkYourAnswers(id))
         return
       }
