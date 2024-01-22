@@ -16,7 +16,7 @@ import EducationAndWorkPlanClient from './educationAndWorkPlanClient'
 type RestClientBuilder<T> = (token: string) => T
 
 export const dataAccess = () => ({
-  hmppsAuthClient: new HmppsAuthClient(new TokenStore(createRedisClient({ legacyMode: false }))),
+  hmppsAuthClient: new HmppsAuthClient(new TokenStore(createRedisClient())),
   educationAndWorkPlanClient: new EducationAndWorkPlanClient(),
 })
 

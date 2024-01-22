@@ -1,3 +1,4 @@
+import * as fs from 'fs'
 import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
@@ -16,11 +17,11 @@ export default defineConfig({
   fixturesFolder: 'integration_tests/fixtures',
   screenshotsFolder: 'integration_tests/screenshots',
   videosFolder: 'integration_tests/videos',
+  video: true,
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
-  videoUploadOnPasses: false,
   taskTimeout: 60000,
   e2e: {
     // We've imported your old cypress plugins here.
@@ -39,7 +40,18 @@ export default defineConfig({
         ...frontendComponentApi,
         ...plpUi,
       })
+      on('after:spec', (spec: Cypress.Spec, results: CypressCommandLine.RunResult) => {
+        if (results && results.video) {
+          // Do we have failures for any retry attempts?
+          const failures = results.tests.some(test => test.attempts.some(attempt => attempt.state === 'failed'))
+          if (!failures) {
+            // delete the video if the spec passed and no tests retried
+            fs.unlinkSync(results.video)
+          }
+        }
+      })
     },
+    experimentalInteractiveRunEvents: true,
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
     specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
