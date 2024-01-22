@@ -29,6 +29,14 @@ export default function setUpWebSession(): Router {
     next()
   })
 
+  // Setup an area of session for storing temporary user data
+  router.use((req, res, next) => {
+    if (!req.session.data) {
+      req.session.data = {}
+    }
+    next()
+  })
+
   router.use((req, res, next) => {
     const headerName = 'X-Request-Id'
     const oldValue = req.get(headerName)
