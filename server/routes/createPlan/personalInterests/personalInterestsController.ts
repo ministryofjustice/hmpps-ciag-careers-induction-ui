@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -8,16 +7,17 @@ import PersonalInterestsValue from '../../../enums/personalInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class PersonalInterestsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -29,7 +29,7 @@ export default class PersonalInterestsController {
       }
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.createPlan.skills(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode) ? addressLookup.createPlan.skills(id, mode) : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -37,14 +37,12 @@ export default class PersonalInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        personalInterests:
-          mode === 'update'
-            ? getValueSafely(plan, 'skillsAndInterests.personalInterests', [])
-            : getValueSafely(record, 'personalInterests', []),
-        personalInterestsOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'skillsAndInterests.personalInterestsOther')
-            : record.personalInterestsOther,
+        personalInterests: isUpdateMode(mode)
+          ? getValueSafely(plan, 'skillsAndInterests.personalInterests', [])
+          : getValueSafely(record, 'personalInterests', []),
+        personalInterestsOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'skillsAndInterests.personalInterestsOther')
+          : record.personalInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -57,7 +55,8 @@ export default class PersonalInterestsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { personalInterests = [], personalInterestsOther } = req.body
 
     try {
@@ -77,7 +76,7 @@ export default class PersonalInterestsController {
       deleteSessionData(req, ['personalInterests', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -92,7 +91,7 @@ export default class PersonalInterestsController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,16 +8,17 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class ReasonToNotGetWorkController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -28,7 +28,7 @@ export default class ReasonToNotGetWorkController {
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
+        defaultRoute: isCreateMode(mode) ? addressLookup.createPlan.hopingToGetWork(id) : getHubPageByMode(mode, id),
         page: 'reasonToNotGetWork',
         uid: id,
       })
@@ -39,11 +39,10 @@ export default class ReasonToNotGetWorkController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        reasonToNotGetWork:
-          mode === 'update'
-            ? getValueSafely(plan, 'reasonToNotGetWork', [])
-            : getValueSafely(record, 'reasonToNotGetWork', []),
-        reasonToNotGetWorkOther: mode === 'update' ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
+        reasonToNotGetWork: isUpdateMode(mode)
+          ? getValueSafely(plan, 'reasonToNotGetWork', [])
+          : getValueSafely(record, 'reasonToNotGetWork', []),
+        reasonToNotGetWorkOther: isUpdateMode(mode) ? plan.reasonToNotGetWorkOther : record.reasonToNotGetWorkOther,
       }
 
       // Store page data for use if validation fails
@@ -56,7 +55,8 @@ export default class ReasonToNotGetWorkController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { reasonToNotGetWork = [], reasonToNotGetWorkOther } = req.body
 
     try {
@@ -76,7 +76,7 @@ export default class ReasonToNotGetWorkController {
       deleteSessionData(req, ['reasonToNotGetWork', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -92,7 +92,7 @@ export default class ReasonToNotGetWorkController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

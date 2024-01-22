@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,16 +8,17 @@ import WorkInterestsValue from '../../../enums/workInterestsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class WorkInterestsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -30,19 +30,17 @@ export default class WorkInterestsController {
       }
 
       // Get last key
-      const typeOfWorkExperience =
-        mode === 'update'
-          ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
-          : getValueSafely(record, 'typeOfWorkExperience', [])
+      const typeOfWorkExperience = isUpdateMode(mode)
+        ? getValueSafely(plan, 'workExperience.typeOfWorkExperience', [])
+        : getValueSafely(record, 'typeOfWorkExperience', [])
       const lastKey = typeOfWorkExperience ? typeOfWorkExperience.at(-1) : ''
 
       // Setup back location
-      const backLocation =
-        mode === 'new'
-          ? lastKey
-            ? addressLookup.createPlan.workDetails(id, lastKey, mode)
-            : addressLookup.createPlan.hasWorkedBefore(id, mode)
-          : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? lastKey
+          ? addressLookup.createPlan.workDetails(id, lastKey, mode)
+          : addressLookup.createPlan.hasWorkedBefore(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -50,14 +48,12 @@ export default class WorkInterestsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        workInterests:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
-            : getValueSafely(record, 'workInterests', []),
-        workInterestsOther:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
-            : record.workInterestsOther,
+        workInterests: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.workInterests.workInterests', [])
+          : getValueSafely(record, 'workInterests', []),
+        workInterestsOther: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.workInterests.workInterestsOther')
+          : record.workInterestsOther,
       }
 
       // Store page data for use if validation fails
@@ -70,7 +66,8 @@ export default class WorkInterestsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { workInterests = [], workInterestsOther } = req.body
 
     try {
@@ -90,7 +87,7 @@ export default class WorkInterestsController {
       deleteSessionData(req, ['workInterests', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -108,7 +105,7 @@ export default class WorkInterestsController {
       })
 
       // Handle edit and update
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

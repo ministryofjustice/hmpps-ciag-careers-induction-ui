@@ -1,6 +1,5 @@
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -11,13 +10,14 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
+import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class SkillsController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -29,8 +29,9 @@ export default class SkillsController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new' ? addressLookup.createPlan.particularJobInterests(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.particularJobInterests(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -38,8 +39,8 @@ export default class SkillsController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        skills: mode === 'update' ? getValueSafely(plan, 'skillsAndInterests.skills', []) : record.skills || [],
-        skillsOther: mode === 'update' ? plan.skillsAndInterests.skillsOther : record.skillsOther,
+        skills: isUpdateMode(mode) ? getValueSafely(plan, 'skillsAndInterests.skills', []) : record.skills || [],
+        skillsOther: isUpdateMode(mode) ? plan.skillsAndInterests.skillsOther : record.skillsOther,
       }
 
       // Store page data for use if validation fails
@@ -52,7 +53,8 @@ export default class SkillsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { mode, id } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { skills = [], skillsOther } = req.body
 
     try {
@@ -72,7 +74,7 @@ export default class SkillsController {
       deleteSessionData(req, ['skills', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }
@@ -87,7 +89,7 @@ export default class SkillsController {
       })
 
       // Handle edit
-      if (mode === 'edit') {
+      if (isEditMode(mode)) {
         res.redirect(addressLookup.createPlan.checkYourAnswers(id))
         return
       }

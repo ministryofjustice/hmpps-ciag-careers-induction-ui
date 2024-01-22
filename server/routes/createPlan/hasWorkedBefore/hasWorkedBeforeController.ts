@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler, Request, Response } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,16 +8,17 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import YesNoValue from '../../../enums/yesNoValue'
-import getHubPageByMode from '../../../utils/getHubPageByMode'
 import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { getValueSafely } from '../../../utils'
+import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 
 export default class HasWorkedBeforeController {
   constructor(private readonly ciagService: CiagService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -30,8 +30,9 @@ export default class HasWorkedBeforeController {
       }
 
       // Setup back location
-      const backLocation =
-        mode === 'new' ? addressLookup.createPlan.additionalTraining(id, mode) : getHubPageByMode(mode, id)
+      const backLocation = isCreateMode(mode)
+        ? addressLookup.createPlan.additionalTraining(id, mode)
+        : getHubPageByMode(mode, id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -39,12 +40,11 @@ export default class HasWorkedBeforeController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        hasWorkedBefore:
-          mode === 'update'
-            ? getValueSafely(plan, 'workExperience.hasWorkedBefore')
-              ? YesNoValue.YES
-              : YesNoValue.NO
-            : record.hasWorkedBefore,
+        hasWorkedBefore: isUpdateMode(mode)
+          ? getValueSafely(plan, 'workExperience.hasWorkedBefore')
+            ? YesNoValue.YES
+            : YesNoValue.NO
+          : record.hasWorkedBefore,
       }
 
       // Store page data for use if validation fails
@@ -57,7 +57,8 @@ export default class HasWorkedBeforeController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { hasWorkedBefore } = req.body
 
     try {
@@ -76,7 +77,7 @@ export default class HasWorkedBeforeController {
       deleteSessionData(req, ['hasWorkedBefore', id, 'data'])
 
       // Handle update
-      if (mode === 'update') {
+      if (isUpdateMode(mode)) {
         this.handleUpdate(req, res)
         return
       }

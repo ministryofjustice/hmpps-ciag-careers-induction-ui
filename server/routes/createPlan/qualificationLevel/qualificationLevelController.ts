@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
-
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -9,10 +8,12 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
+import { isUpdateMode, Mode } from '../../routeModes'
 
 export default class QualificationLevelController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, qualificationId } = req.params
+    const { id, qualificationId } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { prisoner, plan } = req.context
 
     try {
@@ -42,7 +43,9 @@ export default class QualificationLevelController {
         backLocation,
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        educationLevel: mode === 'update' ? plan.qualificationsAndTraining.educationLevel : record.educationLevel || '',
+        educationLevel: isUpdateMode(mode)
+          ? plan.qualificationsAndTraining.educationLevel
+          : record.educationLevel || '',
         qualificationLevel: qualification.level,
       }
 
@@ -56,7 +59,8 @@ export default class QualificationLevelController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode, qualificationId } = req.params
+    const { id, qualificationId } = req.params
+    const mode: Mode = req.params.mode as Mode
     const { qualificationLevel } = req.body
 
     try {
