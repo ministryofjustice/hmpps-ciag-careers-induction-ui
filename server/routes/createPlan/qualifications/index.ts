@@ -4,23 +4,18 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import QualificationsController from './qualificationsController'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new QualificationsController(services.ciagService)
 
   router.get(
     '/plan/create/:id/qualifications-list/:mode',
-    [
-      getPrisonerByIdResolver(services.prisonerSearchService),
-      getCiagPlanByIdResolver(services.ciagService),
-      getLatestAssessmentResolver(services.curiousEsweService),
-    ],
+    [getPrisonerByIdResolver(services.prisonerSearchService), getLatestAssessmentResolver(services.curiousEsweService)],
     controller.get,
   )
   router.post(
     '/plan/create/:id/qualifications-list/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )
 }

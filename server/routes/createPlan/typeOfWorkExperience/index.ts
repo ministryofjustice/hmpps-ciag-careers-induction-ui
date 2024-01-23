@@ -4,7 +4,6 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
 import TypeOfWorkExperienceController from './typeOfWorkExperienceController'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
@@ -12,7 +11,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/plan/create/:id/type-of-work-experience/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
@@ -20,7 +19,6 @@ export default (router: Router, services: Services) => {
     [
       checkSessionPageData('typeOfWorkExperience'),
       getPrisonerByIdResolver(services.prisonerSearchService),
-      getCiagPlanByIdResolver(services.ciagService),
       parseCheckBoxValue('typeOfWorkExperience'),
     ],
     controller.post,

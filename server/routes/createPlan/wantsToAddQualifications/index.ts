@@ -4,7 +4,6 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import type { Services } from '../../../services'
 import WantsToAddQualificationsController from './wantsToAddQualificationsController'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
@@ -12,20 +11,12 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/plan/create/:id/wants-to-add-qualifications/:mode',
-    [
-      getPrisonerByIdResolver(services.prisonerSearchService),
-      getLatestAssessmentResolver(services.curiousEsweService),
-      getCiagPlanByIdResolver(services.ciagService),
-    ],
+    [getPrisonerByIdResolver(services.prisonerSearchService), getLatestAssessmentResolver(services.curiousEsweService)],
     controller.get,
   )
   router.post(
     '/plan/create/:id/wants-to-add-qualifications/:mode',
-    [
-      checkSessionPageData('wantsToAddQualifications'),
-      getPrisonerByIdResolver(services.prisonerSearchService),
-      getCiagPlanByIdResolver(services.ciagService),
-    ],
+    [checkSessionPageData('wantsToAddQualifications'), getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )
 }
