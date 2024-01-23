@@ -14,6 +14,8 @@ import WorkInterestsPage from '../pages/workInterests'
 import PlpWorkAndInterestsPage from '../pages/plpWorkAndInterestsPage'
 import Page from '../pages/page'
 import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
+import Error404Page from '../pages/error404'
+import Error500Page from '../pages/error500'
 
 context('Update functionality - Full flow', () => {
   beforeEach(() => {
@@ -257,6 +259,30 @@ context('Update functionality - Full flow', () => {
 
       // Then
       Page.verifyOnPage(PlpWorkAndInterestsPage)
+    })
+  })
+
+  describe('Sad path scenarios', () => {
+    it(`Should not display the 'Hoping to get work' page given the Induction does not exist for the prisoner`, () => {
+      // Then
+      cy.task('stubGetCiagPlan404Error', 'A3260DZ')
+
+      // When
+      cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update', { failOnStatusCode: false })
+
+      // Then
+      Page.verifyOnPage(Error404Page)
+    })
+
+    it(`Should not display the 'Hoping to get work' page given the Induction API throws an error`, () => {
+      // Then
+      cy.task('stubGetCiagPlan500Error', 'A3260DZ')
+
+      // When
+      cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update', { failOnStatusCode: false })
+
+      // Then
+      Page.verifyOnPage(Error500Page)
     })
   })
 })
