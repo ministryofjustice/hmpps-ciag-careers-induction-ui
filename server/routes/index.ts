@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express'
 import type { Services } from '../services'
 import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
@@ -21,7 +20,7 @@ import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
 import config from '../config'
-import getCiagPlanByIdResolver from '../middleware/resolvers/getCiagPlanByIdResolver'
+import retrieveInduction from './routerRequestHandlers'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -33,8 +32,8 @@ export default function routes(services: Services): Router {
     res.redirect(config.learningPlanUrl)
   })
 
-  router.get('/plan/create/:id/**/update', [getCiagPlanByIdResolver(services.ciagService)])
-  router.post('/plan/create/:id/**/update', [getCiagPlanByIdResolver(services.ciagService)])
+  router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService)])
+  router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService)])
 
   checkYourAnswersRoutes(router, services)
   hopingToGetWorkRoutes(router, services)
