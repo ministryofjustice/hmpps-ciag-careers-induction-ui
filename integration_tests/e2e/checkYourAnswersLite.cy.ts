@@ -17,7 +17,6 @@ context('Check your answers - Lite flow', () => {
     cy.task('stubPlpPrisonListPageUi')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
-    cy.task('getCiagPlan')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')

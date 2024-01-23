@@ -21,6 +21,7 @@ import checkYourAnswersRoutes from './createPlan/checkYourAnswers'
 import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
 import config from '../config'
+import getCiagPlanByIdResolver from '../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -31,6 +32,9 @@ export default function routes(services: Services): Router {
   router.get('/', (req, res, next) => {
     res.redirect(config.learningPlanUrl)
   })
+
+  router.get('/plan/create/:id/**/update', [getCiagPlanByIdResolver(services.ciagService)])
+  router.post('/plan/create/:id/**/update', [getCiagPlanByIdResolver(services.ciagService)])
 
   checkYourAnswersRoutes(router, services)
   hopingToGetWorkRoutes(router, services)
