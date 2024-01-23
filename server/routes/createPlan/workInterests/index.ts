@@ -4,7 +4,6 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
 import WorkInterestsController from './workInterestsController'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
@@ -12,7 +11,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/plan/create/:id/work-interests/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
@@ -20,7 +19,6 @@ export default (router: Router, services: Services) => {
     [
       checkSessionPageData('workInterests'),
       getPrisonerByIdResolver(services.prisonerSearchService),
-      getCiagPlanByIdResolver(services.ciagService),
       parseCheckBoxValue('workInterests'),
     ],
     controller.post,

@@ -3,19 +3,18 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 
 import type { Services } from '../../../services'
 import HopingToGetWorkController from './hopingToGetWorkController'
-import getCiagPlanByIdResolver from '../../../middleware/resolvers/getCiagPlanByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new HopingToGetWorkController(services.ciagService)
 
   router.get(
     '/plan/create/:id/hoping-to-get-work/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
     '/plan/create/:id/hoping-to-get-work/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCiagPlanByIdResolver(services.ciagService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )
 }
