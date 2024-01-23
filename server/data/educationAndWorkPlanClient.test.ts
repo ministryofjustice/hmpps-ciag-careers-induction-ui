@@ -2,6 +2,7 @@ import nock from 'nock'
 import config from '../config'
 import EducationAndWorkPlanClient from './educationAndWorkPlanClient'
 import { aShortQuestionSetInduction } from '../testsupport/inductionResponseTestDataBuilder'
+import { aValidCreateInductionRequestForPrisonerHopingToWork } from '../testsupport/createInductionRequestTestDataBuilder'
 
 describe('educationAndWorkPlanClient', () => {
   const educationAndWorkPlanClient = new EducationAndWorkPlanClient()
@@ -75,6 +76,45 @@ describe('educationAndWorkPlanClient', () => {
         // Then
         expect(nock.isDone()).toBe(true)
         expect(e.status).toEqual(404)
+        expect(e.data).toEqual(expectedResponseBody)
+      }
+    })
+  })
+
+  describe('createInduction', () => {
+    it('should create Induction', async () => {
+      // Given
+      const prisonNumber = 'A1234BC'
+      const systemToken = 'a-system-token'
+      const createRequest = aValidCreateInductionRequestForPrisonerHopingToWork()
+      educationAndWorkPlanApi.post(`/inductions/${prisonNumber}`, createRequest).reply(201)
+
+      // When
+      await educationAndWorkPlanClient.createInduction(prisonNumber, createRequest, systemToken)
+
+      // Then
+      expect(nock.isDone()).toBe(true)
+    })
+
+    it('should not create Induction given API returns error response', async () => {
+      // Given
+      const prisonNumber = 'A1234BC'
+      const systemToken = 'a-system-token'
+      const createRequest = aValidCreateInductionRequestForPrisonerHopingToWork()
+      const expectedResponseBody = {
+        status: 500,
+        userMessage: 'An unexpected error occurred',
+        developerMessage: 'An unexpected error occurred',
+      }
+      educationAndWorkPlanApi.post(`/inductions/${prisonNumber}`, createRequest).reply(500, expectedResponseBody)
+
+      // When
+      try {
+        await educationAndWorkPlanClient.createInduction(prisonNumber, createRequest, systemToken)
+      } catch (e) {
+        // Then
+        expect(nock.isDone()).toBe(true)
+        expect(e.status).toEqual(500)
         expect(e.data).toEqual(expectedResponseBody)
       }
     })
