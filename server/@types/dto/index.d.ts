@@ -98,6 +98,90 @@ declare module 'dto' {
     interests: Array<FutureWorkInterestDto>
   }
 
+  export interface CreateInductionDto {
+    prisonId: string
+    workOnRelease: CreateWorkOnReleaseDto
+    previousQualifications?: CreatePreviousQualificationsDto
+    previousTraining?: CreatePreviousTrainingDto
+    previousWorkExperiences?: CreatePreviousWorkExperiencesDto
+    inPrisonInterests?: CreateInPrisonInterestsDto
+    personalSkillsAndInterests?: CreatePersonalSkillsAndInterestsDto
+    futureWorkInterests?: CreateFutureWorkInterestsDto
+  }
+
+  export interface CreateWorkOnReleaseDto {
+    hopingToWork: 'YES' | 'NO' | 'NOT_SURE'
+    notHopingToWorkReasons?: (
+      | 'LIMIT_THEIR_ABILITY'
+      | 'FULL_TIME_CARER'
+      | 'LACKS_CONFIDENCE_OR_MOTIVATION'
+      | 'HEALTH'
+      | 'RETIRED'
+      | 'NO_RIGHT_TO_WORK'
+      | 'NOT_SURE'
+      | 'OTHER'
+      | 'NO_REASON'
+    )[]
+    notHopingToWorkOtherReason?: string
+    affectAbilityToWork?: (
+      | 'CARING_RESPONSIBILITIES'
+      | 'LIMITED_BY_OFFENSE'
+      | 'HEALTH_ISSUES'
+      | 'NO_RIGHT_TO_WORK'
+      | 'OTHER'
+      | 'NONE'
+    )[]
+    affectAbilityToWorkOther?: string
+  }
+
+  export interface CreatePreviousQualificationsDto {
+    educationLevel?:
+      | 'PRIMARY_SCHOOL'
+      | 'SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS'
+      | 'SECONDARY_SCHOOL_TOOK_EXAMS'
+      | 'FURTHER_EDUCATION_COLLEGE'
+      | 'UNDERGRADUATE_DEGREE_AT_UNIVERSITY'
+      | 'POSTGRADUATE_DEGREE_AT_UNIVERSITY'
+      | 'NOT_SURE'
+    qualifications?: AchievedQualificationDto[]
+  }
+
+  export interface CreatePreviousTrainingDto {
+    trainingTypes: (
+      | 'CSCS_CARD'
+      | 'FIRST_AID_CERTIFICATE'
+      | 'FOOD_HYGIENE_CERTIFICATE'
+      | 'FULL_UK_DRIVING_LICENCE'
+      | 'HEALTH_AND_SAFETY'
+      | 'HGV_LICENCE'
+      | 'MACHINERY_TICKETS'
+      | 'MANUAL_HANDLING'
+      | 'TRADE_COURSE'
+      | 'OTHER'
+      | 'NONE'
+    )[]
+    trainingTypeOther?: string
+  }
+
+  export interface CreatePreviousWorkExperiencesDto {
+    hasWorkedBefore: boolean
+    experiences?: PreviousWorkExperienceDto[]
+  }
+
+  export interface CreateInPrisonInterestsDto {
+    inPrisonWorkInterests: InPrisonWorkInterestDto[]
+    inPrisonTrainingInterests: InPrisonTrainingInterestDto[]
+  }
+
+  export interface CreatePersonalSkillsAndInterestsDto {
+    skills: PersonalSkillDto[]
+    interests: PersonalInterestDto[]
+  }
+
+  export interface CreateFutureWorkInterestsDto {
+    interests: FutureWorkInterestDto[]
+  }
+
   export interface AchievedQualificationDto {
     subject: string
     level: 'ENTRY_LEVEL' | 'LEVEL_1' | 'LEVEL_2' | 'LEVEL_3' | 'LEVEL_4' | 'LEVEL_5' | 'LEVEL_6' | 'LEVEL_7' | 'LEVEL_8'

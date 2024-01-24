@@ -1,14 +1,14 @@
-import type { CreateInductionRequest } from 'educationAndWorkPlanApiClient'
+import type { CreateInductionDto } from 'dto'
 
-const aCreateLongQuestionSetInduction = (
+const aCreateLongQuestionSetInductionDto = (
   options?: CoreBuilderOptions & {
     hasWorkedBefore?: boolean
     hasSkills?: boolean
     hasInterests?: boolean
   },
-): CreateInductionRequest => {
+): CreateInductionDto => {
   return {
-    ...baseCreateInductionRequestTemplate(options),
+    ...baseCreateInductionDtoTemplate(options),
     workOnRelease: {
       hopingToWork: 'YES',
       affectAbilityToWork: ['NONE'],
@@ -96,13 +96,13 @@ const aCreateLongQuestionSetInduction = (
   }
 }
 
-const aCreateShortQuestionSetInduction = (
+const aCreateShortQuestionSetInductionDto = (
   options?: CoreBuilderOptions & {
     hopingToGetWork?: 'NO' | 'NOT_SURE'
   },
-): CreateInductionRequest => {
+): CreateInductionDto => {
   return {
-    ...baseCreateInductionRequestTemplate(options),
+    ...baseCreateInductionDtoTemplate(options),
     workOnRelease: {
       hopingToWork: options?.hopingToGetWork || 'NO',
       affectAbilityToWork: null,
@@ -147,7 +147,7 @@ type CoreBuilderOptions = {
   prisonId?: string
 }
 
-const baseCreateInductionRequestTemplate = (options?: CoreBuilderOptions): CreateInductionRequest => {
+const baseCreateInductionDtoTemplate = (options?: CoreBuilderOptions): CreateInductionDto => {
   return {
     prisonId: options?.prisonId || 'BXI',
     workOnRelease: undefined,
@@ -160,4 +160,4 @@ const baseCreateInductionRequestTemplate = (options?: CoreBuilderOptions): Creat
   }
 }
 
-export { aCreateLongQuestionSetInduction, aCreateShortQuestionSetInduction }
+export { aCreateLongQuestionSetInductionDto, aCreateShortQuestionSetInductionDto }
