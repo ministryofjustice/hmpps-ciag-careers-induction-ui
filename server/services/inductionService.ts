@@ -1,6 +1,7 @@
-import type { InductionResponse } from 'educationAndWorkPlanApiClient'
+import type { InductionDto } from 'dto'
 import logger from '../../logger'
 import EducationAndWorkPlanClient from '../data/educationAndWorkPlanClient'
+import toInductionDto from '../data/mappers/inductionDtoMapper'
 
 export default class InductionService {
   constructor(private readonly educationAndWorkPlanClient: EducationAndWorkPlanClient) {}
@@ -9,9 +10,10 @@ export default class InductionService {
     return (await this.getInduction(prisonNumber, token)) !== undefined
   }
 
-  private getInduction = async (prisonNumber: string, token: string): Promise<InductionResponse> => {
+  async getInduction(prisonNumber: string, token: string): Promise<InductionDto> {
     try {
-      return await this.educationAndWorkPlanClient.getInduction(prisonNumber, token)
+      const inductionResponse = await this.educationAndWorkPlanClient.getInduction(prisonNumber, token)
+      return toInductionDto(inductionResponse)
     } catch (error) {
       if (error.status === 404) {
         logger.info(`No Induction found for prisoner [${prisonNumber}] in Education And Work Plan API`)
