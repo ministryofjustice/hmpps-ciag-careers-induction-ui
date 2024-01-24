@@ -1,14 +1,12 @@
 import type { CreateInductionRequest } from 'educationAndWorkPlanApiClient'
 
 const aCreateLongQuestionSetInduction = (
-  options?: CoreBuilderOptions & {
-    hasWorkedBefore?: boolean
-    hasSkills?: boolean
-    hasInterests?: boolean
-  },
+  hasWorkedBefore?: boolean,
+  hasSkills?: boolean,
+  hasInterests?: boolean,
 ): CreateInductionRequest => {
   return {
-    ...baseCreateInductionRequestTemplate(options),
+    ...baseCreateInductionRequestTemplate(),
     workOnRelease: {
       hopingToWork: 'YES',
       affectAbilityToWork: ['NONE'],
@@ -17,15 +15,9 @@ const aCreateLongQuestionSetInduction = (
       notHopingToWorkOtherReason: null,
     },
     previousWorkExperiences: {
-      hasWorkedBefore:
-        !options || options.hasWorkedBefore === null || options.hasWorkedBefore === undefined
-          ? true
-          : options.hasWorkedBefore,
+      hasWorkedBefore: hasWorkedBefore === null || hasWorkedBefore === undefined ? true : hasWorkedBefore,
       experiences:
-        !options ||
-        options.hasWorkedBefore === null ||
-        options.hasWorkedBefore === undefined ||
-        options.hasWorkedBefore === true
+        hasWorkedBefore === null || hasWorkedBefore === undefined || hasWorkedBefore === true
           ? [
               {
                 experienceType: 'CONSTRUCTION',
@@ -63,7 +55,7 @@ const aCreateLongQuestionSetInduction = (
     },
     personalSkillsAndInterests: {
       skills:
-        !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
+        hasSkills === null || hasSkills === undefined || hasSkills === true
           ? [
               { skillType: 'TEAMWORK', skillTypeOther: null },
               { skillType: 'WILLINGNESS_TO_LEARN', skillTypeOther: null },
@@ -71,7 +63,7 @@ const aCreateLongQuestionSetInduction = (
             ]
           : [],
       interests:
-        !options || options.hasInterests === null || options.hasInterests === undefined || options.hasInterests === true
+        hasInterests === null || hasInterests === undefined || hasInterests === true
           ? [
               { interestType: 'CREATIVE', interestTypeOther: null },
               { interestType: 'DIGITAL', interestTypeOther: null },
@@ -96,15 +88,11 @@ const aCreateLongQuestionSetInduction = (
   }
 }
 
-const aCreateShortQuestionSetInduction = (
-  options?: CoreBuilderOptions & {
-    hopingToGetWork?: 'NO' | 'NOT_SURE'
-  },
-): CreateInductionRequest => {
+const aCreateShortQuestionSetInduction = (hopingToGetWork?: 'NO' | 'NOT_SURE'): CreateInductionRequest => {
   return {
-    ...baseCreateInductionRequestTemplate(options),
+    ...baseCreateInductionRequestTemplate(),
     workOnRelease: {
-      hopingToWork: options?.hopingToGetWork || 'NO',
+      hopingToWork: hopingToGetWork || 'NO',
       affectAbilityToWork: null,
       affectAbilityToWorkOther: null,
       notHopingToWorkReasons: ['HEALTH', 'OTHER'],
@@ -143,13 +131,9 @@ const aCreateShortQuestionSetInduction = (
   }
 }
 
-type CoreBuilderOptions = {
-  prisonId?: string
-}
-
-const baseCreateInductionRequestTemplate = (options?: CoreBuilderOptions): CreateInductionRequest => {
+const baseCreateInductionRequestTemplate = (): CreateInductionRequest => {
   return {
-    prisonId: options?.prisonId || 'BXI',
+    prisonId: 'BXI',
     workOnRelease: undefined,
     previousQualifications: undefined,
     previousTraining: undefined,

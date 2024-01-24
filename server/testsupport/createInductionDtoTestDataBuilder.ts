@@ -1,14 +1,12 @@
 import type { CreateInductionDto } from 'dto'
 
 const aCreateLongQuestionSetInductionDto = (
-  options?: CoreBuilderOptions & {
-    hasWorkedBefore?: boolean
-    hasSkills?: boolean
-    hasInterests?: boolean
-  },
+  hasWorkedBefore?: boolean,
+  hasSkills?: boolean,
+  hasInterests?: boolean,
 ): CreateInductionDto => {
   return {
-    ...baseCreateInductionDtoTemplate(options),
+    ...baseCreateInductionDtoTemplate(),
     workOnRelease: {
       hopingToWork: 'YES',
       affectAbilityToWork: ['NONE'],
@@ -17,15 +15,9 @@ const aCreateLongQuestionSetInductionDto = (
       notHopingToWorkOtherReason: null,
     },
     previousWorkExperiences: {
-      hasWorkedBefore:
-        !options || options.hasWorkedBefore === null || options.hasWorkedBefore === undefined
-          ? true
-          : options.hasWorkedBefore,
+      hasWorkedBefore: hasWorkedBefore === null || hasWorkedBefore === undefined ? true : hasWorkedBefore,
       experiences:
-        !options ||
-        options.hasWorkedBefore === null ||
-        options.hasWorkedBefore === undefined ||
-        options.hasWorkedBefore === true
+        hasWorkedBefore === null || hasWorkedBefore === undefined || hasWorkedBefore === true
           ? [
               {
                 experienceType: 'CONSTRUCTION',
@@ -63,7 +55,7 @@ const aCreateLongQuestionSetInductionDto = (
     },
     personalSkillsAndInterests: {
       skills:
-        !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
+        hasSkills === null || hasSkills === undefined || hasSkills === true
           ? [
               { skillType: 'TEAMWORK', skillTypeOther: null },
               { skillType: 'WILLINGNESS_TO_LEARN', skillTypeOther: null },
@@ -71,7 +63,7 @@ const aCreateLongQuestionSetInductionDto = (
             ]
           : [],
       interests:
-        !options || options.hasInterests === null || options.hasInterests === undefined || options.hasInterests === true
+        hasInterests === null || hasInterests === undefined || hasInterests === true
           ? [
               { interestType: 'CREATIVE', interestTypeOther: null },
               { interestType: 'DIGITAL', interestTypeOther: null },
@@ -96,15 +88,11 @@ const aCreateLongQuestionSetInductionDto = (
   }
 }
 
-const aCreateShortQuestionSetInductionDto = (
-  options?: CoreBuilderOptions & {
-    hopingToGetWork?: 'NO' | 'NOT_SURE'
-  },
-): CreateInductionDto => {
+const aCreateShortQuestionSetInductionDto = (hopingToGetWork?: 'NO' | 'NOT_SURE'): CreateInductionDto => {
   return {
-    ...baseCreateInductionDtoTemplate(options),
+    ...baseCreateInductionDtoTemplate(),
     workOnRelease: {
-      hopingToWork: options?.hopingToGetWork || 'NO',
+      hopingToWork: hopingToGetWork || 'NO',
       affectAbilityToWork: null,
       affectAbilityToWorkOther: null,
       notHopingToWorkReasons: ['HEALTH', 'OTHER'],
@@ -143,13 +131,9 @@ const aCreateShortQuestionSetInductionDto = (
   }
 }
 
-type CoreBuilderOptions = {
-  prisonId?: string
-}
-
-const baseCreateInductionDtoTemplate = (options?: CoreBuilderOptions): CreateInductionDto => {
+const baseCreateInductionDtoTemplate = (): CreateInductionDto => {
   return {
-    prisonId: options?.prisonId || 'BXI',
+    prisonId: 'BXI',
     workOnRelease: undefined,
     previousQualifications: undefined,
     previousTraining: undefined,
