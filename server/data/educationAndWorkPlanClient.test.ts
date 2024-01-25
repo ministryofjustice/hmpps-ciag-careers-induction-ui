@@ -2,7 +2,7 @@ import nock from 'nock'
 import config from '../config'
 import EducationAndWorkPlanClient from './educationAndWorkPlanClient'
 import { aShortQuestionSetInduction } from '../testsupport/inductionResponseTestDataBuilder'
-import { aValidCreateInductionRequestForPrisonerHopingToWork } from '../testsupport/createInductionRequestTestDataBuilder'
+import { aCreateLongQuestionSetInduction } from '../testsupport/createInductionRequestTestDataBuilder'
 
 describe('educationAndWorkPlanClient', () => {
   const educationAndWorkPlanClient = new EducationAndWorkPlanClient()
@@ -86,7 +86,7 @@ describe('educationAndWorkPlanClient', () => {
       // Given
       const prisonNumber = 'A1234BC'
       const systemToken = 'a-system-token'
-      const createRequest = aValidCreateInductionRequestForPrisonerHopingToWork()
+      const createRequest = aCreateLongQuestionSetInduction()
       educationAndWorkPlanApi.post(`/inductions/${prisonNumber}`, createRequest).reply(201)
 
       // When
@@ -100,7 +100,7 @@ describe('educationAndWorkPlanClient', () => {
       // Given
       const prisonNumber = 'A1234BC'
       const systemToken = 'a-system-token'
-      const createRequest = aValidCreateInductionRequestForPrisonerHopingToWork()
+      const createRequest = aCreateLongQuestionSetInduction()
       const expectedResponseBody = {
         status: 500,
         userMessage: 'An unexpected error occurred',
