@@ -1,6 +1,4 @@
-import { parseISO } from 'date-fns'
-import type { InductionDto } from 'dto'
-import ReasonToNotGetWorkValue from '../enums/reasonToNotGetWorkValue'
+import type { CreateOrUpdateInductionDto } from 'dto'
 import HopingToGetWorkValue from '../enums/hopingToGetWorkValue'
 import AbilityToWorkValue from '../enums/abilityToWorkValue'
 import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
@@ -10,21 +8,18 @@ import PersonalInterestsValue from '../enums/personalInterestsValue'
 import EducationLevelValue from '../enums/educationLevelValue'
 import QualificationLevelValue from '../enums/qualificationLevelValue'
 import AdditionalTrainingValue from '../enums/additionalTrainingValue'
+import ReasonToNotGetWorkValue from '../enums/reasonToNotGetWorkValue'
 import InPrisonWorkValue from '../enums/inPrisonWorkValue'
 import InPrisonEducationValue from '../enums/inPrisonEducationValue'
 
-const aLongQuestionSetInductionDto = (
-  options?: CoreBuilderOptions & {
-    hasWorkedBefore?: boolean
-    hasSkills?: boolean
-    hasInterests?: boolean
-  },
-): InductionDto => {
+const aCreateLongQuestionSetInductionDto = (options?: {
+  hasWorkedBefore?: boolean
+  hasSkills?: boolean
+  hasInterests?: boolean
+}): CreateOrUpdateInductionDto => {
   return {
-    ...baseInductionDtoTemplate(options),
+    ...baseDtoTemplate(),
     workOnRelease: {
-      reference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
-      ...auditFields(options),
       hopingToWork: HopingToGetWorkValue.YES,
       affectAbilityToWork: [AbilityToWorkValue.NONE],
       affectAbilityToWorkOther: null,
@@ -32,8 +27,6 @@ const aLongQuestionSetInductionDto = (
       notHopingToWorkOtherReason: null,
     },
     previousWorkExperiences: {
-      reference: 'bb45462e-8225-490d-8c1c-ad6692223d4d',
-      ...auditFields(options),
       hasWorkedBefore:
         !options || options.hasWorkedBefore === null || options.hasWorkedBefore === undefined
           ? true
@@ -60,8 +53,6 @@ const aLongQuestionSetInductionDto = (
           : [],
     },
     futureWorkInterests: {
-      reference: 'cad34670-691d-4862-8014-dc08a6f620b9',
-      ...auditFields(options),
       interests: [
         {
           workType: WorkInterestsValue.RETAIL,
@@ -81,8 +72,6 @@ const aLongQuestionSetInductionDto = (
       ],
     },
     personalSkillsAndInterests: {
-      reference: '517c470f-f9b5-4d49-9148-4458fe358439',
-      ...auditFields(options),
       skills:
         !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
           ? [
@@ -101,8 +90,6 @@ const aLongQuestionSetInductionDto = (
           : [],
     },
     previousQualifications: {
-      reference: 'dea24acc-fde5-4ead-a9eb-e1757de2542c',
-      ...auditFields(options),
       educationLevel: EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
       qualifications: [
         {
@@ -113,8 +100,6 @@ const aLongQuestionSetInductionDto = (
       ],
     },
     previousTraining: {
-      reference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
-      ...auditFields(options),
       trainingTypes: [
         AdditionalTrainingValue.FIRST_AID_CERTIFICATE,
         AdditionalTrainingValue.MANUAL_HANDLING,
@@ -125,16 +110,12 @@ const aLongQuestionSetInductionDto = (
   }
 }
 
-const aShortQuestionSetInductionDto = (
-  options?: CoreBuilderOptions & {
-    hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE
-  },
-): InductionDto => {
+const aCreateShortQuestionSetInductionDto = (options?: {
+  hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE
+}): CreateOrUpdateInductionDto => {
   return {
-    ...baseInductionDtoTemplate(options),
+    ...baseDtoTemplate(),
     workOnRelease: {
-      reference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
-      ...auditFields(options),
       hopingToWork: options?.hopingToGetWork || HopingToGetWorkValue.NO,
       affectAbilityToWork: null,
       affectAbilityToWorkOther: null,
@@ -142,8 +123,6 @@ const aShortQuestionSetInductionDto = (
       notHopingToWorkOtherReason: 'Will be of retirement age at release',
     },
     inPrisonInterests: {
-      reference: 'ae6a6a94-df32-4a90-b39d-ff1a100a6da0',
-      ...auditFields(options),
       inPrisonWorkInterests: [
         { workType: InPrisonWorkValue.CLEANING_AND_HYGIENE, workTypeOther: null },
         { workType: InPrisonWorkValue.OTHER, workTypeOther: 'Gardening and grounds keeping' },
@@ -155,8 +134,6 @@ const aShortQuestionSetInductionDto = (
       ],
     },
     previousQualifications: {
-      reference: 'dea24acc-fde5-4ead-a9eb-e1757de2542c',
-      ...auditFields(options),
       educationLevel: null,
       qualifications: [
         {
@@ -172,31 +149,15 @@ const aShortQuestionSetInductionDto = (
       ],
     },
     previousTraining: {
-      reference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
-      ...auditFields(options),
       trainingTypes: [AdditionalTrainingValue.FULL_UK_DRIVING_LICENCE, AdditionalTrainingValue.OTHER],
       trainingTypeOther: 'Beginners cookery for IT professionals',
     },
   }
 }
 
-type CoreBuilderOptions = {
-  prisonNumber?: string
-  createdBy?: string
-  createdByDisplayName?: string
-  createdAt?: Date
-  createdAtPrison?: string
-  updatedBy?: string
-  updatedByDisplayName?: string
-  updatedAt?: Date
-  updatedAtPrison?: string
-}
-
-const baseInductionDtoTemplate = (options?: CoreBuilderOptions): InductionDto => {
+const baseDtoTemplate = (): CreateOrUpdateInductionDto => {
   return {
-    reference: '814ade0a-a3b2-46a3-862f-79211ba13f7b',
-    prisonNumber: options?.prisonNumber || 'A1234BC',
-    ...auditFields(options),
+    prisonId: 'BXI',
     workOnRelease: undefined,
     previousQualifications: undefined,
     previousTraining: undefined,
@@ -207,28 +168,4 @@ const baseInductionDtoTemplate = (options?: CoreBuilderOptions): InductionDto =>
   }
 }
 
-const auditFields = (
-  options?: CoreBuilderOptions,
-): {
-  createdBy: string
-  createdByDisplayName: string
-  createdAt: Date
-  createdAtPrison: string
-  updatedBy: string
-  updatedByDisplayName: string
-  updatedAt: Date
-  updatedAtPrison: string
-} => {
-  return {
-    createdBy: options?.createdByDisplayName || 'asmith_gen',
-    createdByDisplayName: options?.createdByDisplayName || 'Alex Smith',
-    createdAt: options?.createdAt || parseISO('2023-06-19T09:39:44Z'),
-    createdAtPrison: options?.createdAtPrison || 'MDI',
-    updatedBy: options?.updatedBy || 'asmith_gen',
-    updatedByDisplayName: options?.updatedByDisplayName || 'Alex Smith',
-    updatedAt: options?.updatedAt || parseISO('2023-06-19T09:39:44Z'),
-    updatedAtPrison: options?.updatedAtPrison || 'MDI',
-  }
-}
-
-export { aLongQuestionSetInductionDto, aShortQuestionSetInductionDto }
+export { aCreateLongQuestionSetInductionDto, aCreateShortQuestionSetInductionDto }
