@@ -1,7 +1,7 @@
 import type { CreateInductionDto, InductionDto } from 'dto'
 import logger from '../../logger'
 import EducationAndWorkPlanClient from '../data/educationAndWorkPlanClient'
-import toCreateInductionRequest from '../data/mappers/createInductionMapper'
+import toCreateInductionRequest from '../data/mappers/createInductionRequestMapper'
 import toInductionDto from '../data/mappers/inductionDtoMapper'
 
 export default class InductionService {
@@ -31,7 +31,7 @@ export default class InductionService {
       const request = toCreateInductionRequest(createInductionDto)
       return await this.educationAndWorkPlanClient.createInduction(prisonNumber, request, token)
     } catch (error) {
-      logger.error(`Error creating Induction within the Education And Work Plan API: ${JSON.stringify(error)}`)
+      logger.error(`Error creating Induction within the Education And Work Plan API`, error)
       throw error
     }
   }

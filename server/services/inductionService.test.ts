@@ -4,10 +4,10 @@ import { aLongQuestionSetInduction } from '../testsupport/inductionResponseTestD
 import { aLongQuestionSetInductionDto } from '../testsupport/inductionDtoTestDataBuilder'
 import { aCreateLongQuestionSetInduction } from '../testsupport/createInductionRequestTestDataBuilder'
 import { aCreateLongQuestionSetInductionDto } from '../testsupport/createInductionDtoTestDataBuilder'
-import toCreateInductionRequest from '../data/mappers/createInductionMapper'
+import toCreateInductionRequest from '../data/mappers/createInductionRequestMapper'
 import toInductionDto from '../data/mappers/inductionDtoMapper'
 
-jest.mock('../data/mappers/createInductionMapper')
+jest.mock('../data/mappers/createInductionRequestMapper')
 jest.mock('../data/mappers/inductionDtoMapper')
 
 describe('inductionService', () => {

@@ -1,5 +1,5 @@
 import type { CreateInductionDto } from 'dto'
-import toCreateInductionRequest from './createInductionMapper'
+import toCreateInductionRequest from './createInductionRequestMapper'
 import { aCreateLongQuestionSetInductionDto } from '../../testsupport/createInductionDtoTestDataBuilder'
 import { aCreateLongQuestionSetInduction } from '../../testsupport/createInductionRequestTestDataBuilder'
 
