@@ -12,11 +12,11 @@ import ReasonToNotGetWorkValue from '../enums/reasonToNotGetWorkValue'
 import InPrisonWorkValue from '../enums/inPrisonWorkValue'
 import InPrisonEducationValue from '../enums/inPrisonEducationValue'
 
-const aCreateLongQuestionSetInductionDto = (
-  hasWorkedBefore?: boolean,
-  hasSkills?: boolean,
-  hasInterests?: boolean,
-): CreateOrUpdateInductionDto => {
+const aCreateLongQuestionSetInductionDto = (options?: {
+  hasWorkedBefore?: boolean
+  hasSkills?: boolean
+  hasInterests?: boolean
+}): CreateOrUpdateInductionDto => {
   return {
     ...baseDtoTemplate(),
     workOnRelease: {
@@ -27,9 +27,15 @@ const aCreateLongQuestionSetInductionDto = (
       notHopingToWorkOtherReason: null,
     },
     previousWorkExperiences: {
-      hasWorkedBefore: hasWorkedBefore === null || hasWorkedBefore === undefined ? true : hasWorkedBefore,
+      hasWorkedBefore:
+        !options || options.hasWorkedBefore === null || options.hasWorkedBefore === undefined
+          ? true
+          : options.hasWorkedBefore,
       experiences:
-        hasWorkedBefore === null || hasWorkedBefore === undefined || hasWorkedBefore === true
+        !options ||
+        options.hasWorkedBefore === null ||
+        options.hasWorkedBefore === undefined ||
+        options.hasWorkedBefore === true
           ? [
               {
                 experienceType: TypeOfWorkExperienceValue.CONSTRUCTION,
@@ -67,7 +73,7 @@ const aCreateLongQuestionSetInductionDto = (
     },
     personalSkillsAndInterests: {
       skills:
-        hasSkills === null || hasSkills === undefined || hasSkills === true
+        !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
           ? [
               { skillType: SkillsValue.TEAMWORK, skillTypeOther: null },
               { skillType: SkillsValue.WILLINGNESS_TO_LEARN, skillTypeOther: null },
@@ -75,7 +81,7 @@ const aCreateLongQuestionSetInductionDto = (
             ]
           : [],
       interests:
-        hasInterests === null || hasInterests === undefined || hasInterests === true
+        !options || options.hasInterests === null || options.hasInterests === undefined || options.hasInterests === true
           ? [
               { interestType: PersonalInterestsValue.CREATIVE, interestTypeOther: null },
               { interestType: PersonalInterestsValue.DIGITAL, interestTypeOther: null },
@@ -104,13 +110,13 @@ const aCreateLongQuestionSetInductionDto = (
   }
 }
 
-const aCreateShortQuestionSetInductionDto = (
-  hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE,
-): CreateOrUpdateInductionDto => {
+const aCreateShortQuestionSetInductionDto = (options?: {
+  hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE
+}): CreateOrUpdateInductionDto => {
   return {
     ...baseDtoTemplate(),
     workOnRelease: {
-      hopingToWork: hopingToGetWork || HopingToGetWorkValue.NO,
+      hopingToWork: options?.hopingToGetWork || HopingToGetWorkValue.NO,
       affectAbilityToWork: null,
       affectAbilityToWorkOther: null,
       notHopingToWorkReasons: [ReasonToNotGetWorkValue.HEALTH, ReasonToNotGetWorkValue.OTHER],

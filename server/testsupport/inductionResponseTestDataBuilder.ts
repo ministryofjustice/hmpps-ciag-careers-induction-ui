@@ -1,4 +1,16 @@
 import type { InductionResponse } from 'educationAndWorkPlanApiClient'
+import HopingToGetWorkValue from '../enums/hopingToGetWorkValue'
+import AbilityToWorkValue from '../enums/abilityToWorkValue'
+import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
+import WorkInterestsValue from '../enums/workInterestsValue'
+import SkillsValue from '../enums/skillsValue'
+import PersonalInterestsValue from '../enums/personalInterestsValue'
+import EducationLevelValue from '../enums/educationLevelValue'
+import QualificationLevelValue from '../enums/qualificationLevelValue'
+import AdditionalTrainingValue from '../enums/additionalTrainingValue'
+import ReasonToNotGetWorkValue from '../enums/reasonToNotGetWorkValue'
+import InPrisonWorkValue from '../enums/inPrisonWorkValue'
+import InPrisonEducationValue from '../enums/inPrisonEducationValue'
 
 const aLongQuestionSetInduction = (
   options?: CoreBuilderOptions & {
@@ -12,8 +24,8 @@ const aLongQuestionSetInduction = (
     workOnRelease: {
       reference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
       ...auditFields(options),
-      hopingToWork: 'YES',
-      affectAbilityToWork: ['NONE'],
+      hopingToWork: HopingToGetWorkValue.YES,
+      affectAbilityToWork: [AbilityToWorkValue.NONE],
       affectAbilityToWorkOther: null,
       notHopingToWorkReasons: null,
       notHopingToWorkOtherReason: null,
@@ -32,13 +44,13 @@ const aLongQuestionSetInduction = (
         options.hasWorkedBefore === true
           ? [
               {
-                experienceType: 'CONSTRUCTION',
+                experienceType: TypeOfWorkExperienceValue.CONSTRUCTION,
                 experienceTypeOther: null,
                 role: 'General labourer',
                 details: 'Groundwork and basic block work and bricklaying',
               },
               {
-                experienceType: 'OTHER',
+                experienceType: TypeOfWorkExperienceValue.OTHER,
                 experienceTypeOther: 'Retail delivery',
                 role: 'Milkman',
                 details: 'Self employed franchise operator delivering milk and associated diary products.',
@@ -51,17 +63,17 @@ const aLongQuestionSetInduction = (
       ...auditFields(options),
       interests: [
         {
-          workType: 'RETAIL',
+          workType: WorkInterestsValue.RETAIL,
           workTypeOther: null,
           role: null,
         },
         {
-          workType: 'CONSTRUCTION',
+          workType: WorkInterestsValue.CONSTRUCTION,
           workTypeOther: null,
           role: 'General labourer',
         },
         {
-          workType: 'OTHER',
+          workType: WorkInterestsValue.OTHER,
           workTypeOther: 'Film, TV and media',
           role: 'Being a stunt double for Tom Cruise, even though he does all his own stunts',
         },
@@ -73,36 +85,40 @@ const aLongQuestionSetInduction = (
       skills:
         !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
           ? [
-              { skillType: 'TEAMWORK', skillTypeOther: null },
-              { skillType: 'WILLINGNESS_TO_LEARN', skillTypeOther: null },
-              { skillType: 'OTHER', skillTypeOther: 'Tenacity' },
+              { skillType: SkillsValue.TEAMWORK, skillTypeOther: null },
+              { skillType: SkillsValue.WILLINGNESS_TO_LEARN, skillTypeOther: null },
+              { skillType: SkillsValue.OTHER, skillTypeOther: 'Tenacity' },
             ]
           : [],
       interests:
         !options || options.hasInterests === null || options.hasInterests === undefined || options.hasInterests === true
           ? [
-              { interestType: 'CREATIVE', interestTypeOther: null },
-              { interestType: 'DIGITAL', interestTypeOther: null },
-              { interestType: 'OTHER', interestTypeOther: 'Renewable energy' },
+              { interestType: PersonalInterestsValue.CREATIVE, interestTypeOther: null },
+              { interestType: PersonalInterestsValue.DIGITAL, interestTypeOther: null },
+              { interestType: PersonalInterestsValue.OTHER, interestTypeOther: 'Renewable energy' },
             ]
           : [],
     },
     previousQualifications: {
       reference: 'dea24acc-fde5-4ead-a9eb-e1757de2542c',
       ...auditFields(options),
-      educationLevel: 'SECONDARY_SCHOOL_TOOK_EXAMS',
+      educationLevel: EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
       qualifications: [
         {
           subject: 'Pottery',
           grade: 'C',
-          level: 'LEVEL_4',
+          level: QualificationLevelValue.LEVEL_4,
         },
       ],
     },
     previousTraining: {
       reference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
       ...auditFields(options),
-      trainingTypes: ['FIRST_AID_CERTIFICATE', 'MANUAL_HANDLING', 'OTHER'],
+      trainingTypes: [
+        AdditionalTrainingValue.FIRST_AID_CERTIFICATE,
+        AdditionalTrainingValue.MANUAL_HANDLING,
+        AdditionalTrainingValue.OTHER,
+      ],
       trainingTypeOther: 'Advanced origami',
     },
   }
@@ -110,7 +126,7 @@ const aLongQuestionSetInduction = (
 
 const aShortQuestionSetInduction = (
   options?: CoreBuilderOptions & {
-    hopingToGetWork?: 'NO' | 'NOT_SURE'
+    hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE
   },
 ): InductionResponse => {
   return {
@@ -118,23 +134,23 @@ const aShortQuestionSetInduction = (
     workOnRelease: {
       reference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
       ...auditFields(options),
-      hopingToWork: options?.hopingToGetWork || 'NO',
+      hopingToWork: options?.hopingToGetWork || HopingToGetWorkValue.NO,
       affectAbilityToWork: null,
       affectAbilityToWorkOther: null,
-      notHopingToWorkReasons: ['HEALTH', 'OTHER'],
+      notHopingToWorkReasons: [ReasonToNotGetWorkValue.HEALTH, ReasonToNotGetWorkValue.OTHER],
       notHopingToWorkOtherReason: 'Will be of retirement age at release',
     },
     inPrisonInterests: {
       reference: 'ae6a6a94-df32-4a90-b39d-ff1a100a6da0',
       ...auditFields(options),
       inPrisonWorkInterests: [
-        { workType: 'CLEANING_AND_HYGIENE', workTypeOther: null },
-        { workType: 'OTHER', workTypeOther: 'Gardening and grounds keeping' },
+        { workType: InPrisonWorkValue.CLEANING_AND_HYGIENE, workTypeOther: null },
+        { workType: InPrisonWorkValue.OTHER, workTypeOther: 'Gardening and grounds keeping' },
       ],
       inPrisonTrainingInterests: [
-        { trainingType: 'FORKLIFT_DRIVING', trainingTypeOther: null },
-        { trainingType: 'CATERING', trainingTypeOther: null },
-        { trainingType: 'OTHER', trainingTypeOther: 'Advanced origami' },
+        { trainingType: InPrisonEducationValue.FORKLIFT_DRIVING, trainingTypeOther: null },
+        { trainingType: InPrisonEducationValue.CATERING, trainingTypeOther: null },
+        { trainingType: InPrisonEducationValue.OTHER, trainingTypeOther: 'Advanced origami' },
       ],
     },
     previousQualifications: {
@@ -145,19 +161,19 @@ const aShortQuestionSetInduction = (
         {
           subject: 'English',
           grade: 'C',
-          level: 'LEVEL_6',
+          level: QualificationLevelValue.LEVEL_6,
         },
         {
           subject: 'Maths',
           grade: 'A*',
-          level: 'LEVEL_6',
+          level: QualificationLevelValue.LEVEL_6,
         },
       ],
     },
     previousTraining: {
       reference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
       ...auditFields(options),
-      trainingTypes: ['FULL_UK_DRIVING_LICENCE', 'OTHER'],
+      trainingTypes: [AdditionalTrainingValue.FULL_UK_DRIVING_LICENCE, AdditionalTrainingValue.OTHER],
       trainingTypeOther: 'Beginners cookery for IT professionals',
     },
   }
