@@ -1,7 +1,7 @@
 import type { CreateInductionRequest } from 'educationAndWorkPlanApiClient'
-import type { CreateInductionDto } from 'dto'
+import type { CreateOrUpdateInductionDto } from 'dto'
 
-const toCreateInductionRequest = (createInductionDto: CreateInductionDto): CreateInductionRequest => {
+const toCreateInductionRequest = (createInductionDto: CreateOrUpdateInductionDto): CreateInductionRequest => {
   return { ...createInductionDto }
 }
 

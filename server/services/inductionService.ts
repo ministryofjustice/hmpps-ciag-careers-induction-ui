@@ -1,4 +1,4 @@
-import type { CreateInductionDto, InductionDto } from 'dto'
+import type { CreateOrUpdateInductionDto, InductionDto } from 'dto'
 import logger from '../../logger'
 import EducationAndWorkPlanClient from '../data/educationAndWorkPlanClient'
 import toCreateInductionRequest from '../data/mappers/createInductionRequestMapper'
@@ -26,7 +26,11 @@ export default class InductionService {
     }
   }
 
-  async createInduction(prisonNumber: string, createInductionDto: CreateInductionDto, token: string): Promise<unknown> {
+  async createInduction(
+    prisonNumber: string,
+    createInductionDto: CreateOrUpdateInductionDto,
+    token: string,
+  ): Promise<unknown> {
     try {
       const request = toCreateInductionRequest(createInductionDto)
       return await this.educationAndWorkPlanClient.createInduction(prisonNumber, request, token)

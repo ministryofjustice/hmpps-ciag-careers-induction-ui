@@ -12,7 +12,6 @@ jest.mock('../data/mappers/inductionDtoMapper')
 
 describe('inductionService', () => {
   const mockedInductionDtoMapper = toInductionDto as jest.MockedFunction<typeof toInductionDto>
-
   const mockedCreateInductionMapper = toCreateInductionRequest as jest.MockedFunction<typeof toCreateInductionRequest>
 
   const educationAndWorkPlanClient = {

@@ -1,4 +1,4 @@
-import type { CreateInductionDto } from 'dto'
+import type { CreateOrUpdateInductionDto } from 'dto'
 import toCreateInductionRequest from './createInductionRequestMapper'
 import { aCreateLongQuestionSetInductionDto } from '../../testsupport/createInductionDtoTestDataBuilder'
 import { aCreateLongQuestionSetInduction } from '../../testsupport/createInductionRequestTestDataBuilder'
@@ -6,7 +6,7 @@ import { aCreateLongQuestionSetInduction } from '../../testsupport/createInducti
 describe('createInductionMapper', () => {
   it('should map to CreateInductionRequest given a valid DTO', () => {
     // Given
-    const createInductionDto: CreateInductionDto = aCreateLongQuestionSetInductionDto()
+    const createInductionDto: CreateOrUpdateInductionDto = aCreateLongQuestionSetInductionDto()
     const expectedCreateInductionRequest = aCreateLongQuestionSetInduction()
 
     // When

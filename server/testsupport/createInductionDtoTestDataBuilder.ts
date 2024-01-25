@@ -1,4 +1,4 @@
-import type { CreateInductionDto } from 'dto'
+import type { CreateOrUpdateInductionDto } from 'dto'
 import HopingToGetWorkValue from '../enums/hopingToGetWorkValue'
 import AbilityToWorkValue from '../enums/abilityToWorkValue'
 import TypeOfWorkExperienceValue from '../enums/typeOfWorkExperienceValue'
@@ -16,9 +16,9 @@ const aCreateLongQuestionSetInductionDto = (
   hasWorkedBefore?: boolean,
   hasSkills?: boolean,
   hasInterests?: boolean,
-): CreateInductionDto => {
+): CreateOrUpdateInductionDto => {
   return {
-    ...baseCreateInductionDtoTemplate(),
+    ...baseDtoTemplate(),
     workOnRelease: {
       hopingToWork: HopingToGetWorkValue.YES,
       affectAbilityToWork: [AbilityToWorkValue.NONE],
@@ -106,9 +106,9 @@ const aCreateLongQuestionSetInductionDto = (
 
 const aCreateShortQuestionSetInductionDto = (
   hopingToGetWork?: HopingToGetWorkValue.NO | HopingToGetWorkValue.NOT_SURE,
-): CreateInductionDto => {
+): CreateOrUpdateInductionDto => {
   return {
-    ...baseCreateInductionDtoTemplate(),
+    ...baseDtoTemplate(),
     workOnRelease: {
       hopingToWork: hopingToGetWork || HopingToGetWorkValue.NO,
       affectAbilityToWork: null,
@@ -149,7 +149,7 @@ const aCreateShortQuestionSetInductionDto = (
   }
 }
 
-const baseCreateInductionDtoTemplate = (): CreateInductionDto => {
+const baseDtoTemplate = (): CreateOrUpdateInductionDto => {
   return {
     prisonId: 'BXI',
     workOnRelease: undefined,

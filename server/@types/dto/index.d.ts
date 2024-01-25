@@ -75,18 +75,20 @@ declare module 'dto' {
     interests: Array<FutureWorkInterestDto>
   }
 
-  export interface CreateInductionDto {
+  export interface CreateOrUpdateInductionDto {
+    reference?: string
     prisonId: string
-    workOnRelease: CreateWorkOnReleaseDto
-    previousQualifications?: CreatePreviousQualificationsDto
-    previousTraining?: CreatePreviousTrainingDto
-    previousWorkExperiences?: CreatePreviousWorkExperiencesDto
-    inPrisonInterests?: CreateInPrisonInterestsDto
-    personalSkillsAndInterests?: CreatePersonalSkillsAndInterestsDto
-    futureWorkInterests?: CreateFutureWorkInterestsDto
+    workOnRelease: CreateOrUpdateWorkOnReleaseDto
+    previousQualifications?: CreateOrUpdatePreviousQualificationsDto
+    previousTraining?: CreateOrUpdatePreviousTrainingDto
+    previousWorkExperiences?: CreateOrUpdatePreviousWorkExperiencesDto
+    inPrisonInterests?: CreateOrUpdateInPrisonInterestsDto
+    personalSkillsAndInterests?: CreateOrUpdatePersonalSkillsAndInterestsDto
+    futureWorkInterests?: CreateOrUpdateFutureWorkInterestsDto
   }
 
-  export interface CreateWorkOnReleaseDto {
+  export interface CreateOrUpdateWorkOnReleaseDto {
+    reference?: string
     hopingToWork: HopingToGetWorkValue
     notHopingToWorkReasons?: ReasonToNotGetWorkValue[]
     notHopingToWorkOtherReason?: string
@@ -94,32 +96,38 @@ declare module 'dto' {
     affectAbilityToWorkOther?: string
   }
 
-  export interface CreatePreviousQualificationsDto {
+  export interface CreateOrUpdatePreviousQualificationsDto {
+    reference?: string
     educationLevel?: EducationLevelValue
     qualifications?: AchievedQualificationDto[]
   }
 
-  export interface CreatePreviousTrainingDto {
+  export interface CreateOrUpdatePreviousTrainingDto {
+    reference?: string
     trainingTypes: AdditionalTrainingValue[]
     trainingTypeOther?: string
   }
 
-  export interface CreatePreviousWorkExperiencesDto {
+  export interface CreateOrUpdatePreviousWorkExperiencesDto {
+    reference?: string
     hasWorkedBefore: boolean
     experiences?: PreviousWorkExperienceDto[]
   }
 
-  export interface CreateInPrisonInterestsDto {
+  export interface CreateOrUpdateInPrisonInterestsDto {
+    reference?: string
     inPrisonWorkInterests: InPrisonWorkInterestDto[]
     inPrisonTrainingInterests: InPrisonTrainingInterestDto[]
   }
 
-  export interface CreatePersonalSkillsAndInterestsDto {
+  export interface CreateOrUpdatePersonalSkillsAndInterestsDto {
+    reference?: string
     skills: PersonalSkillDto[]
     interests: PersonalInterestDto[]
   }
 
-  export interface CreateFutureWorkInterestsDto {
+  export interface CreateOrUpdateFutureWorkInterestsDto {
+    reference?: string
     interests: FutureWorkInterestDto[]
   }
 
