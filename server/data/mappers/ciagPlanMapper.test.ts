@@ -45,7 +45,7 @@ describe('ciagPlanMapper', () => {
           { subject: 'Maths', level: QualificationLevelValue.LEVEL_6, grade: 'A*' },
         ],
         modifiedBy: 'asmith_gen',
-        modifiedDateTime: '2023-06-19T10:39:44.000Z',
+        modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       inPrisonInterests: {
         inPrisonEducation: [
@@ -57,13 +57,13 @@ describe('ciagPlanMapper', () => {
         inPrisonWork: [InPrisonWorkValue.CLEANING_AND_HYGIENE, InPrisonWorkValue.OTHER],
         inPrisonWorkOther: 'Gardening and grounds keeping',
         modifiedBy: 'asmith_gen',
-        modifiedDateTime: '2023-06-19T10:39:44.000Z',
+        modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
 
       createdBy: 'asmith_gen',
-      createdDateTime: '2023-06-19T10:39:44.000Z',
+      createdDateTime: '2023-06-19T09:39:44.000Z',
       modifiedBy: 'asmith_gen',
-      modifiedDateTime: '2023-06-19T10:39:44.000Z',
+      modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'MDI',
       prisonName: undefined,
     }
@@ -119,10 +119,10 @@ describe('ciagPlanMapper', () => {
             },
           ],
           modifiedBy: 'asmith_gen',
-          modifiedDateTime: '2023-06-19T10:39:44.000Z',
+          modifiedDateTime: '2023-06-19T09:39:44.000Z',
         },
         modifiedBy: 'asmith_gen',
-        modifiedDateTime: '2023-06-19T10:39:44.000Z',
+        modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       skillsAndInterests: {
         personalInterests: [
@@ -134,7 +134,7 @@ describe('ciagPlanMapper', () => {
         skills: [SkillsValue.TEAMWORK, SkillsValue.WILLINGNESS_TO_LEARN, SkillsValue.OTHER],
         skillsOther: 'Tenacity',
         modifiedBy: 'asmith_gen',
-        modifiedDateTime: '2023-06-19T10:39:44.000Z',
+        modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       qualificationsAndTraining: {
         additionalTraining: [
@@ -146,14 +146,14 @@ describe('ciagPlanMapper', () => {
         educationLevel: EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS,
         qualifications: [{ subject: 'Pottery', level: QualificationLevelValue.LEVEL_4, grade: 'C' }],
         modifiedBy: 'asmith_gen',
-        modifiedDateTime: '2023-06-19T10:39:44.000Z',
+        modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       inPrisonInterests: undefined,
 
       createdBy: 'asmith_gen',
-      createdDateTime: '2023-06-19T10:39:44.000Z',
+      createdDateTime: '2023-06-19T09:39:44.000Z',
       modifiedBy: 'asmith_gen',
-      modifiedDateTime: '2023-06-19T10:39:44.000Z',
+      modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'MDI',
       prisonName: undefined,
     }

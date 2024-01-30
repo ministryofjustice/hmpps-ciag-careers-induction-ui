@@ -1,5 +1,4 @@
 import type { InductionDto } from 'dto'
-import { format } from 'date-fns'
 import CiagPlan from '../ciagApi/interfaces/ciagPlan'
 import HopingToGetWorkValue from '../../enums/hopingToGetWorkValue'
 import TypeOfWorkExperienceValue from '../../enums/typeOfWorkExperienceValue'
@@ -25,9 +24,9 @@ const toCiagPlan = (inductionDto: InductionDto): CiagPlan => {
     inPrisonInterests: toInPrisonInterests(inductionDto),
 
     createdBy: inductionDto.createdBy,
-    createdDateTime: format(inductionDto.createdAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+    createdDateTime: inductionDto.createdAt.toISOString(),
     modifiedBy: inductionDto.updatedBy,
-    modifiedDateTime: format(inductionDto.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+    modifiedDateTime: inductionDto.updatedAt.toISOString(),
     prisonId: inductionDto.updatedAtPrison,
     prisonName: undefined, // TODO - check this is a sound decision (not sure what else we might be able to do here)
   }
@@ -51,7 +50,7 @@ const toWorkExperience = (inductionDto: InductionDto) => {
           }
         }),
         modifiedBy: inductionDto.previousWorkExperiences.updatedBy,
-        modifiedDateTime: format(inductionDto.previousWorkExperiences.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+        modifiedDateTime: inductionDto.previousWorkExperiences.updatedAt.toISOString(),
 
         workInterests: inductionDto.futureWorkInterests
           ? {
@@ -66,7 +65,7 @@ const toWorkExperience = (inductionDto: InductionDto) => {
                 }
               }),
               modifiedBy: inductionDto.futureWorkInterests.updatedBy,
-              modifiedDateTime: format(inductionDto.futureWorkInterests.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+              modifiedDateTime: inductionDto.futureWorkInterests.updatedAt.toISOString(),
             }
           : undefined,
       }
@@ -84,7 +83,7 @@ const toSkillsAndInterests = (inductionDto: InductionDto) => {
           interest => interest.interestType === PersonalInterestsValue.OTHER,
         )?.interestTypeOther,
         modifiedBy: inductionDto.personalSkillsAndInterests.updatedBy,
-        modifiedDateTime: format(inductionDto.personalSkillsAndInterests.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+        modifiedDateTime: inductionDto.personalSkillsAndInterests.updatedAt.toISOString(),
       }
     : undefined
 }
@@ -103,7 +102,7 @@ const toQualificationsAndTraining = (inductionDto: InductionDto) => {
         additionalTraining: inductionDto.previousTraining?.trainingTypes || [],
         additionalTrainingOther: inductionDto.previousTraining?.trainingTypeOther,
         modifiedBy: inductionDto.previousQualifications.updatedBy,
-        modifiedDateTime: format(inductionDto.previousQualifications.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+        modifiedDateTime: inductionDto.previousQualifications.updatedAt.toISOString(),
       }
     : undefined
 }
@@ -121,7 +120,7 @@ const toInPrisonInterests = (inductionDto: InductionDto) => {
           educationInterest => educationInterest.trainingType === InPrisonEducationValue.OTHER,
         )?.trainingTypeOther,
         modifiedBy: inductionDto.inPrisonInterests.updatedBy,
-        modifiedDateTime: format(inductionDto.inPrisonInterests.updatedAt, `yyyy-MM-dd'T'hh:mm:ss.SSS'Z'`),
+        modifiedDateTime: inductionDto.inPrisonInterests.updatedAt.toISOString(),
       }
     : undefined
 }
