@@ -1,4 +1,5 @@
 import type { FutureWorkInterestDto } from 'dto'
+import enumComparator from './enumComparator'
 
 /**
  * Comparator function that compares two `FutureWorkInterestDto` DTO instances, returning -1, 0 or 1 depending on whether the
@@ -9,19 +10,7 @@ import type { FutureWorkInterestDto } from 'dto'
  * alphabetically on the `workType` property, except 'OTHER' which will always be at the end of the array.
  */
 const futureWorkInterestDtoComparator = (left: FutureWorkInterestDto, right: FutureWorkInterestDto): -1 | 0 | 1 => {
-  if (left.workType === 'OTHER') {
-    return 1
-  }
-  if (right.workType === 'OTHER') {
-    return -1
-  }
-  if (left.workType > right.workType) {
-    return 1
-  }
-  if (left.workType < right.workType) {
-    return -1
-  }
-  return 0
+  return enumComparator(left.workType, right.workType)
 }
 
 export default futureWorkInterestDtoComparator

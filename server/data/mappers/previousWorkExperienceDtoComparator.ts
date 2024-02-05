@@ -1,4 +1,5 @@
 import type { PreviousWorkExperienceDto } from 'dto'
+import enumComparator from './enumComparator'
 
 /**
  * Comparator function that compares two `PreviousWorkExperienceDto` DTO instances, returning -1, 0 or 1 depending on whether the
@@ -12,19 +13,7 @@ const previousWorkExperienceDtoComparator = (
   left: PreviousWorkExperienceDto,
   right: PreviousWorkExperienceDto,
 ): -1 | 0 | 1 => {
-  if (left.experienceType === 'OTHER') {
-    return 1
-  }
-  if (right.experienceType === 'OTHER') {
-    return -1
-  }
-  if (left.experienceType > right.experienceType) {
-    return 1
-  }
-  if (left.experienceType < right.experienceType) {
-    return -1
-  }
-  return 0
+  return enumComparator(left.experienceType, right.experienceType)
 }
 
 export default previousWorkExperienceDtoComparator
