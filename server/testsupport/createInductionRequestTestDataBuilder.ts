@@ -22,9 +22,9 @@ const aCreateLongQuestionSetInduction = (options?: {
     workOnRelease: {
       hopingToWork: HopingToGetWorkValue.YES,
       affectAbilityToWork: [AbilityToWorkValue.NONE],
-      affectAbilityToWorkOther: null,
-      notHopingToWorkReasons: null,
-      notHopingToWorkOtherReason: null,
+      affectAbilityToWorkOther: undefined,
+      notHopingToWorkReasons: undefined,
+      notHopingToWorkOtherReason: undefined,
     },
     previousWorkExperiences: {
       hasWorkedBefore:
@@ -39,7 +39,7 @@ const aCreateLongQuestionSetInduction = (options?: {
           ? [
               {
                 experienceType: TypeOfWorkExperienceValue.CONSTRUCTION,
-                experienceTypeOther: null,
+                experienceTypeOther: undefined,
                 role: 'General labourer',
                 details: 'Groundwork and basic block work and bricklaying',
               },
@@ -56,12 +56,12 @@ const aCreateLongQuestionSetInduction = (options?: {
       interests: [
         {
           workType: WorkInterestsValue.RETAIL,
-          workTypeOther: null,
-          role: null,
+          workTypeOther: undefined,
+          role: undefined,
         },
         {
           workType: WorkInterestsValue.CONSTRUCTION,
-          workTypeOther: null,
+          workTypeOther: undefined,
           role: 'General labourer',
         },
         {
@@ -75,16 +75,16 @@ const aCreateLongQuestionSetInduction = (options?: {
       skills:
         !options || options.hasSkills === null || options.hasSkills === undefined || options.hasSkills === true
           ? [
-              { skillType: SkillsValue.TEAMWORK, skillTypeOther: null },
-              { skillType: SkillsValue.WILLINGNESS_TO_LEARN, skillTypeOther: null },
+              { skillType: SkillsValue.TEAMWORK, skillTypeOther: undefined },
+              { skillType: SkillsValue.WILLINGNESS_TO_LEARN, skillTypeOther: undefined },
               { skillType: SkillsValue.OTHER, skillTypeOther: 'Tenacity' },
             ]
           : [],
       interests:
         !options || options.hasInterests === null || options.hasInterests === undefined || options.hasInterests === true
           ? [
-              { interestType: PersonalInterestsValue.CREATIVE, interestTypeOther: null },
-              { interestType: PersonalInterestsValue.DIGITAL, interestTypeOther: null },
+              { interestType: PersonalInterestsValue.CREATIVE, interestTypeOther: undefined },
+              { interestType: PersonalInterestsValue.DIGITAL, interestTypeOther: undefined },
               { interestType: PersonalInterestsValue.OTHER, interestTypeOther: 'Renewable energy' },
             ]
           : [],
@@ -117,24 +117,24 @@ const aCreateShortQuestionSetInduction = (options?: {
     ...baseCreateInductionRequestTemplate(),
     workOnRelease: {
       hopingToWork: options?.hopingToGetWork || HopingToGetWorkValue.NO,
-      affectAbilityToWork: null,
-      affectAbilityToWorkOther: null,
+      affectAbilityToWork: undefined,
+      affectAbilityToWorkOther: undefined,
       notHopingToWorkReasons: [ReasonToNotGetWorkValue.HEALTH, ReasonToNotGetWorkValue.OTHER],
       notHopingToWorkOtherReason: 'Will be of retirement age at release',
     },
     inPrisonInterests: {
       inPrisonWorkInterests: [
-        { workType: InPrisonWorkValue.CLEANING_AND_HYGIENE, workTypeOther: null },
+        { workType: InPrisonWorkValue.CLEANING_AND_HYGIENE, workTypeOther: undefined },
         { workType: InPrisonWorkValue.OTHER, workTypeOther: 'Gardening and grounds keeping' },
       ],
       inPrisonTrainingInterests: [
-        { trainingType: InPrisonEducationValue.FORKLIFT_DRIVING, trainingTypeOther: null },
-        { trainingType: InPrisonEducationValue.CATERING, trainingTypeOther: null },
+        { trainingType: InPrisonEducationValue.FORKLIFT_DRIVING, trainingTypeOther: undefined },
+        { trainingType: InPrisonEducationValue.CATERING, trainingTypeOther: undefined },
         { trainingType: InPrisonEducationValue.OTHER, trainingTypeOther: 'Advanced origami' },
       ],
     },
     previousQualifications: {
-      educationLevel: null,
+      educationLevel: undefined,
       qualifications: [
         {
           subject: 'English',
