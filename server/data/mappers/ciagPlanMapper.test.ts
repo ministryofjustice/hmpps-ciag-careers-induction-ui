@@ -29,7 +29,7 @@ describe('ciagPlanMapper', () => {
       hopingToGetWork: HopingToGetWorkValue.NO,
       reasonToNotGetWork: [ReasonToNotGetWorkValue.HEALTH, ReasonToNotGetWorkValue.OTHER],
       reasonToNotGetWorkOther: 'Will be of retirement age at release',
-      abilityToWork: null,
+      abilityToWork: undefined,
       abilityToWorkOther: null,
 
       // The properties workExperience, skillsAndInterests, qualificationsAndTraining and inPrisonInterests are
@@ -49,8 +49,8 @@ describe('ciagPlanMapper', () => {
       },
       inPrisonInterests: {
         inPrisonEducation: [
-          InPrisonEducationValue.FORKLIFT_DRIVING,
           InPrisonEducationValue.CATERING,
+          InPrisonEducationValue.FORKLIFT_DRIVING,
           InPrisonEducationValue.OTHER,
         ],
         inPrisonEducationOther: 'Advanced origami',
@@ -84,7 +84,7 @@ describe('ciagPlanMapper', () => {
       offenderId: prisonNumber,
       desireToWork: true,
       hopingToGetWork: HopingToGetWorkValue.YES,
-      reasonToNotGetWork: null,
+      reasonToNotGetWork: undefined,
       reasonToNotGetWorkOther: null,
       abilityToWork: [AbilityToWorkValue.NONE],
       abilityToWorkOther: null,
@@ -108,11 +108,11 @@ describe('ciagPlanMapper', () => {
           },
         ],
         workInterests: {
-          workInterests: [WorkInterestsValue.RETAIL, WorkInterestsValue.CONSTRUCTION, WorkInterestsValue.OTHER],
+          workInterests: [WorkInterestsValue.CONSTRUCTION, WorkInterestsValue.RETAIL, WorkInterestsValue.OTHER],
           workInterestsOther: 'Film, TV and media',
           particularJobInterests: [
-            { workInterest: WorkInterestsValue.RETAIL, role: null },
             { workInterest: WorkInterestsValue.CONSTRUCTION, role: 'General labourer' },
+            { workInterest: WorkInterestsValue.RETAIL, role: null },
             {
               workInterest: WorkInterestsValue.OTHER,
               role: 'Being a stunt double for Tom Cruise, even though he does all his own stunts',
