@@ -7,9 +7,16 @@ import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import CiagService from '../../../services/ciagService'
 import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCiagPlanRequest'
+import InductionService from '../../../services/inductionService'
+import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
+import CiagPlan from '../../../data/ciagApi/interfaces/ciagPlan'
+import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 
 export default class CheckYourAnswersController {
-  constructor(private readonly ciagService: CiagService) {}
+  constructor(
+    private readonly ciagService: CiagService,
+    private readonly inductionService: InductionService,
+  ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -42,7 +49,62 @@ export default class CheckYourAnswersController {
 
     try {
       const record = getSessionData(req, ['createPlan', id])
+      const newCiagPlan: CiagPlan = {
+        offenderId: id,
+        desireToWork: record.hopingToWork === HopingToGetWorkValue.YES,
+        hopingToGetWork: record.hopingToGetWork,
+        reasonToNotGetWork: record.reasonToNotGetWork,
+        reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
+        abilityToWork: record.abilityToWork,
+        abilityToWorkOther: record.abilityToWorkOther,
+        workExperience: {
+          hasWorkedBefore: record.hasWorkedBefore,
+          typeOfWorkExperience: record.typeOfWorkExperience,
+          typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
+          workExperience: record.workExperience,
+          modifiedBy: undefined,
+          modifiedDateTime: undefined,
+          workInterests: {
+            workInterests: record.workInterests,
+            workInterestsOther: record.workInterestsOther,
+            particularJobInterests: record.particularJobInterests,
+            modifiedBy: undefined,
+            modifiedDateTime: undefined,
+          },
+        },
+        skillsAndInterests: {
+          skills: record.skills,
+          skillsOther: record.skillsOther,
+          personalInterests: record.personalInterests,
+          personalInterestsOther: record.personalInterestsOther,
+          modifiedBy: undefined,
+          modifiedDateTime: undefined,
+        },
+        qualificationsAndTraining: {
+          educationLevel: record.educationLevel,
+          qualifications: record.qualifications,
+          additionalTraining: record.additionalTraining,
+          additionalTrainingOther: record.additionalTrainingOther,
+          modifiedBy: undefined,
+          modifiedDateTime: undefined,
+        },
+        inPrisonInterests: {
+          inPrisonWork: record.inPrisonWork,
+          inPrisonWorkOther: record.inPrisonWorkOther,
+          inPrisonEducation: record.inPrisonEducation,
+          inPrisonEducationOther: record.inPrisonEducationOther,
+          modifiedBy: undefined,
+          modifiedDateTime: undefined,
+        },
+        prisonId: prisoner.prisonId,
+        prisonName: prisoner.prisonName,
+        createdBy: undefined,
+        createdDateTime: undefined,
+        modifiedBy: undefined,
+        modifiedDateTime: undefined,
+      }
 
+      // TODO - RR-527 - use CiagPlan instead
       // Setup required data for api
       const newRecord = {
         prisonerId: id,
@@ -88,7 +150,12 @@ export default class CheckYourAnswersController {
         return
       }
 
-      await this.ciagService.createCiagPlan(res.locals.user.token, id, newRecord)
+      if (config.featureToggles.useNewInductionApiEnabled) {
+        const dto = toCreateOrUpdateInductionDto(newCiagPlan)
+        await this.inductionService.createInduction(id, dto, res.locals.user.token)
+      } else {
+        await this.ciagService.createCiagPlan(res.locals.user.token, id, newRecord)
+      }
 
       // Tidy up record in session
       deleteSessionData(req, ['createPlan', id])
