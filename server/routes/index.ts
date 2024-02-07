@@ -34,6 +34,9 @@ export default function routes(services: Services): Router {
 
   router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
   router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
+  router.post('/plan/create/:id/check-your-answers', [
+    retrieveInduction(services.ciagService, services.inductionService),
+  ])
 
   checkYourAnswersRoutes(router, services)
   hopingToGetWorkRoutes(router, services)
