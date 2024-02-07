@@ -8,7 +8,15 @@ export default class InductionService {
   constructor(private readonly educationAndWorkPlanClient: EducationAndWorkPlanClient) {}
 
   async inductionExists(prisonNumber: string, token: string): Promise<boolean> {
-    return (await this.getInduction(prisonNumber, token)) !== undefined
+    try {
+      await this.getInduction(prisonNumber, token)
+      return true
+    } catch (error) {
+      if (error.status === 404) {
+        return false
+      }
+      throw error
+    }
   }
 
   async getInduction(prisonNumber: string, token: string): Promise<InductionDto> {
@@ -16,12 +24,7 @@ export default class InductionService {
       const inductionResponse = await this.educationAndWorkPlanClient.getInduction(prisonNumber, token)
       return toInductionDto(inductionResponse)
     } catch (error) {
-      if (error.status === 404) {
-        logger.info(`No Induction found for prisoner [${prisonNumber}] in Education And Work Plan API`)
-        return undefined
-      }
-
-      logger.error(`Error retrieving Induction data from Education And Work Plan: ${JSON.stringify(error)}`)
+      logger.error('Error retrieving Induction data from Education And Work Plan API', error)
       throw error
     }
   }
