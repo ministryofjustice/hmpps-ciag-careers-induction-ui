@@ -32,8 +32,8 @@ export default function routes(services: Services): Router {
     res.redirect(config.learningPlanUrl)
   })
 
-  router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService)])
-  router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService)])
+  router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
+  router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
 
   checkYourAnswersRoutes(router, services)
   hopingToGetWorkRoutes(router, services)

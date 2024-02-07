@@ -47,7 +47,7 @@ const stubGetInductionLongQuestionSet = (prisonNumber = 'G6115VJ'): SuperAgentRe
           updatedByDisplayName: 'Alex Smith',
           updatedAt: '2023-08-29T10:29:22.457',
           updatedAtPrison: 'MDI',
-          educationLevel: 'UNDERGRADUATE_DEGREE_AT_UNIVERSITY',
+          educationLevel: 'SECONDARY_SCHOOL_TOOK_EXAMS',
           qualifications: [
             {
               subject: 'French',
@@ -97,10 +97,16 @@ const stubGetInductionLongQuestionSet = (prisonNumber = 'G6115VJ'): SuperAgentRe
           hasWorkedBefore: true,
           experiences: [
             {
-              experienceType: 'OFFICE',
+              experienceType: 'BEAUTY',
               experienceTypeOther: null,
-              role: 'Accountant',
-              details: 'Some daily tasks',
+              role: 'Nail technician',
+              details: 'Doing fancy nail decorations',
+            },
+            {
+              experienceType: 'CLEANING_AND_MAINTENANCE',
+              experienceTypeOther: null,
+              role: 'Office cleaner',
+              details: 'Cleaning commercial offices',
             },
             {
               experienceType: 'OTHER',
@@ -121,6 +127,11 @@ const stubGetInductionLongQuestionSet = (prisonNumber = 'G6115VJ'): SuperAgentRe
           updatedAt: '2023-08-29T10:29:22.457',
           updatedAtPrison: 'MDI',
           interests: [
+            {
+              workType: 'OFFICE',
+              workTypeOther: null,
+              role: 'Basic office administrator duties',
+            },
             {
               workType: 'WASTE_MANAGEMENT',
               workTypeOther: null,
@@ -244,7 +255,7 @@ const stubGetInductionShortQuestionSet = (prisonNumber = 'G6115VJ'): SuperAgentR
           updatedByDisplayName: 'Alex Smith',
           updatedAt: '2023-06-19T09:39:44Z',
           updatedAtPrison: 'MDI',
-          trainingTypes: ['FULL_UK_DRIVING_LICENCE'],
+          trainingTypes: ['CSCS_CARD'],
           trainingTypeOther: null,
         },
         inPrisonInterests: {

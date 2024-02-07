@@ -3,6 +3,10 @@ import CiagApiClient from '../data/ciagApi/ciagApiClient'
 import CreateCiagPlanArgs from '../data/ciagApi/interfaces/createCiagPlanArgs'
 import { orderCiagPlanArrays } from '../utils/orderCiagPlanArrays'
 
+/**
+ * @deprecated Use [InductionService] instead
+ * TODO - remove this class in RR-623
+ */
 export default class CiagService {
   async getCiagPlan(userToken: string, offenderId: string): Promise<CiagPlan> {
     const ciagPlan = await new CiagApiClient(userToken).getCiagPlan(offenderId)

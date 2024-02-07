@@ -21,14 +21,13 @@ context('Update functionality - Lite flow', () => {
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonerById', 'B79237A')
-    cy.task('getCiagPlan', 'B79237A')
     cy.task('updateCiagPlan', 'B79237A')
     cy.signIn()
   })
 
   describe('Happy path scenarios', () => {
     beforeEach(() => {
-      cy.task('getCiagPlan')
+      cy.task('stubGetInductionShortQuestionSet', 'B79237A')
     })
 
     it('Existing plan - Hoping to get work page - Change to positive', () => {
