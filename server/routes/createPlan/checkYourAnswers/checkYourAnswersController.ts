@@ -10,7 +10,7 @@ import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCi
 import InductionService from '../../../services/inductionService'
 import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
 import CiagPlan from '../../../data/ciagApi/interfaces/ciagPlan'
-import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import YesNoValue from '../../../enums/yesNoValue'
 
 export default class CheckYourAnswersController {
   constructor(
@@ -51,35 +51,40 @@ export default class CheckYourAnswersController {
       const record = getSessionData(req, ['createPlan', id])
       const newCiagPlan: CiagPlan = {
         offenderId: id,
-        desireToWork: record.hopingToWork === HopingToGetWorkValue.YES,
+        desireToWork: record.hopingToWork === YesNoValue.YES,
         hopingToGetWork: record.hopingToGetWork,
         reasonToNotGetWork: record.reasonToNotGetWork,
         reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
         abilityToWork: record.abilityToWork,
         abilityToWorkOther: record.abilityToWorkOther,
-        workExperience: {
-          hasWorkedBefore: record.hasWorkedBefore,
-          typeOfWorkExperience: record.typeOfWorkExperience,
-          typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
-          workExperience: record.workExperience,
-          modifiedBy: undefined,
-          modifiedDateTime: undefined,
-          workInterests: {
-            workInterests: record.workInterests,
-            workInterestsOther: record.workInterestsOther,
-            particularJobInterests: record.particularJobInterests,
-            modifiedBy: undefined,
-            modifiedDateTime: undefined,
-          },
-        },
-        skillsAndInterests: {
-          skills: record.skills,
-          skillsOther: record.skillsOther,
-          personalInterests: record.personalInterests,
-          personalInterestsOther: record.personalInterestsOther,
-          modifiedBy: undefined,
-          modifiedDateTime: undefined,
-        },
+        workExperience: record.hasWorkedBefore
+          ? {
+              hasWorkedBefore: record.hasWorkedBefore === YesNoValue.YES,
+              typeOfWorkExperience: record.typeOfWorkExperience,
+              typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
+              workExperience: record.workExperience,
+              modifiedBy: undefined,
+              modifiedDateTime: undefined,
+              workInterests: {
+                workInterests: record.workInterests,
+                workInterestsOther: record.workInterestsOther,
+                particularJobInterests: record.particularJobInterests,
+                modifiedBy: undefined,
+                modifiedDateTime: undefined,
+              },
+            }
+          : undefined,
+        skillsAndInterests:
+          record.skills && record.personalInterests
+            ? {
+                skills: record.skills,
+                skillsOther: record.skillsOther,
+                personalInterests: record.personalInterests,
+                personalInterestsOther: record.personalInterestsOther,
+                modifiedBy: undefined,
+                modifiedDateTime: undefined,
+              }
+            : undefined,
         qualificationsAndTraining: {
           educationLevel: record.educationLevel,
           qualifications: record.qualifications,
@@ -88,14 +93,17 @@ export default class CheckYourAnswersController {
           modifiedBy: undefined,
           modifiedDateTime: undefined,
         },
-        inPrisonInterests: {
-          inPrisonWork: record.inPrisonWork,
-          inPrisonWorkOther: record.inPrisonWorkOther,
-          inPrisonEducation: record.inPrisonEducation,
-          inPrisonEducationOther: record.inPrisonEducationOther,
-          modifiedBy: undefined,
-          modifiedDateTime: undefined,
-        },
+        inPrisonInterests:
+          record.inPrisonWork && record.inPrisonEducation
+            ? {
+                inPrisonWork: record.inPrisonWork,
+                inPrisonWorkOther: record.inPrisonWorkOther,
+                inPrisonEducation: record.inPrisonEducation,
+                inPrisonEducationOther: record.inPrisonEducationOther,
+                modifiedBy: undefined,
+                modifiedDateTime: undefined,
+              }
+            : undefined,
         prisonId: prisoner.prisonId,
         prisonName: prisoner.prisonName,
         createdBy: undefined,
