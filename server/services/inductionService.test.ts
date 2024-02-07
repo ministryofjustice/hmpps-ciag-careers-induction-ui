@@ -133,10 +133,12 @@ describe('inductionService', () => {
       educationAndWorkPlanClient.getInduction.mockRejectedValue(eductionAndWorkPlanApiError)
 
       // When
-      const actual = await inductionService.getInduction(prisonNumber, userToken)
+      const actual = await inductionService.getInduction(prisonNumber, userToken).catch(error => {
+        return error
+      })
 
       // Then
-      expect(actual).toBeUndefined()
+      expect(actual).toEqual(eductionAndWorkPlanApiError)
       expect(educationAndWorkPlanClient.getInduction).toHaveBeenCalledWith(prisonNumber, userToken)
       expect(mockedInductionDtoMapper).not.toHaveBeenCalled()
     })

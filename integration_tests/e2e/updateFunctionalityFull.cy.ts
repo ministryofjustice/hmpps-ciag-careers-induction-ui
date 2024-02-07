@@ -35,7 +35,7 @@ context('Update functionality - Full flow', () => {
 
   describe('Happy path scenarios', () => {
     beforeEach(() => {
-      cy.task('getCiagPlan', 'A3260DZ')
+      cy.task('stubGetInductionLongQuestionSet', 'A3260DZ')
     })
 
     it('Existing plan - Hoping to get work page', () => {
@@ -200,7 +200,7 @@ context('Update functionality - Full flow', () => {
       )
 
       // When
-      particularJobInterestsPage.textField('OFFICE').type('A valid value')
+      particularJobInterestsPage.textField('OFFICE').type('Office administrator')
 
       particularJobInterestsPage.submitButton().click()
 
@@ -265,7 +265,7 @@ context('Update functionality - Full flow', () => {
   describe('Sad path scenarios', () => {
     it(`Should not display the 'Hoping to get work' page given the Induction does not exist for the prisoner`, () => {
       // Then
-      cy.task('stubGetCiagPlan404Error', 'A3260DZ')
+      cy.task('stubGetInduction404Error', 'A3260DZ')
 
       // When
       cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update', { failOnStatusCode: false })
@@ -276,7 +276,7 @@ context('Update functionality - Full flow', () => {
 
     it(`Should not display the 'Hoping to get work' page given the Induction API throws an error`, () => {
       // Then
-      cy.task('stubGetCiagPlan500Error', 'A3260DZ')
+      cy.task('stubGetInduction500Error', 'A3260DZ')
 
       // When
       cy.visit('/plan/create/A3260DZ/hoping-to-get-work/update', { failOnStatusCode: false })
