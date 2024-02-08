@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import type { Services } from '../services'
 import hopingToGetWorkRoutes from './createPlan/hopingToGetWork'
 import qualificationsRoutes from './createPlan/qualifications'
@@ -21,6 +21,7 @@ import reasonToNotGetWorkRoutes from './createPlan/reasonToNotGetWork'
 import wantsToAddQualifications from './createPlan/wantsToAddQualifications'
 import config from '../config'
 import retrieveInduction from './routerRequestHandlers'
+import { getSessionData } from '../utils'
 
 export default function routes(services: Services): Router {
   // Append page routes
@@ -34,6 +35,20 @@ export default function routes(services: Services): Router {
 
   router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
   router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
+
+  // The check-your-answers page is used for both the Create and Update journey
+  // When the page is submitted (POST) we need to have retrieved the induction, but only in the case of the Update journey
+  router.post('/plan/create/:id/check-your-answers', [
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params
+      const isUpdateFlow = getSessionData(req, ['isUpdateFlow', id])
+      if (!isUpdateFlow) {
+        next()
+      } else {
+        retrieveInduction(services.ciagService, services.inductionService)(req, res, next)
+      }
+    },
+  ])
 
   checkYourAnswersRoutes(router, services)
   hopingToGetWorkRoutes(router, services)

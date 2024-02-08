@@ -8,6 +8,9 @@ import ParticularJobInterestsPage from '../pages/particularJobInterests'
 import QualificationsPage from '../pages/qualifications'
 import SkillsPage from '../pages/skills'
 import WorkInterestsPage from '../pages/workInterests'
+import CheckYourAnswersPage from '../pages/checkYourAnswers'
+import Page from '../pages/page'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('Ability to work page', () => {
   const longStr = 'x'.repeat(201)
@@ -17,11 +20,14 @@ context('Ability to work page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubPlpEducationAndTrainingPageUi', 'G6115VJ')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
+    cy.task('stubCreateInduction')
+    cy.task('stubRedirectToPlpAfterCreateInduction')
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
@@ -105,7 +111,7 @@ context('Ability to work page', () => {
     abilityToWorkPage.detailsFieldErrorMessage().contains('Reason must be 200 characters or less')
   })
 
-  it('New record - Select LIMITED_BY_OFFENSE - navigates to check-your-answers page', () => {
+  it('New record - Select LIMITED_BY_OFFENSE - submit check-your-answers page and arrive on PLP page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -114,10 +120,12 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-your-answers')
+    const checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
+    checkYourAnswersPage.submitButton().click()
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 
-  it('New record - Select OTHER - navigates to check-your-answers page', () => {
+  it('New record - Select OTHER - submit check-your-answers page and arrive on PLP page', () => {
     const abilityToWorkPage = new AbilityToWorkPage(
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
@@ -127,6 +135,8 @@ context('Ability to work page', () => {
 
     abilityToWorkPage.submitButton().click()
 
-    cy.url().should('include', 'check-your-answers')
+    const checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
+    checkYourAnswersPage.submitButton().click()
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 })

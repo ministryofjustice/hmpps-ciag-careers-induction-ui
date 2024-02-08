@@ -3,6 +3,10 @@ import Page from './page'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class CheckYourAnswersPage extends Page {
+  constructor(title?: string) {
+    super(title || 'Check and save your answers')
+  }
+
   manageDetails = (): PageElement => cy.get('[data-qa=manageDetails]')
 
   hopingToGetWork = (): PageElement => cy.get('[data-qa=hopingToGetWork]')

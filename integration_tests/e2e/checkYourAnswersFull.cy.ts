@@ -13,6 +13,8 @@ import QualificationDetailsPage from '../pages/qualificationDetails'
 import TypeOfWorkExperiencePage from '../pages/typeOfWorkExperience'
 import JobDetailsPage from '../pages/jobDetails'
 import CheckYourAnswersPage from '../pages/checkYourAnswers'
+import Page from '../pages/page'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('Check your answers - Full flow', () => {
   before(() => {
@@ -20,11 +22,14 @@ context('Check your answers - Full flow', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubPlpEducationAndTrainingPageUi', 'G6115VJ')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
+    cy.task('stubCreateInduction')
+    cy.task('stubRedirectToPlpAfterCreateInduction')
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
@@ -131,11 +136,13 @@ context('Check your answers - Full flow', () => {
     abilityToWorkPage.textareaField().type('Some other limitation')
 
     abilityToWorkPage.submitButton().click()
+
+    Page.verifyOnPage(CheckYourAnswersPage)
   })
 
-  it('New record - Full flow - Values have been set correctly, change links work', () => {
-    const checkYourAnswersPage = new CheckYourAnswersPage(
-      "Check and save your answers before adding Daniel Craig's goals",
+  it('New record - Full flow - Values have been set correctly, change links work; page is submitted to the PLP page', () => {
+    let checkYourAnswersPage = new CheckYourAnswersPage(
+      `Check and save your answers before adding Daniel Craig's goals`,
     )
 
     checkYourAnswersPage.hopingToGetWork().contains('Yes')
@@ -221,5 +228,9 @@ context('Check your answers - Full flow', () => {
       "Is there anything that Daniel Craig feels may affect their ability to work after they're released?",
     )
     abilityToWorkPage.backLink().click()
+
+    checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
+    checkYourAnswersPage.submitButton().click()
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 })
