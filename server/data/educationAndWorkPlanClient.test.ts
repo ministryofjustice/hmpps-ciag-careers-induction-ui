@@ -3,6 +3,7 @@ import config from '../config'
 import EducationAndWorkPlanClient from './educationAndWorkPlanClient'
 import { aShortQuestionSetInduction } from '../testsupport/inductionResponseTestDataBuilder'
 import { aCreateLongQuestionSetInduction } from '../testsupport/createInductionRequestTestDataBuilder'
+import { anUpdateLongQuestionSetInduction } from '../testsupport/updateInductionRequestTestDataBuilder'
 
 describe('educationAndWorkPlanClient', () => {
   const educationAndWorkPlanClient = new EducationAndWorkPlanClient()
@@ -111,6 +112,45 @@ describe('educationAndWorkPlanClient', () => {
       // When
       try {
         await educationAndWorkPlanClient.createInduction(prisonNumber, createRequest, systemToken)
+      } catch (e) {
+        // Then
+        expect(nock.isDone()).toBe(true)
+        expect(e.status).toEqual(500)
+        expect(e.data).toEqual(expectedResponseBody)
+      }
+    })
+  })
+
+  describe('updateInduction', () => {
+    it('should update Induction', async () => {
+      // Given
+      const prisonNumber = 'A1234BC'
+      const systemToken = 'a-system-token'
+      const updateRequest = anUpdateLongQuestionSetInduction()
+      educationAndWorkPlanApi.put(`/inductions/${prisonNumber}`, updateRequest).reply(201)
+
+      // When
+      await educationAndWorkPlanClient.updateInduction(prisonNumber, updateRequest, systemToken)
+
+      // Then
+      expect(nock.isDone()).toBe(true)
+    })
+
+    it('should not update Induction given API returns error response', async () => {
+      // Given
+      const prisonNumber = 'A1234BC'
+      const systemToken = 'a-system-token'
+      const updateRequest = anUpdateLongQuestionSetInduction()
+      const expectedResponseBody = {
+        status: 500,
+        userMessage: 'An unexpected error occurred',
+        developerMessage: 'An unexpected error occurred',
+      }
+      educationAndWorkPlanApi.put(`/inductions/${prisonNumber}`, updateRequest).reply(500, expectedResponseBody)
+
+      // When
+      try {
+        await educationAndWorkPlanClient.updateInduction(prisonNumber, updateRequest, systemToken)
       } catch (e) {
         // Then
         expect(nock.isDone()).toBe(true)
