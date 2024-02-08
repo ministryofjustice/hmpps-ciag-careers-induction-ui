@@ -28,7 +28,7 @@ const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.qualificationsAndTraining
     ? {
         educationLevel: ciagPlan.qualificationsAndTraining.educationLevel,
-        qualifications: ciagPlan.qualificationsAndTraining.qualifications.map(qualification => {
+        qualifications: ciagPlan.qualificationsAndTraining.qualifications?.map(qualification => {
           return {
             subject: qualification.subject,
             grade: qualification.grade,
@@ -51,7 +51,7 @@ const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.workExperience
     ? {
         hasWorkedBefore: ciagPlan.workExperience.hasWorkedBefore,
-        experiences: ciagPlan.workExperience.workExperience.map(experience => {
+        experiences: ciagPlan.workExperience.workExperience?.map(experience => {
           return {
             experienceType: experience.typeOfWorkExperience,
             experienceTypeOther:
@@ -68,13 +68,13 @@ const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.inPrisonInterests
     ? {
-        inPrisonWorkInterests: ciagPlan.inPrisonInterests.inPrisonWork.map(workInterest => {
+        inPrisonWorkInterests: ciagPlan.inPrisonInterests.inPrisonWork?.map(workInterest => {
           return {
             workType: workInterest,
             workTypeOther: workInterest === 'OTHER' ? ciagPlan.inPrisonInterests.inPrisonWorkOther : undefined,
           }
         }),
-        inPrisonTrainingInterests: ciagPlan.inPrisonInterests.inPrisonEducation.map(trainingInterest => {
+        inPrisonTrainingInterests: ciagPlan.inPrisonInterests.inPrisonEducation?.map(trainingInterest => {
           return {
             trainingType: trainingInterest,
             trainingTypeOther:
@@ -87,13 +87,13 @@ const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.skillsAndInterests
     ? {
-        skills: ciagPlan.skillsAndInterests.skills.map(skill => {
+        skills: ciagPlan.skillsAndInterests.skills?.map(skill => {
           return {
             skillType: skill,
             skillTypeOther: skill === 'OTHER' ? ciagPlan.skillsAndInterests.skillsOther : undefined,
           }
         }),
-        interests: ciagPlan.skillsAndInterests.personalInterests.map(interest => {
+        interests: ciagPlan.skillsAndInterests.personalInterests?.map(interest => {
           return {
             interestType: interest,
             interestTypeOther: interest === 'OTHER' ? ciagPlan.skillsAndInterests.personalInterestsOther : undefined,
@@ -105,7 +105,7 @@ const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdateFutureWorkInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.workExperience?.workInterests
     ? {
-        interests: ciagPlan.workExperience.workInterests.workInterests.map(interest => {
+        interests: ciagPlan.workExperience.workInterests.workInterests?.map(interest => {
           return {
             workType: interest,
             workTypeOther: interest === 'OTHER' ? ciagPlan.workExperience.workInterests.workInterestsOther : undefined,

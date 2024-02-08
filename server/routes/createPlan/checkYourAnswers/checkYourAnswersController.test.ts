@@ -17,12 +17,13 @@ describe('CheckYourAnswersController', () => {
     lastName: 'mock_lastName',
   }
 
-  req.params.id = 'A1234BC'
+  const prisonNumber = 'A1234BC'
+  req.params.id = prisonNumber
   req.params.mode = 'new'
   const { id } = req.params
 
   const mockData = {
-    id: 'A1234BC',
+    id: prisonNumber,
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     record: { hopingToGetWork: 'YES' },
     statusChange: false,
@@ -30,9 +31,13 @@ describe('CheckYourAnswersController', () => {
 
   res.locals.user = {}
 
-  const mockService: any = {
+  const mockCiagService: any = {
     createCiagPlan: jest.fn(),
     updateCiagPlan: jest.fn(),
+  }
+
+  const mockInductionService: any = {
+    createInduction: jest.fn(),
   }
 
   let learningPlanUrl: string
@@ -45,7 +50,7 @@ describe('CheckYourAnswersController', () => {
     config.learningPlanUrl = learningPlanUrl
   })
 
-  const controller = new Controller(mockService)
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -97,13 +102,13 @@ describe('CheckYourAnswersController', () => {
       next.mockReset()
       setSessionData(req, ['inPrisonWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
-      mockService.createCiagPlan.mockReset()
-      mockService.updateCiagPlan.mockReset()
+      mockCiagService.createCiagPlan.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
     })
 
     it('On error - Calls next with error', async () => {
       // Given
-      mockService.createCiagPlan.mockImplementation(() => {
+      mockCiagService.createCiagPlan.mockImplementation(() => {
         throw new Error('mock_error')
       })
 
@@ -115,30 +120,45 @@ describe('CheckYourAnswersController', () => {
       expect(res.render).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - UPDATE - Calls api update', async () => {
+    it('On success - UPDATE - Calls CIAG API update', async () => {
       // Given
+      config.featureToggles.useNewInductionApiEnabled = false
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NOT_SURE, desireToWork: false }
       setSessionData(req, ['isUpdateFlow', id], true)
-      mockService.updateCiagPlan.mockReturnValue({})
+      mockCiagService.updateCiagPlan.mockReturnValue({})
 
       // When
       await controller.post(req, res, next)
 
       // Then
-      expect(mockService.updateCiagPlan).toHaveBeenCalledTimes(1)
+      expect(mockCiagService.updateCiagPlan).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/view/work-and-interests')
     })
 
-    it('On success - NEW - Calls api create', async () => {
+    it('On success - NEW - Calls CIAG API create', async () => {
       // Given
+      config.featureToggles.useNewInductionApiEnabled = false
       setSessionData(req, ['isUpdateFlow', id], undefined)
-      mockService.updateCiagPlan.mockReturnValue({})
+      mockCiagService.updateCiagPlan.mockReturnValue({})
 
       // When
       await controller.post(req, res, next)
 
       // Then
-      expect(mockService.createCiagPlan).toHaveBeenCalledTimes(1)
+      expect(mockCiagService.createCiagPlan).toHaveBeenCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/induction-created')
+    })
+
+    it('On success - NEW - Calls PLP API create', async () => {
+      // Given
+      config.featureToggles.useNewInductionApiEnabled = true
+      setSessionData(req, ['isUpdateFlow', id], undefined)
+
+      // When
+      await controller.post(req, res, next)
+
+      // Then
+      expect(mockInductionService.createInduction).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/induction-created')
     })
   })
