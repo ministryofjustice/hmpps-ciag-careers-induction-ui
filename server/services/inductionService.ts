@@ -3,6 +3,7 @@ import logger from '../../logger'
 import EducationAndWorkPlanClient from '../data/educationAndWorkPlanClient'
 import toCreateInductionRequest from '../data/mappers/createInductionRequestMapper'
 import toInductionDto from '../data/mappers/inductionDtoMapper'
+import toUpdateInductionRequest from '../data/mappers/updateInductionRequestMapper'
 
 export default class InductionService {
   constructor(private readonly educationAndWorkPlanClient: EducationAndWorkPlanClient) {}
@@ -39,6 +40,20 @@ export default class InductionService {
       return await this.educationAndWorkPlanClient.createInduction(prisonNumber, request, token)
     } catch (error) {
       logger.error(`Error creating Induction within the Education And Work Plan API`, error)
+      throw error
+    }
+  }
+
+  async updateInduction(
+    prisonNumber: string,
+    updateInductionDto: CreateOrUpdateInductionDto,
+    token: string,
+  ): Promise<unknown> {
+    try {
+      const request = toUpdateInductionRequest(updateInductionDto)
+      return await this.educationAndWorkPlanClient.updateInduction(prisonNumber, request, token)
+    } catch (error) {
+      logger.error(`Error updating Induction within the Education And Work Plan API`, error)
       throw error
     }
   }
