@@ -323,9 +323,36 @@ const stubGetInduction500Error = (prisonNumber = 'G6115VJ'): SuperAgentRequest =
     },
   })
 
+const stubCreateInduction = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'POST',
+      urlPattern: `/inductions/${prisonNumber}`,
+    },
+    response: {
+      status: 201,
+    },
+  })
+
+const stubRedirectToPlpAfterCreateInduction = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: `/plan/${prisonNumber}/induction-created`,
+    },
+    response: {
+      status: 302,
+      headers: {
+        location: `/plan/${prisonNumber}/view/education-and-training`,
+      },
+    },
+  })
+
 export default {
   stubGetInductionShortQuestionSet,
   stubGetInductionLongQuestionSet,
   stubGetInduction404Error,
   stubGetInduction500Error,
+  stubCreateInduction,
+  stubRedirectToPlpAfterCreateInduction,
 }
