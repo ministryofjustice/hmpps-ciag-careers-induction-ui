@@ -4,6 +4,9 @@ import InPrisonEducationPage from '../pages/inPrisonEducation'
 import InPrisonWorkPage from '../pages/inPrisonWork'
 import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 import WantsToAddQualifications from '../pages/wantsToAddQualifications'
+import Page from '../pages/page'
+import CheckYourAnswersPage from '../pages/checkYourAnswers'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('In prison education work page', () => {
   beforeEach(() => {
@@ -11,11 +14,14 @@ context('In prison education work page', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubPlpEducationAndTrainingPageUi', 'G6115VJ')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
+    cy.task('stubCreateInduction')
+    cy.task('stubRedirectToPlpAfterCreateInduction')
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
@@ -90,7 +96,7 @@ context('In prison education work page', () => {
     inPrisonEducation.detailsFieldErrorMessage().should('contain', 'Training in prison must be 200 characters or less')
   })
 
-  it('Select OTHER - details entered - navigate to qualifications page', () => {
+  it('Select OTHER - details entered - page is submitted to the PLP page', () => {
     const inPrisonEducation = new InPrisonEducationPage(
       `What type of training and education activities would Daniel Craig like to do in prison?`,
     )
@@ -99,6 +105,8 @@ context('In prison education work page', () => {
     inPrisonEducation.textareaField().clear().type('other details')
     inPrisonEducation.submitButton().click()
 
-    cy.url().should('include', 'check-your-answers')
+    const checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
+    checkYourAnswersPage.submitButton().click()
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 })
