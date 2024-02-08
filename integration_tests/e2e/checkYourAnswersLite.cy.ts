@@ -8,6 +8,8 @@ import WantsToAddQualifications from '../pages/wantsToAddQualifications'
 import CheckYourAnswersPage from '../pages/checkYourAnswers'
 import InPrisonWorkPage from '../pages/inPrisonWork'
 import InPrisonEducationPage from '../pages/inPrisonEducation'
+import Page from '../pages/page'
+import PlpEducationAndTrainingPage from '../pages/plpEducationAndTrainingPage'
 
 context('Check your answers - Lite flow', () => {
   beforeEach(() => {
@@ -15,11 +17,14 @@ context('Check your answers - Lite flow', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubPlpPrisonListPageUi')
+    cy.task('stubPlpEducationAndTrainingPageUi', 'G6115VJ')
     cy.task('stubGetFrontEndComponents')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
+    cy.task('stubCreateInduction')
+    cy.task('stubRedirectToPlpAfterCreateInduction')
     cy.signIn()
 
     cy.visit('/plan/create/G6115VJ/hoping-to-get-work/new')
@@ -78,11 +83,13 @@ context('Check your answers - Lite flow', () => {
     inPrisonEducationPage.checkboxFieldValue('OTHER').click()
     inPrisonEducationPage.textareaField().type('Some other in prison education')
     inPrisonEducationPage.submitButton().click()
+
+    Page.verifyOnPage(CheckYourAnswersPage)
   })
 
-  it('New record - Lite flow - Values have been set correctly, change links work', () => {
-    const checkYourAnswersPage = new CheckYourAnswersPage(
-      "Check and save your answers before adding Daniel Craig's goals",
+  it('New record - Lite flow - Values have been set correctly, change links work; page is submitted to the PLP page', () => {
+    let checkYourAnswersPage = new CheckYourAnswersPage(
+      `Check and save your answers before adding Daniel Craig's goals`,
     )
 
     checkYourAnswersPage.hopingToGetWork().contains('No')
@@ -131,5 +138,9 @@ context('Check your answers - Lite flow', () => {
       'What type of training and education activities would Daniel Craig like to do in prison?',
     )
     inPrisonEducationPage.backLink().click()
+
+    checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
+    checkYourAnswersPage.submitButton().click()
+    Page.verifyOnPage(PlpEducationAndTrainingPage)
   })
 })
