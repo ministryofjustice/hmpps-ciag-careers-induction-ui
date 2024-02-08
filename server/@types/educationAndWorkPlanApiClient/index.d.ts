@@ -18,4 +18,13 @@ declare module 'educationAndWorkPlanApiClient' {
   export type CreateInPrisonInterestsRequest = components['schemas']['CreateInPrisonInterestsRequest']
   export type CreatePersonalSkillsAndInterestsRequest = components['schemas']['CreatePersonalSkillsAndInterestsRequest']
   export type CreateFutureWorkInterestsRequest = components['schemas']['CreateFutureWorkInterestsRequest']
+
+  export type UpdateInductionRequest = components['schemas']['UpdateInductionRequest']
+  export type UpdateWorkOnReleaseRequest = components['schemas']['UpdateWorkOnReleaseRequest']
+  export type UpdatePreviousQualificationsRequest = components['schemas']['UpdatePreviousQualificationsRequest']
+  export type UpdatePreviousTrainingRequest = components['schemas']['UpdatePreviousTrainingRequest']
+  export type UpdatePreviousWorkExperiencesRequest = components['schemas']['UpdatePreviousWorkExperiencesRequest']
+  export type UpdateInPrisonInterestsRequest = components['schemas']['UpdateInPrisonInterestsRequest']
+  export type UpdatePersonalSkillsAndInterestsRequest = components['schemas']['UpdatePersonalSkillsAndInterestsRequest']
+  export type UpdateFutureWorkInterestsRequest = components['schemas']['UpdateFutureWorkInterestsRequest']
 }
