@@ -5,7 +5,7 @@ import type { Services } from '../../../services'
 import CheckYourAnswersController from './checkYourAnswersController'
 
 export default (router: Router, services: Services) => {
-  const controller = new CheckYourAnswersController(services.ciagService)
+  const controller = new CheckYourAnswersController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/check-your-answers',
