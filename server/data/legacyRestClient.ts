@@ -2,7 +2,7 @@ import superagent, { SuperAgentRequest } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import { Readable } from 'stream'
 
-import logger from '../log'
+import logger from '../../logger'
 import type { UnsanitisedError } from '../sanitisedError'
 import sanitiseError from '../sanitisedError'
 import { ApiConfig } from '../config'

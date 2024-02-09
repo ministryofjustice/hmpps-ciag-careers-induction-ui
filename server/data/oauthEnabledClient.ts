@@ -3,7 +3,7 @@ import { Response } from 'express'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import * as stream from 'stream'
 import { ClientRequest } from 'http'
-import logger from '../log'
+import logger from '../../logger'
 // eslint-disable-next-line import/no-cycle
 import { getHeaders } from './axios-config-decorators'
 
