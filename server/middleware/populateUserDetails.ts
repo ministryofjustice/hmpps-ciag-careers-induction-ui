@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import logger from '../log'
+import logger from '../../logger'
 // eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
 import UserService from '../services/userService'
 import getSanitisedError from '../sanitisedError'

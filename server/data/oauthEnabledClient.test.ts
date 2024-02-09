@@ -1,7 +1,7 @@
 import nock from 'nock'
 import clientFactory from './oauthEnabledClient'
 import contextProperties from './contextProperties'
-import logger from '../log'
+import logger from '../../logger'
 
 const hostname = 'http://localhost:8080'
 
