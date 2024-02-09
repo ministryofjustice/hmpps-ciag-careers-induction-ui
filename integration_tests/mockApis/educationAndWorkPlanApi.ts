@@ -348,6 +348,17 @@ const stubRedirectToPlpAfterCreateInduction = (prisonNumber = 'G6115VJ'): SuperA
     },
   })
 
+const stubUpdateInduction = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'PUT',
+      urlPattern: `/inductions/${prisonNumber}`,
+    },
+    response: {
+      status: 204,
+    },
+  })
+
 export default {
   stubGetInductionShortQuestionSet,
   stubGetInductionLongQuestionSet,
@@ -355,4 +366,5 @@ export default {
   stubGetInduction500Error,
   stubCreateInduction,
   stubRedirectToPlpAfterCreateInduction,
+  stubUpdateInduction,
 }

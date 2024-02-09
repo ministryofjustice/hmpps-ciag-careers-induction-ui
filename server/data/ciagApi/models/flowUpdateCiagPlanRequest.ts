@@ -19,9 +19,11 @@ export default class FlowUpdateCiagPlanRequest {
     const now = new Date()
     const isoString = now.toISOString()
 
+    this.reference = existingPlan.reference
     this.offenderId = existingPlan.offenderId
     this.prisonId = data.prisonId
 
+    this.workOnReleaseReference = existingPlan.workOnReleaseReference
     this.desireToWork = data.hopingToGetWork === HopingToGetWorkValue.YES
     this.hopingToGetWork = data.hopingToGetWork
 
@@ -43,6 +45,7 @@ export default class FlowUpdateCiagPlanRequest {
     this.workExperience =
       data.hopingToGetWork === HopingToGetWorkValue.YES
         ? {
+            reference: existingPlan.workExperience?.reference,
             hasWorkedBefore: data.hasWorkedBefore === YesNoValue.YES,
             typeOfWorkExperience: data.typeOfWorkExperience,
             typeOfWorkExperienceOther: data.typeOfWorkExperienceOther,
@@ -63,6 +66,7 @@ export default class FlowUpdateCiagPlanRequest {
     this.skillsAndInterests =
       data.hopingToGetWork === HopingToGetWorkValue.YES
         ? {
+            reference: existingPlan.skillsAndInterests?.reference,
             skills: data.skills,
             skillsOther: data.skillsOther,
             personalInterests: data.personalInterests,
@@ -73,8 +77,10 @@ export default class FlowUpdateCiagPlanRequest {
         : existingPlan.skillsAndInterests
 
     this.qualificationsAndTraining = {
+      qualificationsReference: existingPlan.qualificationsAndTraining?.qualificationsReference,
       educationLevel: data.educationLevel,
       qualifications: data.qualifications,
+      trainingReference: existingPlan.qualificationsAndTraining?.trainingReference,
       additionalTraining: data.additionalTraining,
       additionalTrainingOther: data.additionalTrainingOther,
       modifiedBy: data.currentUser,
@@ -85,6 +91,7 @@ export default class FlowUpdateCiagPlanRequest {
     this.inPrisonInterests =
       data.hopingToGetWork !== HopingToGetWorkValue.YES
         ? {
+            reference: existingPlan.inPrisonInterests?.reference,
             inPrisonWork: data.inPrisonWork,
             inPrisonWorkOther: data.inPrisonWorkOther,
             inPrisonEducation: data.inPrisonEducation,
@@ -96,9 +103,13 @@ export default class FlowUpdateCiagPlanRequest {
   }
 
   // Properties
+  reference: string
+
   offenderId: string
 
   prisonId: string
+
+  workOnReleaseReference: string
 
   desireToWork: boolean
 
@@ -123,6 +134,7 @@ export default class FlowUpdateCiagPlanRequest {
   prisonName: string
 
   workExperience?: {
+    reference?: string
     hasWorkedBefore: boolean
     typeOfWorkExperience?: Array<TypeOfWorkExperienceValue>
     typeOfWorkExperienceOther?: string
@@ -135,6 +147,7 @@ export default class FlowUpdateCiagPlanRequest {
     modifiedDateTime: string
 
     workInterests?: {
+      reference?: string
       workInterests: Array<WorkInterestsValue>
       workInterestsOther?: string
       particularJobInterests: Array<{
@@ -147,6 +160,7 @@ export default class FlowUpdateCiagPlanRequest {
   }
 
   skillsAndInterests?: {
+    reference?: string
     skills: Array<SkillsValue>
     skillsOther?: string
     personalInterests: Array<PersonalInterestsValue>
@@ -156,12 +170,14 @@ export default class FlowUpdateCiagPlanRequest {
   }
 
   qualificationsAndTraining?: {
+    qualificationsReference?: string
     educationLevel?: EducationLevelValue
     qualifications?: Array<{
       subject: string
       grade: string
       level: QualificationLevelValue
     }>
+    trainingReference?: string
     additionalTraining: Array<AdditionalTrainingValue>
     additionalTrainingOther?: string
     modifiedBy: string
@@ -169,6 +185,7 @@ export default class FlowUpdateCiagPlanRequest {
   }
 
   inPrisonInterests?: {
+    reference?: string
     inPrisonWork: Array<InPrisonWorkValue>
     inPrisonWorkOther?: string
     inPrisonEducation: Array<InPrisonEducationValue>

@@ -3,7 +3,7 @@ import CiagPlan from '../ciagApi/interfaces/ciagPlan'
 
 const toCreateOrUpdateInductionDto = (ciagPlan: CiagPlan): CreateOrUpdateInductionDto => {
   return {
-    reference: undefined,
+    reference: ciagPlan.reference,
     prisonId: ciagPlan.prisonId,
     workOnRelease: toCreateOrUpdateWorkOnReleaseDto(ciagPlan),
     previousQualifications: toCreateOrUpdatePreviousQualificationsDto(ciagPlan),
@@ -17,6 +17,7 @@ const toCreateOrUpdateInductionDto = (ciagPlan: CiagPlan): CreateOrUpdateInducti
 
 const toCreateOrUpdateWorkOnReleaseDto = (ciagPlan: CiagPlan) => {
   return {
+    reference: ciagPlan.workOnReleaseReference,
     hopingToWork: ciagPlan.hopingToGetWork,
     notHopingToWorkReasons: ciagPlan.reasonToNotGetWork,
     notHopingToWorkOtherReason: ciagPlan.reasonToNotGetWorkOther,
@@ -27,6 +28,7 @@ const toCreateOrUpdateWorkOnReleaseDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.qualificationsAndTraining
     ? {
+        reference: ciagPlan.qualificationsAndTraining.qualificationsReference,
         educationLevel: ciagPlan.qualificationsAndTraining.educationLevel,
         qualifications: ciagPlan.qualificationsAndTraining.qualifications?.map(qualification => {
           return {
@@ -41,6 +43,7 @@ const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdatePreviousTrainingDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.qualificationsAndTraining
     ? {
+        reference: ciagPlan.qualificationsAndTraining.trainingReference,
         trainingTypes: ciagPlan.qualificationsAndTraining.additionalTraining,
         trainingTypeOther: ciagPlan.qualificationsAndTraining.additionalTrainingOther,
       }
@@ -50,6 +53,7 @@ const toCreateOrUpdatePreviousTrainingDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.workExperience
     ? {
+        reference: ciagPlan.workExperience.reference,
         hasWorkedBefore: ciagPlan.workExperience.hasWorkedBefore,
         experiences: ciagPlan.workExperience.workExperience?.map(experience => {
           return {
@@ -68,6 +72,7 @@ const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.inPrisonInterests
     ? {
+        reference: ciagPlan.inPrisonInterests.reference,
         inPrisonWorkInterests: ciagPlan.inPrisonInterests.inPrisonWork?.map(workInterest => {
           return {
             workType: workInterest,
@@ -87,6 +92,7 @@ const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.skillsAndInterests
     ? {
+        reference: ciagPlan.skillsAndInterests.reference,
         skills: ciagPlan.skillsAndInterests.skills?.map(skill => {
           return {
             skillType: skill,
@@ -105,6 +111,7 @@ const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
 const toCreateOrUpdateFutureWorkInterestsDto = (ciagPlan: CiagPlan) => {
   return ciagPlan.workExperience?.workInterests
     ? {
+        reference: ciagPlan.workExperience.workInterests.reference,
         interests: ciagPlan.workExperience.workInterests.workInterests?.map(interest => {
           return {
             workType: interest,
