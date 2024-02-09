@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import populateUserDetails from './populateUserDetails'
 import UserService from '../services/userService'
-import logger from '../log'
+import logger from '../../logger'
 
-jest.mock('../log')
+jest.mock('../../logger')
 jest.mock('../services/userService')
 
 describe('populateUserDetails middleware', () => {
