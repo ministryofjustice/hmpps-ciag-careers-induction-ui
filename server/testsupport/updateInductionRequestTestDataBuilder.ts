@@ -40,6 +40,12 @@ const anUpdateLongQuestionSetInduction = (options?: {
         options.hasWorkedBefore === true
           ? [
               {
+                experienceType: TypeOfWorkExperienceValue.CONSTRUCTION,
+                experienceTypeOther: undefined,
+                role: 'General labourer',
+                details: 'Groundwork and basic block work and bricklaying',
+              },
+              {
                 experienceType: TypeOfWorkExperienceValue.OTHER,
                 experienceTypeOther: 'Retail delivery',
                 role: 'Milkman',
@@ -59,7 +65,7 @@ const anUpdateLongQuestionSetInduction = (options?: {
         {
           workType: WorkInterestsValue.OTHER,
           workTypeOther: 'Film, TV and media',
-          role: 'Being a stunt double for Tom Cruise, even though he does all his own stunts',
+          role: 'Being a stunt double for Tom Cruise',
         },
       ],
     },

@@ -12,8 +12,10 @@ import WorkInterestsValue from '../../../enums/workInterestsValue'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
 
 export default interface CiagPlan {
+  reference?: string
   offenderId: string
 
+  workOnReleaseReference?: string
   desireToWork: boolean
   hopingToGetWork: HopingToGetWorkValue
 
@@ -32,6 +34,7 @@ export default interface CiagPlan {
   prisonName?: string
 
   workExperience?: {
+    reference?: string
     id?: number
 
     hasWorkedBefore: boolean
@@ -48,6 +51,7 @@ export default interface CiagPlan {
     modifiedDateTime: string
 
     workInterests?: {
+      reference?: string
       id?: number
 
       workInterests: Array<WorkInterestsValue>
@@ -64,6 +68,7 @@ export default interface CiagPlan {
   }
 
   skillsAndInterests?: {
+    reference?: string
     id?: number
 
     skills: Array<SkillsValue>
@@ -77,6 +82,7 @@ export default interface CiagPlan {
   }
 
   qualificationsAndTraining?: {
+    qualificationsReference?: string
     id?: number
 
     educationLevel?: EducationLevelValue
@@ -87,6 +93,7 @@ export default interface CiagPlan {
       level: QualificationLevelValue
     }>
 
+    trainingReference?: string
     additionalTraining: Array<AdditionalTrainingValue>
     additionalTrainingOther?: string
 
@@ -95,6 +102,7 @@ export default interface CiagPlan {
   }
 
   inPrisonInterests?: {
+    reference?: string
     id?: number
 
     inPrisonWork: Array<InPrisonWorkValue>
