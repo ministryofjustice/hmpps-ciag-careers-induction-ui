@@ -14,7 +14,9 @@ import achievedQualificationDtoComparator from './achievedQualificationDtoCompar
 
 const toCiagPlan = (inductionDto: InductionDto): CiagPlan => {
   return {
+    reference: inductionDto.reference,
     offenderId: inductionDto.prisonNumber,
+    workOnReleaseReference: inductionDto.workOnRelease.reference,
     desireToWork: inductionDto.workOnRelease.hopingToWork === HopingToGetWorkValue.YES,
     hopingToGetWork: inductionDto.workOnRelease.hopingToWork,
     reasonToNotGetWork: inductionDto.workOnRelease.notHopingToWorkReasons?.sort(enumComparator),
@@ -39,6 +41,7 @@ const toCiagPlan = (inductionDto: InductionDto): CiagPlan => {
 const toWorkExperience = (inductionDto: InductionDto) => {
   return inductionDto.previousWorkExperiences
     ? {
+        reference: inductionDto.previousWorkExperiences.reference,
         hasWorkedBefore: inductionDto.previousWorkExperiences.hasWorkedBefore,
         typeOfWorkExperience: inductionDto.previousWorkExperiences.experiences
           .map(experience => experience.experienceType)
@@ -60,6 +63,7 @@ const toWorkExperience = (inductionDto: InductionDto) => {
 
         workInterests: inductionDto.futureWorkInterests
           ? {
+              reference: inductionDto.futureWorkInterests.reference,
               workInterests: inductionDto.futureWorkInterests.interests
                 .map(interest => interest.workType)
                 .sort(enumComparator),
@@ -85,6 +89,7 @@ const toWorkExperience = (inductionDto: InductionDto) => {
 const toSkillsAndInterests = (inductionDto: InductionDto) => {
   return inductionDto.personalSkillsAndInterests
     ? {
+        reference: inductionDto.personalSkillsAndInterests.reference,
         skills: inductionDto.personalSkillsAndInterests.skills.map(skill => skill.skillType).sort(enumComparator),
         skillsOther: inductionDto.personalSkillsAndInterests.skills.find(skill => skill.skillType === SkillsValue.OTHER)
           ?.skillTypeOther,
@@ -103,6 +108,7 @@ const toSkillsAndInterests = (inductionDto: InductionDto) => {
 const toQualificationsAndTraining = (inductionDto: InductionDto) => {
   return inductionDto.previousQualifications
     ? {
+        qualificationsReference: inductionDto.previousQualifications.reference,
         educationLevel: inductionDto.previousQualifications.educationLevel,
         qualifications: inductionDto.previousQualifications.qualifications
           .sort(achievedQualificationDtoComparator)
@@ -113,6 +119,7 @@ const toQualificationsAndTraining = (inductionDto: InductionDto) => {
               level: qualification.level,
             }
           }),
+        trainingReference: inductionDto.previousTraining.reference,
         additionalTraining: (inductionDto.previousTraining?.trainingTypes || []).sort(enumComparator),
         additionalTrainingOther: inductionDto.previousTraining?.trainingTypeOther,
         modifiedBy: inductionDto.previousQualifications.updatedBy,
@@ -123,6 +130,7 @@ const toQualificationsAndTraining = (inductionDto: InductionDto) => {
 const toInPrisonInterests = (inductionDto: InductionDto) => {
   return inductionDto.inPrisonInterests
     ? {
+        reference: inductionDto.inPrisonInterests.reference,
         inPrisonWork: inductionDto.inPrisonInterests.inPrisonWorkInterests
           .map(workInterest => workInterest.workType)
           .sort(enumComparator),

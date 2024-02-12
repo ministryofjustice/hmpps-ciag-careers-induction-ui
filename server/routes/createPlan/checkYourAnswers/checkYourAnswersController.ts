@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express'
+import { RequestHandler, Request, Response } from 'express'
 
 import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
@@ -45,133 +45,157 @@ export default class CheckYourAnswersController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner, plan } = req.context
 
     try {
-      const record = getSessionData(req, ['createPlan', id])
-      const newCiagPlan: CiagPlan = {
-        offenderId: id,
-        desireToWork: record.hopingToWork === YesNoValue.YES,
-        hopingToGetWork: record.hopingToGetWork,
-        reasonToNotGetWork: record.reasonToNotGetWork,
-        reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
-        abilityToWork: record.abilityToWork,
-        abilityToWorkOther: record.abilityToWorkOther,
-        workExperience: record.hasWorkedBefore
-          ? {
-              hasWorkedBefore: record.hasWorkedBefore === YesNoValue.YES,
-              typeOfWorkExperience: record.typeOfWorkExperience,
-              typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
-              workExperience: record.workExperience,
-              modifiedBy: undefined,
-              modifiedDateTime: undefined,
-              workInterests: {
-                workInterests: record.workInterests,
-                workInterestsOther: record.workInterestsOther,
-                particularJobInterests: record.particularJobInterests,
-                modifiedBy: undefined,
-                modifiedDateTime: undefined,
-              },
-            }
-          : undefined,
-        skillsAndInterests:
-          record.skills && record.personalInterests
-            ? {
-                skills: record.skills,
-                skillsOther: record.skillsOther,
-                personalInterests: record.personalInterests,
-                personalInterestsOther: record.personalInterestsOther,
-                modifiedBy: undefined,
-                modifiedDateTime: undefined,
-              }
-            : undefined,
-        qualificationsAndTraining: {
-          educationLevel: record.educationLevel,
-          qualifications: record.qualifications,
-          additionalTraining: record.additionalTraining,
-          additionalTrainingOther: record.additionalTrainingOther,
-          modifiedBy: undefined,
-          modifiedDateTime: undefined,
-        },
-        inPrisonInterests:
-          record.inPrisonWork && record.inPrisonEducation
-            ? {
-                inPrisonWork: record.inPrisonWork,
-                inPrisonWorkOther: record.inPrisonWorkOther,
-                inPrisonEducation: record.inPrisonEducation,
-                inPrisonEducationOther: record.inPrisonEducationOther,
-                modifiedBy: undefined,
-                modifiedDateTime: undefined,
-              }
-            : undefined,
-        prisonId: prisoner.prisonId,
-        prisonName: prisoner.prisonName,
-        createdBy: undefined,
-        createdDateTime: undefined,
-        modifiedBy: undefined,
-        modifiedDateTime: undefined,
-      }
-
-      // TODO - RR-527 - use CiagPlan instead
-      // Setup required data for api
-      const newRecord = {
-        prisonerId: id,
-        bookingId: prisoner.bookingId,
-        currentUser: res.locals.user.username,
-        hopingToGetWork: record.hopingToGetWork,
-        reasonToNotGetWork: record.reasonToNotGetWork,
-        reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
-        abilityToWork: record.abilityToWork,
-        abilityToWorkOther: record.abilityToWorkOther,
-        hasWorkedBefore: record.hasWorkedBefore,
-        typeOfWorkExperience: record.typeOfWorkExperience,
-        typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
-        workExperience: record.workExperience,
-        workInterests: record.workInterests,
-        workInterestsOther: record.workInterestsOther,
-        particularJobInterests: record.particularJobInterests,
-        skills: record.skills,
-        skillsOther: record.skillsOther,
-        personalInterests: record.personalInterests,
-        personalInterestsOther: record.personalInterestsOther,
-        educationLevel: record.educationLevel,
-        qualifications: record.qualifications,
-        additionalTraining: record.additionalTraining,
-        additionalTrainingOther: record.additionalTrainingOther,
-        inPrisonWork: record.inPrisonWork,
-        inPrisonWorkOther: record.inPrisonWorkOther,
-        inPrisonEducation: record.inPrisonEducation,
-        inPrisonEducationOther: record.inPrisonEducationOther,
-        prisonId: prisoner.prisonId,
-        prisonName: prisoner.prisonName,
-      }
-
-      // Handle flow update, an update when hopingToGetWork was changed
+      // Check if the Induction is being updated
       if (getSessionData(req, ['isUpdateFlow', id])) {
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new FlowUpdateCiagPlanRequest(newRecord, plan))
-
-        deleteSessionData(req, ['isUpdateFlow', id])
-        deleteSessionData(req, ['createPlan', id])
-        deleteSessionData(req, ['changeStatus', id])
-
+        await this.updateInduction(req, res)
         res.redirect(addressLookup.learningPlan.profile(id))
-        return
-      }
-
-      if (config.featureToggles.useNewInductionApiEnabled) {
-        const dto = toCreateOrUpdateInductionDto(newCiagPlan)
-        await this.inductionService.createInduction(id, dto, res.locals.user.token)
       } else {
-        await this.ciagService.createCiagPlan(res.locals.user.token, id, newRecord)
+        // else we are creating a new Induction
+        await this.createNewInduction(req, res)
+        res.redirect(`${config.learningPlanUrl}/plan/${id}/induction-created`)
       }
-
-      // Tidy up record in session
-      deleteSessionData(req, ['createPlan', id])
-      deleteSessionData(req, ['changeStatus', id])
-
-      res.redirect(`${config.learningPlanUrl}/plan/${id}/induction-created`)
     } catch (err) {
       next(err)
     }
+  }
+
+  private async updateInduction(req: Request, res: Response) {
+    const { id } = req.params
+    const { plan } = req.context
+    const updatedFormObject = getInductionFormObject(req, res)
+    const flowUpdateCiagPlanRequest = new FlowUpdateCiagPlanRequest(updatedFormObject, plan)
+    if (config.featureToggles.useNewInductionApiEnabled) {
+      const dto = toCreateOrUpdateInductionDto(flowUpdateCiagPlanRequest)
+      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
+    } else {
+      await this.ciagService.updateCiagPlan(res.locals.user.token, id, flowUpdateCiagPlanRequest)
+    }
+
+    deleteSessionData(req, ['isUpdateFlow', id])
+    deleteSessionData(req, ['createPlan', id])
+    deleteSessionData(req, ['changeStatus', id])
+  }
+
+  private async createNewInduction(req: Request, res: Response) {
+    const { id } = req.params
+    if (config.featureToggles.useNewInductionApiEnabled) {
+      const createInductionDto = toCreateOrUpdateInductionDto(newInduction(req))
+      await this.inductionService.createInduction(id, createInductionDto, res.locals.user.token)
+    } else {
+      const newInductionFormObject = getInductionFormObject(req, res)
+      await this.ciagService.createCiagPlan(res.locals.user.token, id, newInductionFormObject)
+    }
+
+    // Tidy up record in session
+    deleteSessionData(req, ['createPlan', id])
+    deleteSessionData(req, ['changeStatus', id])
+  }
+}
+
+const newInduction = (req: Request): CiagPlan => {
+  const { id } = req.params
+  const { prisoner } = req.context
+  const record = getSessionData(req, ['createPlan', id])
+  return {
+    offenderId: id,
+    desireToWork: record.hopingToWork === YesNoValue.YES,
+    hopingToGetWork: record.hopingToGetWork,
+    reasonToNotGetWork: record.reasonToNotGetWork,
+    reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
+    abilityToWork: record.abilityToWork,
+    abilityToWorkOther: record.abilityToWorkOther,
+    workExperience: record.hasWorkedBefore
+      ? {
+          hasWorkedBefore: record.hasWorkedBefore === YesNoValue.YES,
+          typeOfWorkExperience: record.typeOfWorkExperience,
+          typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
+          workExperience: record.workExperience,
+          modifiedBy: undefined,
+          modifiedDateTime: undefined,
+          workInterests: {
+            workInterests: record.workInterests,
+            workInterestsOther: record.workInterestsOther,
+            particularJobInterests: record.particularJobInterests,
+            modifiedBy: undefined,
+            modifiedDateTime: undefined,
+          },
+        }
+      : undefined,
+    skillsAndInterests:
+      record.skills && record.personalInterests
+        ? {
+            skills: record.skills,
+            skillsOther: record.skillsOther,
+            personalInterests: record.personalInterests,
+            personalInterestsOther: record.personalInterestsOther,
+            modifiedBy: undefined,
+            modifiedDateTime: undefined,
+          }
+        : undefined,
+    qualificationsAndTraining: {
+      educationLevel: record.educationLevel,
+      qualifications: record.qualifications,
+      additionalTraining: record.additionalTraining,
+      additionalTrainingOther: record.additionalTrainingOther,
+      modifiedBy: undefined,
+      modifiedDateTime: undefined,
+    },
+    inPrisonInterests:
+      record.inPrisonWork && record.inPrisonEducation
+        ? {
+            inPrisonWork: record.inPrisonWork,
+            inPrisonWorkOther: record.inPrisonWorkOther,
+            inPrisonEducation: record.inPrisonEducation,
+            inPrisonEducationOther: record.inPrisonEducationOther,
+            modifiedBy: undefined,
+            modifiedDateTime: undefined,
+          }
+        : undefined,
+    prisonId: prisoner.prisonId,
+    prisonName: prisoner.prisonName,
+    createdBy: undefined,
+    createdDateTime: undefined,
+    modifiedBy: undefined,
+    modifiedDateTime: undefined,
+  }
+}
+
+const getInductionFormObject = (req: Request, res: Response) => {
+  const { id } = req.params
+  const { prisoner } = req.context
+  const record = getSessionData(req, ['createPlan', id])
+
+  return {
+    prisonerId: id,
+    bookingId: prisoner.bookingId,
+    currentUser: res.locals.user.username,
+    hopingToGetWork: record.hopingToGetWork,
+    reasonToNotGetWork: record.reasonToNotGetWork,
+    reasonToNotGetWorkOther: record.reasonToNotGetWorkOther,
+    abilityToWork: record.abilityToWork,
+    abilityToWorkOther: record.abilityToWorkOther,
+    hasWorkedBefore: record.hasWorkedBefore,
+    typeOfWorkExperience: record.typeOfWorkExperience,
+    typeOfWorkExperienceOther: record.typeOfWorkExperienceOther,
+    workExperience: record.workExperience,
+    workInterests: record.workInterests,
+    workInterestsOther: record.workInterestsOther,
+    particularJobInterests: record.particularJobInterests,
+    skills: record.skills,
+    skillsOther: record.skillsOther,
+    personalInterests: record.personalInterests,
+    personalInterestsOther: record.personalInterestsOther,
+    educationLevel: record.educationLevel,
+    qualifications: record.qualifications,
+    additionalTraining: record.additionalTraining,
+    additionalTrainingOther: record.additionalTrainingOther,
+    inPrisonWork: record.inPrisonWork,
+    inPrisonWorkOther: record.inPrisonWorkOther,
+    inPrisonEducation: record.inPrisonEducation,
+    inPrisonEducationOther: record.inPrisonEducationOther,
+    prisonId: prisoner.prisonId,
+    prisonName: prisoner.prisonName,
   }
 }

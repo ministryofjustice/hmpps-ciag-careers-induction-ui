@@ -24,7 +24,9 @@ describe('ciagPlanMapper', () => {
     const inductionDto = aShortQuestionSetInductionDto({ prisonNumber })
 
     const expected: CiagPlan = {
+      reference: '814ade0a-a3b2-46a3-862f-79211ba13f7b',
       offenderId: prisonNumber,
+      workOnReleaseReference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
       desireToWork: false,
       hopingToGetWork: HopingToGetWorkValue.NO,
       reasonToNotGetWork: [ReasonToNotGetWorkValue.HEALTH, ReasonToNotGetWorkValue.OTHER],
@@ -37,6 +39,8 @@ describe('ciagPlanMapper', () => {
       workExperience: undefined,
       skillsAndInterests: undefined,
       qualificationsAndTraining: {
+        qualificationsReference: 'dea24acc-fde5-4ead-a9eb-e1757de2542c',
+        trainingReference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
         additionalTraining: [AdditionalTrainingValue.FULL_UK_DRIVING_LICENCE, AdditionalTrainingValue.OTHER],
         additionalTrainingOther: 'Beginners cookery for IT professionals',
         educationLevel: null,
@@ -48,6 +52,7 @@ describe('ciagPlanMapper', () => {
         modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       inPrisonInterests: {
+        reference: 'ae6a6a94-df32-4a90-b39d-ff1a100a6da0',
         inPrisonEducation: [
           InPrisonEducationValue.CATERING,
           InPrisonEducationValue.FORKLIFT_DRIVING,
@@ -81,7 +86,9 @@ describe('ciagPlanMapper', () => {
     const inductionDto = aLongQuestionSetInductionDto({ prisonNumber })
 
     const expected: CiagPlan = {
+      reference: '814ade0a-a3b2-46a3-862f-79211ba13f7b',
       offenderId: prisonNumber,
+      workOnReleaseReference: 'bdebe39f-6f85-459b-81be-a26341c3fe3c',
       desireToWork: true,
       hopingToGetWork: HopingToGetWorkValue.YES,
       reasonToNotGetWork: undefined,
@@ -92,6 +99,7 @@ describe('ciagPlanMapper', () => {
       // The properties workExperience, skillsAndInterests, qualificationsAndTraining and inPrisonInterests are
       // fundamentally the difference between a short and long question set CiagPlan
       workExperience: {
+        reference: 'bb45462e-8225-490d-8c1c-ad6692223d4d',
         hasWorkedBefore: true,
         typeOfWorkExperience: [TypeOfWorkExperienceValue.CONSTRUCTION, TypeOfWorkExperienceValue.OTHER],
         typeOfWorkExperienceOther: 'Retail delivery',
@@ -108,6 +116,7 @@ describe('ciagPlanMapper', () => {
           },
         ],
         workInterests: {
+          reference: 'cad34670-691d-4862-8014-dc08a6f620b9',
           workInterests: [WorkInterestsValue.CONSTRUCTION, WorkInterestsValue.RETAIL, WorkInterestsValue.OTHER],
           workInterestsOther: 'Film, TV and media',
           particularJobInterests: [
@@ -125,6 +134,7 @@ describe('ciagPlanMapper', () => {
         modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       skillsAndInterests: {
+        reference: '517c470f-f9b5-4d49-9148-4458fe358439',
         personalInterests: [
           PersonalInterestsValue.CREATIVE,
           PersonalInterestsValue.DIGITAL,
@@ -137,6 +147,8 @@ describe('ciagPlanMapper', () => {
         modifiedDateTime: '2023-06-19T09:39:44.000Z',
       },
       qualificationsAndTraining: {
+        qualificationsReference: 'dea24acc-fde5-4ead-a9eb-e1757de2542c',
+        trainingReference: 'a8e1fe50-1e3b-4784-a27f-ee1c54fc7616',
         additionalTraining: [
           AdditionalTrainingValue.FIRST_AID_CERTIFICATE,
           AdditionalTrainingValue.MANUAL_HANDLING,
