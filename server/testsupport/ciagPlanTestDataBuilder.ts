@@ -88,7 +88,6 @@ const aLongQuestionSetCiagPlan = (options?: { prisonNumber?: string }): CiagPlan
     modifiedBy: 'asmith_gen',
     modifiedDateTime: '2023-06-19T09:39:44.000Z',
     prisonId: 'MDI',
-    prisonName: undefined,
   }
 }
 
@@ -135,7 +134,6 @@ const aShortQuestionSetCiagPlan = (options?: { prisonNumber?: string }): CiagPla
     modifiedBy: 'asmith_gen',
     modifiedDateTime: '2023-06-19T09:39:44.000Z',
     prisonId: 'MDI',
-    prisonName: undefined,
   }
 }
 
