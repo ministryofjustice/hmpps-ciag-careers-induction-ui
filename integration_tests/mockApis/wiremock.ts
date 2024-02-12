@@ -13,7 +13,6 @@ const getMatchingRequestBody = <BODY>(method: string, urlPattern: string): Promi
     urlPattern,
   }).then(data => {
     const { requests } = JSON.parse(data.text)
-    console.log(`requests[0].body`, requests[0].body)
     return JSON.parse(requests[0].body)
   })
 
