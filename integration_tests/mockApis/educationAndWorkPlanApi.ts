@@ -360,6 +360,9 @@ const stubUpdateInduction = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
     },
   })
 
+const getCreateInductionRequestBody = (prisonNumber: string): Promise<UpdateInductionRequest> =>
+  getMatchingRequestBody('POST', `/inductions/${prisonNumber}`)
+
 const getUpdateInductionRequestBody = (prisonNumber: string): Promise<UpdateInductionRequest> =>
   getMatchingRequestBody('PUT', `/inductions/${prisonNumber}`)
 
@@ -371,5 +374,6 @@ export default {
   stubCreateInduction,
   stubRedirectToPlpAfterCreateInduction,
   stubUpdateInduction,
+  getCreateInductionRequestBody,
   getUpdateInductionRequestBody,
 }
