@@ -1,5 +1,6 @@
+import type { UpdateInductionRequest } from 'educationAndWorkPlanApiClient'
 import { SuperAgentRequest } from 'superagent'
-import { stubFor } from './wiremock'
+import { getMatchingRequestBody, stubFor } from './wiremock'
 
 const stubGetInductionLongQuestionSet = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
   stubFor({
@@ -359,6 +360,9 @@ const stubUpdateInduction = (prisonNumber = 'G6115VJ'): SuperAgentRequest =>
     },
   })
 
+const getUpdateInductionRequestBody = (prisonNumber: string): Promise<UpdateInductionRequest> =>
+  getMatchingRequestBody('PUT', `/inductions/${prisonNumber}`)
+
 export default {
   stubGetInductionShortQuestionSet,
   stubGetInductionLongQuestionSet,
@@ -367,4 +371,5 @@ export default {
   stubCreateInduction,
   stubRedirectToPlpAfterCreateInduction,
   stubUpdateInduction,
+  getUpdateInductionRequestBody,
 }
