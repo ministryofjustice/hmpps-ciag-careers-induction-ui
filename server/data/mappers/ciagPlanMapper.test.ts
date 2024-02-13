@@ -70,7 +70,6 @@ describe('ciagPlanMapper', () => {
       modifiedBy: 'asmith_gen',
       modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'MDI',
-      prisonName: undefined,
     }
 
     // When
@@ -167,7 +166,6 @@ describe('ciagPlanMapper', () => {
       modifiedBy: 'asmith_gen',
       modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'MDI',
-      prisonName: undefined,
     }
 
     // When
