@@ -11,13 +11,19 @@ import pageTitleLookup from '../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import CiagService from '../../../services/ciagService'
+import InductionService from '../../../services/inductionService'
 import uuidv4 from '../../../utils/guid'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import YesNoValue from '../../../enums/yesNoValue'
 import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
+import config from '../../../config'
+import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
 
 export default class HopingToGetWorkController {
-  constructor(private readonly ciagService: CiagService) {}
+  constructor(
+    private readonly ciagService: CiagService,
+    private readonly inductionService: InductionService,
+  ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -136,7 +142,13 @@ export default class HopingToGetWorkController {
         }
 
         // Call api
-        await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+        const updateCiagPlanRequest = new UpdateCiagPlanRequest(updatedPlan)
+        if (config.featureToggles.useNewInductionApiEnabled) {
+          const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
+          await this.inductionService.updateInduction(id, dto, res.locals.user.token)
+        } else {
+          await this.ciagService.updateCiagPlan(res.locals.user.token, id, updateCiagPlanRequest)
+        }
       }
 
       res.redirect(addressLookup.learningPlan.profile(id))

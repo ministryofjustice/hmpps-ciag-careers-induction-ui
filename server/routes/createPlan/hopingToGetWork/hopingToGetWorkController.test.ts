@@ -10,6 +10,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import YesNoValue from '../../../enums/yesNoValue'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -44,11 +45,15 @@ describe('HopingToGetWorkController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const mockService: any = {
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -213,7 +218,8 @@ describe('HopingToGetWorkController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
 
-    it('On success - UPDATE - hopingToGetWork no logic change - Calls API', async () => {
+    it('On success - UPDATE - hopingToGetWork no logic change - Calls CIAG API', async () => {
+      config.featureToggles.useNewInductionApiEnabled = false
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NO, desireToWork: false }
@@ -221,10 +227,23 @@ describe('HopingToGetWorkController', () => {
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
+    })
+
+    it('On success - UPDATE - hopingToGetWork no logic change - Calls Induction API', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.params.mode = 'update'
+      req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
+      req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NO, desireToWork: false }
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     })
 
     it('On success - UPDATE - hopingToGetWork change to POSITIVE - Sets session record then redirects to qualifications', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.YES
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NOT_SURE, desireToWork: false }
@@ -240,9 +259,11 @@ describe('HopingToGetWorkController', () => {
         wantsToAddQualifications: YesNoValue.NO,
         qualifications: [],
       })
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     })
 
     it('On success - UPDATE - hopingToGetWork change to NEGATIVE - Sets session record then redirects to reasonToNotGetWork', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.NO
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.YES, desireToWork: true }
@@ -258,6 +279,7 @@ describe('HopingToGetWorkController', () => {
         wantsToAddQualifications: YesNoValue.NO,
         qualifications: [],
       })
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     })
   })
 })
