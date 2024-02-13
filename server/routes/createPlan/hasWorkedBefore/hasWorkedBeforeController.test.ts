@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import YesNoValue from '../../../enums/yesNoValue'
 import uuidv4 from '../../../utils/guid'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -51,11 +52,17 @@ describe('HasWorkedBeforeController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const mockService: any = {
+  res.locals.user = {}
+
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -137,8 +144,9 @@ describe('HasWorkedBeforeController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - hasWorkedBefore = YES - Sets session record then redirects to typeOfWorkExperience', async () => {
+    it('On success - mode = new - hasWorkedBefore = YES - Sets session record then redirects to typeOfWorkExperience', async () => {
       req.body.hasWorkedBefore = YesNoValue.YES
+      req.params.mode = 'new'
 
       controller.post(req, res, next)
 
@@ -149,8 +157,9 @@ describe('HasWorkedBeforeController', () => {
       })
     })
 
-    it('On success - hasWorkedBefore = NO - Sets session record then redirects to workInterests', async () => {
+    it('On success - mode = new - hasWorkedBefore = NO - Sets session record then redirects to workInterests', async () => {
       req.body.hasWorkedBefore = YesNoValue.NO
+      req.params.mode = 'new'
 
       controller.post(req, res, next)
 
@@ -162,6 +171,32 @@ describe('HasWorkedBeforeController', () => {
         typeOfWorkExperienceOther: '',
         workExperience: [],
       })
+    })
+
+    it('On success - mode = update - calls CIAG api and redirects to workInterests', async () => {
+      config.featureToggles.useNewInductionApiEnabled = false
+      req.context.plan = { workExperience: {} }
+      req.body.hasWorkedBefore = YesNoValue.NO
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'work-and-interests'))
+    })
+
+    it('On success - mode = update - calls Induction api and redirects to workInterests', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.context.plan = { workExperience: {} }
+      req.body.hasWorkedBefore = YesNoValue.NO
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'work-and-interests'))
     })
   })
 })
