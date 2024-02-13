@@ -15,6 +15,7 @@ import { getValueSafely } from '../../../utils'
 
 export default class UpdateCiagPlanRequest {
   constructor(data: CiagPlan) {
+    this.reference = data.reference
     this.offenderId = data.offenderId
     this.prisonId = data.prisonId
 
@@ -40,7 +41,11 @@ export default class UpdateCiagPlanRequest {
   }
 
   // Properties
+  reference?: string
+
   offenderId: string
+
+  workOnReleaseReference?: string
 
   desireToWork: boolean
 
@@ -65,6 +70,7 @@ export default class UpdateCiagPlanRequest {
   prisonId: string
 
   workExperience?: {
+    reference?: string
     id?: number
     hasWorkedBefore: boolean
     typeOfWorkExperience?: Array<TypeOfWorkExperienceValue>
@@ -78,6 +84,7 @@ export default class UpdateCiagPlanRequest {
     modifiedDateTime: string
 
     workInterests?: {
+      reference?: string
       id?: number
       workInterests: Array<WorkInterestsValue>
       workInterestsOther?: string
@@ -91,6 +98,7 @@ export default class UpdateCiagPlanRequest {
   }
 
   skillsAndInterests?: {
+    reference?: string
     id?: number
     skills: Array<SkillsValue>
     skillsOther?: string
@@ -101,6 +109,7 @@ export default class UpdateCiagPlanRequest {
   }
 
   qualificationsAndTraining?: {
+    qualificationsReference?: string
     id?: number
     educationLevel?: EducationLevelValue
     qualifications?: Array<{
@@ -108,6 +117,8 @@ export default class UpdateCiagPlanRequest {
       grade: string
       level: QualificationLevelValue
     }>
+
+    trainingReference?: string
     additionalTraining: Array<AdditionalTrainingValue>
     additionalTrainingOther?: string
     modifiedBy: string
@@ -115,6 +126,7 @@ export default class UpdateCiagPlanRequest {
   }
 
   inPrisonInterests?: {
+    reference?: string
     id?: number
     inPrisonWork: Array<InPrisonWorkValue>
     inPrisonWorkOther?: string

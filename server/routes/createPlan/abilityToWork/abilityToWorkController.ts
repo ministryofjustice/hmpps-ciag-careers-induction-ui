@@ -11,9 +11,15 @@ import CiagService from '../../../services/ciagService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { getValueSafely } from '../../../utils'
 import { isCreateMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
+import config from '../../../config'
+import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
+import { InductionService } from '../../../services'
 
 export default class AbilityToWorkController {
-  constructor(private readonly ciagService: CiagService) {}
+  constructor(
+    private readonly ciagService: CiagService,
+    private readonly inductionService: InductionService,
+  ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -114,7 +120,13 @@ export default class AbilityToWorkController {
     }
 
     // Call api
-    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+    const updateCiagPlanRequest = new UpdateCiagPlanRequest(updatedPlan)
+    if (config.featureToggles.useNewInductionApiEnabled) {
+      const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
+      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
+    } else {
+      await this.ciagService.updateCiagPlan(res.locals.user.token, id, updateCiagPlanRequest)
+    }
 
     res.redirect(addressLookup.learningPlan.profile(id))
   }
