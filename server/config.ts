@@ -38,9 +38,6 @@ export default {
   https: production,
   staticResourceCacheDuration: '1h',
   displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
-  paginationPageSize: 50,
-  recordingLifetimeDays: 90,
-  maximumNumberOfRecordsToReturn: 9999,
   redis: {
     host: get('REDIS_HOST', 'localhost', requiredInProduction),
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,

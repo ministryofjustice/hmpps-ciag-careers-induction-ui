@@ -62,7 +62,6 @@ describe('createOrUpdateInductionDtoMapper', () => {
       modifiedBy: 'asmith_gen',
       modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'BXI',
-      prisonName: undefined,
     }
     const expected = anUpdateShortQuestionSetInductionDto()
 
@@ -148,7 +147,6 @@ describe('createOrUpdateInductionDtoMapper', () => {
       modifiedBy: 'asmith_gen',
       modifiedDateTime: '2023-06-19T09:39:44.000Z',
       prisonId: 'BXI',
-      prisonName: undefined,
     }
     const expected = anUpdateLongQuestionSetInductionDto()
 
