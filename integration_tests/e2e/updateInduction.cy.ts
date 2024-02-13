@@ -1,3 +1,4 @@
+import type { UpdateInductionRequest } from 'educationAndWorkPlanApiClient'
 import HopingToGetWorkPage from '../pages/hopingToGetWork'
 import ReasonToNotGetWork from '../pages/reasonToNotGetWork'
 import QualificationsPage from '../pages/qualifications'
@@ -65,6 +66,11 @@ context(
 
       // Then
       Page.verifyOnPage(PlpWorkAndInterestsPage)
+      cy.task<UpdateInductionRequest>('getUpdateInductionRequestBody', 'G6115VJ')
+        .then(request => {
+          return request.reference
+        })
+        .should('equal', '814ade0a-a3b2-46a3-862f-79211ba13f7b')
     })
   },
 )

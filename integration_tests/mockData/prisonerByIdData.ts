@@ -8,6 +8,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'A00001A',
         firstName: 'Paris',
         lastName: 'Jones',
@@ -25,6 +26,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'H4115SD',
         firstName: 'Billy',
         lastName: 'Jean',
@@ -42,6 +44,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'G5005GD',
         firstName: 'John',
         lastName: 'Smith',
@@ -59,6 +62,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'G6115VJ',
         firstName: 'Daniel',
         lastName: 'Craig',
@@ -76,6 +80,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'A3260DZ',
         firstName: 'Joe',
         lastName: 'Bloggs',
@@ -93,6 +98,7 @@ const prisoners = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        prisonId: 'MDI',
         prisonerNumber: 'B79237A',
         firstName: 'Jane',
         lastName: 'Doe',
