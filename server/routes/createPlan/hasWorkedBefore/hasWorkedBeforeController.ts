@@ -114,19 +114,6 @@ export default class HasWorkedBeforeController {
     const { hasWorkedBefore } = req.body
     const { plan, prisoner } = req.context
 
-    //
-    //     // Update data model
-    //     const updatedPlan = {
-    //       ...plan,
-    //       prisonId: prisoner.prisonId,
-    //       qualificationsAndTraining: {
-    //         ...plan.qualificationsAndTraining,
-    //         educationLevel,
-    //         modifiedBy: res.locals.user.username,
-    //         modifiedDateTime: new Date().toISOString(),
-    //       },
-    //     }
-
     // Update data model
     const updatedPlan = {
       ...plan,
