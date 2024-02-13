@@ -17,7 +17,6 @@ export default class UpdateCiagPlanRequest {
   constructor(data: CiagPlan) {
     this.offenderId = data.offenderId
     this.prisonId = data.prisonId
-    this.prisonName = data.prisonName
 
     this.desireToWork = data.desireToWork
     this.hopingToGetWork = data.hopingToGetWork
@@ -64,8 +63,6 @@ export default class UpdateCiagPlanRequest {
   modifiedDateTime: string
 
   prisonId: string
-
-  prisonName: string
 
   workExperience?: {
     id?: number

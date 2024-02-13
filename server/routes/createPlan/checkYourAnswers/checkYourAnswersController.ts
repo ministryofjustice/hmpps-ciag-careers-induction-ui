@@ -154,7 +154,6 @@ const newInduction = (req: Request): CiagPlan => {
           }
         : undefined,
     prisonId: prisoner.prisonId,
-    prisonName: prisoner.prisonName,
     createdBy: undefined,
     createdDateTime: undefined,
     modifiedBy: undefined,
@@ -196,6 +195,5 @@ const getInductionFormObject = (req: Request, res: Response) => {
     inPrisonEducation: record.inPrisonEducation,
     inPrisonEducationOther: record.inPrisonEducationOther,
     prisonId: prisoner.prisonId,
-    prisonName: prisoner.prisonName,
   }
 }

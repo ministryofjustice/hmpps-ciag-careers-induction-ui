@@ -1,7 +1,6 @@
 import { dataAccess } from '../data'
 import UserService from './userService'
 import PrisonerSearchService from './prisonSearchService'
-import PaginationService from './paginationServices'
 import CuriousEsweService from './curiousEsweService'
 import CiagService from './ciagService'
 import ComponentService from './componentService'
@@ -12,7 +11,6 @@ export const services = () => {
 
   const userService = new UserService(hmppsAuthClient)
   const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient)
-  const paginationService = new PaginationService()
   const curiousEsweService = new CuriousEsweService(hmppsAuthClient)
   const ciagService = new CiagService()
   const inductionService = new InductionService(educationAndWorkPlanClient)
@@ -21,7 +19,6 @@ export const services = () => {
   return {
     userService,
     prisonerSearchService,
-    paginationService,
     curiousEsweService,
     ciagService,
     inductionService,
@@ -31,12 +28,4 @@ export const services = () => {
 
 export type Services = ReturnType<typeof services>
 
-export {
-  UserService,
-  PrisonerSearchService,
-  PaginationService,
-  CuriousEsweService,
-  CiagService,
-  InductionService,
-  ComponentService,
-}
+export { UserService, PrisonerSearchService, CuriousEsweService, CiagService, InductionService, ComponentService }

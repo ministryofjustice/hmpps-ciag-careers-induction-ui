@@ -39,8 +39,6 @@ export default class FlowUpdateCiagPlanRequest {
     this.modifiedBy = data.currentUser
     this.modifiedDateTime = isoString
 
-    this.prisonName = data.prisonName
-
     // Retain existing values based on flow
     this.workExperience =
       data.hopingToGetWork === HopingToGetWorkValue.YES
@@ -130,8 +128,6 @@ export default class FlowUpdateCiagPlanRequest {
   modifiedBy: string
 
   modifiedDateTime: string
-
-  prisonName: string
 
   workExperience?: {
     reference?: string

@@ -34,7 +34,6 @@ const toCiagPlan = (inductionDto: InductionDto): CiagPlan => {
     modifiedBy: inductionDto.updatedBy,
     modifiedDateTime: inductionDto.updatedAt.toISOString(),
     prisonId: inductionDto.updatedAtPrison,
-    prisonName: undefined,
   }
 }
 
