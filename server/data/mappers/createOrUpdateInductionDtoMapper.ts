@@ -1,7 +1,8 @@
 import type { CreateOrUpdateInductionDto } from 'dto'
 import CiagPlan from '../ciagApi/interfaces/ciagPlan'
+import UpdateCiagPlanRequest from '../ciagApi/models/updateCiagPlanRequest'
 
-const toCreateOrUpdateInductionDto = (ciagPlan: CiagPlan): CreateOrUpdateInductionDto => {
+const toCreateOrUpdateInductionDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest): CreateOrUpdateInductionDto => {
   return {
     reference: ciagPlan.reference,
     prisonId: ciagPlan.prisonId,
@@ -15,7 +16,7 @@ const toCreateOrUpdateInductionDto = (ciagPlan: CiagPlan): CreateOrUpdateInducti
   }
 }
 
-const toCreateOrUpdateWorkOnReleaseDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdateWorkOnReleaseDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return {
     reference: ciagPlan.workOnReleaseReference,
     hopingToWork: ciagPlan.hopingToGetWork,
@@ -25,7 +26,7 @@ const toCreateOrUpdateWorkOnReleaseDto = (ciagPlan: CiagPlan) => {
     affectAbilityToWorkOther: ciagPlan.abilityToWorkOther,
   }
 }
-const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.qualificationsAndTraining
     ? {
         reference: ciagPlan.qualificationsAndTraining.qualificationsReference,
@@ -40,7 +41,7 @@ const toCreateOrUpdatePreviousQualificationsDto = (ciagPlan: CiagPlan) => {
       }
     : undefined
 }
-const toCreateOrUpdatePreviousTrainingDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdatePreviousTrainingDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.qualificationsAndTraining
     ? {
         reference: ciagPlan.qualificationsAndTraining.trainingReference,
@@ -50,7 +51,7 @@ const toCreateOrUpdatePreviousTrainingDto = (ciagPlan: CiagPlan) => {
     : undefined
 }
 
-const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.workExperience
     ? {
         reference: ciagPlan.workExperience.reference,
@@ -69,7 +70,7 @@ const toCreateOrUpdatePreviousWorkExperiencesDto = (ciagPlan: CiagPlan) => {
       }
     : undefined
 }
-const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.inPrisonInterests
     ? {
         reference: ciagPlan.inPrisonInterests.reference,
@@ -89,7 +90,7 @@ const toCreateOrUpdateInPrisonInterestsDto = (ciagPlan: CiagPlan) => {
       }
     : undefined
 }
-const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.skillsAndInterests
     ? {
         reference: ciagPlan.skillsAndInterests.reference,
@@ -108,7 +109,7 @@ const toCreateOrUpdatePersonalSkillsAndInterestsDto = (ciagPlan: CiagPlan) => {
       }
     : undefined
 }
-const toCreateOrUpdateFutureWorkInterestsDto = (ciagPlan: CiagPlan) => {
+const toCreateOrUpdateFutureWorkInterestsDto = (ciagPlan: CiagPlan | UpdateCiagPlanRequest) => {
   return ciagPlan.workExperience?.workInterests
     ? {
         reference: ciagPlan.workExperience.workInterests.reference,
