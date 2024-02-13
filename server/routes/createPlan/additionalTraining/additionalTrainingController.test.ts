@@ -10,6 +10,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
+import config from '../../../config'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -53,11 +54,15 @@ describe('AdditionalTrainingController', () => {
 
   res.locals.user = {}
 
-  const mockService: any = {
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -178,7 +183,8 @@ describe('AdditionalTrainingController', () => {
     })
   })
 
-  it('On success - mode = update - calls api and redirects to learning profile', async () => {
+  it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
+    config.featureToggles.useNewInductionApiEnabled = false
     req.context.plan = { qualificationsAndTraining: {} }
     req.body.additionalTraining = AdditionalTrainingValue.OTHER
     req.body.additionalTrainingOther = 'mock_details'
@@ -187,7 +193,21 @@ describe('AdditionalTrainingController', () => {
     await controller.post(req, res, next)
 
     expect(next).toHaveBeenCalledTimes(0)
-    expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+    expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
+    expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
+  })
+
+  it('On success - mode = update - calls Induction api and redirects to learning profile', async () => {
+    config.featureToggles.useNewInductionApiEnabled = true
+    req.context.plan = { qualificationsAndTraining: {} }
+    req.body.additionalTraining = AdditionalTrainingValue.OTHER
+    req.body.additionalTrainingOther = 'mock_details'
+    req.params.mode = 'update'
+
+    await controller.post(req, res, next)
+
+    expect(next).toHaveBeenCalledTimes(0)
+    expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
   })
 })
