@@ -6,7 +6,7 @@ import HasWorkedBeforeController from './hasWorkedBeforeController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new HasWorkedBeforeController(services.ciagService)
+  const controller = new HasWorkedBeforeController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/has-worked-before/:mode',

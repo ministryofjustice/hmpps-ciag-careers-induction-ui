@@ -7,7 +7,7 @@ import AdditionalTrainingController from './additionalTrainingController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new AdditionalTrainingController(services.ciagService)
+  const controller = new AdditionalTrainingController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/additional-training/:mode',
