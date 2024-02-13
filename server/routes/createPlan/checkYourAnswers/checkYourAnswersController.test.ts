@@ -38,6 +38,7 @@ describe('CheckYourAnswersController', () => {
 
   const mockInductionService: any = {
     createInduction: jest.fn(),
+    updateInduction: jest.fn(),
   }
 
   let learningPlanUrl: string
@@ -160,6 +161,21 @@ describe('CheckYourAnswersController', () => {
       // Then
       expect(mockInductionService.createInduction).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/induction-created')
+    })
+
+    it('On success - NEW - Calls PLP API update', async () => {
+      // Given
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NOT_SURE, desireToWork: false }
+      setSessionData(req, ['isUpdateFlow', id], true)
+      mockInductionService.updateInduction.mockReturnValue({})
+
+      // When
+      await controller.post(req, res, next)
+
+      // Then
+      expect(mockInductionService.updateInduction).toHaveBeenCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith('http://plp-ui-url/plan/A1234BC/view/work-and-interests')
     })
   })
 })
