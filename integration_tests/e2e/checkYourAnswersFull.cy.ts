@@ -1,3 +1,4 @@
+import type { CreateInductionRequest } from 'educationAndWorkPlanApiClient'
 import AbilityToWorkPage from '../pages/abilityToWork'
 import EducationLevelPage from '../pages/educationLevel'
 import HasWorkedBeforePage from '../pages/hasWorkedBefore'
@@ -231,6 +232,12 @@ context('Check your answers - Full flow', () => {
 
     checkYourAnswersPage = Page.verifyOnPage(CheckYourAnswersPage)
     checkYourAnswersPage.submitButton().click()
+
     Page.verifyOnPage(PlpEducationAndTrainingPage)
+    cy.task<CreateInductionRequest>('getCreateInductionRequestBody', 'G6115VJ')
+      .then(request => {
+        return request.prisonId
+      })
+      .should('equal', 'MDI')
   })
 })
