@@ -6,7 +6,7 @@ import WorkDetailsController from './workDetailsController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new WorkDetailsController(services.ciagService)
+  const controller = new WorkDetailsController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/work-details/:typeOfWorkExperienceKey/:mode',
