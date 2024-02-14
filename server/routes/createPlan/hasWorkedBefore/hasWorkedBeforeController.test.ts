@@ -117,6 +117,8 @@ describe('HasWorkedBeforeController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['hasWorkedBefore', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })

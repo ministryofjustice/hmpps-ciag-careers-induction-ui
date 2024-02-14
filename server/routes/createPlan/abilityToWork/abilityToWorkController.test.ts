@@ -121,6 +121,8 @@ describe('AbilityToWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['abilityToWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
