@@ -19,6 +19,7 @@ export default class UpdateCiagPlanRequest {
     this.offenderId = data.offenderId
     this.prisonId = data.prisonId
 
+    this.workOnReleaseReference = data.workOnReleaseReference
     this.desireToWork = data.desireToWork
     this.hopingToGetWork = data.hopingToGetWork
 
