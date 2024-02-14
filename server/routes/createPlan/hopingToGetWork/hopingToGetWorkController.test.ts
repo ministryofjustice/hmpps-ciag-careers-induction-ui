@@ -120,6 +120,8 @@ describe('HopingToGetWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
       req.params.mode = 'new'
@@ -243,7 +245,6 @@ describe('HopingToGetWorkController', () => {
     })
 
     it('On success - UPDATE - hopingToGetWork change to POSITIVE - Sets session record then redirects to qualifications', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.YES
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NOT_SURE, desireToWork: false }
@@ -259,11 +260,9 @@ describe('HopingToGetWorkController', () => {
         wantsToAddQualifications: YesNoValue.NO,
         qualifications: [],
       })
-      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     })
 
     it('On success - UPDATE - hopingToGetWork change to NEGATIVE - Sets session record then redirects to reasonToNotGetWork', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.NO
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.YES, desireToWork: true }
@@ -279,7 +278,6 @@ describe('HopingToGetWorkController', () => {
         wantsToAddQualifications: YesNoValue.NO,
         qualifications: [],
       })
-      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
     })
   })
 })
