@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import uuidv4 from '../../../utils/guid'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -56,11 +57,15 @@ describe('WorkDetailsController', () => {
 
   res.locals.user = {}
 
-  const mockService: any = {
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -124,6 +129,8 @@ describe('WorkDetailsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['workDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -267,7 +274,8 @@ describe('WorkDetailsController', () => {
       })
     })
 
-    it('On success - mode = update - calls api and redirects to learning profile', async () => {
+    it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
+      config.featureToggles.useNewInductionApiEnabled = false
       req.context.plan = {
         workExperience: {
           typeOfWorkExperience: [typeOfWorkExperienceKey],
@@ -287,7 +295,32 @@ describe('WorkDetailsController', () => {
       await controller.post(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(0)
-      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
+    })
+
+    it('On success - mode = update - calls Induction api and redirects to learning profile', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.context.plan = {
+        workExperience: {
+          typeOfWorkExperience: [typeOfWorkExperienceKey],
+          workExperience: [
+            {
+              typeOfWorkExperience: typeOfWorkExperienceKey,
+              details: 'mock_details',
+              role: 'mock_role',
+            },
+          ],
+        },
+      }
+      req.body.jobRole = 'mock_role'
+      req.body.jobDetails = 'mock_details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
     })
   })

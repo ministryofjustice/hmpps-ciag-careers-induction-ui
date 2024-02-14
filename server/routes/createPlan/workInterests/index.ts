@@ -7,7 +7,7 @@ import WorkInterestsController from './workInterestsController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new WorkInterestsController(services.ciagService)
+  const controller = new WorkInterestsController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/work-interests/:mode',
