@@ -5,6 +5,7 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
+import config from '../../../config'
 
 jest.mock('../../../utils/guid', () => ({
   ...jest.requireActual('../../../utils/guid'),
@@ -45,11 +46,17 @@ describe('QualificationsController', () => {
     qualifications: [],
   }
 
-  const mockService: any = {
+  res.locals.user = {}
+
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -94,6 +101,8 @@ describe('QualificationsController', () => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         qualifications: [
@@ -169,7 +178,7 @@ describe('QualificationsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - mode = update - redirects to learning profile', async () => {
+    it('On success - mode = update - redirects to education and training', async () => {
       req.params.mode = 'update'
       req.context.plan = {
         qualificationsAndTraining: {
@@ -181,6 +190,39 @@ describe('QualificationsController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
+    })
+
+    it('On success - mode = update - remove qualification - calls CIAG api and redirects to qualifications', async () => {
+      config.featureToggles.useNewInductionApiEnabled = false
+      req.body.removeQualification = 'LEVEL_3-Maths-A'
+      req.params.mode = 'update'
+      req.context.plan = {
+        qualificationsAndTraining: {
+          qualifications: [{}],
+        },
+      }
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
+    })
+
+    it('On success - mode = update - remove qualification - calls Induction api and redirects to qualifications', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.body.removeQualification = 'LEVEL_3-Maths-A'
+      req.params.mode = 'update'
+      req.context.plan = {
+        qualificationsAndTraining: {
+          qualifications: [{}],
+        },
+      }
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
     })
   })
 })

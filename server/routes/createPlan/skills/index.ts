@@ -6,7 +6,7 @@ import type { Services } from '../../../services'
 import SkillsController from './skillsController'
 
 export default (router: Router, services: Services) => {
-  const controller = new SkillsController(services.ciagService)
+  const controller = new SkillsController(services.ciagService, services.inductionService)
 
   router.get('/plan/create/:id/skills/:mode', [getPrisonerByIdResolver(services.prisonerSearchService)], controller.get)
   router.post(
