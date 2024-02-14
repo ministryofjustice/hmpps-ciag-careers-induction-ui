@@ -6,7 +6,7 @@ import QualificationsController from './qualificationsController'
 import getLatestAssessmentResolver from '../../../middleware/resolvers/getLatestAssessmentResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new QualificationsController(services.ciagService)
+  const controller = new QualificationsController(services.ciagService, services.inductionService)
 
   router.get(
     '/plan/create/:id/qualifications-list/:mode',
