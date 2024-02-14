@@ -8,16 +8,21 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
-import CiagService from '../../../services/ciagService'
+import { CiagService, InductionService } from '../../../services'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import TypeOfWorkExperienceValue from '../../../enums/typeOfWorkExperienceValue'
 import { getValueSafely } from '../../../utils'
 import { orderCheckboxValue, orderObjectValue } from '../../../utils/orderCiagPlanArrays'
 import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
+import config from '../../../config'
+import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
 
 export default class WorkDetailsController {
-  constructor(private readonly ciagService: CiagService) {}
+  constructor(
+    private readonly ciagService: CiagService,
+    private readonly inductionService: InductionService,
+  ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, typeOfWorkExperienceKey } = req.params
@@ -189,7 +194,13 @@ export default class WorkDetailsController {
     }
 
     // Call api
-    await this.ciagService.updateCiagPlan(res.locals.user.token, id, new UpdateCiagPlanRequest(updatedPlan))
+    const updateCiagPlanRequest = new UpdateCiagPlanRequest(updatedPlan)
+    if (config.featureToggles.useNewInductionApiEnabled) {
+      const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
+      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
+    } else {
+      await this.ciagService.updateCiagPlan(res.locals.user.token, id, updateCiagPlanRequest)
+    }
 
     res.redirect(
       nextKey
