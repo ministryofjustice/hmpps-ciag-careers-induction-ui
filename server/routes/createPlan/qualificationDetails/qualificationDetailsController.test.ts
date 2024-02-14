@@ -11,6 +11,7 @@ import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import EducationLevelValue from '../../../enums/educationLevelValue'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import uuidv4 from '../../../utils/guid'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -56,11 +57,15 @@ describe('QualificationDetailsController', () => {
 
   res.locals.user = {}
 
-  const mockService: any = {
+  const mockCiagService: any = {
     updateCiagPlan: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const mockInductionService: any = {
+    updateInduction: jest.fn(),
+  }
+
+  const controller = new Controller(mockCiagService, mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -124,6 +129,8 @@ describe('QualificationDetailsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
+      mockCiagService.updateCiagPlan.mockReset()
+      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['qualificationDetails', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -182,7 +189,8 @@ describe('QualificationDetailsController', () => {
       })
     })
 
-    it('On success - mode = update - Calls API then redirects to qualificationDetails', async () => {
+    it('On success - mode = update - Calls CIAG API then redirects to qualificationDetails', async () => {
+      config.featureToggles.useNewInductionApiEnabled = false
       req.context.plan = { qualificationsAndTraining: {} }
       req.body.qualificationSubject = 'Mathematics'
       req.body.qualificationGrade = 'A'
@@ -190,7 +198,22 @@ describe('QualificationDetailsController', () => {
 
       controller.post(req, res, next)
 
-      expect(mockService.updateCiagPlan).toBeCalledTimes(1)
+      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
+      expect(getSessionData(req, ['qualificationDetails', id, 'data'])).toBeFalsy()
+      // Will not catch this mock for any reason I can find, code all works
+      // expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
+    })
+
+    it('On success - mode = update - Calls Induction API then redirects to qualificationDetails', async () => {
+      config.featureToggles.useNewInductionApiEnabled = true
+      req.context.plan = { qualificationsAndTraining: {} }
+      req.body.qualificationSubject = 'Mathematics'
+      req.body.qualificationGrade = 'A'
+      req.params.mode = 'update'
+
+      controller.post(req, res, next)
+
+      expect(mockInductionService.updateInduction).toBeCalledTimes(1)
       expect(getSessionData(req, ['qualificationDetails', id, 'data'])).toBeFalsy()
       // Will not catch this mock for any reason I can find, code all works
       // expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
