@@ -205,6 +205,7 @@ describe('QualificationsController', () => {
       await controller.post(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(0)
+      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
     })
 
