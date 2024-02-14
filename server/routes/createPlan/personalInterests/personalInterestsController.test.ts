@@ -187,7 +187,7 @@ describe('PersonalInterestsController', () => {
     it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
       config.featureToggles.useNewInductionApiEnabled = false
       req.context.plan = { skillsAndInterests: {} }
-      req.body.personalInterests = PersonalInterestsValue.OTHER
+      req.body.personalInterests = [PersonalInterestsValue.OTHER]
       req.body.personalInterestsOther = 'mock_details'
       req.params.mode = 'update'
 
