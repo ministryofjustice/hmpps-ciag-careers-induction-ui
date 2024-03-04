@@ -5,7 +5,6 @@ import addressLookup from '../../addressLookup'
 import config from '../../../config'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import CiagService from '../../../services/ciagService'
 import FlowUpdateCiagPlanRequest from '../../../data/ciagApi/models/flowUpdateCiagPlanRequest'
 import InductionService from '../../../services/inductionService'
 import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
@@ -13,10 +12,7 @@ import CiagPlan from '../../../data/ciagApi/interfaces/ciagPlan'
 import YesNoValue from '../../../enums/yesNoValue'
 
 export default class CheckYourAnswersController {
-  constructor(
-    private readonly ciagService: CiagService,
-    private readonly inductionService: InductionService,
-  ) {}
+  constructor(private readonly inductionService: InductionService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -66,12 +62,8 @@ export default class CheckYourAnswersController {
     const { plan } = req.context
     const updatedFormObject = getInductionFormObject(req, res)
     const flowUpdateCiagPlanRequest = new FlowUpdateCiagPlanRequest(updatedFormObject, plan)
-    if (config.featureToggles.useNewInductionApiEnabled) {
-      const dto = toCreateOrUpdateInductionDto(flowUpdateCiagPlanRequest)
-      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
-    } else {
-      await this.ciagService.updateCiagPlan(res.locals.user.token, id, flowUpdateCiagPlanRequest)
-    }
+    const dto = toCreateOrUpdateInductionDto(flowUpdateCiagPlanRequest)
+    await this.inductionService.updateInduction(id, dto, res.locals.user.token)
 
     deleteSessionData(req, ['isUpdateFlow', id])
     deleteSessionData(req, ['createPlan', id])
@@ -80,13 +72,8 @@ export default class CheckYourAnswersController {
 
   private async createNewInduction(req: Request, res: Response) {
     const { id } = req.params
-    if (config.featureToggles.useNewInductionApiEnabled) {
-      const createInductionDto = toCreateOrUpdateInductionDto(newInduction(req))
-      await this.inductionService.createInduction(id, createInductionDto, res.locals.user.token)
-    } else {
-      const newInductionFormObject = getInductionFormObject(req, res)
-      await this.ciagService.createCiagPlan(res.locals.user.token, id, newInductionFormObject)
-    }
+    const createInductionDto = toCreateOrUpdateInductionDto(newInduction(req))
+    await this.inductionService.createInduction(id, createInductionDto, res.locals.user.token)
 
     // Tidy up record in session
     deleteSessionData(req, ['createPlan', id])

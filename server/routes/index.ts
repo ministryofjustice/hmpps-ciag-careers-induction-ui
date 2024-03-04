@@ -33,8 +33,8 @@ export default function routes(services: Services): Router {
     res.redirect(config.learningPlanUrl)
   })
 
-  router.get('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
-  router.post('/plan/create/:id/**/update', [retrieveInduction(services.ciagService, services.inductionService)])
+  router.get('/plan/create/:id/**/update', [retrieveInduction(services.inductionService)])
+  router.post('/plan/create/:id/**/update', [retrieveInduction(services.inductionService)])
 
   // The check-your-answers page is used for both the Create and Update journey
   // When the page is submitted (POST) we need to have retrieved the induction, but only in the case of the Update journey
@@ -45,7 +45,7 @@ export default function routes(services: Services): Router {
       if (!isUpdateFlow) {
         next()
       } else {
-        retrieveInduction(services.ciagService, services.inductionService)(req, res, next)
+        retrieveInduction(services.inductionService)(req, res, next)
       }
     },
   ])

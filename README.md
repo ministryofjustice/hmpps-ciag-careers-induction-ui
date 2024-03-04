@@ -122,4 +122,3 @@ Features can be toggled by setting the relevant environment variable.
 | Name                           | Default Value | Type    | Description                                                                                               |
 |--------------------------------|---------------|---------|-----------------------------------------------------------------------------------------------------------|
 | SOME_TOGGLE_ENABLED            | false         | Boolean | Example feature toggle, for demonstration purposes.                                                       |
-| USE_NEW_INDUCTION_API_ENABLED  | false         | Boolean | Set to true to use the new Induction API for retrieving Inductions (rather than the deprecated CIAG API). |
