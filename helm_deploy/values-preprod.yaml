@@ -29,7 +29,6 @@ generic-service:
     IS_BETA: true
     BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
     SYSTEM_PHASE: PREPROD
-    USE_NEW_INDUCTION_API_ENABLED: "true"
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
