@@ -22,7 +22,6 @@ context(
       cy.task('getUserActiveCaseLoad')
       cy.task('stubVerifyToken', true)
       cy.task('getLearnerEducation')
-      cy.task('updateCiagPlan')
       cy.task('stubUpdateInduction')
       cy.task('stubPlpWorkAndInterestsPageUi', 'G6115VJ')
       cy.signIn()

@@ -7,7 +7,7 @@ import ReasonToNotGetWorkController from './reasonToNotGetWorkController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new ReasonToNotGetWorkController(services.ciagService, services.inductionService)
+  const controller = new ReasonToNotGetWorkController(services.inductionService)
 
   router.get(
     '/plan/create/:id/reason-to-not-get-work/:mode',

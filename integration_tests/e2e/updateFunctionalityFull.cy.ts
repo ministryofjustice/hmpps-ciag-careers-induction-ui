@@ -29,7 +29,6 @@ context('Update functionality - Full flow', () => {
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonerById', 'A3260DZ')
-    cy.task('updateCiagPlan', 'A3260DZ')
     cy.task('stubUpdateInduction', 'A3260DZ')
     cy.signIn()
   })

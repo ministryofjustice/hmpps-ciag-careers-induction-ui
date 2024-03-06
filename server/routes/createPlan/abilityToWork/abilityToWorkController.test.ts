@@ -10,7 +10,6 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
-import config from '../../../config'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -34,7 +33,6 @@ describe('AbilityToWorkController', () => {
   const { req, res, next } = expressMocks()
 
   const pageTitleLookupMock = pageTitleLookup as jest.Mock
-  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -54,20 +52,19 @@ describe('AbilityToWorkController', () => {
 
   res.locals.user = {}
 
-  const mockCiagService: any = {
-    updateCiagPlan: jest.fn(),
-  }
-
   const mockInductionService: any = {
     updateInduction: jest.fn(),
   }
 
-  const controller = new Controller(mockCiagService, mockInductionService)
+  beforeEach(() => {
+    jest.resetAllMocks()
+    pageTitleLookupMock.mockReturnValue('mock_page_title')
+  })
+
+  const controller = new Controller(mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      next.mockReset()
       setSessionData(req, ['abilityToWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -117,12 +114,6 @@ describe('AbilityToWorkController', () => {
     const validationMock = validateFormSchema as jest.Mock
 
     beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-      validationMock.mockReset()
-      mockCiagService.updateCiagPlan.mockReset()
-      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['abilityToWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -168,21 +159,7 @@ describe('AbilityToWorkController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = false
-      req.context.plan = {}
-      req.body.abilityToWork = [AbilityToWorkValue.HEALTH_ISSUES]
-      req.params.mode = 'update'
-
-      await controller.post(req, res, next)
-
-      expect(next).toHaveBeenCalledTimes(0)
-      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
-    })
-
     it('On success - mode = update - calls Induction api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.context.plan = {}
       req.body.abilityToWork = [AbilityToWorkValue.HEALTH_ISSUES]
       req.params.mode = 'update'
