@@ -6,7 +6,7 @@ import QualificationDetailsController from './qualificationDetailsController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new QualificationDetailsController(services.ciagService, services.inductionService)
+  const controller = new QualificationDetailsController(services.inductionService)
 
   router.get(
     '/plan/create/:id/qualification-details/:qualificationId/:mode',

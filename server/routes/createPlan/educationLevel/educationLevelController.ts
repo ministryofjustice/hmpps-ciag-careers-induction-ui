@@ -12,18 +12,13 @@ import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
-import CiagService from '../../../services/ciagService'
 import { getValueSafely } from '../../../utils'
 import { isCreateMode, isEditMode, isUpdateMode, getHubPageByMode, Mode } from '../../routeModes'
 import { InductionService } from '../../../services'
-import config from '../../../config'
 import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
 
 export default class EducationLevelController {
-  constructor(
-    private readonly ciagService: CiagService,
-    private readonly inductionService: InductionService,
-  ) {}
+  constructor(private readonly inductionService: InductionService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -186,12 +181,8 @@ export default class EducationLevelController {
 
     // Call api
     const updateCiagPlanRequest = new UpdateCiagPlanRequest(updatedPlan)
-    if (config.featureToggles.useNewInductionApiEnabled) {
-      const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
-      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
-    } else {
-      await this.ciagService.updateCiagPlan(res.locals.user.token, id, updateCiagPlanRequest)
-    }
+    const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
+    await this.inductionService.updateInduction(id, dto, res.locals.user.token)
 
     // Setup temporary record for multi page add qualification flow
     setSessionData(req, ['createPlan', id], {

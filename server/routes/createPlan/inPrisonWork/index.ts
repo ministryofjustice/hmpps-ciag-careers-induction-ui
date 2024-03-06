@@ -7,7 +7,7 @@ import InPrisonWorkController from './inPrisonWorkController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new InPrisonWorkController(services.ciagService, services.inductionService)
+  const controller = new InPrisonWorkController(services.inductionService)
 
   router.get(
     '/plan/create/:id/in-prison-work/:mode',

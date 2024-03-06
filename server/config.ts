@@ -132,6 +132,5 @@ export default {
   betaFeedbackUrl: get('BETA_FEEDBACK_URL', ''),
   featureToggles: {
     someToggleEnabled: toBoolean(get('SOME_TOGGLE_ENABLED', false)),
-    useNewInductionApiEnabled: toBoolean(get('USE_NEW_INDUCTION_API_ENABLED', false, requiredInProduction)),
   },
 }

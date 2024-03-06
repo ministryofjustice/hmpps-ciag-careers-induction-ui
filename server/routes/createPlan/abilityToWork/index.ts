@@ -7,7 +7,7 @@ import AbilityToWorkController from './abilityToWorkController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new AbilityToWorkController(services.ciagService, services.inductionService)
+  const controller = new AbilityToWorkController(services.inductionService)
 
   router.get(
     '/plan/create/:id/ability-to-work/:mode',

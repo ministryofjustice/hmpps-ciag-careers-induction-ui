@@ -21,7 +21,6 @@ context('Update functionality - Lite flow', () => {
     cy.task('stubVerifyToken', true)
     cy.task('getLearnerEducation')
     cy.task('getPrisonerById', 'B79237A')
-    cy.task('updateCiagPlan', 'B79237A')
     cy.task('stubUpdateInduction', 'B79237A')
     cy.signIn()
   })

@@ -5,7 +5,7 @@ import type { Services } from '../../../services'
 import HopingToGetWorkController from './hopingToGetWorkController'
 
 export default (router: Router, services: Services) => {
-  const controller = new HopingToGetWorkController(services.ciagService, services.inductionService)
+  const controller = new HopingToGetWorkController(services.inductionService)
 
   router.get(
     '/plan/create/:id/hoping-to-get-work/:mode',

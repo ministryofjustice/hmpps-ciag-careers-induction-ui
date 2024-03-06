@@ -8,18 +8,13 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
 import getBackLocation from '../../../utils/getBackLocation'
-import CiagService from '../../../services/ciagService'
 import InductionService from '../../../services/inductionService'
 import UpdateCiagPlanRequest from '../../../data/ciagApi/models/updateCiagPlanRequest'
 import { isUpdateMode, Mode } from '../../routeModes'
-import config from '../../../config'
 import toCreateOrUpdateInductionDto from '../../../data/mappers/createOrUpdateInductionDtoMapper'
 
 export default class QualificationDetailsController {
-  constructor(
-    private readonly ciagService: CiagService,
-    private readonly inductionService: InductionService,
-  ) {}
+  constructor(private readonly inductionService: InductionService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, qualificationId } = req.params
@@ -149,12 +144,8 @@ export default class QualificationDetailsController {
 
     // Call api
     const updateCiagPlanRequest = new UpdateCiagPlanRequest(updatedPlan)
-    if (config.featureToggles.useNewInductionApiEnabled) {
-      const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
-      await this.inductionService.updateInduction(id, dto, res.locals.user.token)
-    } else {
-      await this.ciagService.updateCiagPlan(res.locals.user.token, id, updateCiagPlanRequest)
-    }
+    const dto = toCreateOrUpdateInductionDto(updateCiagPlanRequest)
+    await this.inductionService.updateInduction(id, dto, res.locals.user.token)
 
     res.redirect(addressLookup.createPlan.qualifications(id, 'update'))
   }
