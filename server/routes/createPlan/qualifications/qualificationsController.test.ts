@@ -5,7 +5,6 @@ import addressLookup from '../../addressLookup'
 import HopingToGetWorkValue from '../../../enums/hopingToGetWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import uuidv4 from '../../../utils/guid'
-import config from '../../../config'
 
 jest.mock('../../../utils/guid', () => ({
   ...jest.requireActual('../../../utils/guid'),
@@ -16,8 +15,6 @@ jest.mock('../../../utils/guid', () => ({
 describe('QualificationsController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
-
-  uuidv4Mock.mockReturnValue('guid')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -48,20 +45,19 @@ describe('QualificationsController', () => {
 
   res.locals.user = {}
 
-  const mockCiagService: any = {
-    updateCiagPlan: jest.fn(),
-  }
-
   const mockInductionService: any = {
     updateInduction: jest.fn(),
   }
 
-  const controller = new Controller(mockCiagService, mockInductionService)
+  beforeEach(() => {
+    jest.resetAllMocks()
+    uuidv4Mock.mockReturnValue('guid')
+  })
+
+  const controller = new Controller(mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.NO,
@@ -98,11 +94,6 @@ describe('QualificationsController', () => {
 
   describe('#post(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-      mockCiagService.updateCiagPlan.mockReset()
-      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         qualifications: [
@@ -192,25 +183,7 @@ describe('QualificationsController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
     })
 
-    it('On success - mode = update - remove qualification - calls CIAG api and redirects to qualifications', async () => {
-      config.featureToggles.useNewInductionApiEnabled = false
-      req.body.removeQualification = 'LEVEL_3-Maths-A'
-      req.params.mode = 'update'
-      req.context.plan = {
-        qualificationsAndTraining: {
-          qualifications: [{}],
-        },
-      }
-
-      await controller.post(req, res, next)
-
-      expect(next).toHaveBeenCalledTimes(0)
-      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.qualifications(id, 'update'))
-    })
-
     it('On success - mode = update - remove qualification - calls Induction api and redirects to qualifications', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.body.removeQualification = 'LEVEL_3-Maths-A'
       req.params.mode = 'update'
       req.context.plan = {

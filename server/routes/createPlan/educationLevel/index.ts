@@ -6,7 +6,7 @@ import EducationLevelController from './educationLevelController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new EducationLevelController(services.ciagService, services.inductionService)
+  const controller = new EducationLevelController(services.inductionService)
 
   router.get(
     '/plan/create/:id/education-level/:mode',

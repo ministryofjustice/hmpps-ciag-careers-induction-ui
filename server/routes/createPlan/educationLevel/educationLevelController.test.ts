@@ -12,7 +12,6 @@ import EducationLevelValue from '../../../enums/educationLevelValue'
 import uuidv4 from '../../../utils/guid'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import QualificationLevelValue from '../../../enums/qualificationLevelValue'
-import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -38,8 +37,6 @@ describe('EducationLevelController', () => {
   const { req, res, next } = expressMocks()
   const uuidv4Mock = uuidv4 as jest.Mock
 
-  uuidv4Mock.mockReturnValue('guid')
-
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
@@ -58,20 +55,19 @@ describe('EducationLevelController', () => {
 
   res.locals.user = {}
 
-  const mockCiagService: any = {
-    updateCiagPlan: jest.fn(),
-  }
-
   const mockInductionService: any = {
     updateInduction: jest.fn(),
   }
 
-  const controller = new Controller(mockCiagService, mockInductionService)
+  beforeEach(() => {
+    jest.resetAllMocks()
+    uuidv4Mock.mockReturnValue('guid')
+  })
+
+  const controller = new Controller(mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      next.mockReset()
       setSessionData(req, ['educationLevel', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {
         hopingToGetWork: HopingToGetWorkValue.YES,
@@ -117,12 +113,6 @@ describe('EducationLevelController', () => {
     const validationMock = validateFormSchema as jest.Mock
 
     beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-      validationMock.mockReset()
-      mockCiagService.updateCiagPlan.mockReset()
-      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['educationLevel', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
@@ -273,21 +263,7 @@ describe('EducationLevelController', () => {
       })
     })
 
-    it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = false
-      req.context.plan = { qualificationsAndTraining: {} }
-      req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
-      req.params.mode = 'update'
-
-      await controller.post(req, res, next)
-
-      expect(next).toHaveBeenCalledTimes(0)
-      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id, 'education-and-training'))
-    })
-
     it('On success - mode = update - calls Induction api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.context.plan = { qualificationsAndTraining: {} }
       req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS
       req.params.mode = 'update'
@@ -300,7 +276,6 @@ describe('EducationLevelController', () => {
     })
 
     it('On success - mode = update - higher level - calls Induction api and redirects to qualificationLevel', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.context.plan = { qualificationsAndTraining: {} }
       req.body.educationLevel = EducationLevelValue.SECONDARY_SCHOOL_TOOK_EXAMS
       req.params.mode = 'update'

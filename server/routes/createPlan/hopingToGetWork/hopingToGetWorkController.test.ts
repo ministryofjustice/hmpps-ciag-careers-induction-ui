@@ -10,7 +10,6 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 import YesNoValue from '../../../enums/yesNoValue'
-import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -45,20 +44,18 @@ describe('HopingToGetWorkController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const mockCiagService: any = {
-    updateCiagPlan: jest.fn(),
-  }
-
   const mockInductionService: any = {
     updateInduction: jest.fn(),
   }
 
-  const controller = new Controller(mockCiagService, mockInductionService)
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  const controller = new Controller(mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      next.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
       req.params.mode = 'new'
@@ -116,12 +113,6 @@ describe('HopingToGetWorkController', () => {
     const validationMock = validateFormSchema as jest.Mock
 
     beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-      validationMock.mockReset()
-      mockCiagService.updateCiagPlan.mockReset()
-      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['hopingToGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
       req.params.mode = 'new'
@@ -220,20 +211,7 @@ describe('HopingToGetWorkController', () => {
       expect(getSessionData(req, ['createPlan', id])).toEqual({ hopingToGetWork: HopingToGetWorkValue.NO })
     })
 
-    it('On success - UPDATE - hopingToGetWork no logic change - Calls CIAG API', async () => {
-      config.featureToggles.useNewInductionApiEnabled = false
-      req.params.mode = 'update'
-      req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
-      req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NO, desireToWork: false }
-
-      controller.post(req, res, next)
-
-      expect(getSessionData(req, ['hopingToGetWork', id, 'data'])).toBeFalsy()
-      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
-    })
-
     it('On success - UPDATE - hopingToGetWork no logic change - Calls Induction API', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.params.mode = 'update'
       req.body.hopingToGetWork = HopingToGetWorkValue.NOT_SURE
       req.context.plan = { hopingToGetWork: HopingToGetWorkValue.NO, desireToWork: false }

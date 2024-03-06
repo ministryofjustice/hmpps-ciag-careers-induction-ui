@@ -7,7 +7,6 @@ import addressLookup from '../../addressLookup'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import ReasonToNotGetWorkValue from '../../../enums/reasonToNotGetWorkValue'
-import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -42,20 +41,18 @@ describe('ReasonToNotGetWorkController', () => {
 
   res.locals.user = {}
 
-  const mockCiagService: any = {
-    updateCiagPlan: jest.fn(),
-  }
-
   const mockInductionService: any = {
     updateInduction: jest.fn(),
   }
 
-  const controller = new Controller(mockCiagService, mockInductionService)
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  const controller = new Controller(mockInductionService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
-      res.render.mockReset()
-      next.mockReset()
       setSessionData(req, ['reasonToNotGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
@@ -83,12 +80,6 @@ describe('ReasonToNotGetWorkController', () => {
     const validationMock = validateFormSchema as jest.Mock
 
     beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-      validationMock.mockReset()
-      mockCiagService.updateCiagPlan.mockReset()
-      mockInductionService.updateInduction.mockReset()
       setSessionData(req, ['reasonToNotGetWork', id, 'data'], mockData)
       setSessionData(req, ['createPlan', id], {})
     })
@@ -143,22 +134,7 @@ describe('ReasonToNotGetWorkController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createPlan.checkYourAnswers(id))
     })
 
-    it('On success - mode = update - calls CIAG api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = false
-      req.context.plan = {}
-      req.body.reasonToNotGetWork = ReasonToNotGetWorkValue.OTHER
-      req.body.reasonToNotGetWorkOther = 'mock_details'
-      req.params.mode = 'update'
-
-      await controller.post(req, res, next)
-
-      expect(next).toHaveBeenCalledTimes(0)
-      expect(mockCiagService.updateCiagPlan).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.learningPlan.profile(id))
-    })
-
     it('On success - mode = update - calls Induction api and redirects to learning profile', async () => {
-      config.featureToggles.useNewInductionApiEnabled = true
       req.context.plan = {}
       req.body.reasonToNotGetWork = ReasonToNotGetWorkValue.OTHER
       req.body.reasonToNotGetWorkOther = 'mock_details'

@@ -7,7 +7,7 @@ import ParticularJobInterestsController from './particularJobInterestsController
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new ParticularJobInterestsController(services.ciagService, services.inductionService)
+  const controller = new ParticularJobInterestsController(services.inductionService)
 
   router.get(
     '/plan/create/:id/particular-job-interests/:mode',

@@ -7,7 +7,7 @@ import PersonalInterestsController from './personalInterestsController'
 import checkSessionPageData from '../../../middleware/checkSessionPageData'
 
 export default (router: Router, services: Services) => {
-  const controller = new PersonalInterestsController(services.ciagService, services.inductionService)
+  const controller = new PersonalInterestsController(services.inductionService)
 
   router.get(
     '/plan/create/:id/personal-interests/:mode',
