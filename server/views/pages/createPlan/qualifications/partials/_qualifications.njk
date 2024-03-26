@@ -16,8 +16,7 @@
           <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
           <td class="govuk-table__cell">{{ item.subject }}</td>
           <td class="govuk-table__cell">{{ item.grade }}</td>
-          <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.level }}-{{ item.subject }}-{{ item.grade }}" name="removeQualification">Remove</button><span 
-class="govuk-visually-hidden"> {{ contentLookup.pages.qualifications.level[item.level] }}, {{ item.subject }}, {{ item.grade }}</span></td>
+          <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.level }}-{{ item.subject }}-{{ item.grade }}" name="removeQualification">Remove <span class="govuk-visually-hidden"> {{ contentLookup.pages.qualifications.level[item.level] }}, {{ item.subject }}, {{ item.grade }}</span></button></td>
         </tr>
       {% endfor %}
     </tbody>
