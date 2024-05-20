@@ -19,7 +19,7 @@ generic-service:
     HMPPS_AUTH_URL: "https://sign-in-preprod.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
     DPS_URL: "https://digital-preprod.prison.service.justice.gov.uk"
-    NOMIS_USER_ROLES_API_URL: "https://nomis-user-pp.aks-live-1.studio-hosting.service.justice.gov.uk"
+    NOMIS_USER_ROLES_API_URL: "https://nomis-user-roles-api-preprod.prison.service.justice.gov.uk"
     CURIOUS_API_URL: "https://preprodservices.sequation.net/sequation-virtual-campus2-api/"
     PRISONER_SEARCH_URL: "https://prisoner-search-preprod.prison.service.justice.gov.uk"
     LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-preprod.hmpps.service.justice.gov.uk"
