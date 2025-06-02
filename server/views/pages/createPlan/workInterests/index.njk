@@ -1,0 +1,202 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What type of work is " + prisoner.firstName + " " + prisoner.lastName + " interested in?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * workInterests - Array existing values for field
+    * workInterestsOther - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "workInterestsOther",
+              name: "workInterestsOther",
+              rows: "2",
+              value: workInterestsOther,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any work " + prisoner.firstName + " " + prisoner.lastName + " has done before" },
+              errorMessage: errors.workInterestsOther
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "workInterests",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "OUTDOOR",
+                checked: workInterests.indexOf("OUTDOOR") > -1,
+                text: contentLookup.fields.workInterests["OUTDOOR"],
+                hint: {
+                  text: "things like kennel worker, groundskeeper and farm work"
+                }
+              },
+              {
+                value: "CLEANING_AND_MAINTENANCE",
+                checked: workInterests.indexOf("CLEANING_AND_MAINTENANCE") > -1,
+                text: contentLookup.fields.workInterests["CLEANING_AND_MAINTENANCE"],
+                hint: {
+                  text: "things like biohazard cleaning, janitor and window cleaner"
+                }
+              },
+              { 
+                value: "CONSTRUCTION",
+                checked: workInterests.indexOf("CONSTRUCTION") > -1,
+                text: contentLookup.fields.workInterests["CONSTRUCTION"],
+                hint: {
+                  text: "things like bricklayer, plumber and site management"
+                }
+              },
+              { 
+                value: "DRIVING",
+                checked: workInterests.indexOf("DRIVING") > -1,
+                text: contentLookup.fields.workInterests["DRIVING"],
+                hint: {
+                  text: "things like bus driver and rail or road maintenance"
+                }
+              },
+              { 
+                value: "BEAUTY",
+                checked: workInterests.indexOf("BEAUTY") > -1,
+                text: contentLookup.fields.workInterests["BEAUTY"],
+                hint: {
+                  text: "things like nail technician and barber"
+                }
+              },
+              { 
+                value: "HOSPITALITY",
+                checked: workInterests.indexOf("HOSPITALITY") > -1,
+                text: contentLookup.fields.workInterests["HOSPITALITY"],
+                hint: {
+                  text: "things like chef, mobile catering and hotel porter"
+                }
+              },
+              { 
+                value: "TECHNICAL",
+                checked: workInterests.indexOf("TECHNICAL") > -1,
+                text: contentLookup.fields.workInterests["TECHNICAL"],
+                hint: {
+                  text: "things like coding, web developer and IT support"
+                }
+              },
+              { 
+                value: "MANUFACTURING",
+                checked: workInterests.indexOf("MANUFACTURING") > -1,
+                text: contentLookup.fields.workInterests["MANUFACTURING"],
+                hint: {
+                  text: "things like assembly line work, welding and maintenance"
+                }
+              },
+              { 
+                value: "OFFICE",
+                checked: workInterests.indexOf("OFFICE") > -1,
+                text: contentLookup.fields.workInterests["OFFICE"],
+                hint: {
+                  text: "things like administration, marketing assistant and office manager"
+                }
+              },
+              { 
+                value: "RETAIL",
+                checked: workInterests.indexOf("RETAIL") > -1,
+                text: contentLookup.fields.workInterests["RETAIL"],
+                hint: {
+                  text: "things like sales assistant, customer service and store manager"
+                }
+              },
+              { 
+                value: "SPORTS",
+                checked: workInterests.indexOf("SPORTS") > -1,
+                text: contentLookup.fields.workInterests["SPORTS"],
+                hint: {
+                  text: "things like personal trainer and gym attendant"
+                }
+              },
+              { 
+                value: "EDUCATION_TRAINING",
+                checked: workInterests.indexOf("EDUCATION_TRAINING") > -1,
+                text: contentLookup.fields.workInterests["EDUCATION_TRAINING"],
+                hint: {
+                  text: "things like welding trainer and welfare rights support"
+                }
+              },
+              { 
+                value: "WAREHOUSING",
+                checked: workInterests.indexOf("WAREHOUSING") > -1,
+                text: contentLookup.fields.workInterests["WAREHOUSING"],
+                hint: {
+                  text: "things like removals and forklift driver"
+                }
+              },
+              { 
+                value: "WASTE_MANAGEMENT",
+                checked: workInterests.indexOf("WASTE_MANAGEMENT") > -1,
+                text: contentLookup.fields.workInterests["WASTE_MANAGEMENT"],
+                hint: {
+                  text: "things like waste collection and recycling management"
+                }
+              },
+              {
+                value: "OTHER",
+                checked: workInterests.indexOf("OTHER") > -1,
+                text: contentLookup.fields.workInterests["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.workInterests["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.workInterests
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

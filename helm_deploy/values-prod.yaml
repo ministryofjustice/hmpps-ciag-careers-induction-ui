@@ -4,13 +4,27 @@
 generic-service:
 
   ingress:
-	host: hmpps-ciag-careers-induction.hmpps.service.justice.gov.uk
-	contextColour: green
+    host: ciag-induction.hmpps.service.justice.gov.uk
+    contextColour: green
 
   env:
-	INGRESS_URL: "hmpps-ciag-careers-induction.hmpps.service.justice.gov.uk"
-	HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
-	TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    ENVIRONMENT: prod
+    S3_REGION: eu-west-2
+    INGRESS_URL: "https://ciag-induction.hmpps.service.justice.gov.uk"
+    DPS_URL: "https://digital.prison.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    NOMIS_USER_ROLES_API_URL: "https://nomis-user.aks-live-1.studio-hosting.service.justice.gov.uk"
+    CURIOUS_API_URL: "https://liveservices.sequation.com/sequation-virtual-campus2-api/"
+    PRISONER_SEARCH_URL: "https://prisoner-search.prison.service.justice.gov.uk"
+    LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress.hmpps.service.justice.gov.uk"
+    EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api.hmpps.service.justice.gov.uk"
+    COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
+    MANAGE_USERS_API: "https://manage-users-api.hmpps.service.justice.gov.uk"
+    IS_BETA: true
+    BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
+    SYSTEM_PHASE: PROD
+    WEB_SESSION_TIMEOUT_IN_MINUTES: 720
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service

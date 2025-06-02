@@ -1,0 +1,94 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What's the highest level of education " + prisoner.firstName + " " + prisoner.lastName + " completed before entering prison?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * educationLevel - existing value for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        
+          {{ govukRadios({
+            name: "educationLevel",
+            fieldset: {
+              legend: {
+                text: title,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: [
+              {
+                value: "PRIMARY_SCHOOL",
+                text: contentLookup.fields.educationLevel["PRIMARY_SCHOOL"],
+                checked: educationLevel === "PRIMARY_SCHOOL"
+              },
+              {
+                value: "SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS",
+                text: contentLookup.fields.educationLevel["SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS"],
+                checked: educationLevel === "SECONDARY_SCHOOL_LEFT_BEFORE_TAKING_EXAMS"
+              },
+              {
+                value: "SECONDARY_SCHOOL_TOOK_EXAMS",
+                text: contentLookup.fields.educationLevel["SECONDARY_SCHOOL_TOOK_EXAMS"],
+                checked: educationLevel === "SECONDARY_SCHOOL_TOOK_EXAMS"
+              },
+              {
+                value: "FURTHER_EDUCATION_COLLEGE",
+                text: contentLookup.fields.educationLevel["FURTHER_EDUCATION_COLLEGE"],
+                checked: educationLevel === "FURTHER_EDUCATION_COLLEGE"
+              },
+              {
+                value: "UNDERGRADUATE_DEGREE_AT_UNIVERSITY",
+                text: contentLookup.fields.educationLevel["UNDERGRADUATE_DEGREE_AT_UNIVERSITY"],
+                checked: educationLevel === "UNDERGRADUATE_DEGREE_AT_UNIVERSITY"
+              },
+              {
+                value: "POSTGRADUATE_DEGREE_AT_UNIVERSITY",
+                text: contentLookup.fields.educationLevel["POSTGRADUATE_DEGREE_AT_UNIVERSITY"],
+                checked: educationLevel === "POSTGRADUATE_DEGREE_AT_UNIVERSITY"
+              },
+              {
+                value: "NOT_SURE",
+                text: contentLookup.fields.educationLevel["NOT_SURE"],
+                checked: educationLevel === "NOT_SURE"
+              }
+            ],
+            errorMessage: errors.educationLevel
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

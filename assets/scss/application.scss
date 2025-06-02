@@ -7,5 +7,37 @@ $govuk-page-width: $moj-page-width;
 @import 'govuk/all';
 @import 'moj/all';
 
-@import './components/header-bar';
+@import './components/_header-bar';
+@import './components/_external-header-bar';
+@import './components/_footer';
 @import 'assets/scss/local';
+
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
+.filter-box {
+  background-color: govuk-colour("light-grey");
+  padding: 30px 10px 30px 10px;
+}
+
+.govuk-button-link {
+  background-color: transparent;
+  border: none;
+  color: #1d70b8;
+  text-decoration: underline;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+}
+
+.clear-link {
+  display: inline-block;
+  font-size: 1.1875rem;
+  line-height: 1.3157894737;
+  margin-left: 16px;
+  position: relative;
+  top: -16px;
+}
+
+.govuk-phase-banner {
+  border: none;
+}

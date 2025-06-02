@@ -1,0 +1,150 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What type of training and education activities would " + prisoner.firstName + " " + prisoner.lastName + " like to do in prison?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * inPrisonEducation - Array existing values for field
+    * inPrisonEducationOther - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "inPrisonEducationOther",
+              name: "inPrisonEducationOther",
+              rows: "2",
+              value: inPrisonEducationOther,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any education or training " + prisoner.firstName + " " + prisoner.lastName + " would like to do in prison?" },
+              errorMessage: errors.inPrisonEducationOther
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "inPrisonEducation",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "BARBERING_AND_HAIRDRESSING",
+                checked: inPrisonEducation.indexOf("BARBERING_AND_HAIRDRESSING") > -1,
+                text: contentLookup.fields.inPrisonEducation["BARBERING_AND_HAIRDRESSING"]
+              },
+              {
+                value: "CATERING",
+                checked: inPrisonEducation.indexOf("CATERING") > -1,
+                text: contentLookup.fields.inPrisonEducation["CATERING"]
+              },
+              {
+                value: "COMMUNICATION_SKILLS",
+                checked: inPrisonEducation.indexOf("COMMUNICATION_SKILLS") > -1,
+                text: contentLookup.fields.inPrisonEducation["COMMUNICATION_SKILLS"]
+              },
+              {
+                value: "ENGLISH_LANGUAGE_SKILLS",
+                checked: inPrisonEducation.indexOf("ENGLISH_LANGUAGE_SKILLS") > -1,
+                text: contentLookup.fields.inPrisonEducation["ENGLISH_LANGUAGE_SKILLS"]
+              },
+                            {
+                value: "FORKLIFT_DRIVING",
+                checked: inPrisonEducation.indexOf("FORKLIFT_DRIVING") > -1,
+                text: contentLookup.fields.inPrisonEducation["FORKLIFT_DRIVING"]
+              },
+              {
+                value: "INTERVIEW_SKILLS",
+                checked: inPrisonEducation.indexOf("INTERVIEW_SKILLS") > -1,
+                text: contentLookup.fields.inPrisonEducation["INTERVIEW_SKILLS"]
+              },
+              {
+                value: "MACHINERY_TICKETS",
+                checked: inPrisonEducation.indexOf("MACHINERY_TICKETS") > -1,
+                text: contentLookup.fields.inPrisonEducation["MACHINERY_TICKETS"]
+              },
+              {
+                value: "NUMERACY_SKILLS",
+                checked: inPrisonEducation.indexOf("NUMERACY_SKILLS") > -1,
+                text: contentLookup.fields.inPrisonEducation["NUMERACY_SKILLS"]
+              },
+              {
+                value: "RUNNING_A_BUSINESS",
+                checked: inPrisonEducation.indexOf("RUNNING_A_BUSINESS") > -1,
+                text: contentLookup.fields.inPrisonEducation["RUNNING_A_BUSINESS"]
+              },
+              {
+                value: "SOCIAL_AND_LIFE_SKILLS",
+                checked: inPrisonEducation.indexOf("SOCIAL_AND_LIFE_SKILLS") > -1,
+                text: contentLookup.fields.inPrisonEducation["SOCIAL_AND_LIFE_SKILLS"]
+              },
+              {
+                value: "WELDING_AND_METALWORK",
+                checked: inPrisonEducation.indexOf("WELDING_AND_METALWORK") > -1,
+                text: contentLookup.fields.inPrisonEducation["WELDING_AND_METALWORK"]
+              },
+              {
+                value: "WOODWORK_AND_JOINERY",
+                checked: inPrisonEducation.indexOf("WOODWORK_AND_JOINERY") > -1,
+                text: contentLookup.fields.inPrisonEducation["WOODWORK_AND_JOINERY"]
+              },
+              {
+                value: "OTHER",
+                checked: inPrisonEducation.indexOf("OTHER") > -1,
+                text: contentLookup.fields.inPrisonEducation["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.inPrisonEducation["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.inPrisonEducation
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What are " + prisoner.firstName + " " + prisoner.lastName + "'s interests?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * personalInterests - Array existing values for field
+    * personalInterestsOther - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "personalInterestsOther",
+              name: "personalInterestsOther",
+              rows: "2",
+              value: personalInterestsOther,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any interests" },
+              errorMessage: errors.personalInterestsOther
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "personalInterests",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "COMMUNITY",
+                checked: personalInterests.indexOf("COMMUNITY") > -1,
+                text: contentLookup.fields.personalInterests["COMMUNITY"],
+                hint: {
+                  text: " things like volunteering with local organisations or charities"
+                }
+              },
+              {
+                value: "CRAFTS",
+                checked: personalInterests.indexOf("CRAFTS") > -1,
+                text: contentLookup.fields.personalInterests["CRAFTS"],
+                hint: {
+                  text: "things like DIY, sewing or woodworking"
+                }
+              },
+              {
+                value: "CREATIVE",
+                checked: personalInterests.indexOf("CREATIVE") > -1,
+                text: contentLookup.fields.personalInterests["CREATIVE"],
+                hint: {
+                  text: "things like writing, cooking or photography"
+                }
+              },
+               {
+                value: "DIGITAL",
+                checked: personalInterests.indexOf("DIGITAL") > -1,
+                text: contentLookup.fields.personalInterests["DIGITAL"],
+                hint: {
+                  text: "things like computer gaming, making movies or coding"
+                }
+              },
+              {
+                value: "KNOWLEDGE_BASED",
+                checked: personalInterests.indexOf("KNOWLEDGE_BASED") > -1,
+                text: contentLookup.fields.personalInterests["KNOWLEDGE_BASED"],
+                hint: {
+                  text: "things like quizzes, local history or learning a language"
+                }
+              },
+              {
+                value: "MUSICAL",
+                checked: personalInterests.indexOf("MUSICAL") > -1,
+                text:contentLookup.fields.personalInterests["MUSICAL"],
+                hint: {
+                  text: "things like singing, playing an instrument or dancing"
+                }
+              },
+              {
+                value: "OUTDOOR",
+                checked: personalInterests.indexOf("OUTDOOR") > -1,
+                text: contentLookup.fields.personalInterests["OUTDOOR"],
+                hint: {
+                  text: " things like cycling, hiking or gardening"
+                }
+              },
+              {
+                value: "NATURE_AND_ANIMALS",
+                checked: personalInterests.indexOf("NATURE_AND_ANIMALS") > -1,
+                text: contentLookup.fields.personalInterests["NATURE_AND_ANIMALS"],
+                hint: {
+                  text: "things like looking after pets, fishing or birdwatching"
+                }
+              },
+              {
+                value: "SOCIAL",
+                checked: personalInterests.indexOf("SOCIAL") > -1,
+                text: contentLookup.fields.personalInterests["SOCIAL"],
+                hint: {
+                  text: "things like spending time with friends or going to the cinema"
+                }
+              },
+              {
+                value: "SOLO_ACTIVITIES",
+                checked: personalInterests.indexOf("SOLO_ACTIVITIES") > -1,
+                text: contentLookup.fields.personalInterests["SOLO_ACTIVITIES"],
+                hint: {
+                  text: "  things like reading, watching TV or listening to music"
+                }
+              },
+              {
+                value: "SOLO_SPORTS",
+                checked: personalInterests.indexOf("SOLO_SPORTS") > -1,
+                text: contentLookup.fields.personalInterests["SOLO_SPORTS"],
+                hint: {
+                  text: "things like golf, running or swimming"
+                }
+              },
+              {
+                value: "TEAM_SPORTS",
+                checked: personalInterests.indexOf("TEAM_SPORTS") > -1,
+                text: contentLookup.fields.personalInterests["TEAM_SPORTS"],
+                hint: {
+                  text: "things like football, netball or cricket"
+                }
+              },
+              {
+                value: "WELLNESS",
+                checked: personalInterests.indexOf("WELLNESS") > -1,
+                text: contentLookup.fields.personalInterests["WELLNESS"],
+                hint: {
+                  text: "things like yoga, meditation or going to the gym"
+                }
+              },
+              {
+                value: "OTHER",
+                checked: personalInterests.indexOf("OTHER") > -1,
+                text: contentLookup.fields.personalInterests["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.personalInterests["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text:contentLookup.fields.personalInterests["NONE"],
+                checked: personalInterests.indexOf("NONE") > -1,
+                behaviour: "exclusive"
+              }
+            ],
+            errorMessage: errors.personalInterests
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

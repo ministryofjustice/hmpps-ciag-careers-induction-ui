@@ -1,0 +1,160 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * educationLevel - existing value for field
+    * qualificationLevel - existing value for field
+    * errors? - validation errors
+#}
+
+{# Setup page based on education level #}
+{% set title = "What level of secondary school qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+{% set options = [
+  {
+    value: "ENTRY_LEVEL",
+    text: contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["ENTRY_LEVEL"].hint
+    },
+    checked: qualificationLevel === "ENTRY_LEVEL"
+  },
+  {
+    value: "LEVEL_1",
+    text: contentLookup.fields.qualificationLevel["LEVEL_1"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_1"].hint
+    },
+    checked: qualificationLevel === "LEVEL_1"
+  },
+  {
+    value: "LEVEL_2",
+    text: contentLookup.fields.qualificationLevel["LEVEL_2"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_2"].hint
+    },
+    checked: qualificationLevel === "LEVEL_2"
+  },
+  {
+    value: "LEVEL_3",
+    text: contentLookup.fields.qualificationLevel["LEVEL_3"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_3"].hint
+    },
+    checked: qualificationLevel === "LEVEL_3"
+  },
+  {
+    value: "LEVEL_4",
+    text: contentLookup.fields.qualificationLevel["LEVEL_4"].text,
+    hint: {
+      text:contentLookup.fields.qualificationLevel["LEVEL_4"].hint
+    },
+    checked: qualificationLevel === "LEVEL_4"
+  }
+  ]
+%}
+
+
+{% if ['FURTHER_EDUCATION_COLLEGE', 'UNDERGRADUATE_DEGREE_AT_UNIVERSITY', 'POSTGRADUATE_DEGREE_AT_UNIVERSITY'].includes(educationLevel) or educationLevel === '' %}
+  {% set title = "What level of further education college qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level5 = {
+        value: "LEVEL_5",
+        text: contentLookup.fields.qualificationLevel["LEVEL_5"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_5"].hint
+        },
+        checked: qualificationLevel === "LEVEL_5"
+      }
+  %}
+  {% set options = options.concat(level5) %}
+{% endif %}
+
+{% if ['UNDERGRADUATE_DEGREE_AT_UNIVERSITY', 'POSTGRADUATE_DEGREE_AT_UNIVERSITY'].includes(educationLevel) or educationLevel === '' %}
+  {% set title = "What level of qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level6 = {
+        value: "LEVEL_6",
+        text: contentLookup.fields.qualificationLevel["LEVEL_6"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_6"].hint
+        },
+        checked: qualificationLevel === "LEVEL_6"
+      }
+  %}
+  {% set options = options.concat(level6) %}
+{% endif %}
+
+{% if educationLevel === 'POSTGRADUATE_DEGREE_AT_UNIVERSITY' or educationLevel === '' %}
+  {% set title = "What level of qualification does " + prisoner.firstName + " " + prisoner.lastName + " want to add?" %}
+  {% set level7 = {
+        value: "LEVEL_7",
+        text: contentLookup.fields.qualificationLevel["LEVEL_7"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_7"].hint
+        },
+        checked: qualificationLevel === "LEVEL_7"
+      }
+  %}
+  {% set options = options.concat(level7) %}
+  {% set level8 = {
+        value: "LEVEL_8",
+        text: contentLookup.fields.qualificationLevel["LEVEL_8"].text,
+        hint: {
+          text:contentLookup.fields.qualificationLevel["LEVEL_8"].hint
+        },
+        checked: qualificationLevel === "LEVEL_8"
+      }
+  %}
+  {% set options = options.concat(level8) %}
+{% endif %}
+
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        
+          {{ govukRadios({
+            name: "qualificationLevel",
+            fieldset: {
+              legend: {
+                text: title,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            hint: {
+              text: 'Add their highest level of qualification first. You can add any others afterwards.'
+            },
+            items: options,
+            errorMessage: errors.qualificationLevel
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

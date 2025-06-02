@@ -1,0 +1,86 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% if ['LEVEL_6', 'LEVEL_7', 'LEVEL_8'].includes(qualificationLevel) %}
+  {% set title = "Add a degree qualification" %}
+{% else %}
+  {% set title = "Add a " + contentLookup.fields.qualificationLevel[qualificationLevel].text.toLowerCase() + " qualification" %}
+{% endif %}
+
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * educationLevel - existing value for field
+    * qualificationLevel - existing value for field
+    * qualificationSubject - existing value for field
+    * qualificationGrade - existing value for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {{ govukInput({
+              id: "qualificationSubject",
+              name: "qualificationSubject",
+              value: qualificationSubject,
+              type: "text",
+              label: {
+                text: "Subject",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give the subject of the qualification" },
+              errorMessage: errors.qualificationSubject
+            }) }}
+
+          {{ govukInput({
+              id: "qualificationGrade",
+              name: "qualificationGrade",
+              value: qualificationGrade,
+              type: "text",
+              label: {
+                text: "Grade",
+                attributes: { "aria-live": "polite" }
+              },
+              hint: {
+                text: 'For example, 9-1, A-E, pass or distinction'
+              },
+              attributes: { "aria-label" : "Give the grade of the qualification" },
+              classes: 'govuk-input--width-10',
+              errorMessage: errors.qualificationGrade
+            }) }}
+        
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

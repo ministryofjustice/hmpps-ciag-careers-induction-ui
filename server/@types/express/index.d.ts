@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default {}
 
 declare module 'express-session' {
@@ -5,6 +6,9 @@ declare module 'express-session' {
   interface SessionData {
     returnTo: string
     nowInMinutes: number
+    data: {
+      [key: string]: any
+    }
   }
 }
 

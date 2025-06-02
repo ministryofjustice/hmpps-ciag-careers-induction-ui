@@ -1,16 +1,44 @@
----
 # Per environment values which override defaults in hmpps-ciag-careers-induction-ui/values.yaml
 
 generic-service:
   replicaCount: 2
 
   ingress:
-    host: hmpps-ciag-careers-induction-ui-dev.hmpps.service.justice.gov.uk
+    host: ciag-induction-dev.hmpps.service.justice.gov.uk
+
+  scheduledDowntime:
+    enabled: true
+    startup: '30 6 * * 1-5' # Start at 6.30am UTC Monday-Friday
+    shutdown: '00 21 * * 1-5' # Stop at 9.00pm UTC Monday-Friday
 
   env:
-    INGRESS_URL: "https://hmpps-ciag-careers-induction-ui-dev.hmpps.service.justice.gov.uk"
+    ENVIRONMENT: dev
+    ENVIRONMENT_NAME: 'DEV'
+    S3_REGION: eu-west-2
+    INGRESS_URL: "https://ciag-induction-dev.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
+    DPS_URL: "https://digital-dev.prison.service.justice.gov.uk"
+    NOMIS_USER_ROLES_API_URL: "https://nomis-user-roles-api-dev.prison.service.justice.gov.uk"
+    CURIOUS_API_URL: "https://testservices.sequation.net/sequation-virtual-campus2-api/"
+    PRISONER_SEARCH_URL: "https://prisoner-search-dev.prison.service.justice.gov.uk"
+    LEARNING_AND_WORK_PROGRESS_URL: "https://learning-and-work-progress-dev.hmpps.service.justice.gov.uk"
+    EDUCATION_AND_WORK_PLAN_API: "https://learningandworkprogress-api-dev.hmpps.service.justice.gov.uk"
+    COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
+    MANAGE_USERS_API: "https://manage-users-api-dev.hmpps.service.justice.gov.uk"
+    IS_BETA: true
+    BETA_FEEDBACK_URL: "https://eu.surveymonkey.com/r/H9CYM7B"
+    SYSTEM_PHASE: DEV
+
+  allowlist:
+    uservision-accessibility-testers: 5.181.59.114/32
+    cymulate-1: 54.217.50.18/32
+    cymulate-2: 52.208.202.111/32
+    cymulate-3: 52.49.144.209/32
+    groups:
+      - internal
+      - prisons
+      - private_prisons
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev

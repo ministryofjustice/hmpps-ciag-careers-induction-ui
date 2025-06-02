@@ -1,37 +1,80 @@
 {% extends "govuk/template.njk" %}
 
 {% block head %}
-  <!--[if !IE 8]><!-->
-  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
-  <!--<![endif]-->
+    <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+    <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
+            crossorigin="anonymous"></script>
 
-  <!--[if lt IE 9]>
-  <link href="/assets/stylesheets/application-ie8.css?{{ version }}" rel="stylesheet"/>
-  <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
-  <![endif]-->
+    <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+    <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            crossorigin="anonymous"></script>
 
-  <script src="/assets/js/jquery.min.js"></script> 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-          nonce="{{ cspNonce }}"
-          crossorigin="anonymous"></script>
-  <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" nonce="{{ cspNonce }}" crossorigin>
+    <!-- Google Analytics: Google Analytics 4 (GA4) -->
+    {% if googleAnalyticsId | trim %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script>
+        <script nonce="{{ cspNonce }}">
+          window.dataLayer = window.dataLayer || []
+
+          function gtag() {
+            dataLayer.push(arguments)
+          }
+
+          gtag('js', new Date())
+          gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode': true })
+
+        </script>
+
+    {% endif %}
+    <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+    <script src="/assets/js/jquery.min.js"></script>
+
+    {% if feComponents.jsIncludes %}
+      {% for js in feComponents.jsIncludes %}
+        <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+      {% endfor %}
+    {% endif %}
+
+    {% if feComponents.cssIncludes %}
+      {% for css in feComponents.cssIncludes %}
+        <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+      {% endfor %}
+    {% endif %}
 
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
+{% block pageTitle %}{{ pageTitle | default(applicationName) }}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+  {% if feComponents.header %}
+    {{ feComponents.header | safe }}
+  {% else %}
+    {% include "./header.njk" %}
+  {% endif %}
+{% endblock %}
+
+{% block beforeContent %}
+  {% include "./betaBanner.njk"%} 
 {% endblock %}
 
 {% block bodyStart %}
 {% endblock %}
 
+{% block footer %}
+  {% if feComponents.footer %}
+    {{ feComponents.footer | safe }}
+  {% else %}
+    {% include "./footer.njk" %}
+  {% endif %}
+{% endblock %}
+
 {% block bodyEnd %}
-  {# Run JavaScript at end of the
-  <body>, to avoid blocking the initial render. #}
-  <script src="/assets/govuk/all.js"></script>
-  <script src="/assets/govukFrontendInit.js"></script>
-  <script src="/assets/moj/all.js"></script>
+    {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+    <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
+    <script type="module" nonce="{{ cspNonce }}">
+      import { initAll } from '/assets/govuk/govuk-frontend.min.js'
+      initAll()
+    </script>
+    <script src="/assets/moj/all.js"></script>
+    <script src="/assets/main.js"></script>
 {% endblock %}

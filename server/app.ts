@@ -19,6 +19,11 @@ import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import type { Services } from './services'
+import expressContext from './middleware/expressContext'
+import setUpLocals from './middleware/setUpLocals'
+import getFrontendComponents from './middleware/getFrontendComponents'
+import setUpEnvironmentName from './middleware/setUpEnvironmentName'
+import setUpBetaBanner from './middleware/setUpBetaBanner'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -33,11 +38,16 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
+  setUpEnvironmentName(app)
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
+  app.use(setUpLocals())
+  app.use(setUpBetaBanner())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(expressContext())
+  app.get('*', getFrontendComponents(services))
 
   app.use(routes(services))
 

@@ -1,0 +1,64 @@
+<h2 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-6">Qualifications and training</h2>
+
+{% if record.qualifications.length %}
+
+  <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">
+    Educational qualifications
+    <span><a class="gov-link govuk-!-font-weight-regular" style="float:right; color:#1d70b8" href="{{ addressLookup.createPlan.qualifications(id, 'edit') }}" data-qa="qualificationsLink">Change <span class="govuk-visually-hidden"> there educational qualifications</span></a></span>
+  </h3>
+
+  <table class="govuk-table govuk-!-margin-bottom-6" data-qa="qualifications">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Level</th>
+        <th scope="col" class="govuk-table__header">Subject</th>
+        <th scope="col" class="govuk-table__header">Grade</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in record.qualifications %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" data-qa="qualifications-level-{{ loop.index }}">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
+          <td class="govuk-table__cell" data-qa="qualifications-subject-{{ loop.index }}">{{ item.subject }}</td>
+          <td class="govuk-table__cell" data-qa="qualifications-grade-{{ loop.index }}">{{ item.grade }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endif %}
+
+<h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-3">Other qualifications and history</h3>
+
+<dl class="govuk-summary-list govuk-!-margin-bottom-8">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter ">
+      Highest level of education before prison
+    </dt>
+    <dd class="govuk-summary-list__value" data-qa="educationLevel">
+      {{ contentLookup.fields.educationLevel[record.educationLevel] if record.educationLevel }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.educationLevel(id, 'edit') }}" data-qa="educationLevelLink">
+        Change<span class="govuk-visually-hidden"> highest level of education before prison</span>
+      </a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key govuk-!-width-one-quarter">
+      Other training or qualifications
+    </dt>
+    <dd class="govuk-summary-list__value" data-qa="additionalTraining">
+      {% for item in record.additionalTraining %}
+        <div data-qa="additionalTraining-{{ loop.index }}">{{ contentLookup.fields.additionalTraining[item] }}{{ ' - ' + record.additionalTrainingOther if item === 'OTHER' }}{{ ',' if record.additionalTraining.length !== loop.index }}</div>
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createPlan.additionalTraining(id, 'edit') }}" data-qa="additionalTrainingLink">
+        Change<span class="govuk-visually-hidden"> other training or qualifications they have</span>
+      </a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+  </div>
+</dl>

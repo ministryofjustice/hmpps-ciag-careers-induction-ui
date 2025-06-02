@@ -1,0 +1,32 @@
+{% if qualifications.length %}
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Educational qualifications</caption>
+
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Level</th>
+        <th scope="col" class="govuk-table__header">Subject</th>
+        <th scope="col" class="govuk-table__header">Grade</th>
+        <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in qualifications %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">{{ contentLookup.pages.qualifications.level[item.level] }}</td>
+          <td class="govuk-table__cell">{{ item.subject }}</td>
+          <td class="govuk-table__cell">{{ item.grade }}</td>
+          <td class="govuk-table__cell"><button type="submit" class="govuk-link govuk-button-link" value="{{ item.level }}-{{ item.subject }}-{{ item.grade }}" name="removeQualification">Remove <span class="govuk-visually-hidden"> {{ contentLookup.pages.qualifications.level[item.level] }}, {{ item.subject }}, {{ item.grade }}</span></button></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="govuk-form-group">
+    {{ govukButton({
+        text: "Add another qualification",
+        name: "addQualification",
+        classes: "govuk-button--secondary",
+        id: "addQualification"
+    }) }}
+  </div>
+{% endif %}

@@ -7,7 +7,7 @@ import config from '../config'
 import logger from '../../logger'
 
 export default function setUpWebSession(): Router {
-  const client = createRedisClient()
+  const client = createRedisClient('webSession:')
   client.connect().catch((err: Error) => logger.error(`Error connecting to Redis`, err))
 
   const router = express.Router()
@@ -26,6 +26,14 @@ export default function setUpWebSession(): Router {
   // Only changes every minute so that it's not sent with every request.
   router.use((req, res, next) => {
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
+    next()
+  })
+
+  // Setup an area of session for storing temporary user data
+  router.use((req, res, next) => {
+    if (!req.session.data) {
+      req.session.data = {}
+    }
     next()
   })
 

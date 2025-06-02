@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@7.2.1
+  hmpps: ministryofjustice/hmpps@7
   slack: circleci/slack@4.12.1
 
 parameters:
@@ -9,16 +9,16 @@ parameters:
     type: string
     # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
     # This is to avoid a general alert dumping ground that no-one then monitors
-    default: hmpps_typescript_notifications
+    default: education-skills-work-employment-dev
 
   releases-slack-channel:
     type: string
     # Normally dps-releases for most teams / projects
-    default: hmpps_typescript_notifications
+    default: dps-releases
 
   node-version:
     type: string
-    default: 18.15-browsers
+    default: 20.10-browsers
 
 jobs:
   build:
@@ -29,7 +29,8 @@ jobs:
       - checkout
       - run:
           name: Update npm
-          command: 'sudo npm install -g npm@latest'
+          # temporary hard code version until we move to v10
+          command: 'sudo npm install -g npm@9.8.1'
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
@@ -47,7 +48,8 @@ jobs:
             export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
             export GIT_REF="$CIRCLE_SHA1"
             npm run record-build-info
-      - run: # Run linter after build because the integration test code depend on compiled typescript...
+      - run:
+          # Run linter after build because the integration test code depend on compiled typescript...
           name: Linter check
           command: npm run lint
       - persist_to_workspace:

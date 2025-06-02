@@ -1,0 +1,154 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What skills does " + prisoner.firstName + " " + prisoner.lastName + " feel they have?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * skills - Array existing values for field
+    * skillsOther - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ super() }}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "skillsOther",
+              name: "skillsOther",
+              rows: "2",
+              value: skillsOther,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of any skills" },
+              errorMessage: errors.skillsOther
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "skills",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "COMMUNICATION",
+                checked: skills.indexOf("COMMUNICATION") > -1,
+                text: contentLookup.fields.skills["COMMUNICATION"],
+                hint: {
+                  text: "listening well and being clear when speaking or writing"
+                }
+              },
+              {
+                value: "POSITIVE_ATTITUDE",
+                checked: skills.indexOf("POSITIVE_ATTITUDE") > -1,
+                text: contentLookup.fields.skills["POSITIVE_ATTITUDE"],
+                hint: {
+                  text: "enthusiastic and willing to work, even when it's difficult"
+                }
+              },
+              {
+                value: "RESILIENCE",
+                checked: skills.indexOf("RESILIENCE") > -1,
+                text: contentLookup.fields.skills["RESILIENCE"],
+                hint: {
+                  text: "stays calm and keeps going even when things are hard"
+                }
+              },
+               {
+                value: "SELF_MANAGEMENT",
+                checked: skills.indexOf("SELF_MANAGEMENT") > -1,
+                text: contentLookup.fields.skills["SELF_MANAGEMENT"],
+                hint: {
+                  text: "good at timekeeping, punctual and reliable"
+                }
+              },
+              {
+                value: "TEAMWORK",
+                checked: skills.indexOf("TEAMWORK") > -1,
+                text: contentLookup.fields.skills["TEAMWORK"],
+                hint: {
+                  text: "likes working with others and happy to help out"
+                }
+              },
+              {
+                value: "THINKING_AND_PROBLEM_SOLVING",
+                checked: skills.indexOf("THINKING_AND_PROBLEM_SOLVING") > -1,
+                text:contentLookup.fields.skills["THINKING_AND_PROBLEM_SOLVING"],
+                hint: {
+                  text: "enjoys working things out and seeing how things work"
+                }
+              },
+              {
+                value: "WILLINGNESS_TO_LEARN",
+                checked: skills.indexOf("WILLINGNESS_TO_LEARN") > -1,
+                text: contentLookup.fields.skills["WILLINGNESS_TO_LEARN"],
+                hint: {
+                  text: "likes to learn new things and improve skills"
+                }
+              },
+              {
+                value: "OTHER",
+                checked: skills.indexOf("OTHER") > -1,
+                text: contentLookup.fields.skills["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.skills["OTHER"] + " (Opens a dialogue box)" },
+                conditional: {
+                  html: otherHtml
+                }
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text:contentLookup.fields.skills["NONE"],
+                checked: skills.indexOf("NONE") > -1,
+                behaviour: "exclusive"
+              }
+            ],
+            errorMessage: errors.skills
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
