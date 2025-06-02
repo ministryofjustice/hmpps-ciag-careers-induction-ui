@@ -1,4 +1,5 @@
 import { enc, AES } from 'crypto-js'
+import config from '../config'
 
 // Simple util to encrypt url parameters such as from to prevent simple injection of external urls etc
 const PASSPHRASE = config.urlParameterPassphrase
